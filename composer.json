@@ -1,0 +1,14 @@
+{
+    "name": "socialconnect/auth",
+    "description": "Social Connect Auth Component",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dmitry Patsura",
+            "email": "talk@dmtry.me"
+        }
+    ],
+    "require": {
+
+    }
+}

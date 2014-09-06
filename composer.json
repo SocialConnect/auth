@@ -9,6 +9,12 @@
         }
     ],
     "require": {
-
+        "php": "~5.4",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialConnect\\Auth\\": "src/"
+        }
     }
 }

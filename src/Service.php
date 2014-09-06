@@ -4,6 +4,12 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
+namespace SocialConnect\Auth;
+
+/**
+ * Class Service
+ * @package SocialConnect\Auth
+ */
 class Service
 {
     /**

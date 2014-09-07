@@ -10,14 +10,30 @@ use SocialConnect\Auth\Service;
 
 class ServiceTest extends \PHPUnit_Framework_TestCase
 {
-    public function testConstructSuccess()
+    /**
+     * @return Service
+     */
+    protected function getService()
     {
-        $service = new Service(array(
+        return new Service(array(
             'Vk' => array(
                 'applicationId' => 123456,
                 'applicationSecret' => 'Secret'
             )
         ), null);
+    }
+
+    public function testConstructSuccess()
+    {
+        $service = $this->getService();
         $this->assertTrue(true);
+    }
+
+    public function testGetProvider()
+    {
+        $service = $this->getService();
+        $vkProvider = $service->getProvider('Vk');
+
+        $this->assertInstanceOf('SocialConnect\Vk\Provider', $vkProvider);
     }
 }

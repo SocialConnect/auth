@@ -13,6 +13,8 @@ abstract class Provider
      */
     public $service;
 
+    protected $scope = array();
+
     public function getRedirectUri()
     {
 
@@ -56,5 +58,29 @@ abstract class Provider
     public function getUserIdentity()
     {
 
+    }
+
+    /**
+     * @return array
+     */
+    public function getScope()
+    {
+        return $this->scope;
+    }
+
+    /**
+     * @param array $scope
+     */
+    public function setScope(array $scope)
+    {
+        $this->scope = $scope;
+    }
+
+    /**
+     * @return string
+     */
+    public function getScopeInline()
+    {
+        return implode(',', $this->scope);
     }
 } 

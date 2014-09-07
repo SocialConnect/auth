@@ -12,6 +12,10 @@
         "php": "~5.4",
         "ext-json": "*"
     },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "1.5.2",
+        "phpunit/phpunit": "~4.2"
+    },
     "autoload": {
         "psr-4": {
             "SocialConnect\\Auth\\": "src/",

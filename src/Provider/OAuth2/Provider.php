@@ -13,6 +13,26 @@ class Provider
      */
     public $service;
 
+    public function getRedirectUri()
+    {
+
+    }
+
+    public function getBaseUri()
+    {
+        return 'https://api.vk.com/';
+    }
+
+    public function getAuthorizeUri()
+    {
+        return 'http://api.vk.com/oauth/authorize';
+    }
+
+    public function getRequestTokenUri()
+    {
+        return 'https://api.vk.com/oauth/token';
+    }
+
     public function begin()
     {
 

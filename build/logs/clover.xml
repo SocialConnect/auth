@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1410063561">
-  <project timestamp="1410063561">
+<coverage generated="1410063876">
+  <project timestamp="1410063876">
     <package name="Test\Provider">
       <file name="/home/ovr/projects/socialconnect/auth/tests/Test/Provider/FactoryTest.php">
         <class name="FactoryTest" namespace="Test\Provider">
@@ -15,6 +15,21 @@
         <metrics loc="18" ncloc="14" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="5" elements="6" coveredelements="6"/>
       </file>
     </package>
-    <metrics files="1" loc="18" ncloc="14" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="5" elements="6" coveredelements="6"/>
+    <package name="Test">
+      <file name="/home/ovr/projects/socialconnect/auth/tests/Test/ServiceTest.php">
+        <class name="ServiceTest" namespace="Test">
+          <metrics methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="7" coveredelements="7"/>
+        </class>
+        <line num="13" type="method" name="testConstructSuccess" crap="1" count="1"/>
+        <line num="15" type="stmt" count="1"/>
+        <line num="17" type="stmt" count="1"/>
+        <line num="19" type="stmt" count="1"/>
+        <line num="20" type="stmt" count="1"/>
+        <line num="21" type="stmt" count="1"/>
+        <line num="22" type="stmt" count="1"/>
+        <metrics loc="23" ncloc="19" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="7" coveredelements="7"/>
+      </file>
+    </package>
+    <metrics files="2" loc="41" ncloc="33" classes="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="11" coveredstatements="11" elements="13" coveredelements="13"/>
   </project>
 </coverage>

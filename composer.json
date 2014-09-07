@@ -10,7 +10,8 @@
     ],
     "require": {
         "php": "~5.4",
-        "ext-json": "*"
+        "ext-json": "*",
+        "socialconnect/common": "dev-master"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "1.5.2",

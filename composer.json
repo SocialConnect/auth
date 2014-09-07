@@ -14,7 +14,8 @@
     },
     "autoload": {
         "psr-4": {
-            "SocialConnect\\Auth\\": "src/"
+            "SocialConnect\\Auth\\": "src/",
+            "SocialConnect\\Vk\\": "providers/Vk/"
         }
     }
 }

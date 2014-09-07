@@ -12,6 +12,8 @@ namespace SocialConnect\Auth;
  */
 class Service
 {
+    use \SocialConnect\Common\HttpClient;
+
     /**
      * @var
      */

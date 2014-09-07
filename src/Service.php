@@ -34,6 +34,6 @@ class Service
 
     public function getProvider($name)
     {
-
+        return Provider\Factory::factory(ucfirst($name), array());
     }
 }

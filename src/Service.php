@@ -34,8 +34,27 @@ class Service
         $this->storage = $storage;
     }
 
+    /**
+     * @param $name
+     * @return array
+     * @throws \Exception
+     */
+    public function getProviderConfiguration($name)
+    {
+        if (isset($this->config['provider'][ucfirst($name)])) {
+            return $this->config['provider'][ucfirst($name)];
+        }
+
+        throw new \Exception('Please setup configuration for ' . ucfirst($name) . ' provider');
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     * @throws \Exception
+     */
     public function getProvider($name)
     {
-        return Provider\Factory::factory(ucfirst($name), array());
+        return Provider\Factory::factory(ucfirst($name), $this->getProviderConfiguration($name));
     }
 }

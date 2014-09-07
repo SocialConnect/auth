@@ -6,7 +6,7 @@
 
 namespace SocialConnect\Vk;
 
-class Provider
+class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
 {
     public function getBaseUri()
     {

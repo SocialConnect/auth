@@ -1,10 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: ovr
- * Date: 07.09.14
- * Time: 14:28
+ * SocialConnect project
+ * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
+
+namespace SocialConnect\Auth\Provider\OAuth2;
 
 abstract class Provider
 {

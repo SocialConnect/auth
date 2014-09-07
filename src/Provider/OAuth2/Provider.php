@@ -6,7 +6,7 @@
  * Time: 14:28
  */
 
-class Provider
+abstract class Provider
 {
     /**
      * @var \SocialConnect\Auth\Service
@@ -18,20 +18,20 @@ class Provider
 
     }
 
-    public function getBaseUri()
-    {
-        return 'https://api.vk.com/';
-    }
+    /**
+     * @return string
+     */
+    abstract public function getBaseUri();
 
-    public function getAuthorizeUri()
-    {
-        return 'http://api.vk.com/oauth/authorize';
-    }
+    /**
+     * @return string
+     */
+    abstract public function getAuthorizeUri();
 
-    public function getRequestTokenUri()
-    {
-        return 'https://api.vk.com/oauth/token';
-    }
+    /**
+     * @return string
+     */
+    abstract public function getRequestTokenUri();
 
     public function begin()
     {

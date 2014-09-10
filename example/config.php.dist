@@ -5,12 +5,14 @@
  */
 
 return array(
-    'Vk' => array(
-        'applicationId' => '',
-        'applicationSecret' => ''
-    ),
-    'Github' => array(
-        'applicationId' => '',
-        'applicationSecret'
+    'provider' => array(
+        'Vk' => array(
+            'applicationId' => '',
+            'applicationSecret' => ''
+        ),
+        'Github' => array(
+            'applicationId' => '',
+            'applicationSecret'
+        )
     )
 );

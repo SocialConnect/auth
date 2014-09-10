@@ -55,6 +55,14 @@ class Service
      */
     public function getProvider($name)
     {
-        return Provider\Factory::factory(ucfirst($name), $this->getProviderConfiguration($name));
+        return Provider\Factory::factory(ucfirst($name), $this->getProviderConfiguration($name), $this);
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 }

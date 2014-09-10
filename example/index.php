@@ -11,3 +11,5 @@ $configureProviders = include_once 'config.php';
 $service = new \SocialConnect\Auth\Service($configureProviders, null);
 
 $provider = $service->getProvider('Github');
+
+header('Location: ' . $provider->makeAuthUrl());

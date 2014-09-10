@@ -13,11 +13,18 @@ abstract class Provider
      */
     public $service;
 
+    protected $applicationId;
+
     protected $scope = array();
 
-    public function getRedirectUri()
+    public function __construct(\SocialConnect\Auth\Service $service)
     {
+        $this->service = $service;
+    }
 
+    protected function getRedirectUri()
+    {
+        return $this->service->getConfig()['redirectUri'];
     }
 
     /**
@@ -82,5 +89,13 @@ abstract class Provider
     public function getScopeInline()
     {
         return implode(',', $this->scope);
+    }
+
+    /**
+     * @param mixed $applicationId
+     */
+    public function setApplicationId($applicationId)
+    {
+        $this->applicationId = $applicationId;
     }
 } 

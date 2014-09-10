@@ -5,6 +5,7 @@
  */
 
 namespace SocialConnect\Auth\Provider;
+use SocialConnect\Auth\Service;
 
 /**
  * Class Factory
@@ -17,10 +18,16 @@ class Factory
      * @param array $parameters
      * @return OAuth2\Provider
      */
-    static public function factory($id, array $parameters)
+    static public function factory($id, array $parameters, Service $service)
     {
         $providerClassName = '\\SocialConnect\\' . $id . '\\Provider';
 
-        return new $providerClassName();
+        $provider = new $providerClassName($service);
+
+        if (isset($parameters['applicationId'])) {
+            $provider->setApplicationId($parameters['applicationId']);
+        }
+
+        return $provider;
     }
 }

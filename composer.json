@@ -20,7 +20,8 @@
     "autoload": {
         "psr-4": {
             "SocialConnect\\Auth\\": "src/",
-            "SocialConnect\\Vk\\": "providers/Vk/"
+            "SocialConnect\\Vk\\": "providers/Vk/",
+            "SocialConnect\\Github\\": "providers/Github/"
         }
     }
 }

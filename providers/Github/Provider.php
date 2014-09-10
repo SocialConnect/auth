@@ -4,9 +4,9 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace SocialConnect\Vk;
+namespace SocialConnect\Github;
 
-class Github extends \SocialConnect\Auth\Provider\OAuth2\Provider
+class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
 {
     public function getBaseUri()
     {

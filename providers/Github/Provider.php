@@ -28,6 +28,9 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
         return $this->getRedirectUri() . '?provider=github';
     }
 
+    /**
+     * @return string
+     */
     public function makeAuthUrl()
     {
         return $this->getAuthorizeUri() . '?' . http_build_query(array(
@@ -36,6 +39,10 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
         ));
     }
 
+    /**
+     * @param $code
+     * @return \SocialConnect\Auth\Provider\OAuth2\AccessToken
+     */
     public function getAccessToken($code)
     {
         $parameters = array(
@@ -48,6 +55,8 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
         $response = $this->service->getHttpClient()->request($this->getRequestTokenUri() . '?' . http_build_query($parameters));
         $body = $response->getBody();
 
-        parse_str($body, $tokenStr);
+        parse_str($body, $token);
+
+        return new \SocialConnect\Auth\Provider\OAuth2\AccessToken($token['access_token']);
     }
 }

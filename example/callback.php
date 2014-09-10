@@ -9,7 +9,7 @@ include_once __DIR__ . '/../vendor/autoload.php';
 $configureProviders = include_once 'config.php';
 $service = new \SocialConnect\Auth\Service($configureProviders, null);
 
-$provider = $_GET['provider'];
+$provider = strtolower($_GET['provider']);
 
 switch ($provider) {
     case 'github':

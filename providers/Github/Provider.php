@@ -38,13 +38,13 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
 
     public function getAccessToken($code)
     {
-        $url = $this->getRedirectUri();
-
         $parameters = array(
             'client_id' => $this->applicationId,
             'client_secret' => $this->applicationSecret,
             'code' => $code,
             'redirect_uri' => $this->getRedirectUrl()
         );
+
+        $response = $this->service->getHttpClient()->makeRequest($this->getRedirectUri(), $parameters);
     }
 }

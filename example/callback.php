@@ -7,7 +7,9 @@
 include_once __DIR__ . '/../vendor/autoload.php';
 
 $configureProviders = include_once 'config.php';
+
 $service = new \SocialConnect\Auth\Service($configureProviders, null);
+$service->setHttpClient(new \SocialConnect\Common\Http\Client\Guzzle());
 
 $provider = strtolower($_GET['provider']);
 

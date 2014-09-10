@@ -9,12 +9,20 @@ namespace SocialConnect\Auth\Provider\OAuth2;
 class AccessToken
 {
     /**
-     * @var
+     * @var string
      */
     protected $token;
 
     public function __construct($token)
     {
         $this->token = $token;
+    }
+
+    /**
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->token;
     }
 }

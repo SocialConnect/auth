@@ -29,5 +29,8 @@ var_dump(array(
     'code' => $code
 ));
 
-$result = $provider->getAccessToken($code);
-var_dump($result);
+$accessToken = $provider->getAccessToken($code);
+var_dump($accessToken);
+
+$user = $provider->getUser($accessToken);
+var_dump($user);

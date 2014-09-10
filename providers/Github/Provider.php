@@ -45,6 +45,9 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
             'redirect_uri' => $this->getRedirectUrl()
         );
 
-        $response = $this->service->getHttpClient()->makeRequest($this->getRedirectUri(), $parameters);
+        $response = $this->service->getHttpClient()->request($this->getRequestTokenUri() . '?' . http_build_query($parameters));
+        $body = $response->getBody();
+
+        parse_str($body, $tokenStr);
     }
 }

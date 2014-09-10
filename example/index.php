@@ -6,8 +6,8 @@
 
 include_once __DIR__ . '/../vendor/autoload.php';
 
-$service = new \SocialConnect\Auth\Service(array(
+$configureProviders = include_once 'config.php';
 
-), null);
+$service = new \SocialConnect\Auth\Service($configureProviders, null);
 
 $provider = $service->getProvider('Github');

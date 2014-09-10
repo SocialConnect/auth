@@ -42,7 +42,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
 
         $parameters = array(
             'client_id' => $this->applicationId,
-            'client_secret' => '',
+            'client_secret' => $this->applicationSecret,
             'code' => $code,
             'redirect_uri' => $this->getRedirectUrl()
         );

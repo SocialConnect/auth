@@ -26,3 +26,6 @@ $code = $_GET['code'];
 var_dump(array(
     'code' => $code
 ));
+
+$result = $provider->getAccessToken($code);
+var_dump($result);

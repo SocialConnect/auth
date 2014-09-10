@@ -28,6 +28,10 @@ class Factory
             $provider->setApplicationId($parameters['applicationId']);
         }
 
+        if (isset($parameters['applicationSecret'])) {
+            $provider->setApplicationSecret($parameters['applicationSecret']);
+        }
+
         return $provider;
     }
 }

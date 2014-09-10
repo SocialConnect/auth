@@ -15,6 +15,8 @@ abstract class Provider
 
     protected $applicationId;
 
+    protected $applicationSecret;
+
     protected $scope = array();
 
     public function __construct(\SocialConnect\Auth\Service $service)
@@ -97,5 +99,13 @@ abstract class Provider
     public function setApplicationId($applicationId)
     {
         $this->applicationId = $applicationId;
+    }
+
+    /**
+     * @param mixed $applicationSecret
+     */
+    public function setApplicationSecret($applicationSecret)
+    {
+        $this->applicationSecret = $applicationSecret;
     }
 } 

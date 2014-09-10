@@ -50,7 +50,7 @@ class Service
 
     /**
      * @param $name
-     * @return mixed
+     * @return Provider\OAuth2\Provider
      * @throws \Exception
      */
     public function getProvider($name)

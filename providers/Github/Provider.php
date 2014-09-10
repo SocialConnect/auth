@@ -23,11 +23,28 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
         return 'https://github.com/login/oauth/access_token';
     }
 
+    public function getRedirectUrl()
+    {
+        return $this->getRedirectUri() . '?provider=github';
+    }
+
     public function makeAuthUrl()
     {
         return $this->getAuthorizeUri() . '?' . http_build_query(array(
             'client_id' => $this->applicationId,
-            'redirect_uri' => $this->getRedirectUri() . '?provider=github'
+            'redirect_uri' => $this->getRedirectUrl()
         ));
+    }
+
+    public function getAccessToken($code)
+    {
+        $url = $this->getRedirectUri();
+
+        $parameters = array(
+            'client_id' => $this->applicationId,
+            'client_secret' => '',
+            'code' => $code,
+            'redirect_uri' => $this->getRedirectUrl()
+        );
     }
 }

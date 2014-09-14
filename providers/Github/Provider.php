@@ -40,7 +40,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
     {
         $response = $this->service->getHttpClient()->request($this->getBaseUri() . 'user?access_token=' . $accessToken->getToken());
         $body = $response->getBody();
-        $result = \GuzzleHttp\json_decode($body);
+        $result = json_decode($body);
 
 
         $hydrator = new ObjectMap(array(

@@ -38,7 +38,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
      */
     public function parseToken($body)
     {
-        $result = \json_decode($body);
+        $result = json_decode($body);
 
         return new AccessToken($result->access_token);
     }
@@ -51,7 +51,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
     {
         $response = $this->service->getHttpClient()->request($this->getBaseUri() . '/method/users.get?v=5.24&access_token=' . $accessToken->getToken());
         $body = $response->getBody();
-        $result = \json_decode($body);
+        $result = json_decode($body);
 
         $hydrator = new ObjectMap(array(
             'id' => 'id',

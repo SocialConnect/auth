@@ -12,9 +12,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $service = new \SocialConnect\Auth\Service($configureProviders, null);
     $service->setHttpClient(new \SocialConnect\Common\Http\Client\Guzzle());
 
-    $provider = $service->getProvider('Github');
+    try {
+        if (!empty($_POST['provider'])) {
+            $providerName = $_POST['provider'];
+        } else {
+            throw new \Exception('No provider passed in POST Request');
+        }
 
-    header('Location: ' . $provider->makeAuthUrl());
+        $provider = $service->getProvider($providerName);
+        header('Location: ' . $provider->makeAuthUrl());
+    } catch (\Exception $e) {
+        echo 'Failed to get' . $providerName . ' provider';
+    }
     exit;
 }
 

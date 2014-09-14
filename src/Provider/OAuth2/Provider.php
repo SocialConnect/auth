@@ -29,6 +29,11 @@ abstract class Provider
         return $this->service->getConfig()['redirectUri'];
     }
 
+    public function getRedirectUrl()
+    {
+        return $this->getRedirectUri() . '?provider=' . $this->getName();
+    }
+
     /**
      * @return string
      */
@@ -43,6 +48,53 @@ abstract class Provider
      * @return string
      */
     abstract public function getRequestTokenUri();
+
+    /**
+     * Return Provider's name
+     *
+     * @return string
+     */
+    abstract public function getName();
+
+    /**
+     * @return string
+     */
+    public function makeAuthUrl()
+    {
+        return $this->getAuthorizeUri() . '?' . http_build_query(array(
+            'client_id' => $this->applicationId,
+            'redirect_uri' => $this->getRedirectUrl()
+        ));
+    }
+
+    /**
+     * @param $body
+     * @return AccessToken
+     */
+    public function parseToken($body)
+    {
+        parse_str($body, $token);
+        return new AccessToken($token['access_token']);
+    }
+
+    /**
+     * @param $code
+     * @return AccessToken
+     */
+    public function getAccessToken($code)
+    {
+        $parameters = array(
+            'client_id' => $this->applicationId,
+            'client_secret' => $this->applicationSecret,
+            'code' => $code,
+            'redirect_uri' => $this->getRedirectUrl()
+        );
+
+        $response = $this->service->getHttpClient()->request($this->getRequestTokenUri() . '?' . http_build_query($parameters));
+        $body = $response->getBody();
+
+        return $this->parseToken($body);
+    }
 
     public function begin()
     {

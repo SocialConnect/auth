@@ -24,12 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>SocialConnect | Auth Example</title>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
     <form action="/" method="post">
         <?php foreach ($configureProviders['provider'] as $name => $parameters) : ?>
             <button name="provider" type="submit" value="<?php echo $name; ?>">
-                <?php echo $name; ?>
+                <i class="fa fa-<?php echo strtolower($name); ?>"></i> <?php echo $name; ?>
             </button>
         <?php endforeach; ?>
     </form>

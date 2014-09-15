@@ -33,21 +33,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>SocialConnect | Auth Example</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
-    <form action="/" method="post">
-        <?php foreach ($configureProviders['provider'] as $name => $parameters) : ?>
-            <?php
-                $enabled = true;
-                if (isset($parameters['enabled'])) {
-                    $enabled = (bool) $parameters['enabled'];
-                }
-            ?>
-            <button name="provider" type="submit" value="<?php echo $name; ?>"<?php echo (!$enabled) ? ' disabled="disabled"' : ''; ?>>
-                <i class="fa fa-<?php echo strtolower($name); ?>"></i> <?php echo $name; ?>
-            </button>
-        <?php endforeach; ?>
-    </form>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-5">
+            <form action="/" method="post">
+                <legend>Auth from Social Networks</legend>
+                <?php foreach ($configureProviders['provider'] as $name => $parameters) : ?>
+                    <?php
+                    $enabled = true;
+                    if (isset($parameters['enabled'])) {
+                        $enabled = (bool) $parameters['enabled'];
+                    }
+                    ?>
+                    <button name="provider" type="submit" value="<?php echo $name; ?>"<?php echo (!$enabled) ? ' disabled="disabled"' : ''; ?>>
+                        <i class="fa fa-<?php echo strtolower($name); ?>"></i> <?php echo $name; ?>
+                    </button>
+                <?php endforeach; ?>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

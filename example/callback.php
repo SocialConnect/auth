@@ -14,12 +14,13 @@ $service->setHttpClient(new \SocialConnect\Common\Http\Client\Guzzle());
 $provider = strtolower($_GET['provider']);
 
 switch ($provider) {
+    case 'facebook':
     case 'github':
     case 'vk':
         $provider = $service->getProvider($provider);
         break;
     default:
-        throw new \Exception('Wrong $provider passed in url : ', $provider);
+        throw new \Exception('Wrong $provider passed in url : ' . $provider);
         break;
 }
 

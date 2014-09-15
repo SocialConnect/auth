@@ -6,6 +6,20 @@
 
 return array(
     'provider' => array(
+        'Facebook' => array(
+            'applicationId' => '',
+            'applicationSecret' => ''
+        ),
+        'Twitter' => array(
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'enabled' => false
+        ),
+        'Google' => array(
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'enabled' => false
+        ),
         'Vk' => array(
             'applicationId' => '',
             'applicationSecret' => ''

@@ -38,7 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <form action="/" method="post">
         <?php foreach ($configureProviders['provider'] as $name => $parameters) : ?>
-            <button name="provider" type="submit" value="<?php echo $name; ?>">
+            <?php
+                $enabled = true;
+                if (isset($parameters['enabled'])) {
+                    $enabled = (bool) $parameters['enabled'];
+                }
+            ?>
+            <button name="provider" type="submit" value="<?php echo $name; ?>"<?php echo (!$enabled) ? ' disabled="disabled"' : ''; ?>>
                 <i class="fa fa-<?php echo strtolower($name); ?>"></i> <?php echo $name; ?>
             </button>
         <?php endforeach; ?>

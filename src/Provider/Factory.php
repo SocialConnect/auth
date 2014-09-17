@@ -5,6 +5,7 @@
  */
 
 namespace SocialConnect\Auth\Provider;
+
 use SocialConnect\Auth\Service;
 
 /**
@@ -22,6 +23,9 @@ class Factory
     {
         $providerClassName = '\\SocialConnect\\' . $id . '\\Provider';
 
+        /**
+         * @var $provider OAuth2\Provider
+         */
         $provider = new $providerClassName($service);
 
         if (isset($parameters['applicationId'])) {
@@ -30,6 +34,10 @@ class Factory
 
         if (isset($parameters['applicationSecret'])) {
             $provider->setApplicationSecret($parameters['applicationSecret']);
+        }
+
+        if (isset($parameters['scope'])) {
+            $provider->setScope($parameters['scope']);
         }
 
         return $provider;

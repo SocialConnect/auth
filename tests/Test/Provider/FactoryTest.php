@@ -10,10 +10,11 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testSuccessFactory()
     {
+        $service = new \SocialConnect\Auth\Service(array(), null);
         $vkProvider = \SocialConnect\Auth\Provider\Factory::factory('Vk', array(
             'applicationId' => 'test',
             'applicationSecret' => 'test'
-        ));
+        ), $service);
         $this->assertInstanceOf('SocialConnect\Vk\Provider', $vkProvider);
     }
 } 

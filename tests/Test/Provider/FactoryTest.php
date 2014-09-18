@@ -9,7 +9,7 @@ namespace Test\Provider;
 use SocialConnect\Auth\Provider\Factory;
 use SocialConnect\Auth\Service;
 
-class FactoryTest extends \PHPUnit_Framework_TestCase
+class FactoryTest extends \Test\TestCase
 {
     public function testSuccessFactory()
     {

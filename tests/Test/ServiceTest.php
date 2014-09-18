@@ -15,12 +15,17 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected function getService()
     {
-        return new Service(array(
-            'Vk' => array(
-                'applicationId' => 123456,
-                'applicationSecret' => 'Secret'
-            )
-        ), null);
+        return new Service(
+            array(
+                'provider' => array(
+                    'Vk' => array(
+                        'applicationId' => 123456,
+                        'applicationSecret' => 'Secret'
+                    )
+                )
+            ),
+            null
+        );
     }
 
     public function testConstructSuccess()

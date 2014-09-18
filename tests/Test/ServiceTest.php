@@ -6,28 +6,8 @@
 
 namespace Test;
 
-use SocialConnect\Auth\Service;
-
 class ServiceTest extends TestCase
 {
-    /**
-     * @return Service
-     */
-    protected function getService()
-    {
-        return new Service(
-            array(
-                'provider' => array(
-                    'Vk' => array(
-                        'applicationId' => 123456,
-                        'applicationSecret' => 'Secret'
-                    )
-                )
-            ),
-            null
-        );
-    }
-
     public function testConstructSuccess()
     {
         $service = $this->getService();

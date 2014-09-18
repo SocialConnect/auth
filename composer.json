@@ -15,14 +15,16 @@
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "1.5.2",
-        "phpunit/phpunit": "~4.2"
+        "phpunit/phpunit": "~4.2",
+        "satooshi/php-coveralls": "0.6.1"
     },
     "autoload": {
         "psr-4": {
             "SocialConnect\\Auth\\": "src/",
             "SocialConnect\\Vk\\": "providers/Vk/",
             "SocialConnect\\Github\\": "providers/Github/",
-            "SocialConnect\\Facebook\\": "providers/Facebook/"
+            "SocialConnect\\Facebook\\": "providers/Facebook/",
+            "SocialConnect\\Twitter\\": "providers/Twitter/"
         }
     }
 }

@@ -6,12 +6,16 @@
 
 namespace Test\Provider;
 
+use SocialConnect\Auth\Provider\Factory;
+use SocialConnect\Auth\Service;
+
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testSuccessFactory()
     {
-        $service = new \SocialConnect\Auth\Service(array(), null);
-        $vkProvider = \SocialConnect\Auth\Provider\Factory::factory('Vk', array(
+        $service = new Service(array(), null);
+
+        $vkProvider = Factory::factory('Vk', array(
             'applicationId' => 'test',
             'applicationSecret' => 'test'
         ), $service);

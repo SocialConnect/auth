@@ -11,7 +11,7 @@
     "require": {
         "php": "~5.4",
         "ext-json": "*",
-        "socialconnect/common": "dev-master"
+        "socialconnect/common": "~0.2.3"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "1.5.2",

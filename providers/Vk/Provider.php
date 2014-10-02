@@ -56,7 +56,8 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
         $hydrator = new ObjectMap(array(
             'id' => 'id',
             'first_name' => 'firstname',
-            'last_name' => 'lastname'
+            'last_name' => 'lastname',
+            'email' => 'email'
         ));
 
         return $hydrator->hydrate(new User(), $result->response[0]);

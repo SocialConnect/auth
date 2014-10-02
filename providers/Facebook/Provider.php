@@ -46,6 +46,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
             'id' => 'id',
             'first_name' => 'firstname',
             'last_name' => 'lastname',
+            'email' => 'email',
             'gender' => 'sex',
             'link' => 'url',
             'locale' => 'locale',

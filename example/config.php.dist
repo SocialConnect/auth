@@ -8,7 +8,8 @@ return array(
     'provider' => array(
         'Facebook' => array(
             'applicationId' => '',
-            'applicationSecret' => ''
+            'applicationSecret' => '',
+            'scope' => array('email')
         ),
         'Twitter' => array(
             'applicationId' => '',
@@ -22,7 +23,8 @@ return array(
         ),
         'Vk' => array(
             'applicationId' => '',
-            'applicationSecret' => ''
+            'applicationSecret' => '',
+            'scope' => array('email')
         ),
         'Github' => array(
             'applicationId' => '',

@@ -61,10 +61,16 @@ abstract class Provider
      */
     public function makeAuthUrl()
     {
-        return $this->getAuthorizeUri() . '?' . http_build_query(array(
+        $urlParameters = array(
             'client_id' => $this->applicationId,
             'redirect_uri' => $this->getRedirectUrl()
-        ));
+        );
+
+        if (count($this->scope) > 0) {
+            $urlParameters['scope'] = $this->getScopeInline();
+        }
+
+        return $this->getAuthorizeUri() . '?' . http_build_query($urlParameters);
     }
 
     /**

@@ -5,3 +5,5 @@ SocialConnect Auth
 [![License](http://img.shields.io/packagist/l/SocialConnect/auth.svg?style=flat)](https://packagist.org/packages/socialconnect/auth)
 
 > Connect your application(s) with social network(s).
+
+See [example](./example).

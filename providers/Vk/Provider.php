@@ -44,10 +44,9 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
     }
 
     /**
-     * @param AccessToken $accessToken
-     * @return User
+     * {@inheritdoc}
      */
-    public function getUser(AccessToken $accessToken)
+    public function getIdentity(AccessToken $accessToken)
     {
         $response = $this->service->getHttpClient()->request($this->getBaseUri() . 'method/users.get?v=5.24&access_token=' . $accessToken->getToken());
         $body = $response->getBody();

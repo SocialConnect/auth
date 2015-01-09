@@ -6,6 +6,8 @@
 
 namespace SocialConnect\Auth\Provider\OAuth2;
 
+use SocialConnect\Common\Entity\User;
+
 abstract class Provider
 {
     /**
@@ -122,10 +124,13 @@ abstract class Provider
 
     }
 
-    public function getUserIdentity()
-    {
-
-    }
+    /**
+     * Get current user identity from social network by $accessToken
+     * 
+     * @param AccessToken $accessToken
+     * @return User
+     */
+    abstract public function getIdentity(AccessToken $accessToken);
 
     /**
      * @return array

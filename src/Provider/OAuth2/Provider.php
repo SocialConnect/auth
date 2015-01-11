@@ -86,11 +86,15 @@ abstract class Provider
     }
 
     /**
-     * @param $code
+     * @param string $code
      * @return AccessToken
      */
     public function getAccessToken($code)
     {
+        if (!is_string($code)) {
+            throw new \InvalidArgumentException('Parameter $code must be a string');
+        }
+        
         $parameters = array(
             'client_id' => $this->applicationId,
             'client_secret' => $this->applicationSecret,

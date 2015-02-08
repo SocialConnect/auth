@@ -117,21 +117,6 @@ abstract class Provider
         return $this->parseToken($body);
     }
 
-    public function begin()
-    {
-
-    }
-
-    public function finish()
-    {
-
-    }
-
-    public function requestAccessToken()
-    {
-
-    }
-
     public function getClient()
     {
 

@@ -6,6 +6,7 @@
 
 namespace SocialConnect\Auth\Provider\OAuth2;
 
+use SocialConnect\Auth\InvalidAccessToken;
 use SocialConnect\Common\Entity\User;
 
 abstract class Provider
@@ -76,12 +77,20 @@ abstract class Provider
     }
 
     /**
+     * Parse access token from response's $body
+     *
      * @param $body
      * @return AccessToken
+     * @throws InvalidAccessToken
      */
     public function parseToken($body)
     {
         parse_str($body, $token);
+
+        if (!is_array($token) || !isset($token['access_token'])) {
+            throw new InvalidAccessToken('Provider API returned an unexpected response');
+        }
+
         return new AccessToken($token['access_token']);
     }
 

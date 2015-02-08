@@ -6,13 +6,15 @@
 
 namespace SocialConnect\Auth;
 
+use SocialConnect\Common\HttpClient;
+
 /**
  * Class Service
  * @package SocialConnect\Auth
  */
 class Service
 {
-    use \SocialConnect\Common\HttpClient;
+    use HttpClient;
 
     /**
      * @var

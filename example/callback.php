@@ -33,5 +33,5 @@ var_dump(array(
 $accessToken = $provider->getAccessToken($code);
 var_dump($accessToken);
 
-$user = $provider->getUser($accessToken);
+$user = $provider->getIdentity($accessToken);
 var_dump($user);

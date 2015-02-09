@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $provider = $service->getProvider($providerName);
         header('Location: ' . $provider->makeAuthUrl());
     } catch (\Exception $e) {
-        echo 'Failed to get' . $providerName . ' provider';
+        echo $e->getMessage();
     }
     exit;
 }

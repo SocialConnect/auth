@@ -15,7 +15,7 @@ use SocialConnect\Auth\Service;
 class Factory
 {
     /**
-     * @param $id
+     * @param string $id
      * @param array $parameters
      * @return OAuth2\Provider
      */

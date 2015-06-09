@@ -11,6 +11,12 @@ SocialConnect Auth
 
 See [example](./example).
 
+## Providers
+
+* Facebook
+* GitHub
+* Vk (ВКонтакте)
+
 License
 -------
 

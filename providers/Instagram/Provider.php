@@ -8,6 +8,7 @@ namespace SocialConnect\Instagram;
 
 use SocialConnect\Auth\Provider\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
+use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
@@ -32,6 +33,39 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
         return 'instagram';
     }
 
+    public function getAuthUrlParameters()
+    {
+        return array(
+            'client_id' => $this->applicationId,
+            'redirect_uri' => $this->getRedirectUrl(),
+            'response_type' => 'code'
+        );
+    }
+
+    /**
+     * @param string $code
+     * @return AccessToken
+     */
+    public function getAccessToken($code)
+    {
+        if (!is_string($code)) {
+            throw new \InvalidArgumentException('Parameter $code must be a string');
+        }
+
+        $parameters = array(
+            'client_id' => $this->applicationId,
+            'client_secret' => $this->applicationSecret,
+            'grant_type' => 'authorization_code',
+            'code' => $code,
+            'redirect_uri' => $this->getRedirectUrl()
+        );
+
+        $response = $this->service->getHttpClient()->request($this->getRequestTokenUri(), $parameters, Client::POST);
+        $body = $response->getBody();
+
+        return $this->parseToken($body);
+    }
+
     /**
      * @param $body
      * @return AccessToken
@@ -51,15 +85,16 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
         $response = $this->service->getHttpClient()->request($this->getBaseUri() . 'users/self?access_token=' . $accessToken->getToken());
         $body = $response->getBody();
         $result = json_decode($body);
-        var_dump($result);
 
         $hydrator = new ObjectMap(array(
             'id' => 'id',
-            'first_name' => 'firstname',
-            'last_name' => 'lastname',
-            'email' => 'email'
+            'username' => 'username',
+            'bio' => 'bio',
+            'website' => 'website',
+            'profile_picture' => 'profile_picture',
+            'full_name' => 'full_name'
         ));
 
-        return $hydrator->hydrate(new User(), $result->response[0]);
+        return $hydrator->hydrate(new User(), $result->data);
     }
 }

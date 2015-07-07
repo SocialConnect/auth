@@ -17,6 +17,7 @@ switch ($provider) {
     case 'facebook':
     case 'github':
     case 'vk':
+    case 'instagram':
         $provider = $service->getProvider($provider);
         break;
     default:

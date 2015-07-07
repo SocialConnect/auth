@@ -29,6 +29,10 @@ return array(
         'Github' => array(
             'applicationId' => '',
             'applicationSecret'
+        ),
+        'Instagram' => array(
+            'applicationId' => '',
+            'applicationSecret'
         )
     )
 );

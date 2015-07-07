@@ -8,6 +8,7 @@ namespace SocialConnect\Auth\Provider\OAuth2;
 
 use SocialConnect\Auth\InvalidAccessToken;
 use SocialConnect\Common\Entity\User;
+use SocialConnect\Common\Http\Client\Client;
 
 abstract class Provider
 {
@@ -34,7 +35,7 @@ abstract class Provider
 
     public function getRedirectUrl()
     {
-        return $this->getRedirectUri() . '?provider=' . $this->getName();
+        return $this->getRedirectUri() . '/' . $this->getName() . '/';
     }
 
     /**
@@ -59,15 +60,20 @@ abstract class Provider
      */
     abstract public function getName();
 
+    public function getAuthUrlParameters()
+    {
+        return array(
+            'client_id' => $this->applicationId,
+            'redirect_uri' => $this->getRedirectUrl()
+        );
+    }
+
     /**
      * @return string
      */
     public function makeAuthUrl()
     {
-        $urlParameters = array(
-            'client_id' => $this->applicationId,
-            'redirect_uri' => $this->getRedirectUrl()
-        );
+        $urlParameters = $this->getAuthUrlParameters();
 
         if (count($this->scope) > 0) {
             $urlParameters['scope'] = $this->getScopeInline();
@@ -108,11 +114,14 @@ abstract class Provider
             'client_id' => $this->applicationId,
             'client_secret' => $this->applicationSecret,
             'code' => $code,
+            'grant_type' => 'authorization_code',
             'redirect_uri' => $this->getRedirectUrl()
         );
 
-        $response = $this->service->getHttpClient()->request($this->getRequestTokenUri() . '?' . http_build_query($parameters));
+        $response = $this->service->getHttpClient()->request($this->getRequestTokenUri() . '?' . http_build_query($parameters), array(), Client::POST);
         $body = $response->getBody();
+        var_dump($body);
+        die();
 
         return $this->parseToken($body);
     }

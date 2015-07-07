@@ -24,7 +24,8 @@
             "SocialConnect\\Vk\\": "providers/Vk/",
             "SocialConnect\\Github\\": "providers/Github/",
             "SocialConnect\\Facebook\\": "providers/Facebook/",
-            "SocialConnect\\Twitter\\": "providers/Twitter/"
+            "SocialConnect\\Twitter\\": "providers/Twitter/",
+            "SocialConnect\\Instagram\\": "providers/Instagram/"
         }
     }
 }

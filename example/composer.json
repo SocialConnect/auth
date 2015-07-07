@@ -1,0 +1,14 @@
+{
+    "name": "socialconnect/auth-example",
+    "type": "project",
+    "require": {
+        "slim/slim": "~2.6"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dmitry Patsura",
+            "email": "talk@dmtry.me"
+        }
+    ]
+}

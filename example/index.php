@@ -4,11 +4,48 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-include_once __DIR__ . '/../vendor/autoload.php';
+error_reporting(-1);
+ini_set('display_errors', 1);
 
+include_once __DIR__ . '/../vendor/autoload.php';
 $configureProviders = include_once 'config.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$app = new \Slim\Slim();
+$app->get('/auth/cb/:provider/:params', function ($provider) use (&$configureProviders) {
+    $service = new \SocialConnect\Auth\Service($configureProviders, null);
+    $service->setHttpClient(new \SocialConnect\Common\Http\Client\Curl());
+
+    $provider = strtolower($provider);
+    switch ($provider) {
+        case 'facebook':
+        case 'github':
+        case 'vk':
+        case 'instagram':
+            $provider = $service->getProvider($provider);
+            break;
+        default:
+            throw new \Exception('Wrong $provider passed in url : ' . $provider);
+            break;
+    }
+
+    $code = $_GET['code'];
+
+    var_dump(array(
+        'code' => $code
+    ));
+
+    $accessToken = $provider->getAccessToken($code);
+    var_dump($accessToken);
+
+    $user = $provider->getIdentity($accessToken);
+    var_dump($user);
+});
+
+$app->get('/', function () {
+    include_once 'page.php';
+});
+
+$app->post('/', function () use (&$configureProviders) {
     $service = new \SocialConnect\Auth\Service($configureProviders, null);
     $service->setHttpClient(new \SocialConnect\Common\Http\Client\Guzzle());
 
@@ -25,38 +62,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo $e->getMessage();
     }
     exit;
-}
-
-?>
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SocialConnect | Auth Example</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <style>
-        .top-buffer { margin-top:20px; }
-    </style>
-</head>
-<body>
-    <div class="row top-buffer">
-        <div class="col-md-3 col-md-offset-4">
-            <form action="/" method="post">
-                <legend>Auth from Social Networks</legend>
-                <?php foreach ($configureProviders['provider'] as $name => $parameters) : ?>
-                    <?php
-                    $enabled = true;
-                    if (isset($parameters['enabled'])) {
-                        $enabled = (bool) $parameters['enabled'];
-                    }
-                    ?>
-                    <button class="btn btn-default" name="provider" type="submit" value="<?php echo $name; ?>"<?php echo (!$enabled) ? ' disabled="disabled"' : ''; ?>>
-                        <i class="fa fa-<?php echo strtolower($name); ?>"></i> <?php echo $name; ?>
-                    </button>
-                <?php endforeach; ?>
-            </form>
-        </div>
-    </div>
-</body>
-</html>
+});
+$app->run();

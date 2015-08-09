@@ -16,6 +16,7 @@ See [example](./example).
 * Facebook
 * GitHub
 * Vk (ВКонтакте)
+* Instagram
 
 License
 -------

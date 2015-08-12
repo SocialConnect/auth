@@ -120,8 +120,6 @@ abstract class Provider
 
         $response = $this->service->getHttpClient()->request($this->getRequestTokenUri() . '?' . http_build_query($parameters), array(), Client::POST);
         $body = $response->getBody();
-        var_dump($body);
-        die();
 
         return $this->parseToken($body);
     }

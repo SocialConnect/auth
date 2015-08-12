@@ -8,6 +8,7 @@ error_reporting(-1);
 ini_set('display_errors', 1);
 
 include_once __DIR__ . '/../vendor/autoload.php';
+include_once __DIR__ . '/vendor/autoload.php';
 $configureProviders = include_once 'config.php';
 
 $app = new \Slim\Slim();

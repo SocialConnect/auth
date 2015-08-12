@@ -26,7 +26,7 @@ abstract class AbstractSignatureMethod
      * @param OAuthToken $token
      * @return string
      */
-    abstract public function build_signature($request, $consumer, $token);
+    abstract public function build_signature(Request $request, Consumer $consumer, $token);
 
     /**
      * Verifies that a given signature is correct

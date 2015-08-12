@@ -17,7 +17,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
         return 'https://api.vk.com/';
     }
 
-    public function getAuthorizeUri()
+    public function getAuthorizeUrl()
     {
         return 'http://api.vk.com/oauth/authorize';
     }

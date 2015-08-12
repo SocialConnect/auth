@@ -18,7 +18,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\Provider
         return 'https://api.instagram.com/v1/';
     }
 
-    public function getAuthorizeUri()
+    public function getAuthorizeUrl()
     {
         return 'https://api.instagram.com/oauth/authorize';
     }

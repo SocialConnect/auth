@@ -17,7 +17,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth1\Provider
         return 'https://api.twitter.com/1.1/';
     }
 
-    public function getAuthorizeUri()
+    public function getAuthorizeUrl()
     {
         return 'https://api.twitter.com/oauth/authenticate';
     }

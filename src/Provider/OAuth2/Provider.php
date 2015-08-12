@@ -46,7 +46,7 @@ abstract class Provider
     /**
      * @return string
      */
-    abstract public function getAuthorizeUri();
+    abstract public function getAuthorizeUrl();
 
     /**
      * @return string
@@ -79,7 +79,7 @@ abstract class Provider
             $urlParameters['scope'] = $this->getScopeInline();
         }
 
-        return $this->getAuthorizeUri() . '?' . http_build_query($urlParameters);
+        return $this->getAuthorizeUrl() . '?' . http_build_query($urlParameters);
     }
 
     /**

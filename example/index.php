@@ -11,11 +11,11 @@ include_once __DIR__ . '/../vendor/autoload.php';
 include_once __DIR__ . '/vendor/autoload.php';
 $configureProviders = include_once 'config.php';
 
-$app = new \Slim\Slim();
-$app->get('/auth/cb/:provider/:params', function ($provider) use (&$configureProviders) {
-    $service = new \SocialConnect\Auth\Service($configureProviders, null);
-    $service->setHttpClient(new \SocialConnect\Common\Http\Client\Curl());
+$service = new \SocialConnect\Auth\Service($configureProviders, null);
+$service->setHttpClient(new \SocialConnect\Common\Http\Client\Curl());
 
+$app = new \Slim\Slim();
+$app->get('/auth/cb/:provider/:params', function ($provider) use (&$configureProviders, $service) {
     $provider = strtolower($provider);
     switch ($provider) {
         case 'facebook':
@@ -46,10 +46,7 @@ $app->get('/', function () {
     include_once 'page.php';
 });
 
-$app->post('/', function () use (&$configureProviders) {
-    $service = new \SocialConnect\Auth\Service($configureProviders, null);
-    $service->setHttpClient(new \SocialConnect\Common\Http\Client\Guzzle());
-
+$app->post('/', function () use (&$configureProviders, $service) {
     try {
         if (!empty($_POST['provider'])) {
             $providerName = $_POST['provider'];

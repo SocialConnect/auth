@@ -15,14 +15,10 @@ class SignatureMethodHMACSHA1 extends AbstractSignatureMethod
     public function build_signature(Request $request, Consumer $consumer, $token)
     {
         $signatureBase = $request->get_signature_base_string();
-
         $parts = array($consumer->secret, null !== $token ? $token->secret : "");
 
         $parts = Util::urlencode_rfc3986($parts);
         $key = implode('&', $parts);
-
-        var_dump($signatureBase);
-        var_dump($key);
 
         return base64_encode(hash_hmac('sha1', $signatureBase, $key, true));
     }

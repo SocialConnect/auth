@@ -78,12 +78,12 @@ class Request
             "oauth_timestamp" => self::generate_timestamp(),
             "oauth_consumer_key" => $consumer->key
         );
+
         if ($token) {
             $defaults['oauth_token'] = $token->key;
         }
 
         $parameters = array_merge($defaults, $parameters);
-
         return new self($http_method, $http_url, $parameters);
     }
     public function set_parameter($name, $value, $allow_duplicates = true)
@@ -224,7 +224,7 @@ class Request
             if (is_array($v)) {
                 continue;
             }
-            $out .= ($first) ? ' ' : ',';
+            $out .= ($first) ? ' ' : ', ';
             $out .= Util::urlencode_rfc3986($k) . '="' . Util::urlencode_rfc3986($v) . '"';
             $first = false;
         }
@@ -236,13 +236,13 @@ class Request
     {
         return $this->to_url();
     }
-    public function sign_request($signature_method, $consumer, $token)
+    public function sign_request(AbstractSignatureMethod $signature_method, Consumer $consumer, Token $token)
     {
         $this->set_parameter("oauth_signature_method", $signature_method->get_name(), false);
         $signature = $this->build_signature($signature_method, $consumer, $token);
         $this->set_parameter("oauth_signature", $signature, false);
     }
-    public function build_signature($signature_method, $consumer, $token)
+    public function build_signature(AbstractSignatureMethod $signature_method, $consumer, $token)
     {
         $signature = $signature_method->build_signature($this, $consumer, $token);
         return $signature;
@@ -260,9 +260,6 @@ class Request
      */
     private static function generate_nonce()
     {
-        $mt   = microtime();
-        $rand = mt_rand();
-
-        return md5($mt . $rand); // md5s look nicer than numbers
+        return md5(microtime() . mt_rand());
     }
 }

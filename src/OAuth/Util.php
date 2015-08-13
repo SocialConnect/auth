@@ -12,11 +12,11 @@ class Util
     {
         if (is_array($input)) {
             return array_map(array(
-                '\SocialConnect\Auth\OAuth\Util',
+                __NAMESPACE__ . '\Util',
                 'urlencode_rfc3986'
             ), $input);
         } elseif (is_scalar($input)) {
-            return str_replace('+', ' ', str_replace('%7E', '~', rawurlencode($input)));
+            return rawurlencode($input);
         } else {
             return '';
         }

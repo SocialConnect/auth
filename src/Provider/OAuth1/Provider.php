@@ -6,10 +6,12 @@
 
 namespace SocialConnect\Auth\Provider\OAuth1;
 
+use Exception;
 use SocialConnect\Auth\InvalidAccessToken;
 use SocialConnect\Auth\OAuth\Consumer;
 use SocialConnect\Auth\OAuth\Request;
 use SocialConnect\Auth\OAuth\SignatureMethodHMACSHA1;
+use SocialConnect\Auth\OAuth\Token;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
 
@@ -57,6 +59,11 @@ abstract class Provider
     abstract public function getRequestTokenUrl();
 
     /**
+     * @return string
+     */
+    abstract public function getRequestTokenAccessUrl();
+
+    /**
      * Return Provider's name
      *
      * @return string
@@ -81,12 +88,12 @@ abstract class Provider
     protected $requestTokenHeaders = [];
 
     /**
-     * @var object
+     * @var Consumer
      */
     protected $consumerKey = null;
 
     /**
-     * @var object
+     * @var Token
      */
     protected $consumerToken = null;
 
@@ -99,11 +106,11 @@ abstract class Provider
          * http://oauth.net/core/1.0a/#auth_step1
          */
         if ('1.0a' == $this->oauth1Version) {
-            $this->requestTokenParameters['oauth_callback'] = 'http%3A%2F%2Fapi.euagenda.loc%2Foauth%2Fcb%2Ftwitter%2F';
+            $this->requestTokenParameters['oauth_callback'] = $this->getRedirectUrl();
         }
 
         $this->consumerKey = new Consumer($this->applicationId, $this->applicationSecret);
-        $this->consumerToken = new Consumer($this->applicationId, $this->applicationSecret);
+        $this->consumerToken = new Token('', '');
 
         $response = $this->oauthRequest(
             $this->getRequestTokenUrl(),
@@ -132,29 +139,32 @@ abstract class Provider
         );
 
         $uri        = $request->get_normalized_http_url();
-//        $parameters = $request->parameters;
+        $parameters = $request->parameters;
         $headers    = array_replace($request->to_header(), (array) $headers);
 
-//
-        $headers[] = 'Content-Type: application/x-www-form-urlencoded';
-        var_dump($headers);
-//        die();
+        $this->service->getHttpClient()->setOption(CURLOPT_ENCODING, 'gzip');
+        $this->service->getHttpClient()->setOption(CURLOPT_SSL_VERIFYPEER, true);
+        $this->service->getHttpClient()->setOption(CURLOPT_SSL_VERIFYHOST, 2);
+        $this->service->getHttpClient()->setOption(CURLOPT_HEADER, true);
+        $this->service->getHttpClient()->setOption(CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+
+
+        $headers['Accept'] = 'application/json';
+        $headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
         $response = $this->service->getHttpClient()->request(
-            $uri . '?' . http_build_query($parameters),
+            $request->get_normalized_http_url(),
             [],
             $method,
             $headers
         );
 
-        var_dump($response);
-        die();
-
-        if ($response->getStatusCode()) {
-
+        if ($response->getStatusCode() === 200) {
+            parse_str($response->getBody(), $token);
+            return new Token($token['oauth_token'], $token['oauth_token_secret']);
         }
 
-        throw new \Exception('Unexpected response code ' . $response->getStatusCode());
+        throw new Exception('Unexpected response code ' . $response->getStatusCode());
     }
 
     /**
@@ -163,59 +173,54 @@ abstract class Provider
     public function makeAuthUrl()
     {
         $urlParameters = [
-            'oauth_token' => $this->requestAuthToken()
+            'oauth_token' => $this->requestAuthToken()->key
         ];
 
         return $this->getAuthorizeUrl() . '?' . http_build_query($urlParameters, '', '&');
     }
 
-    /**
-     * Parse access token from response's $body
-     *
-     * @param $body
-     * @return AccessToken
-     * @throws InvalidAccessToken
-     */
     public function parseToken($body)
     {
         parse_str($body, $token);
 
-        if (!is_array($token) || !isset($token['access_token'])) {
+        if (!is_array($token) || !isset($token['oauth_token']) || !isset($token['oauth_token_secret'])) {
             throw new InvalidAccessToken('Provider API returned an unexpected response');
         }
 
-        return new AccessToken($token['access_token']);
+        return new Token($token['oauth_token'], $token['oauth_token_secret']);
     }
 
     /**
      * @param string $code
      * @return AccessToken
      */
-    public function getAccessToken($code)
+    public function getAccessToken(array $parameters)
     {
-        if (!is_string($code)) {
-            throw new \InvalidArgumentException('Parameter $code must be a string');
-        }
-        
-        $parameters = array(
-            'client_id' => $this->applicationId,
-            'client_secret' => $this->applicationSecret,
-            'code' => $code,
-            'grant_type' => 'authorization_code',
-            'redirect_uri' => $this->getRedirectUrl()
+        $this->oauthRequest(
+            $this->getRequestTokenAccessUrl(),
+            $this->requestTokenMethod,
+            $parameters,
+            $this->requestTokenHeaders
         );
 
-        $response = $this->service->getHttpClient()->request($this->getRequestTokenUri() . '?' . http_build_query($parameters), array(), Client::POST);
-        $body = $response->getBody();
-        var_dump($body);
-        die();
-
-        return $this->parseToken($body);
-    }
-
-    public function getClient()
-    {
-
+//        if (!is_string($code)) {
+//            throw new \InvalidArgumentException('Parameter $code must be a string');
+//        }
+//
+//        $parameters = array(
+//            'client_id' => $this->applicationId,
+//            'client_secret' => $this->applicationSecret,
+//            'code' => $code,
+//            'grant_type' => 'authorization_code',
+//            'redirect_uri' => $this->getRedirectUrl()
+//        );
+//
+//        $response = $this->service->getHttpClient()->request($this->getRequestTokenUri() . '?' . http_build_query($parameters), array(), Client::POST);
+//        $body = $response->getBody();
+//        var_dump($body);
+//        die();
+//
+//        return $this->parseToken($body);
     }
 
     /**

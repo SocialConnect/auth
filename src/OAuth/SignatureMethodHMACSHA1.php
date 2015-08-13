@@ -15,7 +15,7 @@ class SignatureMethodHMACSHA1 extends AbstractSignatureMethod
     public function buildSignature(Request $request, Consumer $consumer, Token $token)
     {
         $signatureBase = $request->get_signature_base_string();
-        $parts = array($consumer->secret, null !== $token ? $token->secret : "");
+        $parts = array($consumer->secret, null !== $token ? $token->secret : '');
 
         $parts = Util::urlencode_rfc3986($parts);
         $key = implode('&', $parts);

@@ -12,7 +12,7 @@ class SignatureMethodHMACSHA1 extends AbstractSignatureMethod
     {
         return 'HMAC-SHA1';
     }
-    public function build_signature(Request $request, Consumer $consumer, $token)
+    public function buildSignature(Request $request, Consumer $consumer, Token $token)
     {
         $signatureBase = $request->get_signature_base_string();
         $parts = array($consumer->secret, null !== $token ? $token->secret : "");

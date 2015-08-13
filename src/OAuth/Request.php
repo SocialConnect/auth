@@ -232,10 +232,17 @@ class Request
             'Authorization' => $out
         ); //- hacked into this to make it return an array. 15/11/2014.
     }
+
     public function __toString()
     {
         return $this->to_url();
     }
+
+    /**
+     * @param AbstractSignatureMethod $signature_method
+     * @param Consumer $consumer
+     * @param Token $token
+     */
     public function signRequest(AbstractSignatureMethod $signature_method, Consumer $consumer, Token $token)
     {
         $this->set_parameter("oauth_signature_method", $signature_method->get_name(), false);
@@ -243,7 +250,12 @@ class Request
         $this->set_parameter("oauth_signature", $signature, false);
     }
 
-
+    /**
+     * @param AbstractSignatureMethod $signatureMethod
+     * @param Consumer $consumer
+     * @param Token $token
+     * @return string
+     */
     public function buildSignature(AbstractSignatureMethod $signatureMethod, Consumer $consumer, Token $token)
     {
         $signature = $signatureMethod->buildSignature($this, $consumer, $token);

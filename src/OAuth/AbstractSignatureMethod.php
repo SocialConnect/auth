@@ -21,23 +21,23 @@ abstract class AbstractSignatureMethod
      * the encoding is handled in OAuthRequest when the final
      * request is serialized
      *
-     * @param OAuthRequest $request
-     * @param OAuthConsumer $consumer
-     * @param OAuthToken $token
+     * @param Request $request
+     * @param Consumer $consumer
+     * @param Token $token
      * @return string
      */
-    abstract public function buildSignature(Request $request, Consumer $consumer, $token);
+    abstract public function buildSignature(Request $request, Consumer $consumer, Token $token);
 
     /**
      * Verifies that a given signature is correct
      *
-     * @param OAuthRequest $request
-     * @param OAuthConsumer $consumer
-     * @param OAuthToken $token
+     * @param Request $request
+     * @param Consumer $consumer
+     * @param Token $token
      * @param string $signature
      * @return bool
      */
-    public function check_signature($request, $consumer, $token, $signature)
+    public function checkSignature(Request $request, Consumer $consumer, Token $token, $signature)
     {
         $built = $this->buildSignature($request, $consumer, $token);
         // Check for zero length, although unlikely here

@@ -2,7 +2,7 @@ SocialConnect Auth
 ==================
 
 [![Build Status](http://img.shields.io/travis/SocialConnect/auth.svg?style=flat-square)](https://travis-ci.org/SocialConnect/auth)
-[![Coverage Status](https://coveralls.io/repos/SocialConnect/auth/badge.svg?branch=master&service=github)](https://coveralls.io/github/SocialConnect/auth?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/SocialConnect/auth/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/SocialConnect/auth/?branch=master)
 [![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/socialconnect/auth/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/SocialConnect/auth/?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/54d7935c2bc7901e48000014/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54d7935c2bc7901e48000014)
 [![License](http://img.shields.io/packagist/l/SocialConnect/auth.svg?style=flat-square)](https://packagist.org/packages/socialconnect/auth)

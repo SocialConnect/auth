@@ -26,7 +26,7 @@ abstract class AbstractSignatureMethod
      * @param OAuthToken $token
      * @return string
      */
-    abstract public function build_signature(Request $request, Consumer $consumer, $token);
+    abstract public function buildSignature(Request $request, Consumer $consumer, $token);
 
     /**
      * Verifies that a given signature is correct
@@ -39,7 +39,7 @@ abstract class AbstractSignatureMethod
      */
     public function check_signature($request, $consumer, $token, $signature)
     {
-        $built = $this->build_signature($request, $consumer, $token);
+        $built = $this->buildSignature($request, $consumer, $token);
         // Check for zero length, although unlikely here
         if (strlen($built) == 0 || strlen($signature) == 0) {
             return false;

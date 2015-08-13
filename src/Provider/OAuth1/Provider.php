@@ -132,7 +132,7 @@ abstract class Provider
             $parameters
         );
 
-        $request->sign_request(
+        $request->signRequest(
             new SignatureMethodHMACSHA1(),
             $this->consumerKey,
             $this->consumerToken

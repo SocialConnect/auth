@@ -236,15 +236,17 @@ class Request
     {
         return $this->to_url();
     }
-    public function sign_request(AbstractSignatureMethod $signature_method, Consumer $consumer, Token $token)
+    public function signRequest(AbstractSignatureMethod $signature_method, Consumer $consumer, Token $token)
     {
         $this->set_parameter("oauth_signature_method", $signature_method->get_name(), false);
-        $signature = $this->build_signature($signature_method, $consumer, $token);
+        $signature = $this->buildSignature($signature_method, $consumer, $token);
         $this->set_parameter("oauth_signature", $signature, false);
     }
-    public function build_signature(AbstractSignatureMethod $signature_method, $consumer, $token)
+
+
+    public function buildSignature(AbstractSignatureMethod $signatureMethod, Consumer $consumer, Token $token)
     {
-        $signature = $signature_method->build_signature($this, $consumer, $token);
+        $signature = $signatureMethod->buildSignature($this, $consumer, $token);
         return $signature;
     }
     /**

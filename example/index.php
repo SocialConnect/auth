@@ -25,6 +25,7 @@ $app->get('/auth/cb/:provider/:params', function ($provider) use (&$configurePro
     switch ($provider) {
         case 'facebook':
         case 'github':
+        case 'twitter':
         case 'vk':
         case 'instagram':
             $provider = $service->getProvider($provider);
@@ -34,13 +35,7 @@ $app->get('/auth/cb/:provider/:params', function ($provider) use (&$configurePro
             break;
     }
 
-    $code = $_GET['code'];
-
-    var_dump(array(
-        'code' => $code
-    ));
-
-    $accessToken = $provider->getAccessToken($code);
+    $accessToken = $provider->getAccessToken($_GET);
     var_dump($accessToken);
 
     $user = $provider->getIdentity($accessToken);

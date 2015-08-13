@@ -29,7 +29,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth1\Provider
 
     public function getRequestTokenAccessUrl()
     {
-        return 'https://api.twitter.com/oauth/request_token';
+        return 'https://api.twitter.com/oauth/access_token';
     }
 
     public function getName()

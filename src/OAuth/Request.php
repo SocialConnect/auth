@@ -133,7 +133,7 @@ class Request
      *
      * @return string
      */
-    public function get_signable_parameters()
+    public function getSignableParameters()
     {
         // Grab all parameters
         $params = $this->parameters;
@@ -153,13 +153,15 @@ class Request
      * The base string defined as the method, the url
      * and the parameters (normalized), each urlencoded
      * and the concated with &.
+     *
+     * @return string
      */
-    public function get_signature_base_string()
+    public function getSignatureBaseString()
     {
         $parts = array(
-            $this->get_normalized_http_method(),
-            $this->get_normalized_http_url(),
-            $this->get_signable_parameters()
+            $this->getNormalizedHttpMethod(),
+            $this->getNormalizedHttpUrl(),
+            $this->getSignableParameters()
         );
 
         $parts = Util::urlencode_rfc3986($parts);
@@ -170,7 +172,7 @@ class Request
     /**
      * just uppercases the http method
      */
-    public function get_normalized_http_method()
+    public function getNormalizedHttpMethod()
     {
         return strtoupper($this->http_method);
     }
@@ -179,7 +181,7 @@ class Request
      * parses the url and rebuilds it to be
      * scheme://host/path
      */
-    public function get_normalized_http_url()
+    public function getNormalizedHttpUrl()
     {
         $parts = parse_url($this->http_url);
 
@@ -200,7 +202,7 @@ class Request
     public function toUrl()
     {
         $post_data = $this->toPostData();
-        $out       = $this->get_normalized_http_url();
+        $out       = $this->getNormalizedHttpUrl();
         if ($post_data) {
             $out .= '?' . $post_data;
         }

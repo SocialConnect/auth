@@ -129,7 +129,7 @@ abstract class Provider
 
     protected function oauthRequest($uri, $method = 'GET', $parameters = [], $headers = [])
     {
-        $request = Request::from_consumer_and_token(
+        $request = Request::fromConsumerAndToken(
             $this->consumerKey,
             $this->consumerToken,
             $method,

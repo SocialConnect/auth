@@ -9,7 +9,9 @@ namespace SocialConnect\Auth\OAuth;
 class Request
 {
     public $parameters;
+    
     public $http_method;
+
     public $http_url;
 
     // for debug purposes
@@ -29,13 +31,18 @@ class Request
     }
 
     /**
-     * attempt to build up a request from what was passed to the server
+     * Attempt to build up a request from what was passed to the server
+     *
+     * @param null $method
+     * @param null $url
+     * @param null $parameters
+     * @return Request
      */
-    public static function from_request($http_method = null, $http_url = null, $parameters = null)
+    public static function fromRequest($method = null, $url = null, $parameters = null)
     {
         $scheme = (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on") ? 'http' : 'https';
-        $http_url = ($http_url) ? $http_url : $scheme . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
-        $http_method = ($http_method) ? $http_method : $_SERVER['REQUEST_METHOD'];
+        $url = ($url) ? $url : $scheme . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
+        $method = ($method) ? $method : $_SERVER['REQUEST_METHOD'];
 
         // We weren't handed any parameters, so let's find the ones relevant to
         // this request.
@@ -50,7 +57,7 @@ class Request
 
             // It's a POST request of the proper content-type, so parse POST
             // parameters and add those overriding any duplicates from GET
-            if ($http_method == "POST" && isset($request_headers['Content-Type']) && strstr($request_headers['Content-Type'], 'application/x-www-form-urlencoded')) {
+            if ($method == 'POST' && isset($request_headers['Content-Type']) && strstr($request_headers['Content-Type'], 'application/x-www-form-urlencoded')) {
                 $post_data  = Util::parse_parameters(file_get_contents(self::$POST_INPUT));
                 $parameters = array_merge($parameters, $post_data);
             }
@@ -63,24 +70,24 @@ class Request
             }
         }
 
-        return new self($http_method, $http_url, $parameters);
+        return new self($method, $url, $parameters);
     }
 
     /**
      * @param Consumer $consumer
      * @param Token $token
-     * @param $http_method
-     * @param $http_url
+     * @param string $method
+     * @param string $url
      * @param array $parameters
      * @return Request
      */
-    public static function from_consumer_and_token(Consumer $consumer, Token $token, $http_method, $http_url, array $parameters = array())
+    public static function fromConsumerAndToken(Consumer $consumer, Token $token, $method, $url, array $parameters = array())
     {
         $defaults   = array(
-            "oauth_version" => self::$version,
-            "oauth_nonce" => self::generate_nonce(),
-            "oauth_timestamp" => self::generate_timestamp(),
-            "oauth_consumer_key" => $consumer->key
+            'oauth_version' => self::$version,
+            'oauth_nonce' => self::generate_nonce(),
+            'oauth_timestamp' => self::generate_timestamp(),
+            'oauth_consumer_key' => $consumer->key
         );
 
         if ($token) {
@@ -88,8 +95,9 @@ class Request
         }
 
         $parameters = array_merge($defaults, $parameters);
-        return new self($http_method, $http_url, $parameters);
+        return new self($method, $url, $parameters);
     }
+
     public function set_parameter($name, $value, $allow_duplicates = true)
     {
         if ($allow_duplicates && isset($this->parameters[$name])) {

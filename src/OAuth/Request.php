@@ -67,11 +67,15 @@ class Request
     }
 
     /**
-     * pretty much a helper function to set up the request
+     * @param Consumer $consumer
+     * @param Token $token
+     * @param $http_method
+     * @param $http_url
+     * @param array $parameters
+     * @return Request
      */
-    public static function from_consumer_and_token($consumer, $token, $http_method, $http_url, $parameters = null)
+    public static function from_consumer_and_token(Consumer $consumer, Token $token, $http_method, $http_url, array $parameters = array())
     {
-        $parameters = ($parameters) ? $parameters : array();
         $defaults   = array(
             "oauth_version" => self::$version,
             "oauth_nonce" => self::generate_nonce(),

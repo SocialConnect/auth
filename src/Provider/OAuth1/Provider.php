@@ -144,7 +144,7 @@ abstract class Provider
         );
 
         $uri        = $request->get_normalized_http_url();
-//        $parameters = array_merge($parameters, $request->parameters);
+        $parameters = array_merge($parameters, $request->parameters);
         $headers    = array_replace($request->to_header(), (array) $headers);
 
         $this->service->getHttpClient()->setOption(CURLOPT_ENCODING, 'gzip');

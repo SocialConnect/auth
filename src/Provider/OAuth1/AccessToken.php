@@ -6,23 +6,43 @@
 
 namespace SocialConnect\Auth\Provider\OAuth1;
 
-class AccessToken
+class AccessToken extends \SocialConnect\Auth\OAuth\Token
 {
-    /**
-     * @var string
-     */
-    protected $token;
+    protected $userId;
 
-    public function __construct($token)
+    protected $screenName;
+
+    protected $x_auth_expires = 0;
+
+    /**
+     * @return mixed
+     */
+    public function getUserId()
     {
-        $this->token = $token;
+        return $this->userId;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getToken()
+    public function getScreenName()
     {
-        return $this->token;
+        return $this->screenName;
+    }
+
+    /**
+     * @param mixed $userId
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    }
+
+    /**
+     * @param mixed $screenName
+     */
+    public function setScreenName($screenName)
+    {
+        $this->screenName = $screenName;
     }
 }

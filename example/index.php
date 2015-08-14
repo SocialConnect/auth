@@ -35,7 +35,7 @@ $app->get('/auth/cb/:provider/:params', function ($provider) use (&$configurePro
             break;
     }
 
-    $accessToken = $provider->getAccessToken($_GET);
+    $accessToken = $provider->getAccessTokenByRequestParameters($_GET);
     var_dump($accessToken);
 
     $user = $provider->getIdentity($accessToken);

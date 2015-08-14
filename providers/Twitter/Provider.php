@@ -6,6 +6,8 @@
 
 namespace SocialConnect\Twitter;
 
+use SocialConnect\Auth\OAuth\Consumer;
+use SocialConnect\Auth\OAuth\Token;
 use SocialConnect\Auth\Provider\OAuth1\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
@@ -38,32 +40,30 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth1\Provider
     }
 
     /**
-     * @param $body
-     * @return AccessToken
-     */
-    public function parseToken($body)
-    {
-        $result = json_decode($body);
-
-        return new AccessToken($result->access_token);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getIdentity(AccessToken $accessToken)
     {
-//        $response = $this->service->getHttpClient()->request($this->getBaseUri() . 'method/users.get?v=5.24&access_token=' . $accessToken->getToken());
-//        $body = $response->getBody();
-//        $result = json_decode($body);
-//
-//        $hydrator = new ObjectMap(array(
-//            'id' => 'id',
-//            'first_name' => 'firstname',
-//            'last_name' => 'lastname',
-//            'email' => 'email'
-//        ));
-//
-//        return $hydrator->hydrate(new User(), $result->response[0]);
+        $this->consumerKey = new Consumer($this->applicationId, $this->applicationSecret);
+        $this->consumerToken = $accessToken;
+
+        $parameters = $this->requestTokenParameters;
+        $parameters['user_id'] = $accessToken->getUserId();
+
+        $response = $this->oauthRequest(
+            $this->getBaseUri() . 'users/lookup.json',
+            'GET',
+            $parameters,
+            $this->requestTokenHeaders
+        );
+
+        if ($response->getStatusCode() == 200) {
+            $result = $response->json();
+
+            $hydrator = new ObjectMap(array());
+            return $hydrator->hydrate(new User(), $result[0]);
+        }
+
+        return false;
     }
 }

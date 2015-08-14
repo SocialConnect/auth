@@ -119,7 +119,12 @@ abstract class Provider
             $this->requestTokenHeaders
         );
 
-        return $response;
+        if ($response->getStatusCode() === 200) {
+            parse_str($response->getBody(), $token);
+            return new Token($token['oauth_token'], $token['oauth_token_secret']);
+        }
+
+        throw new Exception('Unexpected response code ' . $response->getStatusCode());
     }
 
     protected function oauthRequest($uri, $method = 'GET', $parameters = [], $headers = [])
@@ -139,7 +144,7 @@ abstract class Provider
         );
 
         $uri        = $request->get_normalized_http_url();
-        $parameters = $request->parameters;
+//        $parameters = array_merge($parameters, $request->parameters);
         $headers    = array_replace($request->to_header(), (array) $headers);
 
         $this->service->getHttpClient()->setOption(CURLOPT_ENCODING, 'gzip');
@@ -154,17 +159,12 @@ abstract class Provider
 
         $response = $this->service->getHttpClient()->request(
             $request->get_normalized_http_url(),
-            [],
+            $parameters,
             $method,
             $headers
         );
 
-        if ($response->getStatusCode() === 200) {
-            parse_str($response->getBody(), $token);
-            return new Token($token['oauth_token'], $token['oauth_token_secret']);
-        }
-
-        throw new Exception('Unexpected response code ' . $response->getStatusCode());
+        return $response;
     }
 
     /**
@@ -191,36 +191,47 @@ abstract class Provider
     }
 
     /**
-     * @param string $code
+     * @param array $parameters
      * @return AccessToken
      */
-    public function getAccessToken(array $parameters)
+    public function getAccessTokenByRequestParameters(array $parameters)
     {
-        $this->oauthRequest(
+        $this->consumerToken = new Token($parameters['oauth_token'], '');
+        return $this->getAccessToken($this->consumerToken, $parameters['oauth_verifier']);
+    }
+
+    /**
+     * @param Token $token
+     * @param $oauthVerifier
+     * @return Token
+     * @throws Exception
+     */
+    public function getAccessToken(Token $token, $oauthVerifier)
+    {
+        $this->consumerKey = new Consumer($this->applicationId, $this->applicationSecret);
+
+        $parameters = $this->requestTokenParameters;
+        $parameters['oauth_verifier'] = $oauthVerifier;
+
+        $response = $this->oauthRequest(
             $this->getRequestTokenAccessUrl(),
             $this->requestTokenMethod,
             $parameters,
             $this->requestTokenHeaders
         );
 
-//        if (!is_string($code)) {
-//            throw new \InvalidArgumentException('Parameter $code must be a string');
-//        }
-//
-//        $parameters = array(
-//            'client_id' => $this->applicationId,
-//            'client_secret' => $this->applicationSecret,
-//            'code' => $code,
-//            'grant_type' => 'authorization_code',
-//            'redirect_uri' => $this->getRedirectUrl()
-//        );
-//
-//        $response = $this->service->getHttpClient()->request($this->getRequestTokenUri() . '?' . http_build_query($parameters), array(), Client::POST);
-//        $body = $response->getBody();
-//        var_dump($body);
-//        die();
-//
-//        return $this->parseToken($body);
+        if ($response->getStatusCode() === 200) {
+            parse_str($response->getBody(), $token);
+            $accessToken = new AccessToken($token['oauth_token'], $token['oauth_token_secret']);
+
+            if (isset($token['user_id'])) {
+                $accessToken->setUserId($token['user_id']);
+            }
+
+            return $accessToken;
+        }
+
+        throw new Exception('Unexpected response code ' . $response->getStatusCode());
     }
 
     /**

@@ -124,6 +124,16 @@ abstract class Provider
         return $this->parseToken($body);
     }
 
+
+    /**
+     * @param array $parameters
+     * @return AccessToken
+     */
+    public function getAccessTokenByRequestParameters(array $parameters)
+    {
+        return $this->getAccessToken($parameters['code']);
+    }
+
     public function getClient()
     {
 

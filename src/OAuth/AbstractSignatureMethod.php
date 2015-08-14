@@ -13,7 +13,7 @@ abstract class AbstractSignatureMethod
      *
      * @return string
      */
-    abstract public function get_name();
+    abstract public function getName();
 
     /**
      * Build up the signature

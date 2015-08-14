@@ -8,13 +8,23 @@ namespace SocialConnect\Auth\OAuth;
 
 class SignatureMethodHMACSHA1 extends AbstractSignatureMethod
 {
-    public function get_name()
+    /**
+     * @return string
+     */
+    public function getName()
     {
         return 'HMAC-SHA1';
     }
+
+    /**
+     * @param Request $request
+     * @param Consumer $consumer
+     * @param Token $token
+     * @return string
+     */
     public function buildSignature(Request $request, Consumer $consumer, Token $token)
     {
-        $signatureBase = $request->get_signature_base_string();
+        $signatureBase = $request->getSignatureBaseString();
         $parts = array($consumer->secret, null !== $token ? $token->secret : '');
 
         $parts = Util::urlencode_rfc3986($parts);

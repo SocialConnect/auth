@@ -21,4 +21,4 @@ class FactoryTest extends \Test\TestCase
         ), $service);
         $this->assertInstanceOf('SocialConnect\Vk\Provider', $vkProvider);
     }
-} 
+}

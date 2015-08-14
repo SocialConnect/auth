@@ -6,8 +6,7 @@
 
 namespace SocialConnect\Auth;
 
-class InvalidAccessToken
-    extends \SocialConnect\Common\Exception
+class InvalidAccessToken extends \SocialConnect\Common\Exception
 {
 
 }

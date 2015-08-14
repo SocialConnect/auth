@@ -9,7 +9,7 @@ namespace SocialConnect\Auth\OAuth;
 class Request
 {
     public $parameters;
-    
+
     public $http_method;
 
     public $http_url;
@@ -85,8 +85,8 @@ class Request
     {
         $defaults   = array(
             'oauth_version' => self::$version,
-            'oauth_nonce' => self::generate_nonce(),
-            'oauth_timestamp' => self::generate_timestamp(),
+            'oauth_nonce' => self::generateNonce(),
+            'oauth_timestamp' => time(),
             'oauth_consumer_key' => $consumer->key
         );
 
@@ -98,7 +98,7 @@ class Request
         return new self($method, $url, $parameters);
     }
 
-    public function set_parameter($name, $value, $allow_duplicates = true)
+    public function setParameter($name, $value, $allow_duplicates = true)
     {
         if ($allow_duplicates && isset($this->parameters[$name])) {
             // We have already added parameter(s) with this name, so add to the list
@@ -115,15 +115,15 @@ class Request
             $this->parameters[$name] = $value;
         }
     }
-    public function get_parameter($name)
+    public function getParameter($name)
     {
         return isset($this->parameters[$name]) ? $this->parameters[$name] : null;
     }
-    public function get_parameters()
+    public function getParameters()
     {
         return $this->parameters;
     }
-    public function unset_parameter($name)
+    public function unsetParameter($name)
     {
         unset($this->parameters[$name]);
     }
@@ -197,9 +197,9 @@ class Request
     /**
      * builds a url usable for a GET request
      */
-    public function to_url()
+    public function toUrl()
     {
-        $post_data = $this->to_postdata();
+        $post_data = $this->toPostData();
         $out       = $this->get_normalized_http_url();
         if ($post_data) {
             $out .= '?' . $post_data;
@@ -210,7 +210,7 @@ class Request
     /**
      * builds the data one would send in a POST request
      */
-    public function to_postdata()
+    public function toPostData()
     {
         return Util::build_http_query($this->parameters);
     }
@@ -218,7 +218,7 @@ class Request
     /**
      * builds the Authorization: header
      */
-    public function to_header($realm = null)
+    public function toHeader($realm = null)
     {
         $first = true;
         if ($realm) {
@@ -247,7 +247,7 @@ class Request
 
     public function __toString()
     {
-        return $this->to_url();
+        return $this->toUrl();
     }
 
     /**
@@ -257,9 +257,9 @@ class Request
      */
     public function signRequest(AbstractSignatureMethod $signature_method, Consumer $consumer, Token $token)
     {
-        $this->set_parameter("oauth_signature_method", $signature_method->get_name(), false);
+        $this->setParameter('oauth_signature_method', $signature_method->get_name(), false);
         $signature = $this->buildSignature($signature_method, $consumer, $token);
-        $this->set_parameter("oauth_signature", $signature, false);
+        $this->setParameter('oauth_signature', $signature, false);
     }
 
     /**
@@ -273,18 +273,11 @@ class Request
         $signature = $signatureMethod->buildSignature($this, $consumer, $token);
         return $signature;
     }
-    /**
-     * util function: current timestamp
-     */
-    private static function generate_timestamp()
-    {
-        return time();
-    }
 
     /**
      * util function: current nonce
      */
-    private static function generate_nonce()
+    private static function generateNonce()
     {
         return md5(microtime() . mt_rand());
     }

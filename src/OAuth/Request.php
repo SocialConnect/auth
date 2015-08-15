@@ -229,7 +229,7 @@ class Request
         } else {
             $out = 'OAuth';
         }
-        
+
         foreach ($this->parameters as $k => $v) {
             if (substr($k, 0, 5) != "oauth") {
                 continue;

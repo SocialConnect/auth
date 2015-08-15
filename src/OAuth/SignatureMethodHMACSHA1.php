@@ -27,7 +27,7 @@ class SignatureMethodHMACSHA1 extends AbstractSignatureMethod
         $signatureBase = $request->getSignatureBaseString();
         $parts = array($consumer->secret, null !== $token ? $token->secret : '');
 
-        $parts = Util::urlencode_rfc3986($parts);
+        $parts = Util::urlencodeRFC3986($parts);
         $key = implode('&', $parts);
 
         return base64_encode(hash_hmac('sha1', $signatureBase, $key, true));

@@ -1,0 +1,31 @@
+<?php
+/**
+ * SocialConnect project
+ * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
+ */
+
+namespace Test\Provider\OAuth1;
+
+use SocialConnect\Auth\Provider\OAuth1\AccessToken;
+
+class AccessTokenTest extends \Test\TestCase
+{
+    public function testConstructMethod()
+    {
+        $token = new AccessToken('key', 'secret');
+        $this->assertEquals('key', $token->key);
+        $this->assertEquals('secret', $token->secret);
+
+        return $token;
+    }
+
+    public function testGetUserId()
+    {
+        $token = $this->testConstructMethod();
+        $this->assertNull($token->getUserId());
+
+        $userId = 12345;
+        $token->setUserId($userId);
+        $this->assertSame($userId, $token->getUserId());
+    }
+}

@@ -113,7 +113,7 @@ abstract class AbstractProvider
         $this->consumerToken = new Token('', '');
 
         $response = $this->oauthRequest(
-            $this->getRequestTokenUrl(),
+            $this->getRequestTokenUri(),
             $this->requestTokenMethod,
             $this->requestTokenParameters,
             $this->requestTokenHeaders
@@ -176,7 +176,7 @@ abstract class AbstractProvider
             'oauth_token' => $this->requestAuthToken()->key
         ];
 
-        return $this->getAuthorizeUrl() . '?' . http_build_query($urlParameters, '', '&');
+        return $this->getAuthorizeUri() . '?' . http_build_query($urlParameters, '', '&');
     }
 
     public function parseToken($body)
@@ -214,7 +214,7 @@ abstract class AbstractProvider
         $parameters['oauth_verifier'] = $oauthVerifier;
 
         $response = $this->oauthRequest(
-            $this->getRequestTokenAccessUrl(),
+            $this->getRequestTokenAccessUri(),
             $this->requestTokenMethod,
             $parameters,
             $this->requestTokenHeaders

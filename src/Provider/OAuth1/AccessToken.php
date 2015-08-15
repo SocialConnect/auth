@@ -8,14 +8,23 @@ namespace SocialConnect\Auth\Provider\OAuth1;
 
 class AccessToken extends \SocialConnect\Auth\OAuth\Token
 {
+    /**
+     * @var integer
+     */
     protected $userId;
 
+    /**
+     * @var string
+     */
     protected $screenName;
 
+    /**
+     * @var int
+     */
     protected $x_auth_expires = 0;
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getUserId()
     {
@@ -23,7 +32,7 @@ class AccessToken extends \SocialConnect\Auth\OAuth\Token
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getScreenName()
     {
@@ -31,7 +40,7 @@ class AccessToken extends \SocialConnect\Auth\OAuth\Token
     }
 
     /**
-     * @param mixed $userId
+     * @param $userId
      */
     public function setUserId($userId)
     {
@@ -39,7 +48,7 @@ class AccessToken extends \SocialConnect\Auth\OAuth\Token
     }
 
     /**
-     * @param mixed $screenName
+     * @param $screenName
      */
     public function setScreenName($screenName)
     {

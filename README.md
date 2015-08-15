@@ -19,6 +19,47 @@ See [example](./example).
 * Instagram
 * Twitter
 
+## How to use
+
+
+First you need to setup service:
+
+```php
+$service = new \SocialConnect\Auth\Service(array(
+        'redirectUri' => 'http://sconnect.local/auth/cb',
+        'provider' => array(
+            'Facebook' => array(
+                'applicationId' => '',
+                'applicationSecret' => '',
+                'scope' => array('email')
+            ),
+        )
+));
+$service->setHttpClient(new \SocialConnect\Common\Http\Client\Curl());
+```
+
+Next create you loginAction:
+
+```php
+$providerName = 'facebook';
+
+$provider = $service->getProvider($providerName);
+header('Location: ' . $provider->makeAuthUrl());
+```
+
+And implement callback handler:
+
+```php
+$providerName = 'facebook';
+
+$provider = $service->getProvider($providerName);
+$accessToken = $provider->getAccessTokenByRequestParameters($_GET);
+var_dump($accessToken);
+
+$user = $provider->getIdentity($accessToken);
+var_dump($user);
+```
+
 License
 -------
 

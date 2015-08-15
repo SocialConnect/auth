@@ -15,7 +15,7 @@ use SocialConnect\Auth\OAuth\Token;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
 
-abstract class Provider
+abstract class AbstractProvider
 {
     /**
      * @var \SocialConnect\Auth\Service

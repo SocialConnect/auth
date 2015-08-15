@@ -12,7 +12,7 @@ use SocialConnect\Auth\Provider\OAuth1\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
-class Provider extends \SocialConnect\Auth\Provider\OAuth1\Provider
+class Provider extends \SocialConnect\Auth\Provider\OAuth1\AbstractProvider
 {
     public function getBaseUri()
     {

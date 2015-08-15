@@ -79,7 +79,7 @@ abstract class AbstractProvider
             $urlParameters['scope'] = $this->getScopeInline();
         }
 
-        return $this->getAuthorizeUrl() . '?' . http_build_query($urlParameters);
+        return $this->getAuthorizeUri() . '?' . http_build_query($urlParameters);
     }
 
     /**

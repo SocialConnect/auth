@@ -56,12 +56,12 @@ abstract class AbstractProvider
     /**
      * @return string
      */
-    abstract public function getRequestTokenUrl();
+    abstract public function getRequestTokenUri();
 
     /**
      * @return string
      */
-    abstract public function getRequestTokenAccessUrl();
+    abstract public function getRequestTokenAccessUri();
 
     /**
      * Return Provider's name

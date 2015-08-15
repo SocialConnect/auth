@@ -24,12 +24,12 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth1\AbstractProvider
         return 'https://api.twitter.com/oauth/authenticate';
     }
 
-    public function getRequestTokenUrl()
+    public function getRequestTokenUri()
     {
         return 'https://api.twitter.com/oauth/request_token';
     }
 
-    public function getRequestTokenAccessUrl()
+    public function getRequestTokenAccessUri()
     {
         return 'https://api.twitter.com/oauth/access_token';
     }

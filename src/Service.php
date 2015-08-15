@@ -30,7 +30,7 @@ class Service
      * @param array $config
      * @param $storage
      */
-    public function __construct(array $config, $storage)
+    public function __construct(array $config, $storage = null)
     {
         $this->config = $config;
         $this->storage = $storage;

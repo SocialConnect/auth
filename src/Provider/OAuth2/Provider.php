@@ -109,7 +109,7 @@ abstract class Provider
         if (!is_string($code)) {
             throw new \InvalidArgumentException('Parameter $code must be a string');
         }
-        
+
         $parameters = array(
             'client_id' => $this->applicationId,
             'client_secret' => $this->applicationSecret,
@@ -118,7 +118,11 @@ abstract class Provider
             'redirect_uri' => $this->getRedirectUrl()
         );
 
-        $response = $this->service->getHttpClient()->request($this->getRequestTokenUri() . '?' . http_build_query($parameters), array(), Client::POST);
+        $response = $this->service->getHttpClient()->request(
+            $this->getRequestTokenUri() . '?' . http_build_query($parameters),
+            array(),
+            Client::POST
+        );
         $body = $response->getBody();
 
         return $this->parseToken($body);
@@ -141,7 +145,7 @@ abstract class Provider
 
     /**
      * Get current user identity from social network by $accessToken
-     * 
+     *
      * @param AccessToken $accessToken
      * @return User
      */
@@ -186,4 +190,4 @@ abstract class Provider
     {
         $this->applicationSecret = $applicationSecret;
     }
-} 
+}

@@ -143,9 +143,9 @@ abstract class Provider
             $this->consumerToken
         );
 
-        $uri        = $request->get_normalized_http_url();
+        $uri = $request->getNormalizedHttpUrl();
         $parameters = array_merge($parameters, $request->parameters);
-        $headers    = array_replace($request->toHeader(), (array) $headers);
+        $headers = array_replace($request->toHeader(), (array)$headers);
 
         $this->service->getHttpClient()->setOption(CURLOPT_ENCODING, 'gzip');
         $this->service->getHttpClient()->setOption(CURLOPT_SSL_VERIFYPEER, true);
@@ -158,7 +158,7 @@ abstract class Provider
         $headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
         $response = $this->service->getHttpClient()->request(
-            $request->get_normalized_http_url(),
+            $request->getNormalizedHttpUrl(),
             $parameters,
             $method,
             $headers
@@ -236,7 +236,7 @@ abstract class Provider
 
     /**
      * Get current user identity from social network by $accessToken
-     * 
+     *
      * @param AccessToken $accessToken
      * @return User
      */
@@ -281,4 +281,4 @@ abstract class Provider
     {
         $this->applicationSecret = $applicationSecret;
     }
-} 
+}

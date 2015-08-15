@@ -8,12 +8,12 @@ namespace SocialConnect\Auth\OAuth;
 
 class Util
 {
-    public static function urlencode_rfc3986($input)
+    public static function urlencodeRFC3986($input)
     {
         if (is_array($input)) {
             return array_map(array(
                 __NAMESPACE__ . '\Util',
-                'urlencode_rfc3986'
+                'urlencodeRFC3986'
             ), $input);
         } elseif (is_scalar($input)) {
             return rawurlencode($input);
@@ -25,7 +25,7 @@ class Util
     // This decode function isn't taking into consideration the above
     // modifications to the encoding process. However, this method doesn't
     // seem to be used anywhere so leaving it as is.
-    public static function urldecode_rfc3986($string)
+    public static function urldecodeRFC3986($string)
     {
         return urldecode($string);
     }
@@ -35,12 +35,12 @@ class Util
     // Can filter out any non-oauth parameters if needed (default behaviour)
     // May 28th, 2010 - method updated to tjerk.meesters for a speed improvement.
     // see http://code.google.com/p/oauth/issues/detail?id=163
-    public static function split_header($header, $only_allow_oauth_parameters = true)
+    public static function splitHeader($header, $only_allow_oauth_parameters = true)
     {
         $params = array();
         if (preg_match_all('/(' . ($only_allow_oauth_parameters ? 'oauth_' : '') . '[a-z_-]*)=(:?"([^"]*)"|([^,]*))/', $header, $matches)) {
             foreach ($matches[1] as $i => $h) {
-                $params[$h] = self::urldecode_rfc3986(empty($matches[3][$i]) ? $matches[4][$i] : $matches[3][$i]);
+                $params[$h] = self::urldecodeRFC3986(empty($matches[3][$i]) ? $matches[4][$i] : $matches[3][$i]);
             }
             if (isset($params['realm'])) {
                 unset($params['realm']);
@@ -50,7 +50,7 @@ class Util
     }
 
     // helper to try to sort out headers for people who aren't running apache
-    public static function get_headers()
+    public static function getHeaders()
     {
         if (function_exists('apache_request_headers')) {
             // we need this to get the actual Authorization: header
@@ -92,7 +92,7 @@ class Util
     // This function takes a input like a=b&a=c&d=e and returns the parsed
     // parameters like this
     // array('a' => array('b','c'), 'd' => 'e')
-    public static function parse_parameters($input)
+    public static function parseParameters($input)
     {
         if (!isset($input) || !$input) {
             return array();
@@ -103,8 +103,8 @@ class Util
         $parsed_parameters = array();
         foreach ($pairs as $pair) {
             $split     = explode('=', $pair, 2);
-            $parameter = self::urldecode_rfc3986($split[0]);
-            $value     = isset($split[1]) ? self::urldecode_rfc3986($split[1]) : '';
+            $parameter = self::urldecodeRFC3986($split[0]);
+            $value     = isset($split[1]) ? self::urldecodeRFC3986($split[1]) : '';
 
             if (isset($parsed_parameters[$parameter])) {
                 // We have already recieved parameter(s) with this name, so add to the list
@@ -125,15 +125,15 @@ class Util
         }
         return $parsed_parameters;
     }
-    public static function build_http_query($params)
+    public static function buildHttpQuery($params)
     {
         if (!$params) {
             return '';
         }
 
         // Urlencode both keys and values
-        $keys   = self::urlencode_rfc3986(array_keys($params));
-        $values = self::urlencode_rfc3986(array_values($params));
+        $keys   = self::urlencodeRFC3986(array_keys($params));
+        $values = self::urlencodeRFC3986(array_values($params));
         $params = array_combine($keys, $values);
 
         // Parameters are sorted by name, using lexicographical byte value ordering.

@@ -24,7 +24,7 @@ class Request
     public function __construct($http_method, $http_url, $parameters = null)
     {
         $parameters = ($parameters) ? $parameters : array();
-        $parameters = array_merge(Util::parse_parameters(parse_url($http_url, PHP_URL_QUERY)), $parameters);
+        $parameters = array_merge(Util::parseParameters(parse_url($http_url, PHP_URL_QUERY)), $parameters);
         $this->parameters  = $parameters;
         $this->http_method = $http_method;
         $this->http_url    = $http_url;
@@ -50,22 +50,22 @@ class Request
         // parsed parameter-list
         if (!$parameters) {
             // Find request headers
-            $request_headers = Util::get_headers();
+            $request_headers = Util::getHeaders();
 
             // Parse the query-string to find GET parameters
-            $parameters = Util::parse_parameters($_SERVER['QUERY_STRING']);
+            $parameters = Util::parseParameters($_SERVER['QUERY_STRING']);
 
             // It's a POST request of the proper content-type, so parse POST
             // parameters and add those overriding any duplicates from GET
             if ($method == 'POST' && isset($request_headers['Content-Type']) && strstr($request_headers['Content-Type'], 'application/x-www-form-urlencoded')) {
-                $post_data  = Util::parse_parameters(file_get_contents(self::$POST_INPUT));
+                $post_data  = Util::parseParameters(file_get_contents(self::$POST_INPUT));
                 $parameters = array_merge($parameters, $post_data);
             }
 
             // We have a Authorization-header with OAuth data. Parse the header
             // and add those overriding any duplicates from GET or POST
             if (isset($request_headers['Authorization']) && substr($request_headers['Authorization'], 0, 6) == 'OAuth ') {
-                $header_parameters = Util::split_header($request_headers['Authorization']);
+                $header_parameters = Util::splitHeader($request_headers['Authorization']);
                 $parameters = array_merge($parameters, $header_parameters);
             }
         }
@@ -144,7 +144,7 @@ class Request
             unset($params['oauth_signature']);
         }
 
-        return Util::build_http_query($params);
+        return Util::buildHttpQuery($params);
     }
 
     /**
@@ -164,7 +164,7 @@ class Request
             $this->getSignableParameters()
         );
 
-        $parts = Util::urlencode_rfc3986($parts);
+        $parts = Util::urlencodeRFC3986($parts);
 
         return implode('&', $parts);
     }
@@ -214,7 +214,7 @@ class Request
      */
     public function toPostData()
     {
-        return Util::build_http_query($this->parameters);
+        return Util::buildHttpQuery($this->parameters);
     }
 
     /**
@@ -224,7 +224,7 @@ class Request
     {
         $first = true;
         if ($realm) {
-            $out   = 'OAuth realm="' . Util::urlencode_rfc3986($realm) . '"';
+            $out   = 'OAuth realm="' . Util::urlencodeRFC3986($realm) . '"';
             $first = false;
         } else {
             $out = 'OAuth';
@@ -239,7 +239,7 @@ class Request
                 continue;
             }
             $out .= ($first) ? ' ' : ', ';
-            $out .= Util::urlencode_rfc3986($k) . '="' . Util::urlencode_rfc3986($v) . '"';
+            $out .= Util::urlencodeRFC3986($k) . '="' . Util::urlencodeRFC3986($v) . '"';
             $first = false;
         }
         return array(
@@ -259,7 +259,7 @@ class Request
      */
     public function signRequest(AbstractSignatureMethod $signature_method, Consumer $consumer, Token $token)
     {
-        $this->setParameter('oauth_signature_method', $signature_method->get_name(), false);
+        $this->setParameter('oauth_signature_method', $signature_method->getName(), false);
         $signature = $this->buildSignature($signature_method, $consumer, $token);
         $this->setParameter('oauth_signature', $signature, false);
     }

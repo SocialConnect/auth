@@ -17,7 +17,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
         return 'https://graph.facebook.com/';
     }
 
-    public function getAuthorizeUrl()
+    public function getAuthorizeUri()
     {
         return 'https://www.facebook.com/dialog/oauth';
     }

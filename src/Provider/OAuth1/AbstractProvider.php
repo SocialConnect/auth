@@ -51,7 +51,7 @@ abstract class AbstractProvider
     /**
      * @return string
      */
-    abstract public function getAuthorizeUrl();
+    abstract public function getAuthorizeUri();
 
     /**
      * @return string

@@ -17,7 +17,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
         return 'https://api.github.com/';
     }
 
-    public function getAuthorizeUrl()
+    public function getAuthorizeUri()
     {
         return 'https://github.com/login/oauth/authorize';
     }

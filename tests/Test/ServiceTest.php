@@ -11,7 +11,7 @@ class ServiceTest extends TestCase
     public function testConstructSuccess()
     {
         $service = $this->getService();
-        $this->assertTrue(true);
+        $this->assertInstanceOf('SocialConnect\Auth\Service', $service);
     }
 
     public function testGetProvider()

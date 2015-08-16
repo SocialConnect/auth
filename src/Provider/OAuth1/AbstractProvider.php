@@ -8,6 +8,7 @@ namespace SocialConnect\Auth\Provider\OAuth1;
 
 use Exception;
 use LogicException;
+use SocialConnect\Auth\Exception\InvalidAccessToken;
 use SocialConnect\Auth\OAuth\Request;
 use SocialConnect\Auth\OAuth\SignatureMethodHMACSHA1;
 use SocialConnect\Auth\OAuth\Token;
@@ -213,7 +214,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     {
         parse_str($body, $token);
         if (!is_array($token) || !isset($token['oauth_token']) || !isset($token['oauth_token_secret'])) {
-            throw new LogicException('It is not a valid access token');
+            throw new InvalidAccessToken('It is not a valid access token');
         }
 
         $accessToken = new AccessToken($token['oauth_token'], $token['oauth_token_secret']);

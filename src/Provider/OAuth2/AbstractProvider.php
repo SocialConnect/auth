@@ -8,8 +8,6 @@ namespace SocialConnect\Auth\Provider\OAuth2;
 
 use SocialConnect\Auth\Exception\InvalidAccessToken;
 use SocialConnect\Auth\Provider\AbstractBaseProvider;
-use SocialConnect\Auth\Provider\Consumer;
-use SocialConnect\Auth\Service;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
 

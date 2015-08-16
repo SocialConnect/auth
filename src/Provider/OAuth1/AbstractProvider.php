@@ -179,17 +179,6 @@ abstract class AbstractProvider
         return $this->getAuthorizeUri() . '?' . http_build_query($urlParameters, '', '&');
     }
 
-    public function parseToken($body)
-    {
-        parse_str($body, $token);
-
-        if (!is_array($token) || !isset($token['oauth_token']) || !isset($token['oauth_token_secret'])) {
-            throw new InvalidAccessToken('Provider API returned an unexpected response');
-        }
-
-        return new Token($token['oauth_token'], $token['oauth_token_secret']);
-    }
-
     /**
      * @param array $parameters
      * @return AccessToken
@@ -221,17 +210,29 @@ abstract class AbstractProvider
         );
 
         if ($response->getStatusCode() === 200) {
-            parse_str($response->getBody(), $token);
-            $accessToken = new AccessToken($token['oauth_token'], $token['oauth_token_secret']);
-
-            if (isset($token['user_id'])) {
-                $accessToken->setUserId($token['user_id']);
-            }
-
-            return $accessToken;
+            return $this->parseAccessToken($response->getBody());
         }
 
         throw new Exception('Unexpected response code ' . $response->getStatusCode());
+    }
+
+
+    /**
+     * Parse AccessToken from response's $body
+     *
+     * @param string $body
+     * @return AccessToken
+     */
+    public function parseAccessToken($body)
+    {
+        parse_str($body, $token);
+        $accessToken = new AccessToken($token['oauth_token'], $token['oauth_token_secret']);
+
+        if (isset($token['user_id'])) {
+            $accessToken->setUserId($token['user_id']);
+        }
+
+        return $accessToken;
     }
 
     /**

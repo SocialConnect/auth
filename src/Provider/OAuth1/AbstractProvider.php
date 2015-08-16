@@ -97,6 +97,10 @@ abstract class AbstractProvider
      */
     protected $consumerToken = null;
 
+    /**
+     * @return Token
+     * @throws Exception
+     */
     protected function requestAuthToken()
     {
         /**

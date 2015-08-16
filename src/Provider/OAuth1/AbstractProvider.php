@@ -23,15 +23,57 @@ abstract class AbstractProvider
      */
     public $service;
 
+    /**
+     * @var string|integer
+     */
     protected $applicationId;
 
+    /**
+     * @var string
+     */
     protected $applicationSecret;
 
+    /**
+     * @var string
+     */
+    protected $oauth1Version = '1.0a';
+
+    /**
+     * @var string
+     */
+    protected $requestTokenMethod = 'POST';
+
+    /**
+     * @var array
+     */
+    protected $requestTokenParameters = [];
+
+    /**
+     * @var array
+     */
+    protected $requestTokenHeaders = [];
+
+    /**
+     * @var Consumer
+     */
+    protected $consumerKey;
+
+    /**
+     * @var Token
+     */
+    protected $consumerToken;
+
+    /**
+     * @var array
+     */
     protected $scope = array();
 
     public function __construct(\SocialConnect\Auth\Service $service)
     {
         $this->service = $service;
+
+        $this->consumerKey = new Consumer($this->applicationId, $this->applicationSecret);
+        $this->consumerToken = new Token('', '');
     }
 
     protected function getRedirectUri()
@@ -71,33 +113,6 @@ abstract class AbstractProvider
      */
     abstract public function getName();
 
-    protected $oauth1Version = '1.0a';
-
-    /**
-     * @var string
-     */
-    protected $requestTokenMethod = 'POST';
-
-    /**
-     * @var array
-     */
-    protected $requestTokenParameters = [];
-
-    /**
-     * @var array
-     */
-    protected $requestTokenHeaders = [];
-
-    /**
-     * @var Consumer
-     */
-    protected $consumerKey = null;
-
-    /**
-     * @var Token
-     */
-    protected $consumerToken = null;
-
     /**
      * @return Token
      * @throws Exception
@@ -113,9 +128,6 @@ abstract class AbstractProvider
         if ('1.0a' == $this->oauth1Version) {
             $this->requestTokenParameters['oauth_callback'] = $this->getRedirectUrl();
         }
-
-        $this->consumerKey = new Consumer($this->applicationId, $this->applicationSecret);
-        $this->consumerToken = new Token('', '');
 
         $response = $this->oauthRequest(
             $this->getRequestTokenUri(),
@@ -217,8 +229,6 @@ abstract class AbstractProvider
      */
     public function getAccessToken(Token $token, $oauthVerifier)
     {
-        $this->consumerKey = new Consumer($this->applicationId, $this->applicationSecret);
-
         $parameters = $this->requestTokenParameters;
         $parameters['oauth_verifier'] = $oauthVerifier;
 

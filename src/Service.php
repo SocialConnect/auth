@@ -6,6 +6,7 @@
 
 namespace SocialConnect\Auth;
 
+use Exception;
 use SocialConnect\Common\HttpClient;
 
 /**
@@ -39,7 +40,7 @@ class Service
     /**
      * @param $name
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function getProviderConfiguration($name)
     {
@@ -47,7 +48,7 @@ class Service
             return $this->config['provider'][ucfirst($name)];
         }
 
-        throw new \Exception('Please setup configuration for ' . ucfirst($name) . ' provider');
+        throw new Exception('Please setup configuration for ' . ucfirst($name) . ' provider');
     }
 
     /**
@@ -55,7 +56,7 @@ class Service
      *
      * @param $name
      * @return Provider\OAuth1\AbstractProvider|Provider\OAuth2\AbstractProvider
-     * @throws \Exception
+     * @throws Exception
      */
     public function getProvider($name)
     {

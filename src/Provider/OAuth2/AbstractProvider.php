@@ -94,11 +94,6 @@ abstract class AbstractProvider extends AbstractBaseProvider
         return $this->getAccessToken($parameters['code']);
     }
 
-    public function getClient()
-    {
-
-    }
-
     /**
      * Get current user identity from social network by $accessToken
      *

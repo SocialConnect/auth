@@ -120,11 +120,22 @@ abstract class AbstractProvider
         );
 
         if ($response->getStatusCode() === 200) {
-            parse_str($response->getBody(), $token);
-            return new Token($token['oauth_token'], $token['oauth_token_secret']);
+            return $this->parseToken($response->getBody());
         }
 
         throw new Exception('Unexpected response code ' . $response->getStatusCode());
+    }
+
+    /**
+     * Parse Token from response's $body
+     *
+     * @param $body
+     * @return Token
+     */
+    public function parseToken($body)
+    {
+        parse_str($body, $token);
+        return new Token($token['oauth_token'], $token['oauth_token_secret']);
     }
 
     protected function oauthRequest($uri, $method = 'GET', $parameters = [], $headers = [])

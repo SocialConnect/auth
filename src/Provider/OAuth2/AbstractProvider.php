@@ -6,7 +6,7 @@
 
 namespace SocialConnect\Auth\Provider\OAuth2;
 
-use SocialConnect\Auth\InvalidAccessToken;
+use SocialConnect\Auth\Exception\InvalidAccessToken;
 use SocialConnect\Auth\Provider\AbstractBaseProvider;
 use SocialConnect\Auth\Provider\Consumer;
 use SocialConnect\Auth\Service;

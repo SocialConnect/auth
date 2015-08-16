@@ -16,6 +16,7 @@ use SocialConnect\Auth\Provider\AbstractBaseProvider;
 use SocialConnect\Auth\Provider\Consumer;
 use SocialConnect\Auth\Service;
 use SocialConnect\Common\Entity\User;
+use SocialConnect\Common\Http\Client\Client;
 
 abstract class AbstractProvider extends AbstractBaseProvider
 {
@@ -27,7 +28,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * @var string
      */
-    protected $requestTokenMethod = 'POST';
+    protected $requestTokenMethod = Client::POST;
 
     /**
      * @var array

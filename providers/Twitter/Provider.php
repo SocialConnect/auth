@@ -8,6 +8,7 @@ namespace SocialConnect\Twitter;
 
 use SocialConnect\Auth\Provider\OAuth1\AccessToken;
 use SocialConnect\Common\Entity\User;
+use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Provider extends \SocialConnect\Auth\Provider\OAuth1\AbstractProvider
@@ -49,7 +50,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth1\AbstractProvider
 
         $response = $this->oauthRequest(
             $this->getBaseUri() . 'users/lookup.json',
-            'GET',
+            Client::GET,
             $parameters,
             $this->requestTokenHeaders
         );

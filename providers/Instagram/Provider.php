@@ -36,7 +36,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
     public function getAuthUrlParameters()
     {
         return array(
-            'client_id' => $this->applicationId,
+            'client_id' => $this->consumer->getKey(),
             'redirect_uri' => $this->getRedirectUrl(),
             'response_type' => 'code'
         );
@@ -53,8 +53,8 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
         }
 
         $parameters = array(
-            'client_id' => $this->applicationId,
-            'client_secret' => $this->applicationSecret,
+            'client_id' => $this->consumer->getKey(),
+            'client_secret' => $this->consumer->getSecret(),
             'grant_type' => 'authorization_code',
             'code' => $code,
             'redirect_uri' => $this->getRedirectUrl()

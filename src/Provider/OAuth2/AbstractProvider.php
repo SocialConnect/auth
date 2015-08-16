@@ -7,25 +7,29 @@
 namespace SocialConnect\Auth\Provider\OAuth2;
 
 use SocialConnect\Auth\InvalidAccessToken;
+use SocialConnect\Auth\Provider\Consumer;
+use SocialConnect\Auth\Service;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
 
 abstract class AbstractProvider
 {
     /**
-     * @var \SocialConnect\Auth\Service
+     * @var Service
      */
     public $service;
 
-    protected $applicationId;
-
-    protected $applicationSecret;
+    /**
+     * @var Consumer
+     */
+    protected $consumer;
 
     protected $scope = array();
 
-    public function __construct(\SocialConnect\Auth\Service $service)
+    public function __construct(Service $service, Consumer $consumer)
     {
         $this->service = $service;
+        $this->consumer = $consumer;
     }
 
     protected function getRedirectUri()
@@ -63,7 +67,7 @@ abstract class AbstractProvider
     public function getAuthUrlParameters()
     {
         return array(
-            'client_id' => $this->applicationId,
+            'client_id' => $this->consumer->getKey(),
             'redirect_uri' => $this->getRedirectUrl()
         );
     }
@@ -111,8 +115,8 @@ abstract class AbstractProvider
         }
 
         $parameters = array(
-            'client_id' => $this->applicationId,
-            'client_secret' => $this->applicationSecret,
+            'client_id' => $this->consumer->getKey(),
+            'client_secret' => $this->consumer->getSecret(),
             'code' => $code,
             'grant_type' => 'authorization_code',
             'redirect_uri' => $this->getRedirectUrl()
@@ -173,21 +177,5 @@ abstract class AbstractProvider
     public function getScopeInline()
     {
         return implode(',', $this->scope);
-    }
-
-    /**
-     * @param mixed $applicationId
-     */
-    public function setApplicationId($applicationId)
-    {
-        $this->applicationId = $applicationId;
-    }
-
-    /**
-     * @param mixed $applicationSecret
-     */
-    public function setApplicationSecret($applicationSecret)
-    {
-        $this->applicationSecret = $applicationSecret;
     }
 }

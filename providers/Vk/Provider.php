@@ -6,6 +6,7 @@
 
 namespace SocialConnect\Vk;
 
+use SocialConnect\Auth\Exception\InvalidAccessToken;
 use SocialConnect\Auth\Provider\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
@@ -33,12 +34,17 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
     }
 
     /**
-     * @param $body
+     * @param string $body
      * @return AccessToken
+     * @throws InvalidAccessToken
      */
     public function parseToken($body)
     {
         $result = json_decode($body);
+
+        if (!isset($result->access_token) || empty($result->access_token)) {
+            throw new InvalidAccessToken;
+        }
 
         return new AccessToken($result->access_token);
     }

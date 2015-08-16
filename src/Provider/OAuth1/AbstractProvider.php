@@ -138,16 +138,8 @@ abstract class AbstractProvider extends AbstractBaseProvider
             $this->consumerToken
         );
 
-        $uri = $request->getNormalizedHttpUrl();
         $parameters = array_merge($parameters, $request->parameters);
         $headers = array_replace($request->toHeader(), (array)$headers);
-
-        $this->service->getHttpClient()->setOption(CURLOPT_ENCODING, 'gzip');
-        $this->service->getHttpClient()->setOption(CURLOPT_SSL_VERIFYPEER, true);
-        $this->service->getHttpClient()->setOption(CURLOPT_SSL_VERIFYHOST, 2);
-        $this->service->getHttpClient()->setOption(CURLOPT_HEADER, true);
-        $this->service->getHttpClient()->setOption(CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-
 
         $headers['Accept'] = 'application/json';
         $headers['Content-Type'] = 'application/x-www-form-urlencoded';

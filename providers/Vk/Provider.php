@@ -48,7 +48,14 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessToken $accessToken)
     {
-        $response = $this->service->getHttpClient()->request($this->getBaseUri() . 'method/users.get?v=5.24&access_token=' . $accessToken->getToken());
+        $response = $this->service->getHttpClient()->request(
+            $this->getBaseUri() . 'method/users.get',
+            [
+                'v' => '5.24',
+                'access_token' => $accessToken->getToken()
+            ]
+        );
+
         $body = $response->getBody();
         $result = json_decode($body);
 

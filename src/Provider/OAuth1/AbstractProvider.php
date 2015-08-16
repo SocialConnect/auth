@@ -34,7 +34,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * @var array
      */
-    protected $requestTokenParameters = [];
+    protected $requestTokenParams = [];
 
     /**
      * @var array
@@ -85,13 +85,13 @@ abstract class AbstractProvider extends AbstractBaseProvider
          * http://oauth.net/core/1.0a/#auth_step1
          */
         if ('1.0a' == $this->oauth1Version) {
-            $this->requestTokenParameters['oauth_callback'] = $this->getRedirectUrl();
+            $this->requestTokenParams['oauth_callback'] = $this->getRedirectUrl();
         }
 
         $response = $this->oauthRequest(
             $this->getRequestTokenUri(),
             $this->requestTokenMethod,
-            $this->requestTokenParameters,
+            $this->requestTokenParams,
             $this->requestTokenHeaders
         );
 
@@ -194,7 +194,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     {
         $this->consumerToken = $token;
 
-        $parameters = $this->requestTokenParameters;
+        $parameters = $this->requestTokenParams;
         $parameters['oauth_verifier'] = $oauthVerifier;
 
         $response = $this->oauthRequest(

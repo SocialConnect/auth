@@ -45,7 +45,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth1\AbstractProvider
     {
         $this->consumerToken = $accessToken;
 
-        $parameters = $this->requestTokenParameters;
+        $parameters = $this->requestTokenParams;
         $parameters['user_id'] = $accessToken->getUserId();
 
         $response = $this->oauthRequest(

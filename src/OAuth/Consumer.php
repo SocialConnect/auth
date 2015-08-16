@@ -11,12 +11,12 @@ class Consumer
     /**
      * @var string
      */
-    public $key;
+    protected $key;
 
     /**
      * @var string
      */
-    public $secret;
+    protected $secret;
 
     /**
      * @var string|null
@@ -38,5 +38,21 @@ class Consumer
     public function __toString()
     {
         return "OAuthConsumer[key=$this->key,secret=$this->secret]";
+    }
+
+    /**
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSecret()
+    {
+        return $this->secret;
     }
 }

@@ -87,11 +87,11 @@ class Request
             'oauth_version' => self::$version,
             'oauth_nonce' => self::generateNonce(),
             'oauth_timestamp' => time(),
-            'oauth_consumer_key' => $consumer->key
+            'oauth_consumer_key' => $consumer->getKey()
         );
 
         if ($token) {
-            $defaults['oauth_token'] = $token->key;
+            $defaults['oauth_token'] = $token->getKey();
         }
 
         $parameters = array_merge($defaults, $parameters);

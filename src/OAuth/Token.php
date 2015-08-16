@@ -11,12 +11,12 @@ class Token
     /**
      * @var string
      */
-    public $key;
+    protected $key;
 
     /**
      * @var string
      */
-    public $secret;
+    protected $secret;
 
     /**
      * @param string $key
@@ -41,5 +41,21 @@ class Token
             Util::urldecodeRFC3986($this->key),
             Util::urldecodeRFC3986($this->secret)
         );
+    }
+
+    /**
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSecret()
+    {
+        return $this->secret;
     }
 }

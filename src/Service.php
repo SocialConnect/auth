@@ -51,8 +51,10 @@ class Service
     }
 
     /**
+     * Get provider class by $name
+     *
      * @param $name
-     * @return Provider\OAuth2\Provider
+     * @return Provider\OAuth1\AbstractProvider|Provider\OAuth2\AbstractProvider
      * @throws \Exception
      */
     public function getProvider($name)

@@ -30,6 +30,11 @@ abstract class AbstractBaseProvider
     protected $consumer;
 
     /**
+     * @var array
+     */
+    protected $scope = array();
+
+    /**
      * @param Service $service
      * @param \SocialConnect\Auth\Provider\Consumer $consumer
      */
@@ -76,4 +81,28 @@ abstract class AbstractBaseProvider
      * @return string
      */
     abstract public function getName();
+
+    /**
+     * @return array
+     */
+    public function getScope()
+    {
+        return $this->scope;
+    }
+
+    /**
+     * @param array $scope
+     */
+    public function setScope(array $scope)
+    {
+        $this->scope = $scope;
+    }
+
+    /**
+     * @return string
+     */
+    public function getScopeInline()
+    {
+        return implode(',', $this->scope);
+    }
 }

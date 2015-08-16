@@ -11,13 +11,8 @@ use SocialConnect\Auth\Provider\AbstractBaseProvider;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
 
-abstract class Provider extends AbstractBaseProvider
+abstract class AbstractProvider extends AbstractBaseProvider
 {
-    /**
-     * @var array
-     */
-    protected $scope = array();
-
     /**
      * @return array
      */
@@ -111,28 +106,4 @@ abstract class Provider extends AbstractBaseProvider
      * @return User
      */
     abstract public function getIdentity(AccessToken $accessToken);
-
-    /**
-     * @return array
-     */
-    public function getScope()
-    {
-        return $this->scope;
-    }
-
-    /**
-     * @param array $scope
-     */
-    public function setScope(array $scope)
-    {
-        $this->scope = $scope;
-    }
-
-    /**
-     * @return string
-     */
-    public function getScopeInline()
-    {
-        return implode(',', $this->scope);
-    }
 }

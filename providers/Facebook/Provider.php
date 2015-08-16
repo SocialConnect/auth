@@ -43,7 +43,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
                 'me' => $accessToken->getToken()
             ]
         );
-        
+
         $body = $response->getBody();
         $result = json_decode($body);
 

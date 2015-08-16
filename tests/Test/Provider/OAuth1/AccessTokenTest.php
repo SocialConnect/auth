@@ -13,8 +13,8 @@ class AccessTokenTest extends \Test\TestCase
     public function testConstructMethod()
     {
         $token = new AccessToken('key', 'secret');
-        $this->assertEquals('key', $token->key);
-        $this->assertEquals('secret', $token->secret);
+        $this->assertEquals('key', $token->getKey());
+        $this->assertEquals('secret', $token->getSecret());
 
         return $token;
     }

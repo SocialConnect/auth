@@ -6,6 +6,8 @@
 
 namespace SocialConnect\Auth\Provider;
 
+use SocialConnect\Auth\Provider\OAuth1\AbstractProvider as OAuth1AbstractProvider;
+use SocialConnect\Auth\Provider\OAuth2\AbstractProvider as OAuth2AbstractProvider;
 use SocialConnect\Auth\Service;
 
 /**
@@ -17,7 +19,7 @@ class Factory
     /**
      * @param string $id
      * @param array $parameters
-     * @return OAuth2\Provider
+     * @return OAuth1AbstractProvider|OAuth2AbstractProvider
      */
     public static function factory($id, array $parameters, Service $service)
     {
@@ -26,7 +28,7 @@ class Factory
         $consumer = new Consumer($parameters['applicationId'], $parameters['applicationSecret']);
 
         /**
-         * @var $provider OAuth2\Provider
+         * @var $provider AbstractBaseProvider
          */
         $provider = new $providerClassName($service, $consumer);
 

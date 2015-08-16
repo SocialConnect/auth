@@ -8,6 +8,7 @@ namespace SocialConnect\Auth\Provider\OAuth1;
 
 use Exception;
 use LogicException;
+use SebastianBergmann\GlobalState\RuntimeException;
 use SocialConnect\Auth\Exception\InvalidAccessToken;
 use SocialConnect\Auth\OAuth\Request;
 use SocialConnect\Auth\OAuth\SignatureMethodHMACSHA1;
@@ -104,11 +105,15 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * Parse Token from response's $body
      *
-     * @param $body
+     * @param mixed $body
      * @return Token
      */
     public function parseToken($body)
     {
+        if (!is_string($body)) {
+            throw new RuntimeException('Request $body is not a string, passed: ' . var_export($body));
+        }
+
         parse_str($body, $token);
         if (!is_array($token) || !isset($token['oauth_token']) || !isset($token['oauth_token_secret'])) {
             throw new LogicException('It is not a request token');
@@ -206,15 +211,19 @@ abstract class AbstractProvider extends AbstractBaseProvider
         throw new Exception('Unexpected response code ' . $response->getStatusCode());
     }
 
-
     /**
      * Parse AccessToken from response's $body
      *
-     * @param string $body
+     * @param mixed $body
      * @return AccessToken
+     * @throws InvalidAccessToken
      */
     public function parseAccessToken($body)
     {
+        if (!is_string($body)) {
+            throw new RuntimeException('Request $body is not a string, passed: ' . var_export($body));
+        }
+
         parse_str($body, $token);
         if (!is_array($token) || !isset($token['oauth_token']) || !isset($token['oauth_token_secret'])) {
             throw new InvalidAccessToken('It is not a valid access token');

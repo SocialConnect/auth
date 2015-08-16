@@ -175,8 +175,8 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     public function getAccessTokenByRequestParameters(array $parameters)
     {
-        $this->consumerToken = new Token($parameters['oauth_token'], '');
-        return $this->getAccessToken($this->consumerToken, $parameters['oauth_verifier']);
+        $token = new Token($parameters['oauth_token'], '');
+        return $this->getAccessToken($token, $parameters['oauth_verifier']);
     }
 
     /**
@@ -187,6 +187,8 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     public function getAccessToken(Token $token, $oauthVerifier)
     {
+        $this->consumerToken = $token;
+
         $parameters = $this->requestTokenParameters;
         $parameters['oauth_verifier'] = $oauthVerifier;
 

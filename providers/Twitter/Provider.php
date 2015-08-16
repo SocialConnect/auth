@@ -6,8 +6,6 @@
 
 namespace SocialConnect\Twitter;
 
-use SocialConnect\Auth\OAuth\Consumer;
-use SocialConnect\Auth\OAuth\Token;
 use SocialConnect\Auth\Provider\OAuth1\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
@@ -44,7 +42,6 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth1\AbstractProvider
      */
     public function getIdentity(AccessToken $accessToken)
     {
-        $this->consumerKey = new Consumer($this->applicationId, $this->applicationSecret);
         $this->consumerToken = $accessToken;
 
         $parameters = $this->requestTokenParameters;

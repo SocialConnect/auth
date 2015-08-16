@@ -9,29 +9,20 @@ namespace SocialConnect\Auth\Provider\OAuth1;
 use Exception;
 use LogicException;
 use SocialConnect\Auth\InvalidAccessToken;
-use SocialConnect\Auth\OAuth\Consumer;
 use SocialConnect\Auth\OAuth\Request;
 use SocialConnect\Auth\OAuth\SignatureMethodHMACSHA1;
 use SocialConnect\Auth\OAuth\Token;
+use SocialConnect\Auth\Provider\Consumer;
+use SocialConnect\Auth\Service;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
 
 abstract class AbstractProvider
 {
     /**
-     * @var \SocialConnect\Auth\Service
+     * @var Service
      */
     public $service;
-
-    /**
-     * @var string|integer
-     */
-    protected $applicationId;
-
-    /**
-     * @var string
-     */
-    protected $applicationSecret;
 
     /**
      * @var string
@@ -56,7 +47,7 @@ abstract class AbstractProvider
     /**
      * @var Consumer
      */
-    protected $consumerKey;
+    protected $consumer;
 
     /**
      * @var Token
@@ -68,11 +59,10 @@ abstract class AbstractProvider
      */
     protected $scope = array();
 
-    public function __construct(\SocialConnect\Auth\Service $service)
+    public function __construct(Service $service, Consumer $consumer)
     {
         $this->service = $service;
-
-        $this->consumerKey = new Consumer($this->applicationId, $this->applicationSecret);
+        $this->consumer = $consumer;
         $this->consumerToken = new Token('', '');
     }
 
@@ -162,7 +152,7 @@ abstract class AbstractProvider
     protected function oauthRequest($uri, $method = 'GET', $parameters = [], $headers = [])
     {
         $request = Request::fromConsumerAndToken(
-            $this->consumerKey,
+            $this->consumer,
             $this->consumerToken,
             $method,
             $uri,
@@ -171,7 +161,7 @@ abstract class AbstractProvider
 
         $request->signRequest(
             new SignatureMethodHMACSHA1(),
-            $this->consumerKey,
+            $this->consumer,
             $this->consumerToken
         );
 
@@ -298,21 +288,5 @@ abstract class AbstractProvider
     public function getScopeInline()
     {
         return implode(',', $this->scope);
-    }
-
-    /**
-     * @param mixed $applicationId
-     */
-    public function setApplicationId($applicationId)
-    {
-        $this->applicationId = $applicationId;
-    }
-
-    /**
-     * @param mixed $applicationSecret
-     */
-    public function setApplicationSecret($applicationSecret)
-    {
-        $this->applicationSecret = $applicationSecret;
     }
 }

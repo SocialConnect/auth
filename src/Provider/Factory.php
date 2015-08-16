@@ -23,18 +23,12 @@ class Factory
     {
         $providerClassName = '\\SocialConnect\\' . $id . '\\Provider';
 
+        $consumer = new Consumer($parameters['applicationId'], $parameters['applicationSecret']);
+
         /**
          * @var $provider OAuth2\Provider
          */
-        $provider = new $providerClassName($service);
-
-        if (isset($parameters['applicationId'])) {
-            $provider->setApplicationId($parameters['applicationId']);
-        }
-
-        if (isset($parameters['applicationSecret'])) {
-            $provider->setApplicationSecret($parameters['applicationSecret']);
-        }
+        $provider = new $providerClassName($service, $consumer);
 
         if (isset($parameters['scope'])) {
             $provider->setScope($parameters['scope']);

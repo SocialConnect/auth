@@ -6,6 +6,8 @@
 
 namespace SocialConnect\Auth\OAuth;
 
+use SocialConnect\Auth\Provider\Consumer;
+
 class SignatureMethodHMACSHA1 extends AbstractSignatureMethod
 {
     /**

@@ -6,6 +6,8 @@
 
 namespace SocialConnect\Auth\OAuth;
 
+use SocialConnect\Auth\Provider\Consumer;
+
 class Request
 {
     public $parameters;

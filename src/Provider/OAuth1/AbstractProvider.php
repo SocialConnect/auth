@@ -7,6 +7,7 @@
 namespace SocialConnect\Auth\Provider\OAuth1;
 
 use Exception;
+use LogicException;
 use SocialConnect\Auth\InvalidAccessToken;
 use SocialConnect\Auth\OAuth\Consumer;
 use SocialConnect\Auth\OAuth\Request;
@@ -139,6 +140,10 @@ abstract class AbstractProvider
     public function parseToken($body)
     {
         parse_str($body, $token);
+        if (!is_array($token) || !isset($token['oauth_token']) || !isset($token['oauth_token_secret'])) {
+            throw new LogicException('It is not a request token');
+        }
+
         return new Token($token['oauth_token'], $token['oauth_token_secret']);
     }
 
@@ -241,8 +246,11 @@ abstract class AbstractProvider
     public function parseAccessToken($body)
     {
         parse_str($body, $token);
-        $accessToken = new AccessToken($token['oauth_token'], $token['oauth_token_secret']);
+        if (!is_array($token) || !isset($token['oauth_token']) || !isset($token['oauth_token_secret'])) {
+            throw new LogicException('It is not a valid access token');
+        }
 
+        $accessToken = new AccessToken($token['oauth_token'], $token['oauth_token_secret']);
         if (isset($token['user_id'])) {
             $accessToken->setUserId($token['user_id']);
         }

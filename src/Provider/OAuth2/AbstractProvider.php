@@ -7,63 +7,22 @@
 namespace SocialConnect\Auth\Provider\OAuth2;
 
 use SocialConnect\Auth\InvalidAccessToken;
+use SocialConnect\Auth\Provider\AbstractBaseProvider;
 use SocialConnect\Auth\Provider\Consumer;
 use SocialConnect\Auth\Service;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
 
-abstract class AbstractProvider
+abstract class Provider extends AbstractBaseProvider
 {
     /**
-     * @var Service
+     * @var array
      */
-    public $service;
-
-    /**
-     * @var Consumer
-     */
-    protected $consumer;
-
     protected $scope = array();
 
-    public function __construct(Service $service, Consumer $consumer)
-    {
-        $this->service = $service;
-        $this->consumer = $consumer;
-    }
-
-    protected function getRedirectUri()
-    {
-        return $this->service->getConfig()['redirectUri'];
-    }
-
-    public function getRedirectUrl()
-    {
-        return $this->getRedirectUri() . '/' . $this->getName() . '/';
-    }
-
     /**
-     * @return string
+     * @return array
      */
-    abstract public function getBaseUri();
-
-    /**
-     * @return string
-     */
-    abstract public function getAuthorizeUri();
-
-    /**
-     * @return string
-     */
-    abstract public function getRequestTokenUri();
-
-    /**
-     * Return Provider's name
-     *
-     * @return string
-     */
-    abstract public function getName();
-
     public function getAuthUrlParameters()
     {
         return array(

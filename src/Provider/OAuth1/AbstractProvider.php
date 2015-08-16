@@ -8,22 +8,16 @@ namespace SocialConnect\Auth\Provider\OAuth1;
 
 use Exception;
 use LogicException;
-use SocialConnect\Auth\InvalidAccessToken;
 use SocialConnect\Auth\OAuth\Request;
 use SocialConnect\Auth\OAuth\SignatureMethodHMACSHA1;
 use SocialConnect\Auth\OAuth\Token;
+use SocialConnect\Auth\Provider\AbstractBaseProvider;
 use SocialConnect\Auth\Provider\Consumer;
 use SocialConnect\Auth\Service;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Http\Client\Client;
 
-abstract class AbstractProvider
+abstract class AbstractProvider extends AbstractBaseProvider
 {
-    /**
-     * @var Service
-     */
-    public $service;
-
     /**
      * @var string
      */
@@ -59,49 +53,21 @@ abstract class AbstractProvider
      */
     protected $scope = array();
 
+    /**
+     * @param Service $service
+     * @param Consumer $consumer
+     */
     public function __construct(Service $service, Consumer $consumer)
     {
-        $this->service = $service;
-        $this->consumer = $consumer;
+        parent::__construct($service, $consumer);
+
         $this->consumerToken = new Token('', '');
     }
-
-    protected function getRedirectUri()
-    {
-        return $this->service->getConfig()['redirectUri'];
-    }
-
-    public function getRedirectUrl()
-    {
-        return $this->getRedirectUri() . '/' . $this->getName() . '/';
-    }
-
-    /**
-     * @return string
-     */
-    abstract public function getBaseUri();
-
-    /**
-     * @return string
-     */
-    abstract public function getAuthorizeUri();
-
-    /**
-     * @return string
-     */
-    abstract public function getRequestTokenUri();
 
     /**
      * @return string
      */
     abstract public function getRequestTokenAccessUri();
-
-    /**
-     * Return Provider's name
-     *
-     * @return string
-     */
-    abstract public function getName();
 
     /**
      * @return Token

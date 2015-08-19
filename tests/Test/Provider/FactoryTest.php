@@ -15,10 +15,11 @@ class FactoryTest extends \Test\TestCase
     {
         $service = new Service(array(), null);
 
-        $vkProvider = Factory::factory('Vk', array(
+        $vkProvider = (new Factory)->factory('Vk', array(
             'applicationId' => 'test',
             'applicationSecret' => 'test'
         ), $service);
+
         $this->assertInstanceOf('SocialConnect\Vk\Provider', $vkProvider);
     }
 }

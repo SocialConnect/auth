@@ -28,6 +28,7 @@ $app->get('/auth/cb/:provider/:params', function ($provider) use (&$configurePro
         case 'twitter':
         case 'vk':
         case 'instagram':
+        case 'paypal':
             $provider = $service->getProvider($provider);
             break;
         default:

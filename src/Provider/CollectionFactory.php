@@ -6,6 +6,7 @@
 
 namespace SocialConnect\Auth\Provider;
 
+use LogicException;
 use SocialConnect\Auth\Provider\OAuth1\AbstractProvider as OAuth1AbstractProvider;
 use SocialConnect\Auth\Provider\OAuth2\AbstractProvider as OAuth2AbstractProvider;
 use SocialConnect\Auth\Service;
@@ -19,7 +20,7 @@ class CollectionFactory
     /**
      * @var array
      */
-    protected $collection = [
+    protected $providers = [
         'facebook' => '\SocialConnect\Facebook\Provider',
         'github' => '\SocialConnect\Github\Provider',
         'instagram' => '\SocialConnect\Instagram\Provider',
@@ -30,9 +31,9 @@ class CollectionFactory
     /**
      * @param array $collection
      */
-    public function __construct(array $collection)
+    public function __construct(array $providers)
     {
-        $this->collection = $collection;
+        $this->providers = $providers;
     }
 
     /**
@@ -42,9 +43,15 @@ class CollectionFactory
      */
     public function factory($id, array $parameters, Service $service)
     {
-        $providerClassName = '\\SocialConnect\\' . $id . '\\Provider';
-
         $consumer = new Consumer($parameters['applicationId'], $parameters['applicationSecret']);
+
+        $id = strtolower($id);
+
+        if (!isset($this->providers[$id])) {
+            throw new LogicException('Provider with $id = ' . $id . ' doest not exist');
+        }
+
+        $providerClassName = $this->providers[$id];
 
         /**
          * @var $provider AbstractBaseProvider

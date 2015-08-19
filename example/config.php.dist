@@ -21,6 +21,17 @@ return array(
             'applicationSecret' => '',
             'enabled' => false
         ),
+        'Paypal' => array(
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => array(
+                'profile',
+                'email',
+                'address',
+                'phone',
+                'https://uri.paypal.com/services/paypalattributes'
+            )
+        ),
         'Vk' => array(
             'applicationId' => '',
             'applicationSecret' => '',

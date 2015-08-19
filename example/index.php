@@ -27,7 +27,7 @@ $app->get('/auth/cb/:provider/:params', function ($provider) use (&$configurePro
         throw new \Exception('Wrong $provider passed in url : ' . $provider);
     }
 
-    $provider = $service->getProvider($provider)
+    $provider = $service->getProvider($provider);
 
     $accessToken = $provider->getAccessTokenByRequestParameters($_GET);
     var_dump($accessToken);

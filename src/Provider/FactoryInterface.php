@@ -10,6 +10,7 @@ namespace SocialConnect\Auth\Provider;
 
 use SocialConnect\Auth\Provider\OAuth1\AbstractProvider as OAuth1AbstractProvider;
 use SocialConnect\Auth\Provider\OAuth2\AbstractProvider as OAuth2AbstractProvider;
+use SocialConnect\Auth\Service;
 
 interface FactoryInterface
 {

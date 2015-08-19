@@ -21,7 +21,7 @@ class Factory
      * @param array $parameters
      * @return OAuth1AbstractProvider|OAuth2AbstractProvider
      */
-    public static function factory($id, array $parameters, Service $service)
+    public function factory($id, array $parameters, Service $service)
     {
         $providerClassName = '\\SocialConnect\\' . $id . '\\Provider';
 

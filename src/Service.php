@@ -60,7 +60,7 @@ class Service
      */
     public function getProvider($name)
     {
-        return Provider\Factory::factory(ucfirst($name), $this->getProviderConfiguration($name), $this);
+        return (new Provider\Factory)->factory(ucfirst($name), $this->getProviderConfiguration($name), $this);
     }
 
     /**

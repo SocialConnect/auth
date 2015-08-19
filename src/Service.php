@@ -71,4 +71,12 @@ class Service
     {
         return $this->config;
     }
+
+    /**
+     * @return FactoryInterface
+     */
+    public function getFactory()
+    {
+        return $this->factory;
+    }
 }

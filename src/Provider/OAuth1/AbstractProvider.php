@@ -15,6 +15,7 @@ use SocialConnect\Auth\OAuth\SignatureMethodHMACSHA1;
 use SocialConnect\Auth\OAuth\Token;
 use SocialConnect\Auth\Provider\AbstractBaseProvider;
 use SocialConnect\Auth\Provider\Consumer;
+use SocialConnect\Auth\Provider\OAuth1\Exception\InvalidRequestToken;
 use SocialConnect\Auth\Service;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
@@ -116,7 +117,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
         parse_str($body, $token);
         if (!is_array($token) || !isset($token['oauth_token']) || !isset($token['oauth_token_secret'])) {
-            throw new LogicException('It is not a request token');
+            throw new InvalidRequestToken;
         }
 
         return new Token($token['oauth_token'], $token['oauth_token_secret']);

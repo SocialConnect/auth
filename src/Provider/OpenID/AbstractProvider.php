@@ -35,8 +35,6 @@ abstract class AbstractProvider extends AbstractBaseProvider
             $urlParameters['scope'] = $this->getScopeInline();
         }
 
-        var_dump($this->getAuthorizeUri() . '?' . http_build_query($urlParameters));
-        die();
         return $this->getAuthorizeUri() . '?' . http_build_query($urlParameters);
     }
 

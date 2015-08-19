@@ -105,4 +105,12 @@ abstract class AbstractBaseProvider
     {
         return implode(',', $this->scope);
     }
+
+    /**
+     * @return \SocialConnect\Auth\Provider\Consumer
+     */
+    public function getConsumer()
+    {
+        return $this->consumer;
+    }
 }

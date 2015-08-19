@@ -219,7 +219,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
         parse_str($body, $token);
         if (!is_array($token) || !isset($token['oauth_token']) || !isset($token['oauth_token_secret'])) {
-            throw new InvalidAccessToken('It is not a valid access token');
+            throw new InvalidAccessToken;
         }
 
         $accessToken = new AccessToken($token['oauth_token'], $token['oauth_token_secret']);

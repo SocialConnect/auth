@@ -11,7 +11,7 @@ include_once __DIR__ . '/../vendor/autoload.php';
 include_once __DIR__ . '/vendor/autoload.php';
 $configureProviders = include_once 'config.php';
 
-$service = new \SocialConnect\Auth\Service($configureProviders, null);
+$service = new \SocialConnect\Auth\Service($configureProviders, new \SocialConnect\Auth\Provider\CollectionFactory());
 $service->setHttpClient(new \SocialConnect\Common\Http\Client\Curl());
 
 $app = new \Slim\Slim();
@@ -22,19 +22,12 @@ $app->any('/dump:params', function() {
 });
 $app->get('/auth/cb/:provider/:params', function ($provider) use (&$configureProviders, $service) {
     $provider = strtolower($provider);
-    switch ($provider) {
-        case 'facebook':
-        case 'github':
-        case 'twitter':
-        case 'vk':
-        case 'instagram':
-        case 'paypal':
-            $provider = $service->getProvider($provider);
-            break;
-        default:
-            throw new \Exception('Wrong $provider passed in url : ' . $provider);
-            break;
+
+    if (!$service->getFactory()->has($provider)) {
+        throw new \Exception('Wrong $provider passed in url : ' . $provider);
     }
+
+    $provider = $service->getProvider($provider)
 
     $accessToken = $provider->getAccessTokenByRequestParameters($_GET);
     var_dump($accessToken);

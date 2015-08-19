@@ -15,7 +15,7 @@ use SocialConnect\Auth\Service;
  * Class Factory
  * @package SocialConnect\Auth\Provider
  */
-class CollectionFactory
+class CollectionFactory implements FactoryInterface
 {
     /**
      * @var array

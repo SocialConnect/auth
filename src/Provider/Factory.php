@@ -14,7 +14,7 @@ use SocialConnect\Auth\Service;
  * Class Factory
  * @package SocialConnect\Auth\Provider
  */
-class Factory
+class Factory implements FactoryInterface
 {
     /**
      * @param string $id

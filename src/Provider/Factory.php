@@ -17,13 +17,31 @@ use SocialConnect\Auth\Service;
 class Factory implements FactoryInterface
 {
     /**
+     * @param $id
+     * @return string
+     */
+    protected function buildClassName($id)
+    {
+        return '\\SocialConnect\\' . $id . '\\Provider';
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function has($id)
+    {
+        return class_exists($this->buildClassName($id));
+    }
+
+    /**
      * @param string $id
      * @param array $parameters
      * @return OAuth1AbstractProvider|OAuth2AbstractProvider
      */
     public function factory($id, array $parameters, Service $service)
     {
-        $providerClassName = '\\SocialConnect\\' . $id . '\\Provider';
+        $providerClassName = $this->buildClassName($id);
 
         $consumer = new Consumer($parameters['applicationId'], $parameters['applicationSecret']);
 

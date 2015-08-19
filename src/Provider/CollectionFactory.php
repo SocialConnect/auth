@@ -31,9 +31,20 @@ class CollectionFactory implements FactoryInterface
     /**
      * @param array $collection
      */
-    public function __construct(array $providers)
+    public function __construct(array $providers = null)
     {
-        $this->providers = $providers;
+        if ($providers) {
+            $this->providers = $providers;
+        }
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function has($id)
+    {
+        return isset($this->providers[$id]);
     }
 
     /**

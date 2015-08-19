@@ -20,4 +20,10 @@ interface FactoryInterface
      * @return OAuth1AbstractProvider|OAuth2AbstractProvider
      */
     public function factory($id, array $parameters, Service $service);
+
+    /**
+     * @param string $id
+     * @return boolean
+     */
+    public function has($id);
 }

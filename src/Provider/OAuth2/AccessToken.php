@@ -6,6 +6,8 @@
 
 namespace SocialConnect\Auth\Provider\OAuth2;
 
+use InvalidArgumentException;
+
 class AccessToken
 {
     /**
@@ -13,8 +15,17 @@ class AccessToken
      */
     protected $token;
 
+    /**
+     * @param string $token
+     */
     public function __construct($token)
     {
+        if (!is_string($token)) {
+            throw new InvalidArgumentException(
+                '$token must be a string, passed: ' . gettype($token)
+            );
+        }
+
         $this->token = $token;
     }
 

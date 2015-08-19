@@ -8,8 +8,15 @@
 
 namespace SocialConnect\Auth\Provider;
 
+use SocialConnect\Auth\Provider\OAuth1\AbstractProvider as OAuth1AbstractProvider;
+use SocialConnect\Auth\Provider\OAuth2\AbstractProvider as OAuth2AbstractProvider;
 
-class FactoryInterface
+interface FactoryInterface
 {
-
+    /**
+     * @param string $id
+     * @param array $parameters
+     * @return OAuth1AbstractProvider|OAuth2AbstractProvider
+     */
+    public function factory($id, array $parameters, Service $service);
 }

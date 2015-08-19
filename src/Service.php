@@ -7,6 +7,7 @@
 namespace SocialConnect\Auth;
 
 use Exception;
+use SocialConnect\Auth\Provider\FactoryInterface;
 use SocialConnect\Common\HttpClient;
 
 /**
@@ -18,9 +19,9 @@ class Service
     use HttpClient;
 
     /**
-     * @var
+     * @var FactoryInterface
      */
-    protected $storage;
+    protected $factory;
 
     /**
      * @var array
@@ -31,10 +32,10 @@ class Service
      * @param array $config
      * @param $storage
      */
-    public function __construct(array $config, $storage = null)
+    public function __construct(array $config, $factory = null)
     {
         $this->config = $config;
-        $this->storage = $storage;
+        $this->factory = is_null($factory) ? new Provider\Factory() : $factory;
     }
 
     /**
@@ -60,7 +61,7 @@ class Service
      */
     public function getProvider($name)
     {
-        return (new Provider\Factory)->factory(ucfirst($name), $this->getProviderConfiguration($name), $this);
+        return $this->factory->factory(ucfirst($name), $this->getProviderConfiguration($name), $this);
     }
 
     /**

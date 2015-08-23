@@ -20,12 +20,12 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
 
     public function getAuthorizeUri()
     {
-        return 'http://api.vk.com/oauth/authorize';
+        return 'https://oauth.vk.com/authorize';
     }
 
     public function getRequestTokenUri()
     {
-        return 'https://api.vk.com/oauth/token';
+        return 'https://oauth.vk.com/access_token';
     }
 
     public function getName()

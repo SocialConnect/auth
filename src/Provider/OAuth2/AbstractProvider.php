@@ -14,6 +14,13 @@ use SocialConnect\Common\Http\Client\Client;
 abstract class AbstractProvider extends AbstractBaseProvider
 {
     /**
+     * HTTP method for access token request
+     *
+     * @var string
+     */
+    protected $requestHttpMethod = Client::POST;
+
+    /**
      * @return array
      */
     public function getAuthUrlParameters()
@@ -77,7 +84,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         $response = $this->service->getHttpClient()->request(
             $this->getRequestTokenUri() . '?' . http_build_query($parameters),
             array(),
-            Client::POST
+            $this->requestHttpMethod
         );
         $body = $response->getBody();
 

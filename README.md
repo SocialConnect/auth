@@ -13,9 +13,9 @@ See [example](./example).
 
 ## Supported type of providers
 
-- OAuth1 [X]
-- OAuth2 [X]
-- OpenID [ ] (WIP!)
+- [x] OAuth1
+- [x] OAuth2
+- [ ] OpenID (WIP!)
 
 ## Supported providers
 

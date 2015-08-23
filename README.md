@@ -11,13 +11,20 @@ SocialConnect Auth
 
 See [example](./example).
 
-## Providers
+## Supported type of providers
+
+- OAuth1 [X]
+- OAuth2 [X]
+- OpenID [ ] (WIP!)
+
+## Supported providers
 
 * Facebook
 * GitHub
 * Vk (ВКонтакте)
 * Instagram
 * Twitter
+* PayPal (WIP!)
 
 ## How to use
 

@@ -6,6 +6,7 @@
 
 namespace SocialConnect\Auth\Provider\OAuth2;
 
+use InvalidArgumentException;
 use SocialConnect\Auth\Exception\InvalidAccessToken;
 use SocialConnect\Auth\Provider\AbstractBaseProvider;
 use SocialConnect\Common\Entity\User;
@@ -70,7 +71,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     public function getAccessToken($code)
     {
         if (!is_string($code)) {
-            throw new \InvalidArgumentException('Parameter $code must be a string');
+            throw new InvalidArgumentException('Parameter $code must be a string');
         }
 
         $parameters = array(

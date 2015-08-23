@@ -67,18 +67,21 @@ abstract class AbstractProvider extends AbstractBaseProvider
         }
 
         $parameters = array(
-            'client_id' => $this->consumer->getKey(),
-            'client_secret' => $this->consumer->getSecret(),
             'code' => $code,
             'grant_type' => 'authorization_code',
             'redirect_uri' => $this->getRedirectUrl()
         );
 
         $response = $this->service->getHttpClient()->request(
-            $this->getRequestTokenUri() . '?' . http_build_query($parameters),
-            array(),
-            Client::POST
+            $this->getRequestTokenUri(),
+            $parameters,
+            Client::POST,
+            array(
+                'Authorization' => 'Basic '
+            )
         );
+        var_dump($response);
+        die();
         $body = $response->getBody();
 
         return $this->parseToken($body);
@@ -99,7 +102,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     public function getScopeInline()
     {
-        return "'" . implode(' ', $this->scope) . "'";
+        return implode(' ', $this->scope);
     }
 
     /**

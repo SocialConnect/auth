@@ -17,6 +17,7 @@ interface FactoryInterface
     /**
      * @param string $id
      * @param array $parameters
+     * @param Service $service
      * @return OAuth1AbstractProvider|OAuth2AbstractProvider
      */
     public function factory($id, array $parameters, Service $service);

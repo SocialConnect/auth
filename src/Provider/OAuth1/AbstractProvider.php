@@ -108,6 +108,8 @@ abstract class AbstractProvider extends AbstractBaseProvider
      *
      * @param mixed $body
      * @return Token
+     * @throws InvalidRequestToken
+     * @throws RuntimeException
      */
     public function parseToken($body)
     {
@@ -210,6 +212,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @param mixed $body
      * @return AccessToken
      * @throws InvalidAccessToken
+     * @throws RuntimeException
      */
     public function parseAccessToken($body)
     {

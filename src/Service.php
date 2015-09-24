@@ -30,7 +30,8 @@ class Service
 
     /**
      * @param array $config
-     * @param $storage
+     * @param null $factory
+     * @internal param $storage
      */
     public function __construct(array $config, $factory = null)
     {

@@ -178,6 +178,8 @@ class Request
 
     /**
      * builds the Authorization: header
+     * @param mixed $realm
+     * @return array
      */
     public function toHeader($realm = null)
     {

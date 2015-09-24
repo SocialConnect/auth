@@ -25,11 +25,12 @@ class CollectionFactory implements FactoryInterface
         'github' => '\SocialConnect\Github\Provider',
         'instagram' => '\SocialConnect\Instagram\Provider',
         'twitter' => '\SocialConnect\Twitter\Provider',
+        'google' => '\SocialConnect\Google\Provider',
         'vk' => '\SocialConnect\Vk\Provider',
     ];
 
     /**
-     * @param array $collection
+     * @param array $providers
      */
     public function __construct(array $providers = null)
     {
@@ -50,6 +51,7 @@ class CollectionFactory implements FactoryInterface
     /**
      * @param string $id
      * @param array $parameters
+     * @param Service $service
      * @return OAuth1AbstractProvider|OAuth2AbstractProvider
      */
     public function factory($id, array $parameters, Service $service)

@@ -8,7 +8,7 @@ namespace SocialConnect\Auth\Provider;
 
 use Exception;
 use LogicException;
-use SocialConnect\Auth\InvalidAccessToken;
+use SocialConnect\Auth\Exception\InvalidAccessToken;
 use SocialConnect\Auth\OAuth\Request;
 use SocialConnect\Auth\OAuth\SignatureMethodHMACSHA1;
 use SocialConnect\Auth\OAuth\Token;

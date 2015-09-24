@@ -80,8 +80,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
                 'Authorization' => 'Basic '
             )
         );
-        var_dump($response);
-        die();
+
         $body = $response->getBody();
 
         return $this->parseToken($body);

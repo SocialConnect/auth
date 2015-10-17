@@ -40,7 +40,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
         $response = $this->service->getHttpClient()->request(
             $this->getBaseUri() . 'me',
             [
-                'me' => $accessToken->getToken()
+                'access_token' => $accessToken->getToken()
             ]
         );
 

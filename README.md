@@ -25,6 +25,7 @@ See [example](./example).
 * Instagram
 * Twitter
 * PayPal (WIP!)
+* Google
 
 ## How to use
 

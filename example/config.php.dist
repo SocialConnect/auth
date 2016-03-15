@@ -19,7 +19,9 @@ return array(
         'Google' => array(
             'applicationId' => '',
             'applicationSecret' => '',
-            'enabled' => false
+            'scope' => array(
+                'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
+            )
         ),
         'Paypal' => array(
             'applicationId' => '',

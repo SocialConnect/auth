@@ -75,6 +75,10 @@ class CollectionFactory implements FactoryInterface
             $provider->setScope($parameters['scope']);
         }
 
+        if (isset($parameters['fields'])) {
+            $provider->setFields($parameters['fields']);
+        }
+
         return $provider;
     }
 }

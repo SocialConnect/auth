@@ -22,6 +22,7 @@
             "SocialConnect\\Auth\\": "src/",
             "SocialConnect\\Vk\\": "providers/Vk/",
             "SocialConnect\\Github\\": "providers/Github/",
+            "SocialConnect\\Google\\": "providers/Google/",
             "SocialConnect\\Facebook\\": "providers/Facebook/",
             "SocialConnect\\Twitter\\": "providers/Twitter/",
             "SocialConnect\\Instagram\\": "providers/Instagram/",

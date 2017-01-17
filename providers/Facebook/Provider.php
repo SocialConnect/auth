@@ -12,6 +12,13 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
 {
+    /**
+     * By default AbstractProvider use POST method, FB does not accept POST and return HTML page ᕙ(⇀‸↼‶)ᕗ
+     * 
+     * @var string
+     */
+    protected $requestHttpMethod = Client::GET;
+    
     public function getBaseUri()
     {
         return 'https://graph.facebook.com/';

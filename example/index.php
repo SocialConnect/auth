@@ -14,14 +14,22 @@ $configureProviders = include_once 'config.php';
 $service = new \SocialConnect\Auth\Service($configureProviders, new \SocialConnect\Auth\Provider\CollectionFactory());
 $service->setHttpClient(new \SocialConnect\Common\Http\Client\Curl());
 
-$app = new \Slim\Slim();
-$app->any('/dump:params', function() {
+$app = new \Slim\App(
+    [
+        'settings' => [
+            'displayErrorDetails' => true
+        ]
+    ]
+);
+
+$app->any('/dump', function() {
     var_dump($_POST);
     var_dump($_GET);
     var_dump($_SERVER);
 });
-$app->get('/auth/cb/:provider/:params', function ($provider) use (&$configureProviders, $service) {
-    $provider = strtolower($provider);
+
+$app->get('/auth/cb/{provider}/', function (\Slim\Http\Request $request) use (&$configureProviders, $service) {
+    $provider = strtolower($request->getAttribute('provider'));
 
     if (!$service->getFactory()->has($provider)) {
         throw new \Exception('Wrong $provider passed in url : ' . $provider);

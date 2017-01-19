@@ -64,7 +64,8 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
             $this->getBaseUri() . 'method/users.get',
             [
                 'v' => '5.24',
-                'access_token' => $accessToken->getToken()
+                'access_token' => $accessToken->getToken(),
+                'fields' => $this->getFieldsInline()
             ]
         );
 

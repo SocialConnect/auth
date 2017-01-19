@@ -22,7 +22,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
     
     public function getBaseUri()
     {
-        return 'https://graph.facebook.com/';
+        return 'https://graph.facebook.com/v2.8/';
     }
 
     public function getAuthorizeUri()

@@ -26,7 +26,8 @@
             "SocialConnect\\Facebook\\": "providers/Facebook/",
             "SocialConnect\\Twitter\\": "providers/Twitter/",
             "SocialConnect\\Instagram\\": "providers/Instagram/",
-            "SocialConnect\\Paypal\\": "providers/Paypal/"
+            "SocialConnect\\Paypal\\": "providers/Paypal/",
+            "SocialConnect\\Slack\\": "providers/Slack/"
         }
     }
 }

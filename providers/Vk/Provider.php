@@ -47,6 +47,9 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
     public function parseToken($body)
     {
         $result = json_decode($body);
+        if (!$result) {
+            throw new InvalidAccessToken;
+        }
 
         if (!isset($result->access_token) || empty($result->access_token)) {
             throw new InvalidAccessToken;

@@ -13,7 +13,11 @@ class InvalidResponse extends \SocialConnect\Common\Exception
      */
     protected $response;
 
-    public function __construct($message = 'API bad response', $response)
+    /**
+     * @param string $message
+     * @param null $response
+     */
+    public function __construct($message = 'API bad response', $response = null)
     {
         parent::__construct($message);
 

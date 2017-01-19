@@ -5,6 +5,7 @@
  */
 
 return array(
+    'redirectUri' => 'http://localhost:8000/auth/cb',
     'provider' => array(
         'Facebook' => array(
             'applicationId' => '',
@@ -41,11 +42,21 @@ return array(
         ),
         'Github' => array(
             'applicationId' => '',
-            'applicationSecret'
+            'applicationSecret' => '',
         ),
         'Instagram' => array(
             'applicationId' => '',
-            'applicationSecret'
-        )
+            'applicationSecret' => '',
+        ),
+        'Slack' => array(
+            'applicationId' => '5043509839.130419260038',
+            'applicationSecret' => 'd9816bdd232636ceba67137384f8fe2e',
+            'scope' => array(
+                'identity.basic',
+                'identity.email',
+                'identity.team',
+                'identity.avatar',
+            )
+        ),
     )
 );

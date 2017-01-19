@@ -2,7 +2,8 @@
     "name": "socialconnect/auth-example",
     "type": "project",
     "require": {
-        "slim/slim": "~3.7.0"
+        "slim/slim": "~3.7.0",
+        "symfony/var-dumper": "~3.2.2"
     },
     "license": "MIT",
     "authors": [

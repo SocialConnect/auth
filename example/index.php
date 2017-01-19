@@ -23,9 +23,9 @@ $app = new \Slim\App(
 );
 
 $app->any('/dump', function() {
-    var_dump($_POST);
-    var_dump($_GET);
-    var_dump($_SERVER);
+    dump($_POST);
+    dump($_GET);
+    dump($_SERVER);
 });
 
 $app->get('/auth/cb/{provider}/', function (\Slim\Http\Request $request) use (&$configureProviders, $service) {
@@ -38,10 +38,10 @@ $app->get('/auth/cb/{provider}/', function (\Slim\Http\Request $request) use (&$
     $provider = $service->getProvider($provider);
 
     $accessToken = $provider->getAccessTokenByRequestParameters($_GET);
-    var_dump($accessToken);
+    dump($accessToken);
 
     $user = $provider->getIdentity($accessToken);
-    var_dump($user);
+    dump($user);
 });
 
 $app->get('/', function () {
@@ -63,4 +63,5 @@ $app->post('/', function () use (&$configureProviders, $service) {
     }
     exit;
 });
+
 $app->run();

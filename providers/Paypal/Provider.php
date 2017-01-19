@@ -13,10 +13,6 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Provider extends \SocialConnect\Auth\Provider\OpenID\AbstractProvider
 {
-    protected $debug = true;
-
-    protected $requestTokenUri = 'https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice';
-
     /**
      * @return array
      */
@@ -31,19 +27,28 @@ class Provider extends \SocialConnect\Auth\Provider\OpenID\AbstractProvider
         return $default;
     }
 
+    /**
+     * @return string
+     */
     public function getBaseUri()
     {
         return 'https://api.paypal.com/';
     }
 
+    /**
+     * @return string
+     */
     public function getAuthorizeUri()
     {
         return 'https://sandbox.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize';
     }
 
+    /**
+     * @return string
+     */
     public function getRequestTokenUri()
     {
-        return $this->requestTokenUri;
+        return 'https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice';
     }
 
     public function getName()

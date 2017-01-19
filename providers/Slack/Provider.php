@@ -7,6 +7,7 @@
 namespace SocialConnect\Slack;
 
 use SocialConnect\Auth\Exception\InvalidAccessToken;
+use SocialConnect\Auth\Exception\InvalidResponse;
 use SocialConnect\Auth\Provider\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
@@ -76,8 +77,20 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
             ]
         );
 
-        $body = $response->getBody();
-        $result = json_decode($body);
+        $result = $response->json();
+        if (!$result) {
+            throw new InvalidResponse(
+                'API response is not a valid JSON object',
+                $response->getBody()
+            );
+        }
+
+        if (!$result->ok) {
+            throw new InvalidResponse(
+                'API response->ok is false',
+                $result
+            );
+        }
 
         $hydrator = new ObjectMap(array(
             'id' => 'id',

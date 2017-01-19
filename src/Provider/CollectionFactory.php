@@ -27,6 +27,7 @@ class CollectionFactory implements FactoryInterface
         'twitter' => '\SocialConnect\Twitter\Provider',
         'google' => '\SocialConnect\Google\Provider',
         'vk' => '\SocialConnect\Vk\Provider',
+        'slack' => '\SocialConnect\Slack\Provider',
     ];
 
     /**

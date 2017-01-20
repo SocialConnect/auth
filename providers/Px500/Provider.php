@@ -72,7 +72,7 @@ class Provider extends AbstractProvider
             );
         }
 
-        if ($result->user) {
+        if (!isset($result->user) || !$result->user) {
             throw new InvalidResponse(
                 'API response without user inside JSON',
                 $response->getBody()

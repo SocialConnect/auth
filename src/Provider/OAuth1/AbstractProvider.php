@@ -10,6 +10,7 @@ use Exception;
 use LogicException;
 use SebastianBergmann\GlobalState\RuntimeException;
 use SocialConnect\Auth\Exception\InvalidAccessToken;
+use SocialConnect\Auth\Exception\InvalidResponse;
 use SocialConnect\Auth\OAuth\Request;
 use SocialConnect\Auth\OAuth\SignatureMethodHMACSHA1;
 use SocialConnect\Auth\OAuth\Token;
@@ -203,7 +204,10 @@ abstract class AbstractProvider extends AbstractBaseProvider
             return $this->parseAccessToken($response->getBody());
         }
 
-        throw new Exception('Unexpected response code ' . $response->getStatusCode());
+        throw new InvalidResponse(
+            'Unexpected response code',
+            $response->getBody()
+        );
     }
 
     /**

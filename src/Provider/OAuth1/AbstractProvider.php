@@ -114,7 +114,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     public function parseToken($body)
     {
         if (!is_string($body)) {
-            throw new RuntimeException('Request $body is not a string, passed: ' . var_export($body));
+            throw new RuntimeException('Request $body is not a string, passed: ' . var_export($body, true));
         }
 
         parse_str($body, $token);

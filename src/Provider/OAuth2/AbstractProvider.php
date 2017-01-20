@@ -59,6 +59,10 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     public function parseToken($body)
     {
+        if (empty($body)) {
+            throw new InvalidAccessToken('Provider response with empty body');
+        }
+
         parse_str($body, $token);
 
         if (!is_array($token) || !isset($token['access_token'])) {

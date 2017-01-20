@@ -78,7 +78,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
                 return new AccessToken($result->access_token);
             }
 
-            throw new InvalidAccessToken('Instagram response with ok == false');
+            throw new InvalidAccessToken('Instagram response with not valid token');
         }
 
         throw new InvalidAccessToken('AccessToken is not a valid JSON');

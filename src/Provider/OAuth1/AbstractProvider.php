@@ -7,7 +7,6 @@
 namespace SocialConnect\Auth\Provider\OAuth1;
 
 use Exception;
-use LogicException;
 use SebastianBergmann\GlobalState\RuntimeException;
 use SocialConnect\Auth\Exception\InvalidAccessToken;
 use SocialConnect\Auth\Exception\InvalidResponse;

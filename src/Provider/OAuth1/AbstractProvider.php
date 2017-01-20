@@ -238,6 +238,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      *
      * @param AccessToken $accessToken
      * @return User
+     * @throws \SocialConnect\Auth\Exception\InvalidResponse
      */
     abstract public function getIdentity(AccessToken $accessToken);
 

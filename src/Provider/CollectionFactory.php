@@ -29,6 +29,7 @@ class CollectionFactory implements FactoryInterface
         'vk' => '\SocialConnect\Vk\Provider',
         'slack' => '\SocialConnect\Slack\Provider',
         'twitch' => '\SocialConnect\Twitch\Provider',
+        'px500' => '\SocialConnect\Px500\Provider',
     ];
 
     /**

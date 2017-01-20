@@ -7,6 +7,7 @@
 namespace SocialConnect\Vk;
 
 use SocialConnect\Auth\Exception\InvalidAccessToken;
+use SocialConnect\Auth\Exception\InvalidResponse;
 use SocialConnect\Auth\Provider\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
@@ -72,8 +73,13 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
             ]
         );
 
-        $body = $response->getBody();
-        $result = json_decode($body);
+        $result = $response->json();
+        if (!$result) {
+            throw new InvalidResponse(
+                'API response is not a valid JSON object',
+                $response->getBody()
+            );
+        }
 
         $hydrator = new ObjectMap(array(
             'id' => 'id',

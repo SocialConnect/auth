@@ -6,6 +6,7 @@
 
 namespace SocialConnect\Instagram;
 
+use SocialConnect\Auth\Exception\InvalidAccessToken;
 use SocialConnect\Auth\Provider\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
@@ -67,14 +68,20 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
     }
 
     /**
-     * @param $body
-     * @return AccessToken
+     * {@inheritdoc}
      */
     public function parseToken($body)
     {
         $result = json_decode($body);
+        if ($result) {
+            if (isset($result->access_token) && $result->access_token) {
+                return new AccessToken($result->access_token);
+            }
 
-        return new AccessToken($result->access_token);
+            throw new InvalidAccessToken('Instagram response with ok == false');
+        }
+
+        throw new InvalidAccessToken('AccessToken is not a valid JSON');
     }
 
     /**

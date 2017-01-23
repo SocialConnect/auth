@@ -29,7 +29,8 @@
             "SocialConnect\\Paypal\\": "providers/Paypal/",
             "SocialConnect\\Slack\\": "providers/Slack/",
             "SocialConnect\\Twitch\\": "providers/Twitch/",
-            "SocialConnect\\Px500\\": "providers/Px500/"
+            "SocialConnect\\Px500\\": "providers/Px500/",
+            "SocialConnect\\Bitbucket\\": "providers/Bitbucket/"
         }
     }
 }

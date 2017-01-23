@@ -27,6 +27,9 @@ See [example](./example).
 * PayPal (WIP!)
 * Google
 * Slack
+* BitBucket
+* Twitch (WIP!)
+* 500px (named as px500) (WIP!)
 
 ## How to use
 

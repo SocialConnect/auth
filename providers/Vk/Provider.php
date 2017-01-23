@@ -85,9 +85,18 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
             'id' => 'id',
             'first_name' => 'firstname',
             'last_name' => 'lastname',
-            'email' => 'email'
+            'email' => 'email',
+            'bdate' => 'birthday',
+            'nickname' => 'username',
+            'sex' => 'sex',
         ));
 
-        return $hydrator->hydrate(new User(), $result->response[0]);
+        $user = $hydrator->hydrate(new User(), $result->response[0]);
+
+        if ($user->sex) {
+            $user->sex = $user->sex === 1 ? 'female' : 'male';
+        }
+
+        return $user;
     }
 }

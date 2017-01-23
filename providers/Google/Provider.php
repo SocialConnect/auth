@@ -120,7 +120,9 @@ class Provider extends AbstractProvider
             'id' => 'id',
             'given_name' => 'firstname',
             'family_name' => 'lastname',
-            'email' => 'email'
+            'email' => 'email',
+            'name' => 'fullname',
+            'gender' => 'sex',
         ));
 
         return $hydrator->hydrate(new User(), $result);

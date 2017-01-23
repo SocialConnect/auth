@@ -105,7 +105,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
             'bio' => 'bio',
             'website' => 'website',
             'profile_picture' => 'profile_picture',
-            'full_name' => 'full_name'
+            'full_name' => 'fullname'
         ));
 
         return $hydrator->hydrate(new User(), $result->data);

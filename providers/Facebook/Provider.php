@@ -15,11 +15,11 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
 {
     /**
      * By default AbstractProvider use POST method, FB does not accept POST and return HTML page ᕙ(⇀‸↼‶)ᕗ
-     * 
+     *
      * @var string
      */
     protected $requestHttpMethod = Client::GET;
-    
+
     public function getBaseUri()
     {
         return 'https://graph.facebook.com/v2.8/';
@@ -64,7 +64,7 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
             'gender' => 'sex',
             'link' => 'url',
             'locale' => 'locale',
-            'name' => 'username',
+            'name' => 'fullname',
             'timezone' => 'timezone',
             'updated_time' => 'dateModified',
             'verified' => 'verified'

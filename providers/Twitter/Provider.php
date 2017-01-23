@@ -58,7 +58,11 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth1\AbstractProvider
         if ($response->getStatusCode() == 200) {
             $result = $response->json();
 
-            $hydrator = new ObjectMap(array());
+            $hydrator = new ObjectMap(array(
+                'id' => 'id',
+                'name' => 'fullname',
+                'screen_name' => 'username'
+            ));
             return $hydrator->hydrate(new User(), $result[0]);
         }
 

@@ -91,9 +91,12 @@ abstract class AbstractProvider extends AbstractBaseProvider
         );
 
         $response = $this->service->getHttpClient()->request(
-            $this->getRequestTokenUri() . '?' . http_build_query($parameters),
-            array(),
-            $this->requestHttpMethod
+            $this->getRequestTokenUri(),
+            $parameters,
+            $this->requestHttpMethod,
+            [
+                'Content-Type' => 'application/x-www-form-urlencoded'
+            ]
         );
         $body = $response->getBody();
 

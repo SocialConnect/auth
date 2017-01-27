@@ -22,13 +22,16 @@ abstract class AbstractProvider extends AbstractBaseProvider
     protected $requestHttpMethod = Client::POST;
 
     /**
+     * Default parameters for auth url, can be redeclared inside implementation of the Provider
+     *
      * @return array
      */
     public function getAuthUrlParameters()
     {
         return array(
             'client_id' => $this->consumer->getKey(),
-            'redirect_uri' => $this->getRedirectUrl()
+            'redirect_uri' => $this->getRedirectUrl(),
+            'response_type' => 'code',
         );
     }
 

@@ -46,19 +46,6 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
         return 'bitbucket';
     }
 
-    /**
-     * @return array
-     */
-    public function getAuthUrlParameters()
-    {
-        return array(
-            'client_id' => $this->consumer->getKey(),
-            'redirect_uri' => $this->getRedirectUrl(),
-            'response_type' => 'code'
-        );
-    }
-
-
     public function parseToken($body)
     {
         if (empty($body)) {

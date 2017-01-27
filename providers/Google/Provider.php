@@ -43,18 +43,6 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @return array
-     */
-    public function getAuthUrlParameters()
-    {
-        return array(
-            'client_id' => $this->consumer->getKey(),
-            'redirect_uri' => $this->getRedirectUrl(),
-            'response_type' => 'code'
-        );
-    }
-
-    /**
      * @param string $code
      * @return AccessToken
      * @throws \InvalidArgumentException

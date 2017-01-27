@@ -30,7 +30,8 @@
             "SocialConnect\\Slack\\": "providers/Slack/",
             "SocialConnect\\Twitch\\": "providers/Twitch/",
             "SocialConnect\\Px500\\": "providers/Px500/",
-            "SocialConnect\\Bitbucket\\": "providers/Bitbucket/"
+            "SocialConnect\\Bitbucket\\": "providers/Bitbucket/",
+            "SocialConnect\\Amazon\\": "providers/Amazon/"
         }
     }
 }

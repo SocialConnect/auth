@@ -19,6 +19,7 @@ See [example](./example).
 
 ## Supported providers
 
+* Amazon
 * Facebook
 * GitHub
 * Vk (ВКонтакте)

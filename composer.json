@@ -49,7 +49,8 @@
             "SocialConnect\\Bitbucket\\": "providers/Bitbucket/",
             "SocialConnect\\Amazon\\": "providers/Amazon/",
             "SocialConnect\\Gitlab\\": "providers/Gitlab/",
-            "SocialConnect\\Vimeo\\": "providers/Vimeo/"
+            "SocialConnect\\Vimeo\\": "providers/Vimeo/",
+            "SocialConnect\\DigitalOcean\\": "providers/DigitalOcean/"
         }
     }
 }

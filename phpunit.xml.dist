@@ -6,11 +6,12 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
-         syntaxCheck="false"
+         syntaxCheck="true"
          bootstrap="./tests/Bootstrap.php"
         >
+
     <testsuites>
-        <testsuite name="Vk Test Case">
+        <testsuite name="Tests">
             <directory>./tests/Test/</directory>
         </testsuite>
     </testsuites>

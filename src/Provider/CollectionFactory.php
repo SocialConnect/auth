@@ -32,6 +32,7 @@ class CollectionFactory implements FactoryInterface
         'px500' => '\SocialConnect\Px500\Provider',
         'bitbucket' => '\SocialConnect\Bitbucket\Provider',
         'amazon' => '\SocialConnect\Amazon\Provider',
+        'gitlab' => '\SocialConnect\Gitlab\Provider',
     ];
 
     /**

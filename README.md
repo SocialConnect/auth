@@ -21,12 +21,13 @@ See [example](./example).
 
 * Amazon
 * Facebook
-* GitHub
 * Vk (ВКонтакте)
 * Instagram
 * Twitter
 * PayPal (WIP!)
 * Google
+* GitHub
+* GitLab
 * Slack
 * BitBucket
 * Twitch (WIP!)

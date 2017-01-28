@@ -44,7 +44,7 @@ See [example](./example).
 * 500px (WIP)
 * DigitalOcean
 * Yandex
-* MailRu  (WIP)
+* MailRu
 * Odnoklassniki  (WIP)
 
 ## How to use

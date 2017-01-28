@@ -1,6 +1,22 @@
 {
     "name": "socialconnect/auth",
     "description": "Social Connect Auth Component",
+    "keywords": [
+        "socialconnect",
+        "login",
+        "auth",
+        "oauth",
+        "facebook",
+        "google",
+        "twitter",
+        "slack",
+        "twitch",
+        "bitbucket",
+        "amazon",
+        "github",
+        "vk",
+        "gitlab"
+    ],
     "license": "MIT",
     "authors": [
         {

@@ -43,7 +43,7 @@ See [example](./example).
 * Vimeo
 * 500px (WIP)
 * DigitalOcean
-* Yandex (WIP)
+* Yandex
 * MailRu  (WIP)
 * Odnoklassniki  (WIP)
 

@@ -50,7 +50,8 @@
             "SocialConnect\\Amazon\\": "providers/Amazon/",
             "SocialConnect\\Gitlab\\": "providers/Gitlab/",
             "SocialConnect\\Vimeo\\": "providers/Vimeo/",
-            "SocialConnect\\DigitalOcean\\": "providers/DigitalOcean/"
+            "SocialConnect\\DigitalOcean\\": "providers/DigitalOcean/",
+            "SocialConnect\\Yandex\\": "providers/Yandex/"
         }
     }
 }

@@ -24,7 +24,7 @@
                     $enabled = (bool) $parameters['enabled'];
                 }
                 ?>
-                <button class="btn btn-default" name="provider" type="submit" value="<?php echo $name; ?>"<?php echo (!$enabled) ? ' disabled="disabled"' : ''; ?>>
+                <button class="btn btn-default" name="provider" type="submit" value="<?php echo strtolower($name); ?>"<?php echo (!$enabled) ? ' disabled="disabled"' : ''; ?>>
                     <i class="fa fa-<?php echo strtolower($name); ?>"></i> <?php echo $name; ?>
                 </button>
             <?php endforeach; ?>

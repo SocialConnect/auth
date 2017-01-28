@@ -48,7 +48,8 @@
             "SocialConnect\\Px500\\": "providers/Px500/",
             "SocialConnect\\Bitbucket\\": "providers/Bitbucket/",
             "SocialConnect\\Amazon\\": "providers/Amazon/",
-            "SocialConnect\\Gitlab\\": "providers/Gitlab/"
+            "SocialConnect\\Gitlab\\": "providers/Gitlab/",
+            "SocialConnect\\Vimeo\\": "providers/Vimeo/"
         }
     }
 }

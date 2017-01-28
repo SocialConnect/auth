@@ -33,6 +33,7 @@ class CollectionFactory implements FactoryInterface
         'bitbucket' => '\SocialConnect\Bitbucket\Provider',
         'amazon' => '\SocialConnect\Amazon\Provider',
         'gitlab' => '\SocialConnect\Gitlab\Provider',
+        'vimeo' => '\SocialConnect\Vimeo\Provider',
     ];
 
     /**

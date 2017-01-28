@@ -34,6 +34,7 @@ class CollectionFactory implements FactoryInterface
         'amazon' => '\SocialConnect\Amazon\Provider',
         'gitlab' => '\SocialConnect\Gitlab\Provider',
         'vimeo' => '\SocialConnect\Vimeo\Provider',
+        'digital-ocean' => '\SocialConnect\DigitalOcean\Provider',
     ];
 
     /**

@@ -7,7 +7,7 @@ SocialConnect Auth
 [![Dependency Status](https://www.versioneye.com/user/projects/54d7935c2bc7901e48000014/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54d7935c2bc7901e48000014)
 [![License](http://img.shields.io/packagist/l/SocialConnect/auth.svg?style=flat-square)](https://packagist.org/packages/socialconnect/auth)
 
-> Connect your application(s) with social network(s).
+> Open source social sign on PHP. Connect your application(s) with social network(s).
 
 See [example](./example).
 
@@ -19,19 +19,33 @@ See [example](./example).
 
 ## Supported providers
 
+### OpenId
+
+* PayPal (WIP!)
+* Steam (WIP)
+
+### OAuth 1
+
+* Twitter
+
+### OAuth 2
+
 * Amazon
 * Facebook
 * Vk (ВКонтакте)
 * Instagram
-* Twitter
-* PayPal (WIP!)
 * Google
 * GitHub
 * GitLab
 * Slack
 * BitBucket
 * Twitch
-* 500px (named as px500) (WIP!)
+* Vimeo
+* 500px (WIP)
+* DigitalOcean
+* Yandex (WIP)
+* MailRu  (WIP)
+* Odnoklassniki  (WIP)
 
 ## How to use
 
@@ -79,4 +93,4 @@ License
 
 This project is open-sourced software licensed under the MIT License.
 
-See the LICENSE file for more information.
+See the [LICENSE](LICENSE) file for more information.

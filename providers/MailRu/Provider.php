@@ -71,7 +71,13 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
         throw new InvalidAccessToken('Provider response with not valid JSON');
     }
 
-    protected function makeSecureSignature($requestParameters)
+    /**
+     * Copy/pasted from MailRU examples :)
+     *
+     * @param array $requestParameters
+     * @return string
+     */
+    protected function makeSecureSignature(array $requestParameters)
     {
         ksort($requestParameters);
 

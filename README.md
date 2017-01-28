@@ -30,7 +30,7 @@ See [example](./example).
 * GitLab
 * Slack
 * BitBucket
-* Twitch (WIP!)
+* Twitch
 * 500px (named as px500) (WIP!)
 
 ## How to use

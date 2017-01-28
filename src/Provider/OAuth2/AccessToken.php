@@ -16,6 +16,11 @@ class AccessToken
     protected $token;
 
     /**
+     * @var integer|null
+     */
+    protected $uid;
+
+    /**
      * @param string $token
      */
     public function __construct($token)
@@ -35,5 +40,21 @@ class AccessToken
     public function getToken()
     {
         return $this->token;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getUid()
+    {
+        return $this->uid;
+    }
+
+    /**
+     * @param int|null $uid
+     */
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
     }
 }

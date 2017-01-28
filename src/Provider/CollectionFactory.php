@@ -36,6 +36,7 @@ class CollectionFactory implements FactoryInterface
         'vimeo' => '\SocialConnect\Vimeo\Provider',
         'digital-ocean' => '\SocialConnect\DigitalOcean\Provider',
         'yandex' => '\SocialConnect\Yandex\Provider',
+        'mail-ru' => '\SocialConnect\MailRu\Provider',
     ];
 
     /**

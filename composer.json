@@ -51,7 +51,8 @@
             "SocialConnect\\Gitlab\\": "providers/Gitlab/",
             "SocialConnect\\Vimeo\\": "providers/Vimeo/",
             "SocialConnect\\DigitalOcean\\": "providers/DigitalOcean/",
-            "SocialConnect\\Yandex\\": "providers/Yandex/"
+            "SocialConnect\\Yandex\\": "providers/Yandex/",
+            "SocialConnect\\MailRu\\": "providers/MailRu/"
         }
     }
 }

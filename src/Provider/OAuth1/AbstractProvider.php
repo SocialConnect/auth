@@ -260,12 +260,4 @@ abstract class AbstractProvider extends AbstractBaseProvider
     {
         $this->scope = $scope;
     }
-
-    /**
-     * @return string
-     */
-    public function getScopeInline()
-    {
-        return implode(',', $this->scope);
-    }
 }

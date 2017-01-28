@@ -97,14 +97,6 @@ abstract class AbstractProvider extends AbstractBaseProvider
     }
 
     /**
-     * @return string
-     */
-    public function getScopeInline()
-    {
-        return implode(' ', $this->scope);
-    }
-
-    /**
      * Get current user identity from social network by $accessToken
      *
      * @param AccessToken $accessToken

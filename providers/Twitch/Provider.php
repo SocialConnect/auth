@@ -39,13 +39,13 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getName()
     {
         return 'twitch';
     }
-    
+
     /**
      * @return string
      */
@@ -56,17 +56,17 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
     }
 
     /**
-     * @param $body
-     * @return AccessToken
-     * @throws InvalidAccessToken
+     * {@inheritdoc}
      */
     public function parseToken($body)
     {
         $response = json_decode($body, false);
         if ($response) {
-            if ($response->ok && $response->access_token) {
+            if (isset($response->access_token)) {
                 return new AccessToken($response->access_token);
             }
+
+            throw new InvalidAccessToken('access_token field does not exists inside API JSON response');
         }
 
         throw new InvalidAccessToken('AccessToken is not a valid JSON');
@@ -94,9 +94,10 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
 
         $hydrator = new ObjectMap(array(
             '_id' => 'id',
-            'name' => 'name',
+            'display_name' => 'fullname', // Custom Capitalized Users name
+            'name' => 'username',
         ));
 
-        return $hydrator->hydrate(new User(), $result->user);
+        return $hydrator->hydrate(new User(), $result);
     }
 }

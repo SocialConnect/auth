@@ -11,6 +11,8 @@ SocialConnect Auth
 
 See [example](./example).
 
+If I didn't see your issue, PR please ping me direct by [Telegram](https://telegram.me/ovrweb)!
+
 ## Supported type of providers
 
 - [x] OAuth1

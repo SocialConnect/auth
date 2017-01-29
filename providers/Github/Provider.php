@@ -6,6 +6,7 @@
 
 namespace SocialConnect\Github;
 
+use SocialConnect\Auth\Exception\InvalidResponse;
 use SocialConnect\Auth\Provider\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
@@ -44,9 +45,15 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
             ]
         );
 
+        if (!$response->isSuccess()) {
+            throw new InvalidResponse(
+                'API response with error code',
+                $response
+            );
+        }
+
         $body = $response->getBody();
         $result = json_decode($body);
-
 
         $hydrator = new ObjectMap(array(
             'id' => 'id',

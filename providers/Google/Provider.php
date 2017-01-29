@@ -8,6 +8,7 @@
 
 namespace SocialConnect\Google;
 
+use SocialConnect\Auth\Exception\InvalidResponse;
 use SocialConnect\Auth\Provider\OAuth2\AbstractProvider;
 use SocialConnect\Auth\Provider\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
@@ -100,6 +101,13 @@ class Provider extends AbstractProvider
             $this->getBaseUri() . 'oauth2/v1/userinfo',
             ['access_token' => $accessToken->getToken()]
         );
+
+        if (!$response->isSuccess()) {
+            throw new InvalidResponse(
+                'API response with error code',
+                $response
+            );
+        }
 
         $body = $response->getBody();
         $result = json_decode($body);

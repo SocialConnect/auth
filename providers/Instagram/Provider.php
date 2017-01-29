@@ -7,6 +7,7 @@
 namespace SocialConnect\Instagram;
 
 use SocialConnect\Auth\Exception\InvalidAccessToken;
+use SocialConnect\Auth\Exception\InvalidResponse;
 use SocialConnect\Auth\Provider\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
@@ -86,6 +87,13 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
                 'access_token' => $accessToken->getToken()
             ]
         );
+
+        if (!$response->isSuccess()) {
+            throw new InvalidResponse(
+                'API response with error code',
+                $response
+            );
+        }
 
         $body = $response->getBody();
         $result = json_decode($body);

@@ -6,6 +6,7 @@
 
 namespace SocialConnect\Facebook;
 
+use SocialConnect\Auth\Exception\InvalidResponse;
 use SocialConnect\Auth\Provider\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
@@ -52,6 +53,13 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
                 'fields' => $this->getFieldsInline()
             ]
         );
+
+        if (!$response->isSuccess()) {
+            throw new InvalidResponse(
+                'API response with error code',
+                $response
+            );
+        }
 
         $body = $response->getBody();
         $result = json_decode($body);

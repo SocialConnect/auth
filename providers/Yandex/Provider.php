@@ -81,6 +81,13 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
             ]
         );
 
+        if (!$response->isSuccess()) {
+            throw new InvalidResponse(
+                'API response with error code',
+                $response
+            );
+        }
+
         $result = $response->json();
         if (!$result) {
             throw new InvalidResponse(

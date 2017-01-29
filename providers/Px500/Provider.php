@@ -64,6 +64,13 @@ class Provider extends AbstractProvider
             $this->getBaseUri() . 'users'
         );
 
+        if (!$response->isSuccess()) {
+            throw new InvalidResponse(
+                'API response with error code',
+                $response
+            );
+        }
+
         $result = $response->json();
         if (!$result) {
             throw new InvalidResponse(

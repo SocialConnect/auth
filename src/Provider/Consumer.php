@@ -19,6 +19,13 @@ class Consumer
     protected $secret;
 
     /**
+     * Some API's need another key then secret for API requests
+     *
+     * @var string
+     */
+    protected $public;
+
+    /**
      * @var string|null
      */
     public $callback_url;
@@ -54,5 +61,21 @@ class Consumer
     public function getSecret()
     {
         return $this->secret;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublic()
+    {
+        return $this->public;
+    }
+
+    /**
+     * @param string $public
+     */
+    public function setPublic($public)
+    {
+        $this->public = $public;
     }
 }

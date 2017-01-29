@@ -37,6 +37,7 @@ class CollectionFactory implements FactoryInterface
         'digital-ocean' => '\SocialConnect\DigitalOcean\Provider',
         'yandex' => '\SocialConnect\Yandex\Provider',
         'mail-ru' => '\SocialConnect\MailRu\Provider',
+        'odnoklassniki' => '\SocialConnect\Odnoklassniki\Provider',
     ];
 
     /**
@@ -67,6 +68,10 @@ class CollectionFactory implements FactoryInterface
     public function factory($id, array $parameters, Service $service)
     {
         $consumer = new Consumer($parameters['applicationId'], $parameters['applicationSecret']);
+
+        if (isset($parameters['applicationPublic'])) {
+            $consumer->setPublic($parameters['applicationPublic']);
+        }
 
         $id = strtolower($id);
 

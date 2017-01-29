@@ -49,8 +49,8 @@ return array(
             'applicationSecret' => '',
         ),
         'Slack' => array(
-            'applicationId' => '5043509839.130419260038',
-            'applicationSecret' => 'd9816bdd232636ceba67137384f8fe2e',
+            'applicationId' => '',
+            'applicationSecret' => '',
             'scope' => array(
                 'identity.basic',
                 'identity.email',
@@ -58,5 +58,59 @@ return array(
                 'identity.avatar',
             )
         ),
+        'Twitch' => array(
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => array('user_read')
+        ),
+        'Px500' => array(
+            'applicationId' => '',
+            'applicationSecret' => ''
+        ),
+        'Bitbucket' => array(
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => array('account')
+        ),
+        'Amazon' => array(
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => array('profile')
+        ),
+        'Gitlab' => array(
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => array('read_user')
+        ),
+        'Vimeo' => array(
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => array()
+        ),
+        'Digital-ocean' => array(
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => array()
+        ),
+        'Yandex' => array(
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => array()
+        ),
+        //http://api.mail.ru/sites/my/add
+        'Mail-ru' => [
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => array()
+        ],
+        //http://api.mail.ru/sites/my/add
+        'Odnoklassniki' => [
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'applicationPublic' => '',
+            'scope' => array(
+                'GET_EMAIL'
+            )
+        ]
     )
 );

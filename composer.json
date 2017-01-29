@@ -52,7 +52,8 @@
             "SocialConnect\\Vimeo\\": "providers/Vimeo/",
             "SocialConnect\\DigitalOcean\\": "providers/DigitalOcean/",
             "SocialConnect\\Yandex\\": "providers/Yandex/",
-            "SocialConnect\\MailRu\\": "providers/MailRu/"
+            "SocialConnect\\MailRu\\": "providers/MailRu/",
+            "SocialConnect\\Odnoklassniki\\": "providers/Odnoklassniki/"
         }
     }
 }

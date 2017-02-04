@@ -15,48 +15,36 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Provider extends \SocialConnect\Auth\Provider\OAuth2\AbstractProvider
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getBaseUri()
     {
         return 'https://api.instagram.com/v1/';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getAuthorizeUri()
     {
         return 'https://api.instagram.com/oauth/authorize';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRequestTokenUri()
     {
         return 'https://api.instagram.com/oauth/access_token';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'instagram';
-    }
-
-    /**
-     * @param string $code
-     * @return AccessToken
-     */
-    public function getAccessToken($code)
-    {
-        if (!is_string($code)) {
-            throw new \InvalidArgumentException('Parameter $code must be a string');
-        }
-
-        $parameters = array(
-            'client_id' => $this->consumer->getKey(),
-            'client_secret' => $this->consumer->getSecret(),
-            'grant_type' => 'authorization_code',
-            'code' => $code,
-            'redirect_uri' => $this->getRedirectUrl()
-        );
-
-        $response = $this->service->getHttpClient()->request($this->getRequestTokenUri(), $parameters, Client::POST);
-        $body = $response->getBody();
-
-        return $this->parseToken($body);
     }
 
     /**

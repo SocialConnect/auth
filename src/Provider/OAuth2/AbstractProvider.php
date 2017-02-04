@@ -66,7 +66,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * Parse access token from response's $body
      *
-     * @param $body
+     * @param string|bool $body
      * @return AccessToken
      * @throws InvalidAccessToken
      */

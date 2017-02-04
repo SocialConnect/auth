@@ -14,93 +14,107 @@ use SocialConnect\Common\Http\Client\Client;
 abstract class AbstractProvider extends AbstractBaseProvider
 {
     /**
-     * @return array
-     */
-    public function getAuthUrlParameters()
-    {
-        return array(
-            'client_id' => $this->consumer->getKey(),
-            'redirect_uri' => $this->getRedirectUrl()
-        );
-    }
-
-    /**
      * @return string
      */
+    abstract public function getOpenIdUrl();
+
+    /**
+     * @var int
+     */
+    protected $version;
+
+    /**
+     * @var string
+     */
+    protected $loginEntrypoint;
+
+    /**
+     * @param bool $immediate
+     * @return string
+     */
+    protected function makeAuthUrlV2($immediate)
+    {
+        $params = array(
+            'openid.ns' => 'http://specs.openid.net/auth/2.0',
+            'openid.mode' => $immediate ? 'checkid_immediate' : 'checkid_setup',
+            'openid.return_to' => $this->getRedirectUrl(),
+            'openid.realm' => $this->getRedirectUrl()
+        );
+
+        $params['openid.ns.sreg'] = 'http://openid.net/extensions/sreg/1.1';
+        $params['openid.identity'] = $params['openid.claimed_id'] = 'http://specs.openid.net/auth/2.0/identifier_select';
+
+        return $this->loginEntrypoint . '?' . http_build_query($params, '', '&');
+    }
+
+    /**
+     * @param string $url
+     * @return string
+     */
+    protected function discover($url)
+    {
+        $response = $this->service->getHttpClient()->request(
+            $url,
+            [],
+            Client::GET,
+            [
+                'Content-Type' => 'application/json'
+            ]
+        );
+
+        $this->version = 2;
+        $this->loginEntrypoint = 'https://steamcommunity.com/openid/login';
+
+        return $this->getOpenIdUrl();
+    }
+
     public function makeAuthUrl()
     {
-        $urlParameters = $this->getAuthUrlParameters();
+        $this->discover($this->getOpenIdUrl());
 
-        if (count($this->scope) > 0) {
-            $urlParameters['scope'] = $this->getScopeInline();
-        }
-
-        return $this->getAuthorizeUri() . '?' . http_build_query($urlParameters);
+        return $this->makeAuthUrlV2(false);
     }
 
     /**
-     * Parse access token from response's $body
+     * @link http://openid.net/specs/openid-authentication-2_0.html#verification
      *
-     * @param $body
+     * @param $requestParameters
      * @return AccessToken
-     * @throws InvalidAccessToken
+     * @throws \SocialConnect\Auth\Exception\InvalidAccessToken
      */
-    public function parseToken($body)
+    public function getAccessTokenByRequestParameters($requestParameters)
     {
-        parse_str($body, $token);
-
-        if (!is_array($token) || !isset($token['access_token'])) {
-            throw new InvalidAccessToken('Provider API returned an unexpected response');
-        }
-
-        return new AccessToken($token['access_token']);
-    }
-
-    /**
-     * @param string $code
-     * @return AccessToken
-     */
-    public function getAccessToken($code)
-    {
-        if (!is_string($code)) {
-            throw new \InvalidArgumentException('Parameter $code must be a string');
-        }
-
-        $parameters = array(
-            'code' => $code,
-            'grant_type' => 'authorization_code',
-            'redirect_uri' => $this->getRedirectUrl()
+        $params = array(
+            'openid.assoc_handle' => $requestParameters['openid_assoc_handle'],
+            'openid.signed' => $requestParameters['openid_signed'],
+            'openid.sig' => $requestParameters['openid_sig'],
+            'openid.ns' => $requestParameters['openid_ns'],
+            'openid.op_endpoint' => $requestParameters['openid_op_endpoint'],
+            'openid.claimed_id' => $requestParameters['openid_claimed_id'],
+            'openid.identity' => $requestParameters['openid_identity'],
+            'openid.return_to' => $this->getRedirectUrl(),
+            'openid.response_nonce' => $requestParameters['openid_response_nonce'],
+            'openid.mode' => 'check_authentication'
         );
+
+        if (isset($requestParameters['openid_claimed_id'])) {
+            $claimedId = $requestParameters['openid_claimed_id'];
+        } else {
+            $claimedId = $requestParameters['openid_identity'];
+        }
+
+        $server = $this->discover($claimedId);
 
         $response = $this->service->getHttpClient()->request(
-            $this->getRequestTokenUri(),
-            $parameters,
-            Client::POST,
-            array(
-                'Authorization' => 'Basic '
-            )
+            'https://steamcommunity.com/openid/login',
+            $params,
+            Client::POST
         );
 
-        $body = $response->getBody();
+        if (preg_match('/is_valid\s*:\s*true/i', $response->getBody())) {
+            return new AccessToken($requestParameters['openid_identity']);
+        }
 
-        return $this->parseToken($body);
+        throw new InvalidAccessToken;
     }
-
-
-    /**
-     * @param array $parameters
-     * @return AccessToken
-     */
-    public function getAccessTokenByRequestParameters(array $parameters)
-    {
-        return $this->getAccessToken($parameters['code']);
-    }
-
-    /**
-     * Get current user identity from social network by $accessToken
-     *
-     * @param AccessToken $accessToken
-     * @return User
-     */
-    abstract public function getIdentity(AccessToken $accessToken);
 }

@@ -6,34 +6,23 @@
 
 namespace SocialConnect\Auth\Provider\OpenID;
 
-use InvalidArgumentException;
-
 class AccessToken
 {
     /**
      * @var string
      */
-    protected $token;
+    protected $identity;
 
-    /**
-     * @param string $token
-     */
-    public function __construct($token)
+    public function __construct($identity)
     {
-        if (!is_string($token)) {
-            throw new InvalidArgumentException(
-                '$token must be a string, passed: ' . gettype($token)
-            );
-        }
-
-        $this->token = $token;
+        $this->identity = $identity;
     }
 
     /**
      * @return string
      */
-    public function getToken()
+    public function getIdentity()
     {
-        return $this->token;
+        return $this->identity;
     }
 }

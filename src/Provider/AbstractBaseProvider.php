@@ -6,16 +6,7 @@
 
 namespace SocialConnect\Auth\Provider;
 
-use Exception;
-use LogicException;
-use SocialConnect\Auth\Exception\InvalidAccessToken;
-use SocialConnect\Auth\OAuth\Request;
-use SocialConnect\Auth\OAuth\MethodHMACSHA1;
-use SocialConnect\Auth\OAuth\Token;
-use SocialConnect\Auth\Provider\Consumer;
 use SocialConnect\Auth\Service;
-use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Http\Client\Client;
 
 abstract class AbstractBaseProvider
 {

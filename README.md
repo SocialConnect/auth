@@ -17,14 +17,15 @@ If I didn't see your issue, PR please ping me direct by [Telegram](https://teleg
 
 - [x] OAuth1
 - [x] OAuth2
-- [ ] OpenID (WIP!)
+- [X] OpenID v1 (WIP!)
+- [X] OpenID v2
 
 ## Supported providers
 
 ### OpenId
 
 * PayPal (WIP!)
-* Steam (WIP)
+* Steam
 
 ### OAuth 1
 

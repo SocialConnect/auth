@@ -8,6 +8,7 @@ namespace SocialConnect\Auth\Provider\OAuth2;
 
 use InvalidArgumentException;
 use SocialConnect\Auth\Exception\InvalidAccessToken;
+use SocialConnect\Auth\Exception\InvalidResponse;
 use SocialConnect\Auth\Provider\AbstractBaseProvider;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
@@ -88,6 +89,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * @param string $code
      * @return AccessToken
+     * @throws \SocialConnect\Auth\Exception\InvalidResponse
      */
     public function getAccessToken($code)
     {
@@ -111,8 +113,15 @@ abstract class AbstractProvider extends AbstractBaseProvider
                 'Content-Type' => 'application/x-www-form-urlencoded'
             ]
         );
-        $body = $response->getBody();
 
+        if (!$response->isSuccess()) {
+            throw new InvalidResponse(
+                'API response with error code',
+                $response
+            );
+        }
+
+        $body = $response->getBody();
         return $this->parseToken($body);
     }
 

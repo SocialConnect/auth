@@ -4,9 +4,10 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace SocialConnect\Auth\OAuth;
+namespace SocialConnect\Auth\Provider\OAuth1;
 
 use SocialConnect\Auth\Provider\Consumer;
+use SocialConnect\Auth\Provider\OAuth1\Signature\AbstractSignatureMethod;
 
 class Request
 {

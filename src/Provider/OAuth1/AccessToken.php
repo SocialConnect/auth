@@ -6,7 +6,7 @@
 
 namespace SocialConnect\Auth\Provider\OAuth1;
 
-class AccessToken extends \SocialConnect\Auth\OAuth\Token
+class AccessToken extends \SocialConnect\Auth\Provider\OAuth1\Token
 {
     /**
      * @var integer

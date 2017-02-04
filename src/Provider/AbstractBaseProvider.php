@@ -10,7 +10,7 @@ use Exception;
 use LogicException;
 use SocialConnect\Auth\Exception\InvalidAccessToken;
 use SocialConnect\Auth\OAuth\Request;
-use SocialConnect\Auth\OAuth\SignatureMethodHMACSHA1;
+use SocialConnect\Auth\OAuth\MethodHMACSHA1;
 use SocialConnect\Auth\OAuth\Token;
 use SocialConnect\Auth\Provider\Consumer;
 use SocialConnect\Auth\Service;

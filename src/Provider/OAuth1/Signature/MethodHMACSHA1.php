@@ -4,11 +4,14 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace SocialConnect\Auth\OAuth;
+namespace SocialConnect\Auth\Provider\OAuth1\Signature;
 
 use SocialConnect\Auth\Provider\Consumer;
+use SocialConnect\Auth\Provider\OAuth1\Request;
+use SocialConnect\Auth\Provider\OAuth1\Token;
+use SocialConnect\Auth\Provider\OAuth1\Util;
 
-class SignatureMethodHMACSHA1 extends AbstractSignatureMethod
+class MethodHMACSHA1 extends AbstractSignatureMethod
 {
     /**
      * @return string

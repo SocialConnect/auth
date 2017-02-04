@@ -10,9 +10,9 @@ use Exception;
 use SebastianBergmann\GlobalState\RuntimeException;
 use SocialConnect\Auth\Exception\InvalidAccessToken;
 use SocialConnect\Auth\Exception\InvalidResponse;
-use SocialConnect\Auth\OAuth\Request;
-use SocialConnect\Auth\OAuth\SignatureMethodHMACSHA1;
-use SocialConnect\Auth\OAuth\Token;
+use SocialConnect\Auth\Provider\OAuth1\Request;
+use SocialConnect\Auth\Provider\OAuth1\Signature\MethodHMACSHA1;
+use SocialConnect\Auth\Provider\OAuth1\Token;
 use SocialConnect\Auth\Provider\AbstractBaseProvider;
 use SocialConnect\Auth\Provider\Consumer;
 use SocialConnect\Auth\Provider\OAuth1\Exception\InvalidRequestToken;
@@ -146,7 +146,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         );
 
         $request->signRequest(
-            new SignatureMethodHMACSHA1(),
+            new MethodHMACSHA1(),
             $this->consumer,
             $this->consumerToken
         );

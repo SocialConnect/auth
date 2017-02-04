@@ -15,10 +15,11 @@ If I didn't see your issue, PR please ping me direct by [Telegram](https://teleg
 
 ## Supported type of providers
 
-- [x] OAuth1
-- [x] OAuth2
-- [X] OpenID v1 (WIP!)
-- [X] OpenID v2
+- [x] OAuth1 [spec RFC 5849](https://tools.ietf.org/html/rfc5849)
+- [x] OAuth2 [spec RFC 6749](https://tools.ietf.org/html/rfc6749)
+- [X] OpenID v1 (1.1) (WIP!) [spec](https://openid.net/specs/openid-authentication-1_1.html)
+- [X] OpenID v2 [spec](http://openid.net/specs/openid-authentication-2_0.html)
+- [X] OpenID Connect (1.0) (WIP!) [spec](http://openid.net/specs/openid-connect-core-1_0.html#OpenID.Discovery)
 
 ## Supported providers
 

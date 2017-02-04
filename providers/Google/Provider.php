@@ -28,7 +28,15 @@ class Provider extends AbstractProvider
     protected $requestHttpMethod = Client::GET;
 
     /**
-     * @return string
+     * {@inheritdoc}
+     */
+    public function getBaseUri()
+    {
+        return 'https://www.googleapis.com/';
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getAuthorizeUri()
     {
@@ -36,44 +44,19 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'google';
-    }
-
-    /**
-     * @param string $code
-     * @return AccessToken
-     * @throws \InvalidArgumentException
-     */
-    public function getAccessToken($code)
-    {
-        if (!is_string($code)) {
-            throw new \InvalidArgumentException('Parameter $code must be a string');
-        }
-
-        $parameters = array(
-            'client_id' => $this->consumer->getKey(),
-            'client_secret' => $this->consumer->getSecret(),
-            'grant_type' => 'authorization_code',
-            'code' => $code,
-            'redirect_uri' => $this->getRedirectUrl()
-        );
-
-        $response = $this->service->getHttpClient()->request($this->getRequestTokenUri(), $parameters, Client::POST);
-        $body = $response->getBody();
-
-        return $this->parseToken($body);
-    }
-
-    /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getRequestTokenUri()
     {
         return 'https://accounts.google.com/o/oauth2/token';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'google';
     }
 
     /**
@@ -99,7 +82,9 @@ class Provider extends AbstractProvider
     {
         $response = $this->service->getHttpClient()->request(
             $this->getBaseUri() . 'oauth2/v1/userinfo',
-            ['access_token' => $accessToken->getToken()]
+            [
+                'access_token' => $accessToken->getToken()
+            ]
         );
 
         if (!$response->isSuccess()) {
@@ -122,13 +107,5 @@ class Provider extends AbstractProvider
         ));
 
         return $hydrator->hydrate(new User(), $result);
-    }
-
-    /**
-     * @return string
-     */
-    public function getBaseUri()
-    {
-        return 'https://www.googleapis.com/';
     }
 }

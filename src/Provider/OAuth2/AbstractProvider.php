@@ -22,6 +22,16 @@ abstract class AbstractProvider extends AbstractBaseProvider
     protected $requestHttpMethod = Client::POST;
 
     /**
+     * @return string
+     */
+    abstract public function getAuthorizeUri();
+
+    /**
+     * @return string
+     */
+    abstract public function getRequestTokenUri();
+
+    /**
      * Default parameters for auth url, can be redeclared inside implementation of the Provider
      *
      * @return array

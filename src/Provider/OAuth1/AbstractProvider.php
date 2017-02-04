@@ -71,6 +71,16 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * @return string
      */
+    abstract public function getAuthorizeUri();
+
+    /**
+     * @return string
+     */
+    abstract public function getRequestTokenUri();
+
+    /**
+     * @return string
+     */
     abstract public function getRequestTokenAccessUri();
 
     /**

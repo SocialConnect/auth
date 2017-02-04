@@ -71,16 +71,6 @@ abstract class AbstractBaseProvider
     abstract public function getBaseUri();
 
     /**
-     * @return string
-     */
-    abstract public function getAuthorizeUri();
-
-    /**
-     * @return string
-     */
-    abstract public function getRequestTokenUri();
-
-    /**
      * Return Provider's name
      *
      * @return string

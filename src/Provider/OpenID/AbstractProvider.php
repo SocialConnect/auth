@@ -7,6 +7,7 @@
 namespace SocialConnect\Auth\Provider\OpenID;
 
 use SocialConnect\Auth\Exception\InvalidAccessToken;
+use SocialConnect\Auth\Exception\InvalidResponse;
 use SocialConnect\Auth\Provider\AbstractBaseProvider;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
@@ -50,6 +51,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * @param string $url
      * @return string
+     * @throws \SocialConnect\Auth\Exception\InvalidResponse
      */
     protected function discover($url)
     {
@@ -62,8 +64,32 @@ abstract class AbstractProvider extends AbstractBaseProvider
             ]
         );
 
+        if (!$response->isSuccess()) {
+            throw new InvalidResponse(
+                'API response with error code',
+                $response
+            );
+        }
+
+        if (!$response->hasHeader('Content-Type')) {
+            throw new InvalidResponse(
+                'Unknown Content-Type',
+                $response
+            );
+        }
+
+        $contentType = $response->getHeader('Content-Type');
+        if (strpos($contentType, 'application/xrds+xml;charset=utf-8') === false) {
+            throw new InvalidResponse(
+                'Unexpected Content-Type',
+                $response
+            );
+        }
+
+        $xml = new \SimpleXMLElement($response->getBody());
+
         $this->version = 2;
-        $this->loginEntrypoint = 'https://steamcommunity.com/openid/login';
+        $this->loginEntrypoint = $xml->XRD->Service->URI;
 
         return $this->getOpenIdUrl();
     }
@@ -103,10 +129,10 @@ abstract class AbstractProvider extends AbstractBaseProvider
             $claimedId = $requestParameters['openid_identity'];
         }
 
-        $server = $this->discover($claimedId);
+        $this->discover($claimedId);
 
         $response = $this->service->getHttpClient()->request(
-            'https://steamcommunity.com/openid/login',
+            $this->loginEntrypoint,
             $params,
             Client::POST
         );

@@ -53,7 +53,8 @@
             "SocialConnect\\DigitalOcean\\": "providers/DigitalOcean/",
             "SocialConnect\\Yandex\\": "providers/Yandex/",
             "SocialConnect\\MailRu\\": "providers/MailRu/",
-            "SocialConnect\\Odnoklassniki\\": "providers/Odnoklassniki/"
+            "SocialConnect\\Odnoklassniki\\": "providers/Odnoklassniki/",
+            "SocialConnect\\Steam\\": "providers/Steam/"
         }
     }
 }

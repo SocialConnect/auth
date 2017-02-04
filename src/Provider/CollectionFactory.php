@@ -38,6 +38,7 @@ class CollectionFactory implements FactoryInterface
         'yandex' => '\SocialConnect\Yandex\Provider',
         'mail-ru' => '\SocialConnect\MailRu\Provider',
         'odnoklassniki' => '\SocialConnect\Odnoklassniki\Provider',
+        'steam' => '\SocialConnect\Steam\Provider',
     ];
 
     /**

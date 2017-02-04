@@ -17,20 +17,15 @@ class Request
 
     public $http_url;
 
-    // for debug purposes
-    public $base_string;
-
-    public static $version = '1.0';
-
-    public static $POST_INPUT = 'php://input';
-
     public function __construct($http_method, $http_url, $parameters = null)
     {
-        $parameters = ($parameters) ? $parameters : array();
-        $parameters = array_merge(Util::parseParameters(parse_url($http_url, PHP_URL_QUERY)), $parameters);
-        $this->parameters  = $parameters;
         $this->http_method = $http_method;
         $this->http_url    = $http_url;
+
+        $parameters = ($parameters) ? $parameters : array();
+        $parameters = array_merge(Util::parseParameters(parse_url($http_url, PHP_URL_QUERY)), $parameters);
+
+        $this->parameters  = $parameters;
     }
     
     /**
@@ -44,7 +39,7 @@ class Request
     public static function fromConsumerAndToken(Consumer $consumer, Token $token, $method, $url, array $parameters = array())
     {
         $defaults   = array(
-            'oauth_version' => self::$version,
+            'oauth_version' => '1.0',
             'oauth_nonce' => self::generateNonce(),
             'oauth_timestamp' => time(),
             'oauth_consumer_key' => $consumer->getKey()
@@ -74,18 +69,6 @@ class Request
         } else {
             $this->parameters[$name] = $value;
         }
-    }
-    public function getParameter($name)
-    {
-        return isset($this->parameters[$name]) ? $this->parameters[$name] : null;
-    }
-    public function getParameters()
-    {
-        return $this->parameters;
-    }
-    public function unsetParameter($name)
-    {
-        unset($this->parameters[$name]);
     }
 
     /**
@@ -185,6 +168,7 @@ class Request
     public function toHeader($realm = null)
     {
         $first = true;
+
         if ($realm) {
             $out   = 'OAuth realm="' . Util::urlencodeRFC3986($realm) . '"';
             $first = false;
@@ -203,6 +187,7 @@ class Request
             $out .= Util::urlencodeRFC3986($k) . '="' . Util::urlencodeRFC3986($v) . '"';
             $first = false;
         }
+
         return array(
             'Authorization' => $out
         ); //- hacked into this to make it return an array. 15/11/2014.
@@ -214,27 +199,16 @@ class Request
     }
 
     /**
-     * @param AbstractSignatureMethod $signature_method
-     * @param Consumer $consumer
-     * @param Token $token
-     */
-    public function signRequest(AbstractSignatureMethod $signature_method, Consumer $consumer, Token $token)
-    {
-        $this->setParameter('oauth_signature_method', $signature_method->getName(), false);
-        $signature = $this->buildSignature($signature_method, $consumer, $token);
-        $this->setParameter('oauth_signature', $signature, false);
-    }
-
-    /**
      * @param AbstractSignatureMethod $signatureMethod
      * @param Consumer $consumer
      * @param Token $token
-     * @return string
      */
-    public function buildSignature(AbstractSignatureMethod $signatureMethod, Consumer $consumer, Token $token)
+    public function signRequest(AbstractSignatureMethod $signatureMethod, Consumer $consumer, Token $token)
     {
+        $this->setParameter('oauth_signature_method', $signatureMethod->getName(), false);
+
         $signature = $signatureMethod->buildSignature($this, $consumer, $token);
-        return $signature;
+        $this->setParameter('oauth_signature', $signature, false);
     }
 
     /**

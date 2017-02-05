@@ -6,7 +6,7 @@
 
 namespace Test\Provider;
 
-use SocialConnect\Auth\Provider\Factory;
+use SocialConnect\Auth\Factory;
 use SocialConnect\Auth\Service;
 
 class FactoryTest extends \Test\TestCase
@@ -20,7 +20,7 @@ class FactoryTest extends \Test\TestCase
             'applicationSecret' => 'applicationSecretTest'
         ), $service);
 
-        $this->assertInstanceOf('SocialConnect\Vk\Provider', $vkProvider);
+        $this->assertInstanceOf(\SocialConnect\Auth\Provider\Vk::class, $vkProvider);
         $consumer = $vkProvider->getConsumer();
 
         $this->assertSame('applicationIdTest', $consumer->getKey());

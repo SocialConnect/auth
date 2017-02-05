@@ -6,9 +6,9 @@
 
 namespace Test\Providers;
 
-use SocialConnect\Auth\Exception\InvalidAccessToken;
-use SocialConnect\Auth\Provider\Consumer;
-use SocialConnect\Auth\Provider\OAuth2\AccessToken;
+use SocialConnect\Auth\Provider\Exception\InvalidAccessToken;
+use SocialConnect\Auth\Consumer;
+use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Http\Client\ClientInterface;
 use Test\TestCase;
 
@@ -16,7 +16,7 @@ class VkTest extends TestCase
 {
     /**
      * @param ClientInterface|null $httpClient
-     * @return \SocialConnect\Vk\Provider
+     * @return \SocialConnect\Auth\Provider\Vk
      */
     protected function getProvider(ClientInterface $httpClient = null)
     {
@@ -26,7 +26,7 @@ class VkTest extends TestCase
             $service->setHttpClient($httpClient);
         }
 
-        return new \SocialConnect\Vk\Provider(
+        return new \SocialConnect\Auth\Provider\Vk(
             $service,
             new Consumer(
                 'unknown',

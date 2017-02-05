@@ -6,7 +6,7 @@
 
 namespace Test\Provider\OAuth1;
 
-use SocialConnect\Auth\Provider\OAuth1\AccessToken;
+use SocialConnect\OAuth1\AccessToken;
 
 class AccessTokenTest extends \Test\TestCase
 {

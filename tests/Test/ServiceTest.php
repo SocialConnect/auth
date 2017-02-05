@@ -11,7 +11,7 @@ class ServiceTest extends TestCase
     public function testConstructSuccess()
     {
         $service = $this->getService();
-        $this->assertInstanceOf('SocialConnect\Auth\Service', $service);
+        $this->assertInstanceOf(\SocialConnect\Auth\Service::class, $service);
     }
 
     public function testGetProvider()
@@ -19,6 +19,6 @@ class ServiceTest extends TestCase
         $service = $this->getService();
         $vkProvider = $service->getProvider('Vk');
 
-        $this->assertInstanceOf('SocialConnect\Vk\Provider', $vkProvider);
+        $this->assertInstanceOf(\SocialConnect\Auth\Provider\Vk::class, $vkProvider);
     }
 }

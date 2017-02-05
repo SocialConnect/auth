@@ -58,6 +58,12 @@ class Vimeo extends \SocialConnect\OAuth2\AbstractProvider
     {
         $response = json_decode($body, false);
         if ($response) {
+            if (!isset($response->access_token)) {
+                throw new InvalidAccessToken('access_token field does not exists inside API JSON response');
+            }
+
+            $token = new AccessToken($response->access_token);
+
             // Vimeo return User on get Access Token Request (looks like to protect round trips)
             if (isset($response->user)) {
                 $hydrator = new ObjectMap(array(
@@ -66,13 +72,11 @@ class Vimeo extends \SocialConnect\OAuth2\AbstractProvider
 
                 $this->user = $hydrator->hydrate(new User(), $response->user);
                 $this->user->id = str_replace('/users/', '', $this->user->uri);
+
+                $token->setUid($this->user->id);
             }
 
-            if (isset($response->access_token)) {
-                return new AccessToken($response->access_token);
-            }
-
-            throw new InvalidAccessToken('access_token field does not exists inside API JSON response');
+            return $token;
         }
 
         throw new InvalidAccessToken('AccessToken is not a valid JSON');

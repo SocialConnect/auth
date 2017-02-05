@@ -6,6 +6,8 @@
 
 namespace SocialConnect\OpenIDConnect;
 
-class AccessToken extends \SocialConnect\OAuth2\AccessToken
+use SocialConnect\Auth\AccessTokenInterface;
+
+class AccessToken extends \SocialConnect\OAuth2\AccessToken implements AccessTokenInterface
 {
 }

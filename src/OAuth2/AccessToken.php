@@ -7,8 +7,9 @@
 namespace SocialConnect\OAuth2;
 
 use InvalidArgumentException;
+use SocialConnect\Auth\AccessTokenInterface;
 
-class AccessToken
+class AccessToken implements AccessTokenInterface
 {
     /**
      * @var string
@@ -44,18 +45,18 @@ class AccessToken
     }
 
     /**
-     * @return int|null
-     */
-    public function getUid()
-    {
-        return $this->uid;
-    }
-
-    /**
      * @param int|null $uid
      */
     public function setUid($uid)
     {
         $this->uid = $uid;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getUserId()
+    {
+        return $this->uid;
     }
 }

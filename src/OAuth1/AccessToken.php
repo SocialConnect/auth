@@ -6,7 +6,9 @@
 
 namespace SocialConnect\OAuth1;
 
-class AccessToken extends \SocialConnect\OAuth1\Token
+use SocialConnect\Auth\AccessTokenInterface;
+
+class AccessToken extends \SocialConnect\OAuth1\Token implements AccessTokenInterface
 {
     /**
      * @var integer
@@ -53,5 +55,14 @@ class AccessToken extends \SocialConnect\OAuth1\Token
     public function setScreenName($screenName)
     {
         $this->screenName = $screenName;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getToken()
+    {
+        // Not supported for OAuth1, only getUserId()
+        return null;
     }
 }

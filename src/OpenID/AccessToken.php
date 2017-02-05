@@ -6,9 +6,13 @@
 
 namespace SocialConnect\OpenID;
 
-class AccessToken
+use SocialConnect\Auth\AccessTokenInterface;
+
+class AccessToken implements AccessTokenInterface
 {
     /**
+     * OpenID doesnot have a $token, it response $identity, it's a link to user
+     *
      * @var string
      */
     protected $identity;
@@ -19,10 +23,19 @@ class AccessToken
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
-    public function getIdentity()
+    public function getToken()
     {
         return $this->identity;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUserId()
+    {
+        // not supported for OpenId
+        return null;
     }
 }

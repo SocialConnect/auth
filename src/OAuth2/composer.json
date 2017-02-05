@@ -1,0 +1,16 @@
+{
+    "name": "socialconnect/oauth2",
+    "description": "Implementation of OAuth 2 client specification",
+    "type": "library",
+    "require": {
+        "socialconnect/auth": "dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dmitry Patsura",
+            "email": "talk@dmtry.me"
+        }
+    ],
+    "minimum-stability": "dev"
+}

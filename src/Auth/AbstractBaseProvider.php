@@ -6,6 +6,8 @@
 
 namespace SocialConnect\Auth;
 
+use SocialConnect\Auth\AccessTokenInterface;
+
 abstract class AbstractBaseProvider
 {
     /**
@@ -76,6 +78,14 @@ abstract class AbstractBaseProvider
      * @return string
      */
     abstract public function makeAuthUrl();
+
+    /**
+     * Get current user identity from social network by $accessToken
+     *
+     * @param AccessTokenInterface $accessToken
+     * @return \SocialConnect\Common\Entity\User
+     */
+    abstract public function getIdentity(AccessTokenInterface $accessToken);
 
     /**
      * @return array

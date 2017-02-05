@@ -57,10 +57,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         $response = $this->service->getHttpClient()->request(
             $url,
             [],
-            Client::GET,
-            [
-                'Content-Type' => 'application/json'
-            ]
+            Client::GET
         );
 
         if (!$response->isSuccess()) {

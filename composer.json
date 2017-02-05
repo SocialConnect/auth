@@ -35,26 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "SocialConnect\\Auth\\": "src/",
-            "SocialConnect\\Vk\\": "providers/Vk/",
-            "SocialConnect\\Github\\": "providers/Github/",
-            "SocialConnect\\Google\\": "providers/Google/",
-            "SocialConnect\\Facebook\\": "providers/Facebook/",
-            "SocialConnect\\Twitter\\": "providers/Twitter/",
-            "SocialConnect\\Instagram\\": "providers/Instagram/",
-            "SocialConnect\\Paypal\\": "providers/Paypal/",
-            "SocialConnect\\Slack\\": "providers/Slack/",
-            "SocialConnect\\Twitch\\": "providers/Twitch/",
-            "SocialConnect\\Px500\\": "providers/Px500/",
-            "SocialConnect\\Bitbucket\\": "providers/Bitbucket/",
-            "SocialConnect\\Amazon\\": "providers/Amazon/",
-            "SocialConnect\\Gitlab\\": "providers/Gitlab/",
-            "SocialConnect\\Vimeo\\": "providers/Vimeo/",
-            "SocialConnect\\DigitalOcean\\": "providers/DigitalOcean/",
-            "SocialConnect\\Yandex\\": "providers/Yandex/",
-            "SocialConnect\\MailRu\\": "providers/MailRu/",
-            "SocialConnect\\Odnoklassniki\\": "providers/Odnoklassniki/",
-            "SocialConnect\\Steam\\": "providers/Steam/"
+            "SocialConnect\\": "src/"
         }
+    },
+    "replace": {
+        "socialconnect/oauth1": "self.version",
+        "socialconnect/oauth2": "self.version",
+        "socialconnect/openid": "self.version",
+        "socialconnect/openidconnect": "self.version"
     }
 }

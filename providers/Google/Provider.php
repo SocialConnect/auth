@@ -55,9 +55,7 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * @param string $body
-     * @return AccessToken
-     * @throws InvalidAccessToken
+     * {@inheritdoc}
      */
     public function parseToken($body)
     {

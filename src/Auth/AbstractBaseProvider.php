@@ -70,7 +70,7 @@ abstract class AbstractBaseProvider
 
     /**
      * @param array $requestParameters
-     * @return mixed
+     * @return \SocialConnect\Auth\AccessTokenInterface
      */
     abstract public function getAccessTokenByRequestParameters(array $requestParameters);
 

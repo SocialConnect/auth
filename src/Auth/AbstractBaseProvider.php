@@ -84,6 +84,8 @@ abstract class AbstractBaseProvider
      *
      * @param AccessTokenInterface $accessToken
      * @return \SocialConnect\Common\Entity\User
+     *
+     * @throws \SocialConnect\Auth\Provider\Exception\InvalidResponse
      */
     abstract public function getIdentity(AccessTokenInterface $accessToken);
 

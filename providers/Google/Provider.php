@@ -23,11 +23,6 @@ use SocialConnect\Auth\Exception\InvalidAccessToken;
 class Provider extends AbstractProvider
 {
     /**
-     * @var string
-     */
-    protected $requestHttpMethod = Client::GET;
-
-    /**
      * {@inheritdoc}
      */
     public function getBaseUri()

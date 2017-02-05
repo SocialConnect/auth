@@ -12,7 +12,6 @@ use SocialConnect\Auth\Exception\InvalidResponse;
 use SocialConnect\Auth\Provider\OAuth2\AbstractProvider;
 use SocialConnect\Auth\Provider\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Common\Hydrator\ObjectMap;
 use SocialConnect\Auth\Exception\InvalidAccessToken;
 

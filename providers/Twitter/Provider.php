@@ -6,6 +6,7 @@
 
 namespace SocialConnect\Twitter;
 
+use SocialConnect\Auth\Exception\InvalidResponse;
 use SocialConnect\Auth\Provider\OAuth1\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
@@ -55,17 +56,27 @@ class Provider extends \SocialConnect\Auth\Provider\OAuth1\AbstractProvider
             $this->requestTokenHeaders
         );
 
-        if ($response->getStatusCode() == 200) {
-            $result = $response->json();
-
-            $hydrator = new ObjectMap(array(
-                'id' => 'id',
-                'name' => 'fullname',
-                'screen_name' => 'username'
-            ));
-            return $hydrator->hydrate(new User(), $result[0]);
+        if (!$response->isSuccess()) {
+            throw new InvalidResponse(
+                'API response with error code',
+                $response
+            );
         }
 
-        return false;
+        $result = $response->json();
+        if (!$result) {
+            throw new InvalidResponse(
+                'API response is not a valid JSON object',
+                $response->getBody()
+            );
+        }
+
+        $hydrator = new ObjectMap(array(
+            'id' => 'id',
+            'name' => 'fullname',
+            'screen_name' => 'username'
+        ));
+
+        return $hydrator->hydrate(new User(), $result[0]);
     }
 }

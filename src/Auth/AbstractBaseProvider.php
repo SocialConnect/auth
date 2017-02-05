@@ -67,6 +67,17 @@ abstract class AbstractBaseProvider
     abstract public function getName();
 
     /**
+     * @param array $requestParameters
+     * @return mixed
+     */
+    abstract public function getAccessTokenByRequestParameters(array $requestParameters);
+
+    /**
+     * @return string
+     */
+    abstract public function makeAuthUrl();
+
+    /**
      * @return array
      */
     public function getScope()

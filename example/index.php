@@ -40,6 +40,8 @@ $app->get('/auth/cb/{provider}/', function (\Slim\Http\Request $request) use (&$
     $accessToken = $provider->getAccessTokenByRequestParameters($_GET);
     dump($accessToken);
 
+    dump($accessToken->getUserId());
+
     $user = $provider->getIdentity($accessToken);
     dump($user);
 });

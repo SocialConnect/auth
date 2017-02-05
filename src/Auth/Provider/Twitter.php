@@ -6,6 +6,7 @@
 
 namespace SocialConnect\Auth\Provider;
 
+use SocialConnect\Auth\AccessTokenInterface;
 use SocialConnect\Auth\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth1\AccessToken;
 use SocialConnect\Common\Entity\User;
@@ -42,7 +43,7 @@ class Twitter extends \SocialConnect\OAuth1\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function getIdentity(AccessToken $accessToken)
+    public function getIdentity(AccessTokenInterface $accessToken)
     {
         $this->consumerToken = $accessToken;
 

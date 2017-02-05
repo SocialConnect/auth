@@ -6,9 +6,9 @@
 
 namespace SocialConnect\Auth\Provider;
 
+use SocialConnect\Auth\AccessTokenInterface;
 use SocialConnect\Auth\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth1\AbstractProvider;
-use SocialConnect\OAuth1\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
@@ -58,7 +58,7 @@ class Px500 extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function getIdentity(AccessToken $accessToken)
+    public function getIdentity(AccessTokenInterface $accessToken)
     {
         $response = $this->service->getHttpClient()->request(
             $this->getBaseUri() . 'users'

@@ -6,6 +6,7 @@
 
 namespace SocialConnect\Auth\Provider;
 
+use SocialConnect\Auth\AccessTokenInterface;
 use SocialConnect\Auth\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Auth\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth2\AccessToken;
@@ -74,9 +75,10 @@ class Odnoklassniki extends \SocialConnect\OAuth2\AbstractProvider
      * @link https://apiok.ru/dev/methods/
      *
      * @param array $requestParameters
+     * @param AccessTokenInterface $accessToken
      * @return string
      */
-    protected function makeSecureSignature(array $requestParameters, AccessToken $accessToken)
+    protected function makeSecureSignature(array $requestParameters, AccessTokenInterface $accessToken)
     {
         ksort($requestParameters);
 
@@ -96,7 +98,7 @@ class Odnoklassniki extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function getIdentity(AccessToken $accessToken)
+    public function getIdentity(AccessTokenInterface $accessToken)
     {
         $parameters = [
             'application_key' => $this->consumer->getPublic(),

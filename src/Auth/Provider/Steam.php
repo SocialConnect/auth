@@ -6,8 +6,8 @@
 
 namespace SocialConnect\Auth\Provider;
 
+use SocialConnect\Auth\AccessTokenInterface;
 use SocialConnect\Auth\Provider\Exception\InvalidResponse;
-use SocialConnect\OpenID\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
@@ -40,11 +40,11 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function getIdentity(AccessToken $accessToken)
+    public function getIdentity(AccessTokenInterface $accessToken)
     {
         preg_match(
             "/^http:\/\/steamcommunity\.com\/openid\/id\/(7[0-9]{15,25}+)$/",
-            $accessToken->getIdentity(),
+            $accessToken->getToken(),
             $matches
         );
 

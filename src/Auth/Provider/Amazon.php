@@ -6,6 +6,7 @@
 
 namespace SocialConnect\Auth\Provider;
 
+use SocialConnect\Auth\AccessTokenInterface;
 use SocialConnect\Auth\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Auth\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth2\AccessToken;
@@ -70,7 +71,7 @@ class Amazon extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function getIdentity(AccessToken $accessToken)
+    public function getIdentity(AccessTokenInterface $accessToken)
     {
         $response = $this->service->getHttpClient()->request(
             $this->getBaseUri() . 'user/profile',

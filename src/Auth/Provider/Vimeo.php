@@ -6,6 +6,7 @@
 
 namespace SocialConnect\Auth\Provider;
 
+use SocialConnect\Auth\AccessTokenInterface;
 use SocialConnect\Auth\Provider\Exception\InvalidAccessToken;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
@@ -80,7 +81,7 @@ class Vimeo extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function getIdentity(AccessToken $accessToken)
+    public function getIdentity(AccessTokenInterface $accessToken)
     {
         return $this->user;
     }

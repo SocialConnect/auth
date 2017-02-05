@@ -52,7 +52,7 @@ class Px500 extends AbstractProvider
      */
     public function getName()
     {
-       return 'px500';
+        return 'px500';
     }
 
     /**

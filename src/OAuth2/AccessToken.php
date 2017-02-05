@@ -22,6 +22,7 @@ class AccessToken
 
     /**
      * @param string $token
+     * @throws \InvalidArgumentException
      */
     public function __construct($token)
     {

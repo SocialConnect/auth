@@ -9,6 +9,7 @@ namespace SocialConnect\OAuth1;
 use Exception;
 use SebastianBergmann\GlobalState\RuntimeException;
 use SocialConnect\Auth\AbstractBaseProvider;
+use SocialConnect\Auth\AccessTokenInterface;
 use SocialConnect\Auth\Consumer;
 use SocialConnect\Auth\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Auth\Provider\Exception\InvalidResponse;
@@ -250,15 +251,6 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
         return $accessToken;
     }
-
-    /**
-     * Get current user identity from social network by $accessToken
-     *
-     * @param AccessToken $accessToken
-     * @return User
-     * @throws InvalidResponse
-     */
-    abstract public function getIdentity(AccessToken $accessToken);
 
     /**
      * @return array

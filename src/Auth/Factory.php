@@ -21,7 +21,7 @@ class Factory implements FactoryInterface
      */
     protected function buildClassName($id)
     {
-        return '\\SocialConnect\\' . $id . '\\Provider';
+        return '\\SocialConnect\\Auth\\Provider\\' . $id;
     }
 
     /**

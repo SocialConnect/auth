@@ -1,6 +1,6 @@
 {
-    "name": "socialconnect/oauth2",
-    "description": "Implementation of OAuth 2 client specification",
+    "name": "socialconnect/oauth1",
+    "description": "Implementation of OAuth 1 client specification",
     "type": "library",
     "require": {
         "socialconnect/auth": "dev-master"
@@ -15,7 +15,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "SocialConnect\\OAuth2\\": ""
+            "SocialConnect\\OAuth1\\": ""
         }
     }
 }

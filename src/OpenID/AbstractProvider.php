@@ -107,7 +107,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @return AccessToken
      * @throws InvalidAccessToken
      */
-    public function getAccessTokenByRequestParameters($requestParameters)
+    public function getAccessTokenByRequestParameters(array $requestParameters)
     {
         $params = array(
             'openid.assoc_handle' => $requestParameters['openid_assoc_handle'],

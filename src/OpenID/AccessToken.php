@@ -11,15 +11,25 @@ use SocialConnect\Auth\AccessTokenInterface;
 class AccessToken implements AccessTokenInterface
 {
     /**
-     * OpenID doesnot have a $token, it response $identity, it's a link to user
+     * OpenID does not have a $token, it response $identity, it's a link to user
      *
      * @var string
      */
     protected $identity;
 
-    public function __construct($identity)
+    /**
+     * @var integer|null
+     */
+    protected $uid;
+
+    /**
+     * @param string $identity
+     * @param int|null $uid
+     */
+    public function __construct($identity, $uid = null)
     {
         $this->identity = $identity;
+        $this->uid = $uid;
     }
 
     /**
@@ -35,7 +45,6 @@ class AccessToken implements AccessTokenInterface
      */
     public function getUserId()
     {
-        // not supported for OpenId
-        return null;
+        return $this->uid;
     }
 }

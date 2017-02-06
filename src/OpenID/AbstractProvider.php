@@ -98,6 +98,15 @@ abstract class AbstractProvider extends AbstractBaseProvider
     }
 
     /**
+     * @param string $identity
+     * @return int
+     */
+    protected function parseUserIdFromIdentity($identity)
+    {
+        return null;
+    }
+
+    /**
      * @link http://openid.net/specs/openid-authentication-2_0.html#verification
      *
      * @param $requestParameters
@@ -134,7 +143,12 @@ abstract class AbstractProvider extends AbstractBaseProvider
         );
 
         if (preg_match('/is_valid\s*:\s*true/i', $response->getBody())) {
-            return new AccessToken($requestParameters['openid_identity']);
+            return new AccessToken(
+                $requestParameters['openid_identity'],
+                $this->parseUserIdFromIdentity(
+                    $requestParameters['openid_identity']
+                )
+            );
         }
 
         throw new InvalidAccessToken;

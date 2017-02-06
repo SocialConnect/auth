@@ -38,17 +38,20 @@ class VkTest extends TestCase
     public function testParseTokenSuccess()
     {
         $expectedToken = 'XXXXXXXX';
+        $expectedUserId = 123456;
 
         $accessToken = $this->getProvider()->parseToken(
             json_encode(
                 [
-                    'access_token' => $expectedToken
+                    'access_token' => $expectedToken,
+                    'user_id' => $expectedUserId
                 ]
             )
         );
 
         parent::assertInstanceOf(AccessToken::class, $accessToken);
         parent::assertSame($expectedToken, $accessToken->getToken());
+        parent::assertSame($expectedUserId, $accessToken->getUserId());
     }
 
     public function testParseTokenNotToken()

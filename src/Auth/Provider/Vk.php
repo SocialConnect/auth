@@ -21,6 +21,13 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
      */
     protected $requestHttpMethod = Client::GET;
 
+    /**
+     * Vk returns email inside AccessToken
+     *
+     * @var string|null
+     */
+    protected $email;
+
     public function getBaseUri()
     {
         return 'https://api.vk.com/';
@@ -53,6 +60,10 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
 
         if (!isset($result->access_token) || empty($result->access_token)) {
             throw new InvalidAccessToken;
+        }
+
+        if (isset($result->email)) {
+            $this->email = $result->email;
         }
 
         $token = new AccessToken($result->access_token);
@@ -105,6 +116,8 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
         if ($user->sex) {
             $user->sex = $user->sex === 1 ? 'female' : 'male';
         }
+
+        $user->email = $this->email;
 
         return $user;
     }

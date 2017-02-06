@@ -55,7 +55,10 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
             throw new InvalidAccessToken;
         }
 
-        return new AccessToken($result->access_token);
+        $token = new AccessToken($result->access_token);
+        $token->setUid($result->user_id);
+
+        return $token;
     }
 
     /**

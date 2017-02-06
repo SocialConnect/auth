@@ -37,24 +37,33 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
         return 'steam';
     }
 
+
+    /**
+     * @param string $identity
+     * @return int
+     */
+    protected function parseUserIdFromIdentity($identity)
+    {
+        preg_match(
+            "/^http:\/\/steamcommunity\.com\/openid\/id\/(7[0-9]{15,25}+)$/",
+            $identity,
+            $matches
+        );
+
+        return $matches[1];
+    }
+
+
     /**
      * {@inheritdoc}
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        preg_match(
-            "/^http:\/\/steamcommunity\.com\/openid\/id\/(7[0-9]{15,25}+)$/",
-            $accessToken->getToken(),
-            $matches
-        );
-
-        $userId = $matches[0];
-
         $response = $this->service->getHttpClient()->request(
             $this->getBaseUri() . 'ISteamUser/GetPlayerSummaries/v0002/',
             [
                 'key' => $this->consumer->getKey(),
-                'steamids' => $userId
+                'steamids' => $accessToken->getUserId()
             ]
         );
 

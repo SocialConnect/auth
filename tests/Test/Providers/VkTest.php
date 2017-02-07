@@ -20,7 +20,11 @@ class VkTest extends AbstractProviderTestCase
      */
     protected function getProvider(ClientInterface $httpClient = null)
     {
-        $service = new \SocialConnect\Auth\Service([]);
+        $service = new \SocialConnect\Auth\Service(
+            [
+                'redirectUri' => 'http://localhost:8000/'
+            ]
+        );
 
         if ($httpClient) {
             $service->setHttpClient($httpClient);
@@ -32,6 +36,14 @@ class VkTest extends AbstractProviderTestCase
                 'unknown',
                 'unkwown'
             )
+        );
+    }
+
+    public function testMakeAuthUrl()
+    {
+        parent::assertSame(
+            'https://oauth.vk.com/authorize?client_id=unknown&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2F%2Fvk%2F&response_type=code',
+            $this->getProvider()->makeAuthUrl()
         );
     }
 

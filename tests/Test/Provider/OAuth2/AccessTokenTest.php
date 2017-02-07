@@ -31,6 +31,29 @@ class AccessTokenTest extends \Test\TestCase
         return $token;
     }
 
+    public function testSetUserId()
+    {
+        $expectedToken = "XSFJSKLFJDLKFJDLSJFLDSJFDSLFSD";
+
+        $token = new AccessToken(
+            [
+                'access_token' => $expectedToken,
+            ]
+        );
+
+        $this->assertSame($expectedToken, $token->getToken());
+        $this->assertNull($token->getUserId());
+        $this->assertNull($token->getExpires());
+
+        $expectedUserId = 123456;
+
+        $token->setUid($expectedUserId);
+
+        $this->assertSame($expectedUserId, $token->getUserId());
+
+        return $token;
+    }
+
     /**
      * @expectedException \SocialConnect\Auth\Provider\Exception\InvalidAccessToken
      * @expectedExceptionMessage API returned data without access_token field

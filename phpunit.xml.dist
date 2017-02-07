@@ -20,7 +20,6 @@
         <whitelist>
             <directory>./tests/Test/</directory>
             <directory>./src</directory>
-            <directory>./providers</directory>
         </whitelist>
         <blacklist>
             <directory>./vendor/</directory>

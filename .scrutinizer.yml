@@ -10,7 +10,7 @@ tools:
         config:
             standard: PSR2
         filter:
-            paths: ["src/*", "tests/*", "providers/*"]
+            paths: ["src/*", "tests/*"]
     php_cpd:
         enabled: true
         excluded_dirs: ["vendor"]
@@ -30,5 +30,5 @@ tools:
     php_analyzer:
         enabled: true
         filter:
-            paths: ["src/*", "tests/*", "providers/*"]
+            paths: ["src/*", "tests/*"]
     sensiolabs_security_checker: true

@@ -18,7 +18,6 @@
 
     <filter>
         <whitelist>
-            <directory>./tests/Test/</directory>
             <directory>./src</directory>
         </whitelist>
         <blacklist>

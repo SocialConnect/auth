@@ -40,7 +40,7 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
 
     /**
      * @param string $identity
-     * @return int
+     * @return string
      */
     protected function parseUserIdFromIdentity($identity)
     {

@@ -12,7 +12,7 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Http\Client\ClientInterface;
 use Test\TestCase;
 
-class VkTest extends TestCase
+class VkTest extends AbstractProviderTestCase
 {
     /**
      * @param ClientInterface|null $httpClient
@@ -74,30 +74,17 @@ class VkTest extends TestCase
 
     public function testGetIdentitySuccess()
     {
-        $mockedHttpClient = $this->getMockBuilder(\SocialConnect\Common\Http\Client\Curl::class)
-            ->disableProxyingToOriginalMethods()
-            ->getMock();
-
-        $response = new \SocialConnect\Common\Http\Response(
-            200,
-            json_encode(
-                [
-                    'response' => [
-                        [
-                            'id' => $expectedId = 12321312312312,
-                            'first_name' => $expectedFirstname = 'Dmitry',
-                            'last_name' => $expectedLastname = 'Patsura',
-                        ]
+        $mockedHttpClient = $this->makeIdentityClientResponse(
+            [
+                'response' => [
+                    [
+                        'id' => $expectedId = 12321312312312,
+                        'first_name' => $expectedFirstname = 'Dmitry',
+                        'last_name' => $expectedLastname = 'Patsura',
                     ]
                 ]
-            ),
-            []
+            ]
         );
-
-        $mockedHttpClient->expects($this->once())
-            ->method('request')
-            ->willReturn($response);
-
 
         $result = $this->getProvider($mockedHttpClient)->getIdentity(
             new AccessToken(

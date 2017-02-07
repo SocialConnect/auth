@@ -7,3 +7,4 @@
 include_once __DIR__ . '/../vendor/autoload.php';
 
 include_once __DIR__ . '/Test/TestCase.php';
+include_once __DIR__ . '/Test/Providers/AbstractProviderTestCase.php';

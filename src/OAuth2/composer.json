@@ -3,6 +3,7 @@
     "description": "Implementation of OAuth 2 client specification",
     "type": "library",
     "require": {
+        "php": ">=5.5",
         "socialconnect/auth": "dev-master"
     },
     "license": "MIT",

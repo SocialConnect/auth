@@ -3,6 +3,7 @@
     "description": "Implementation of OpenId (v1.1 - v2) client specification",
     "type": "library",
     "require": {
+        "php": ">=5.5",
         "socialconnect/auth": "dev-master"
     },
     "license": "MIT",

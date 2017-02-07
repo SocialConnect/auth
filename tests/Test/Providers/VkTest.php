@@ -100,7 +100,11 @@ class VkTest extends TestCase
 
 
         $result = $this->getProvider($mockedHttpClient)->getIdentity(
-            new AccessToken('unknown')
+            new AccessToken(
+                [
+                    'access_token' => '123456789'
+                ]
+            )
         );
 
         parent::assertInstanceOf(\SocialConnect\Common\Entity\User::class, $result);

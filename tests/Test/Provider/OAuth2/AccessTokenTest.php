@@ -12,18 +12,30 @@ class AccessTokenTest extends \Test\TestCase
 {
     public function testConstructSuccess()
     {
-        $token = new AccessToken('accessToken');
-        $this->assertSame('accessToken', $token->getToken());
+        $expectedToken = "XSFJSKLFJDLKFJDLSJFLDSJFDSLFSD";
+        $expectedExpires = time();
+        $expectedUserId = 123456789;
+
+        $token = new AccessToken(
+            [
+                'access_token' => $expectedToken,
+                'expires' => $expectedExpires,
+                'user_id' => $expectedUserId
+            ]
+        );
+
+        $this->assertSame($expectedToken, $token->getToken());
+        $this->assertSame($expectedUserId, $token->getUserId());
 
         return $token;
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $token must be a string, passed: integer
+     * @expectedException \SocialConnect\Auth\Provider\Exception\InvalidAccessToken
+     * @expectedExceptionMessage API returned data without access_token field
      */
     public function testExceptionNotString()
     {
-        new AccessToken(12345);
+        new AccessToken([]);
     }
 }

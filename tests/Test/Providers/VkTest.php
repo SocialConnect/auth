@@ -47,6 +47,16 @@ class VkTest extends AbstractProviderTestCase
         );
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Parameter $code must be a string
+     */
+    public function testGetAccessTokenFail()
+    {
+        $this->getProvider()->getAccessToken(null);
+    }
+
+
     public function testParseTokenSuccess()
     {
         $expectedToken = 'XXXXXXXX';

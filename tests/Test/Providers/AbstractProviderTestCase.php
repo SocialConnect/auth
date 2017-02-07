@@ -6,6 +6,7 @@
 
 namespace Test\Providers;
 
+use ReflectionClass;
 use SocialConnect\Auth\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Auth\Consumer;
 use SocialConnect\OAuth2\AccessToken;
@@ -33,5 +34,21 @@ class AbstractProviderTestCase extends TestCase
             ->willReturn($response);
 
         return $mockedHttpClient;
+    }
+
+    /**
+     * @param object $object
+     * @param string $name
+     * @param array $params
+     * @return mixed
+     */
+    protected static function callProtectedMethod($object, $name, array $params = [])
+    {
+        $class = new ReflectionClass($object);
+
+        $method = $class->getMethod($name);
+        $method->setAccessible(true);
+
+        return $method->invokeArgs($object, $params);
     }
 }

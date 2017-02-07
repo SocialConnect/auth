@@ -57,6 +57,25 @@ class VkTest extends AbstractProviderTestCase
     }
 
 
+    public function testMakeAccessTokenRequest()
+    {
+        $expectedCode = 'djsflkSdjflskdfjFlsd9';
+
+        $provider = $this->getProvider();
+
+        /** @var \SocialConnect\Common\Http\Request $request */
+        $request = parent::callProtectedMethod(
+            $provider,
+            'makeAccessTokenRequest',
+            [
+                $expectedCode
+            ]
+        );
+
+        parent::assertInstanceOf(\SocialConnect\Common\Http\Request::class, $request);
+        parent::assertSame($provider->getRequestTokenUri(), $request->getUri());
+    }
+
     public function testParseTokenSuccess()
     {
         $expectedToken = 'XXXXXXXX';

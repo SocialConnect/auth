@@ -15,17 +15,20 @@ use Test\TestCase;
 
 class AbstractProviderTestCase extends TestCase
 {
-    protected function makeIdentityClientResponse(array $responseData)
+    /**
+     * @param mixed $responseData
+     * @param int $responseCode
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function makeIdentityClientResponse($responseData, $responseCode = 200)
     {
         $mockedHttpClient = $this->getMockBuilder(\SocialConnect\Common\Http\Client\Curl::class)
             ->disableProxyingToOriginalMethods()
             ->getMock();
 
         $response = new \SocialConnect\Common\Http\Response(
-            200,
-            json_encode(
-                $responseData
-            ),
+            $responseCode,
+            $responseData,
             []
         );
 

@@ -116,15 +116,18 @@ class VkTest extends AbstractProviderTestCase
     public function testGetIdentitySuccess()
     {
         $mockedHttpClient = $this->makeIdentityClientResponse(
-            [
-                'response' => [
-                    [
-                        'id' => $expectedId = 12321312312312,
-                        'first_name' => $expectedFirstname = 'Dmitry',
-                        'last_name' => $expectedLastname = 'Patsura',
+            json_encode(
+                [
+                    'response' => [
+                        [
+                            'id' => $expectedId = 12321312312312,
+                            'first_name' => $expectedFirstname = 'Dmitry',
+                            'last_name' => $expectedLastname = 'Patsura',
+                            'sex' => 1,
+                        ]
                     ]
                 ]
-            ]
+            )
         );
 
         $result = $this->getProvider($mockedHttpClient)->getIdentity(
@@ -139,5 +142,46 @@ class VkTest extends AbstractProviderTestCase
         parent::assertSame($expectedId, $result->id);
         parent::assertSame($expectedFirstname, $result->firstname);
         parent::assertSame($expectedLastname, $result->lastname);
+        parent::assertSame('female', $result->sex);
+    }
+
+    /**
+     * @expectedException \SocialConnect\Auth\Provider\Exception\InvalidResponse
+     * @expectedExceptionMessage API response with error code
+     */
+    public function testGetIdentityInternalServerError()
+    {
+        $mockedHttpClient = $this->makeIdentityClientResponse(
+            [],
+            500
+        );
+
+        $result = $this->getProvider($mockedHttpClient)->getIdentity(
+            new AccessToken(
+                [
+                    'access_token' => '123456789'
+                ]
+            )
+        );
+    }
+
+    /**
+     * @expectedException \SocialConnect\Auth\Provider\Exception\InvalidResponse
+     * @expectedExceptionMessage API response is not a valid JSON object
+     */
+    public function testGetIdentityNotData()
+    {
+        $mockedHttpClient = $this->makeIdentityClientResponse(
+            [],
+            200
+        );
+
+        $result = $this->getProvider($mockedHttpClient)->getIdentity(
+            new AccessToken(
+                [
+                    'access_token' => '123456789'
+                ]
+            )
+        );
     }
 }

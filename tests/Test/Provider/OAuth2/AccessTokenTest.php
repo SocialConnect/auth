@@ -26,6 +26,7 @@ class AccessTokenTest extends \Test\TestCase
 
         $this->assertSame($expectedToken, $token->getToken());
         $this->assertSame($expectedUserId, $token->getUserId());
+        $this->assertSame($expectedExpires, $token->getExpires());
 
         return $token;
     }

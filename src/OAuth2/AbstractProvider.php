@@ -84,7 +84,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
             throw new InvalidAccessToken('Provider API returned an unexpected response');
         }
 
-        return new AccessToken($token['access_token']);
+        return new AccessToken($token);
     }
 
     /**

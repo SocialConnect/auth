@@ -17,23 +17,32 @@ class AccessToken implements AccessTokenInterface
     protected $token;
 
     /**
+     * @var int|null
+     */
+    protected $expires;
+
+    /**
      * @var integer|null
      */
     protected $uid;
 
     /**
-     * @param string $token
+     * @param array $token
      * @throws \InvalidArgumentException
      */
-    public function __construct($token)
+    public function __construct(array $token)
     {
-        if (!is_string($token)) {
+        if (!isset($token['access_token'])) {
             throw new InvalidArgumentException(
                 '$token must be a string, passed: ' . gettype($token)
             );
         }
 
-        $this->token = $token;
+        $this->token = $token['access_token'];
+
+        if (isset($token['expires'])) {
+            $this->expires = $token['expires'];
+        }
     }
 
     /**

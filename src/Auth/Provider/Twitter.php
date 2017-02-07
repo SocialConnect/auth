@@ -8,7 +8,6 @@ namespace SocialConnect\Auth\Provider;
 
 use SocialConnect\Auth\AccessTokenInterface;
 use SocialConnect\Auth\Provider\Exception\InvalidResponse;
-use SocialConnect\OAuth1\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Common\Hydrator\ObjectMap;

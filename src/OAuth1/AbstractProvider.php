@@ -9,7 +9,6 @@ namespace SocialConnect\OAuth1;
 use Exception;
 use SebastianBergmann\GlobalState\RuntimeException;
 use SocialConnect\Auth\AbstractBaseProvider;
-use SocialConnect\Auth\AccessTokenInterface;
 use SocialConnect\Auth\Consumer;
 use SocialConnect\Auth\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Auth\Provider\Exception\InvalidResponse;
@@ -115,7 +114,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * Parse Token from response's $body
      *
-     * @param mixed $body
+     * @param string|boolean $body
      * @return Token
      * @throws InvalidRequestToken
      * @throws RuntimeException
@@ -228,7 +227,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * Parse AccessToken from response's $body
      *
-     * @param mixed $body
+     * @param string|boolean $body
      * @return AccessToken
      * @throws InvalidAccessToken
      * @throws RuntimeException

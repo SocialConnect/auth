@@ -8,10 +8,8 @@ namespace SocialConnect\OAuth2;
 
 use InvalidArgumentException;
 use SocialConnect\Auth\AbstractBaseProvider;
-use SocialConnect\Auth\AccessTokenInterface;
 use SocialConnect\Auth\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Auth\Provider\Exception\InvalidResponse;
-use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
 
 abstract class AbstractProvider extends AbstractBaseProvider

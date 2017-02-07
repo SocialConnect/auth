@@ -53,9 +53,9 @@ class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
             throw new InvalidAccessToken('Provider response with empty body');
         }
 
-        $result = json_decode($body);
+        $result = json_decode($body, true);
         if ($result) {
-            return new AccessToken($result->access_token);
+            return new AccessToken($result);
         }
 
         throw new InvalidAccessToken('Server response with not valid/empty JSON');

@@ -59,13 +59,12 @@ class Google extends AbstractProvider
      */
     public function parseToken($body)
     {
-        $result = json_decode($body);
-
-        if (!isset($result->access_token) || empty($result->access_token)) {
-            throw new InvalidAccessToken;
+        $result = json_decode($body, true);
+        if ($result) {
+            return new AccessToken($result);
         }
 
-        return new AccessToken($result->access_token);
+        throw new InvalidAccessToken('Provider response with not valid JSON');
     }
 
     /**

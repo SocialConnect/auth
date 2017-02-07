@@ -6,8 +6,8 @@
 
 namespace SocialConnect\OAuth2;
 
-use InvalidArgumentException;
 use SocialConnect\Auth\AccessTokenInterface;
+use SocialConnect\Auth\Provider\Exception\InvalidAccessToken;
 
 class AccessToken implements AccessTokenInterface
 {
@@ -28,13 +28,13 @@ class AccessToken implements AccessTokenInterface
 
     /**
      * @param array $token
-     * @throws \InvalidArgumentException
+     * @throws InvalidAccessToken
      */
     public function __construct(array $token)
     {
         if (!isset($token['access_token'])) {
-            throw new InvalidArgumentException(
-                '$token must be a string, passed: ' . gettype($token)
+            throw new InvalidAccessToken(
+                'API returned data without access_token field'
             );
         }
 
@@ -42,6 +42,10 @@ class AccessToken implements AccessTokenInterface
 
         if (isset($token['expires'])) {
             $this->expires = $token['expires'];
+        }
+
+        if (isset($token['user_id'])) {
+            $this->uid = $token['user_id'];
         }
     }
 

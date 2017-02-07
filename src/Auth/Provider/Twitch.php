@@ -61,13 +61,9 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function parseToken($body)
     {
-        $response = json_decode($body, false);
+        $response = json_decode($body, true);
         if ($response) {
-            if (isset($response->access_token)) {
-                return new AccessToken($response->access_token);
-            }
-
-            throw new InvalidAccessToken('access_token field does not exists inside API JSON response');
+            return new AccessToken($response);
         }
 
         throw new InvalidAccessToken('AccessToken is not a valid JSON');

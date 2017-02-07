@@ -56,16 +56,12 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
             throw new InvalidAccessToken('Provider response with empty body');
         }
 
-        $result = json_decode($body);
+        $result = json_decode($body, true);
         if ($result) {
-            if (isset($result->access_token)) {
-                $token = new AccessToken($result->access_token);
-                $token->setUid($result->x_mailru_vid);
+            $token = new AccessToken($result);
+            $token->setUid($result['x_mailru_vid']);
 
-                return $token;
-            }
-
-            throw new InvalidAccessToken('Provider API returned without access_token field inside JSON');
+            return $token;
         }
 
         throw new InvalidAccessToken('Provider response with not valid JSON');

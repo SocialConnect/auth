@@ -54,13 +54,9 @@ class Slack extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function parseToken($body)
     {
-        $response = json_decode($body, false);
+        $response = json_decode($body, true);
         if ($response) {
-            if ($response->ok && $response->access_token) {
-                return new AccessToken($response->access_token);
-            }
-
-            throw new InvalidAccessToken('Slack response with ok == false');
+            return new AccessToken($response);
         }
 
         throw new InvalidAccessToken('AccessToken is not a valid JSON');

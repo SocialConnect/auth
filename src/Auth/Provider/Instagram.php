@@ -52,13 +52,9 @@ class Instagram extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function parseToken($body)
     {
-        $result = json_decode($body);
+        $result = json_decode($body, true);
         if ($result) {
-            if (isset($result->access_token) && $result->access_token) {
-                return new AccessToken($result->access_token);
-            }
-
-            throw new InvalidAccessToken('Instagram response with not valid token');
+            return new AccessToken($result);
         }
 
         throw new InvalidAccessToken('AccessToken is not a valid JSON');

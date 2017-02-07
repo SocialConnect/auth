@@ -64,13 +64,9 @@ class GitLab extends \SocialConnect\OAuth2\AbstractProvider
             throw new InvalidAccessToken('Provider response with empty body');
         }
 
-        $result = json_decode($body);
+        $result = json_decode($body, true);
         if ($result) {
-            if (isset($result->access_token)) {
-                return new AccessToken($result->access_token);
-            }
-
-            throw new InvalidAccessToken('Provider API returned without access_token field inside JSON');
+            return new AccessToken($result);
         }
 
         throw new InvalidAccessToken('Provider response with not valid JSON');

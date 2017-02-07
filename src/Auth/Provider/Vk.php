@@ -53,23 +53,16 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function parseToken($body)
     {
-        $result = json_decode($body);
+        $result = json_decode($body, true);
         if (!$result) {
             throw new InvalidAccessToken;
         }
 
-        if (!isset($result->access_token) || empty($result->access_token)) {
-            throw new InvalidAccessToken;
+        if (isset($result['email'])) {
+            $this->email = $result['email'];
         }
 
-        if (isset($result->email)) {
-            $this->email = $result->email;
-        }
-
-        $token = new AccessToken($result->access_token);
-        $token->setUid($result->user_id);
-
-        return $token;
+        return new AccessToken($result);
     }
 
     /**

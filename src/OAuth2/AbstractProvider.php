@@ -89,6 +89,30 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
     /**
      * @param string $code
+     * @return \SocialConnect\Common\Http\Request
+     */
+    protected function makeAccessTokenRequest($code)
+    {
+        $parameters = array(
+            'client_id' => $this->consumer->getKey(),
+            'client_secret' => $this->consumer->getSecret(),
+            'code' => $code,
+            'grant_type' => 'authorization_code',
+            'redirect_uri' => $this->getRedirectUrl()
+        );
+
+        return new \SocialConnect\Common\Http\Request(
+            $this->getRequestTokenUri(),
+            $parameters,
+            $this->requestHttpMethod,
+            [
+                'Content-Type' => 'application/x-www-form-urlencoded'
+            ]
+        );
+    }
+
+    /**
+     * @param string $code
      * @return AccessToken
      * @throws InvalidResponse
      */
@@ -98,21 +122,8 @@ abstract class AbstractProvider extends AbstractBaseProvider
             throw new InvalidArgumentException('Parameter $code must be a string');
         }
 
-        $parameters = array(
-            'client_id' => $this->consumer->getKey(),
-            'client_secret' => $this->consumer->getSecret(),
-            'code' => $code,
-            'grant_type' => 'authorization_code',
-            'redirect_uri' => $this->getRedirectUrl()
-        );
-
-        $response = $this->service->getHttpClient()->request(
-            $this->getRequestTokenUri(),
-            $parameters,
-            $this->requestHttpMethod,
-            [
-                'Content-Type' => 'application/x-www-form-urlencoded'
-            ]
+        $response = $this->service->getHttpClient()->fromRequest(
+            $this->makeAccessTokenRequest($code)
         );
 
         if (!$response->isSuccess()) {

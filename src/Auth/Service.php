@@ -45,8 +45,8 @@ class Service
      */
     public function getProviderConfiguration($name)
     {
-        if (isset($this->config['provider'][ucfirst($name)])) {
-            return $this->config['provider'][ucfirst($name)];
+        if (isset($this->config['provider'][$name])) {
+            return $this->config['provider'][$name];
         }
 
         throw new Exception('Please setup configuration for ' . ucfirst($name) . ' provider');
@@ -61,7 +61,7 @@ class Service
      */
     public function getProvider($name)
     {
-        return $this->factory->factory(ucfirst($name), $this->getProviderConfiguration($name), $this);
+        return $this->factory->factory($name, $this->getProviderConfiguration($name), $this);
     }
 
     /**

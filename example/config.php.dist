@@ -7,24 +7,24 @@
 return array(
     'redirectUri' => 'http://localhost:8000/auth/cb',
     'provider' => array(
-        'Facebook' => array(
+        'facebook' => array(
             'applicationId' => '',
             'applicationSecret' => '',
             'scope' => array('email')
         ),
-        'Twitter' => array(
+        'twitter' => array(
             'applicationId' => '',
             'applicationSecret' => '',
             'enabled' => false
         ),
-        'Google' => array(
+        'google' => array(
             'applicationId' => '',
             'applicationSecret' => '',
             'scope' => array(
                 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
             )
         ),
-        'Paypal' => array(
+        'paypal' => array(
             'applicationId' => '',
             'applicationSecret' => '',
             'scope' => array(
@@ -35,20 +35,20 @@ return array(
                 'https://uri.paypal.com/services/paypalattributes'
             )
         ),
-        'Vk' => array(
+        'vk' => array(
             'applicationId' => '',
             'applicationSecret' => '',
             'scope' => array('email')
         ),
-        'Github' => array(
+        'github' => array(
             'applicationId' => '',
             'applicationSecret' => '',
         ),
-        'Instagram' => array(
+        'instagram' => array(
             'applicationId' => '',
             'applicationSecret' => '',
         ),
-        'Slack' => array(
+        'slack' => array(
             'applicationId' => '',
             'applicationSecret' => '',
             'scope' => array(
@@ -58,59 +58,64 @@ return array(
                 'identity.avatar',
             )
         ),
-        'Twitch' => array(
+        'twitch' => array(
             'applicationId' => '',
             'applicationSecret' => '',
             'scope' => array('user_read')
         ),
-        'Px500' => array(
+        'px500' => array(
             'applicationId' => '',
             'applicationSecret' => ''
         ),
-        'Bitbucket' => array(
+        'bitbucket' => array(
             'applicationId' => '',
             'applicationSecret' => '',
             'scope' => array('account')
         ),
-        'Amazon' => array(
+        'amazon' => array(
             'applicationId' => '',
             'applicationSecret' => '',
             'scope' => array('profile')
         ),
-        'Gitlab' => array(
+        'gitlab' => array(
             'applicationId' => '',
             'applicationSecret' => '',
             'scope' => array('read_user')
         ),
-        'Vimeo' => array(
+        'vimeo' => array(
             'applicationId' => '',
             'applicationSecret' => '',
             'scope' => array()
         ),
-        'Digital-ocean' => array(
+        'digital-ocean' => array(
             'applicationId' => '',
             'applicationSecret' => '',
             'scope' => array()
         ),
-        'Yandex' => array(
+        'yandex' => array(
             'applicationId' => '',
             'applicationSecret' => '',
             'scope' => array()
         ),
         //http://api.mail.ru/sites/my/add
-        'Mail-ru' => [
+        'mail-ru' => [
             'applicationId' => '',
             'applicationSecret' => '',
             'scope' => array()
         ],
         //http://api.mail.ru/sites/my/add
-        'Odnoklassniki' => [
+        'odnoklassniki' => [
             'applicationId' => '',
             'applicationSecret' => '',
             'applicationPublic' => '',
             'scope' => array(
                 'GET_EMAIL'
             )
+        ],
+        'steam' => [
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => array()
         ]
     )
 );

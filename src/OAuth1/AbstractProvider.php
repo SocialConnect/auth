@@ -6,7 +6,6 @@
 
 namespace SocialConnect\OAuth1;
 
-use Exception;
 use SocialConnect\Common\Http\Client\ClientInterface;
 use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\Consumer;
@@ -82,7 +81,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
     /**
      * @return Token
-     * @throws Exception
+     * @throws InvalidResponse
      */
     protected function requestAuthToken()
     {
@@ -103,11 +102,11 @@ abstract class AbstractProvider extends AbstractBaseProvider
             $this->requestTokenHeaders
         );
 
-        if ($response->getStatusCode() === 200) {
+        if ($response->isSuccess()) {
             return $this->parseToken($response->getBody());
         }
 
-        throw new Exception('Unexpected response code ' . $response->getStatusCode());
+        throw new InvalidResponse('Provider response is not success');
     }
 
     /**
@@ -116,12 +115,12 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @param string|boolean $body
      * @return Token
      * @throws InvalidRequestToken
-     * @throws InvalidAccessToken
+     * @throws InvalidResponse
      */
     public function parseToken($body)
     {
         if (empty($body)) {
-            throw new InvalidAccessToken('Provider response with empty body');
+            throw new InvalidResponse('Provider response with empty body');
         }
 
         parse_str($body, $token);
@@ -229,12 +228,12 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @param string|boolean $body
      * @return AccessToken
      * @throws InvalidAccessToken
-     * @throws RuntimeException
+     * @throws InvalidResponse
      */
     public function parseAccessToken($body)
     {
-        if (!is_string($body)) {
-            throw new RuntimeException('Request $body is not a string, passed: ' . var_export($body, true));
+        if (empty($body)) {
+            throw new InvalidResponse('Provider response with empty body');
         }
 
         parse_str($body, $token);

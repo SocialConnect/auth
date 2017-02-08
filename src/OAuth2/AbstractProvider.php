@@ -52,8 +52,8 @@ abstract class AbstractProvider extends AbstractBaseProvider
     {
         $urlParameters = $this->getAuthUrlParameters();
 
-        if ($this->nonce) {
-            $urlParameters['state'] = $this->nonce;
+        if ($this->state) {
+            $urlParameters['state'] = $this->state;
         }
 
         if (count($this->scope) > 0) {

@@ -40,7 +40,7 @@ abstract class AbstractBaseProvider
      *
      * @var string|null
      */
-    protected $nonce;
+    protected $state;
 
     /**
      * @param ClientInterface $httpClient
@@ -171,10 +171,20 @@ abstract class AbstractBaseProvider
     }
 
     /**
-     * @param null|string $nonce
+     * @param null|string $state
      */
-    public function setNonce($nonce)
+    public function setState($state)
     {
-        $this->nonce = $nonce;
+        $this->state = $state;
+    }
+
+    /**
+     * @return string
+     */
+    public function useState()
+    {
+        return $this->state = md5(
+            mt_rand(0, PHP_INT_MAX)
+        );
     }
 }

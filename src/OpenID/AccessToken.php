@@ -6,7 +6,7 @@
 
 namespace SocialConnect\OpenID;
 
-use SocialConnect\Auth\AccessTokenInterface;
+use SocialConnect\Provider\AccessTokenInterface;
 
 class AccessToken implements AccessTokenInterface
 {

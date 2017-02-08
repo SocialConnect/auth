@@ -82,14 +82,16 @@ class Instagram extends \SocialConnect\OAuth2\AbstractProvider
         $body = $response->getBody();
         $result = json_decode($body);
 
-        $hydrator = new ObjectMap(array(
-            'id' => 'id',
-            'username' => 'username',
-            'bio' => 'bio',
-            'website' => 'website',
-            'profile_picture' => 'profile_picture',
-            'full_name' => 'fullname'
-        ));
+        $hydrator = new ObjectMap(
+            [
+                'id' => 'id',
+                'username' => 'username',
+                'bio' => 'bio',
+                'website' => 'website',
+                'profile_picture' => 'profile_picture',
+                'full_name' => 'fullname'
+            ]
+        );
 
         return $hydrator->hydrate(new User(), $result->data);
     }

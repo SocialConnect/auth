@@ -64,19 +64,21 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
         $body = $response->getBody();
         $result = json_decode($body);
 
-        $hydrator = new ObjectMap(array(
-            'id' => 'id',
-            'first_name' => 'firstname',
-            'last_name' => 'lastname',
-            'email' => 'email',
-            'gender' => 'sex',
-            'link' => 'url',
-            'locale' => 'locale',
-            'name' => 'fullname',
-            'timezone' => 'timezone',
-            'updated_time' => 'dateModified',
-            'verified' => 'verified'
-        ));
+        $hydrator = new ObjectMap(
+            [
+                'id' => 'id',
+                'first_name' => 'firstname',
+                'last_name' => 'lastname',
+                'email' => 'email',
+                'gender' => 'sex',
+                'link' => 'url',
+                'locale' => 'locale',
+                'name' => 'fullname',
+                'timezone' => 'timezone',
+                'updated_time' => 'dateModified',
+                'verified' => 'verified'
+            ]
+        );
 
         return $hydrator->hydrate(new User(), $result);
     }

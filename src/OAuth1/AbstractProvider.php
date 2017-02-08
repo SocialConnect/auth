@@ -50,7 +50,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * @var array
      */
-    protected $scope = array();
+    protected $scope = [];
 
     /**
      * @param ClientInterface $httpClient

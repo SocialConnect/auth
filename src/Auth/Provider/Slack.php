@@ -96,10 +96,12 @@ class Slack extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
-        $hydrator = new ObjectMap(array(
-            'id' => 'id',
-            'name' => 'name',
-        ));
+        $hydrator = new ObjectMap(
+            [
+                'id' => 'id',
+                'name' => 'name',
+            ]
+        );
 
         $user = $hydrator->hydrate(new User(), $result->user);
         $user->team = $result->team;

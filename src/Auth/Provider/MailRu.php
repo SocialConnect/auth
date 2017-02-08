@@ -121,12 +121,14 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
-        $hydrator = new ObjectMap(array(
-            'uid' => 'id',
-            'first_name' => 'firstname',
-            'last_name' => 'lastname',
-            'nick' => 'username'
-        ));
+        $hydrator = new ObjectMap(
+            [
+                'uid' => 'id',
+                'first_name' => 'firstname',
+                'last_name' => 'lastname',
+                'nick' => 'username'
+            ]
+        );
 
         $user = $hydrator->hydrate(new User(), $result[0]);
 

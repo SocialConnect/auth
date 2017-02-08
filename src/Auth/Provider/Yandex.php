@@ -92,14 +92,16 @@ class Yandex extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
-        $hydrator = new ObjectMap(array(
-            'first_name' => 'firstname',
-            'last_name' => 'lastname',
-            'default_email' => 'email',
-            'real_name' => 'fullname',
-            'birthday' => 'birthday',
-            'login' => 'username',
-        ));
+        $hydrator = new ObjectMap(
+            [
+                'first_name' => 'firstname',
+                'last_name' => 'lastname',
+                'default_email' => 'email',
+                'real_name' => 'fullname',
+                'birthday' => 'birthday',
+                'login' => 'username',
+            ]
+        );
 
         return $hydrator->hydrate(new User(), $result);
     }

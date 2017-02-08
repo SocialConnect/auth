@@ -38,11 +38,11 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     public function getAuthUrlParameters()
     {
-        return array(
+        return [
             'client_id' => $this->consumer->getKey(),
             'redirect_uri' => $this->getRedirectUrl(),
             'response_type' => 'code',
-        );
+        ];
     }
 
     /**
@@ -95,13 +95,13 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     protected function makeAccessTokenRequest($code)
     {
-        $parameters = array(
+        $parameters = [
             'client_id' => $this->consumer->getKey(),
             'client_secret' => $this->consumer->getSecret(),
             'code' => $code,
             'grant_type' => 'authorization_code',
             'redirect_uri' => $this->getRedirectUrl()
-        );
+        ];
 
         return new \SocialConnect\Common\Http\Request(
             $this->getRequestTokenUri(),

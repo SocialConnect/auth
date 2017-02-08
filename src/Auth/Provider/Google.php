@@ -89,14 +89,16 @@ class Google extends AbstractProvider
         $body = $response->getBody();
         $result = json_decode($body);
 
-        $hydrator = new ObjectMap(array(
-            'id' => 'id',
-            'given_name' => 'firstname',
-            'family_name' => 'lastname',
-            'email' => 'email',
-            'name' => 'fullname',
-            'gender' => 'sex',
-        ));
+        $hydrator = new ObjectMap(
+            [
+                'id' => 'id',
+                'given_name' => 'firstname',
+                'family_name' => 'lastname',
+                'email' => 'email',
+                'name' => 'fullname',
+                'gender' => 'sex',
+            ]
+        );
 
         return $hydrator->hydrate(new User(), $result);
     }

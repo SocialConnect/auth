@@ -91,10 +91,12 @@ class Amazon extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
-        $hydrator = new ObjectMap(array(
-            'user_id' => 'id',
-            'name' => 'firstname',
-        ));
+        $hydrator = new ObjectMap(
+            [
+                'user_id' => 'id',
+                'name' => 'firstname',
+            ]
+        );
 
         return $hydrator->hydrate(new User(), $result);
     }

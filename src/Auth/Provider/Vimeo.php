@@ -62,9 +62,11 @@ class Vimeo extends \SocialConnect\OAuth2\AbstractProvider
 
             // Vimeo return User on get Access Token Request (looks like to protect round trips)
             if (isset($response['user'])) {
-                $hydrator = new ObjectMap(array(
-                    'name' => 'fullname',
-                ));
+                $hydrator = new ObjectMap(
+                    [
+                        'name' => 'fullname',
+                    ]
+                );
 
                 $this->user = $hydrator->hydrate(new User(), (object) $response['user']);
                 $this->user->id = str_replace('/users/', '', $this->user->uri);

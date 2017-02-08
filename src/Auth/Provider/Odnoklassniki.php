@@ -124,12 +124,14 @@ class Odnoklassniki extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
-        $hydrator = new ObjectMap(array(
-            'uid' => 'id',
-            'first_name' => 'firstname',
-            'last_name' => 'lastname',
-            'name' => 'fullname'
-        ));
+        $hydrator = new ObjectMap(
+            [
+                'uid' => 'id',
+                'first_name' => 'firstname',
+                'last_name' => 'lastname',
+                'name' => 'fullname'
+            ]
+        );
 
         return $hydrator->hydrate(new User(), $result);
     }

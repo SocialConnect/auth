@@ -96,11 +96,13 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
-        $hydrator = new ObjectMap(array(
-            '_id' => 'id',
-            'display_name' => 'fullname', // Custom Capitalized Users name
-            'name' => 'username',
-        ));
+        $hydrator = new ObjectMap(
+            [
+                '_id' => 'id',
+                'display_name' => 'fullname', // Custom Capitalized Users name
+                'name' => 'username',
+            ]
+        );
 
         return $hydrator->hydrate(new User(), $result);
     }

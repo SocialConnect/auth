@@ -18,12 +18,12 @@ abstract class AbstractBaseProvider
     /**
      * @var array
      */
-    protected $scope = array();
+    protected $scope = [];
 
     /**
      * @var array
      */
-    protected $fields = array();
+    protected $fields = [];
 
     /**
      * @var ClientInterface

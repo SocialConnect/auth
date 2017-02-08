@@ -99,10 +99,12 @@ class GitLab extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
-        $hydrator = new ObjectMap(array(
-            'user_id' => 'id',
-            'name' => 'fullname',
-        ));
+        $hydrator = new ObjectMap(
+            [
+                'user_id' => 'id',
+                'name' => 'fullname',
+            ]
+        );
 
         return $hydrator->hydrate(new User(), $result);
     }

@@ -89,10 +89,12 @@ class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
-        $hydrator = new ObjectMap(array(
-            'uuid' => 'id',
-            'display_name' => 'fullname',
-        ));
+        $hydrator = new ObjectMap(
+            [
+                'uuid' => 'id',
+                'display_name' => 'fullname',
+            ]
+        );
 
         return $hydrator->hydrate(new User(), $result);
     }

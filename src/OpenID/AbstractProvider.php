@@ -34,12 +34,12 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     protected function makeAuthUrlV2($immediate)
     {
-        $params = array(
+        $params = [
             'openid.ns' => 'http://specs.openid.net/auth/2.0',
             'openid.mode' => $immediate ? 'checkid_immediate' : 'checkid_setup',
             'openid.return_to' => $this->getRedirectUrl(),
             'openid.realm' => $this->getRedirectUrl()
-        );
+        ];
 
         $params['openid.ns.sreg'] = 'http://openid.net/extensions/sreg/1.1';
         $params['openid.identity'] = $params['openid.claimed_id'] = 'http://specs.openid.net/auth/2.0/identifier_select';
@@ -115,7 +115,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     public function getAccessTokenByRequestParameters(array $requestParameters)
     {
-        $params = array(
+        $params = [
             'openid.assoc_handle' => $requestParameters['openid_assoc_handle'],
             'openid.signed' => $requestParameters['openid_signed'],
             'openid.sig' => $requestParameters['openid_sig'],
@@ -126,7 +126,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
             'openid.return_to' => $this->getRedirectUrl(),
             'openid.response_nonce' => $requestParameters['openid_response_nonce'],
             'openid.mode' => 'check_authentication'
-        );
+        ];
 
         if (isset($requestParameters['openid_claimed_id'])) {
             $claimedId = $requestParameters['openid_claimed_id'];

@@ -94,15 +94,17 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
-        $hydrator = new ObjectMap(array(
-            'id' => 'id',
-            'first_name' => 'firstname',
-            'last_name' => 'lastname',
-            'email' => 'email',
-            'bdate' => 'birthday',
-            'nickname' => 'username',
-            'sex' => 'sex',
-        ));
+        $hydrator = new ObjectMap(
+            [
+                'id' => 'id',
+                'first_name' => 'firstname',
+                'last_name' => 'lastname',
+                'email' => 'email',
+                'bdate' => 'birthday',
+                'nickname' => 'username',
+                'sex' => 'sex',
+            ]
+        );
 
         $user = $hydrator->hydrate(new User(), $result->response[0]);
 

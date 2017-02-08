@@ -81,11 +81,13 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
             );
         }
 
-        $hydrator = new ObjectMap(array(
-            'steamid' => 'id',
-            'personaname' => 'username',
-            'realname' => 'fullname'
-        ));
+        $hydrator = new ObjectMap(
+            [
+                'steamid' => 'id',
+                'personaname' => 'username',
+                'realname' => 'fullname'
+            ]
+        );
 
         return $hydrator->hydrate(new User(), $result->response->players[0]);
     }

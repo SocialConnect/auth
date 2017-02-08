@@ -71,11 +71,13 @@ class Twitter extends \SocialConnect\OAuth1\AbstractProvider
             );
         }
 
-        $hydrator = new ObjectMap(array(
-            'id' => 'id',
-            'name' => 'fullname',
-            'screen_name' => 'username'
-        ));
+        $hydrator = new ObjectMap(
+            [
+                'id' => 'id',
+                'name' => 'fullname',
+                'screen_name' => 'username'
+            ]
+        );
 
         return $hydrator->hydrate(new User(), $result[0]);
     }

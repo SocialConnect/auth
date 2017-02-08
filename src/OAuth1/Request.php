@@ -22,7 +22,7 @@ class Request
         $this->http_method = $http_method;
         $this->http_url    = $http_url;
 
-        $parameters = ($parameters) ? $parameters : array();
+        $parameters = ($parameters) ? $parameters : [];
         $parameters = array_merge(Util::parseParameters(parse_url($http_url, PHP_URL_QUERY)), $parameters);
 
         $this->parameters  = $parameters;
@@ -38,12 +38,12 @@ class Request
      */
     public static function fromConsumerAndToken(Consumer $consumer, Token $token, $method, $url, array $parameters = array())
     {
-        $defaults   = array(
+        $defaults = [
             'oauth_version' => '1.0',
             'oauth_nonce' => self::generateNonce(),
             'oauth_timestamp' => time(),
             'oauth_consumer_key' => $consumer->getKey()
-        );
+        ];
 
         if ($token) {
             $defaults['oauth_token'] = $token->getKey();
@@ -60,9 +60,9 @@ class Request
             if (is_scalar($this->parameters[$name])) {
                 // This is the first duplicate, so transform scalar (string)
                 // into an array so we can add the duplicates
-                $this->parameters[$name] = array(
+                $this->parameters[$name] = [
                     $this->parameters[$name]
-                );
+                ];
             }
 
             $this->parameters[$name][] = $value;
@@ -101,11 +101,11 @@ class Request
      */
     public function getSignatureBaseString()
     {
-        $parts = array(
+        $parts = [
             $this->getNormalizedHttpMethod(),
             $this->getNormalizedHttpUrl(),
             $this->getSignableParameters()
-        );
+        ];
 
         $parts = Util::urlencodeRFC3986($parts);
 
@@ -183,17 +183,19 @@ class Request
             if (substr($k, 0, 5) != "oauth") {
                 continue;
             }
+
             if (is_array($v)) {
                 continue;
             }
+
             $out .= ($first) ? ' ' : ', ';
             $out .= Util::urlencodeRFC3986($k) . '="' . Util::urlencodeRFC3986($v) . '"';
             $first = false;
         }
 
-        return array(
+        return [
             'Authorization' => $out
-        ); //- hacked into this to make it return an array. 15/11/2014.
+        ]; //- hacked into this to make it return an array. 15/11/2014.
     }
 
     public function __toString()

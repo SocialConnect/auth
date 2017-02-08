@@ -86,10 +86,12 @@ class Px500 extends AbstractProvider
             );
         }
 
-        $hydrator = new ObjectMap(array(
-            'id' => 'id',
-            'name' => 'name',
-        ));
+        $hydrator = new ObjectMap(
+            [
+                'id' => 'id',
+                'name' => 'name',
+            ]
+        );
 
         return $hydrator->hydrate(new User(), $result->user);
     }

@@ -43,7 +43,8 @@ class Util
      */
     public static function splitHeader($header, $oauthParameters = true)
     {
-        $params = array();
+        $params = [];
+
         if (preg_match_all('/(' . ($oauthParameters ? 'oauth_' : '') . '[a-z_-]*)=(:?"([^"]*)"|([^,]*))/', $header, $matches)) {
             foreach ($matches[1] as $i => $h) {
                 $params[$h] = self::urldecodeRFC3986(empty($matches[3][$i]) ? $matches[4][$i] : $matches[3][$i]);
@@ -52,6 +53,7 @@ class Util
                 unset($params['realm']);
             }
         }
+
         return $params;
     }
 
@@ -67,7 +69,8 @@ class Util
             // we always want the keys to be Cased-Like-This and arh()
             // returns the headers in the same case as they are in the
             // request
-            $out = array();
+            $out = [];
+
             foreach ($headers as $key => $value) {
                 $key       = str_replace(" ", "-", ucwords(strtolower(str_replace("-", " ", $key))));
                 $out[$key] = $value;
@@ -75,7 +78,8 @@ class Util
         } else {
             // otherwise we don't have apache and are just going to have to hope
             // that $_SERVER actually contains what we need
-            $out = array();
+            $out = [];
+
             if (isset($_SERVER['CONTENT_TYPE'])) {
                 $out['Content-Type'] = $_SERVER['CONTENT_TYPE'];
             }
@@ -101,12 +105,13 @@ class Util
     public static function parseParameters($input)
     {
         if (!isset($input) || !$input) {
-            return array();
+            return [];
         }
 
         $pairs = explode('&', $input);
 
-        $parsed_parameters = array();
+        $parsed_parameters = [];
+
         foreach ($pairs as $pair) {
             $split     = explode('=', $pair, 2);
             $parameter = self::urldecodeRFC3986($split[0]);
@@ -119,9 +124,9 @@ class Util
                 if (is_scalar($parsed_parameters[$parameter])) {
                     // This is the first duplicate, so transform scalar (string) into an array
                     // so we can add the duplicates
-                    $parsed_parameters[$parameter] = array(
+                    $parsed_parameters[$parameter] = [
                         $parsed_parameters[$parameter]
-                    );
+                    ];
                 }
 
                 $parsed_parameters[$parameter][] = $value;
@@ -146,7 +151,8 @@ class Util
         // Ref: Spec: 9.1.1 (1)
         uksort($params, 'strcmp');
 
-        $pairs = array();
+        $pairs = [];
+
         foreach ($params as $parameter => $value) {
             if (is_array($value)) {
                 // If two or more parameters share the same name, they are sorted by their value

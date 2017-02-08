@@ -94,9 +94,11 @@ class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
-        $hydrator = new ObjectMap(array(
-            'uuid' => 'id',
-        ));
+        $hydrator = new ObjectMap(
+            [
+                'uuid' => 'id',
+            ]
+        );
 
         return $hydrator->hydrate(new User(), $result->account);
     }

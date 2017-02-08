@@ -10,7 +10,7 @@ tools:
         config:
             standard: PSR2
         filter:
-            paths: ["src/*", "tests/*"]
+            paths: ["src/*"]
     php_cpd:
         enabled: true
         excluded_dirs: ["vendor"]

@@ -59,6 +59,8 @@ $app->post('/', function () use (&$configureProviders, $service) {
         }
 
         $provider = $service->getProvider($providerName);
+        $provider->setNonce(mt_rand(0, PHP_INT_MAX));
+
         header('Location: ' . $provider->makeAuthUrl());
     } catch (\Exception $e) {
         echo $e->getMessage();

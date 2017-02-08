@@ -6,7 +6,7 @@
 
 namespace SocialConnect\OAuth1\Signature;
 
-use SocialConnect\Auth\Consumer;
+use SocialConnect\Provider\Consumer;
 use SocialConnect\OAuth1\Request;
 use SocialConnect\OAuth1\Token;
 

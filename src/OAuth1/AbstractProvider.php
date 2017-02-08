@@ -7,7 +7,6 @@
 namespace SocialConnect\OAuth1;
 
 use Exception;
-use SebastianBergmann\GlobalState\RuntimeException;
 use SocialConnect\Common\Http\Client\ClientInterface;
 use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\Consumer;
@@ -117,12 +116,12 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @param string|boolean $body
      * @return Token
      * @throws InvalidRequestToken
-     * @throws RuntimeException
+     * @throws InvalidAccessToken
      */
     public function parseToken($body)
     {
-        if (!is_string($body)) {
-            throw new RuntimeException('Request $body is not a string, passed: ' . var_export($body, true));
+        if (empty($body)) {
+            throw new InvalidAccessToken('Provider response with empty body');
         }
 
         parse_str($body, $token);
@@ -162,7 +161,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         $headers['Accept'] = 'application/json';
         $headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
-        $response = $this->service->getHttpClient()->request(
+        $response = $this->httpClient->request(
             $request->getNormalizedHttpUrl(),
             $parameters,
             $method,

@@ -55,7 +55,7 @@ class AccessTokenTest extends \Test\TestCase
     }
 
     /**
-     * @expectedException \SocialConnect\Auth\Provider\Exception\InvalidAccessToken
+     * @expectedException \SocialConnect\Provider\Exception\InvalidAccessToken
      * @expectedExceptionMessage API returned data without access_token field
      */
     public function testExceptionNotString()

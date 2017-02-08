@@ -56,7 +56,7 @@ class Service
      * Get provider class by $name
      *
      * @param $name
-     * @return \SocialConnect\Auth\AbstractBaseProvider
+     * @return \SocialConnect\Provider\AbstractBaseProvider
      * @throws Exception
      */
     public function getProvider($name)

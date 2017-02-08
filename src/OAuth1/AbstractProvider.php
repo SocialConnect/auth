@@ -8,12 +8,11 @@ namespace SocialConnect\OAuth1;
 
 use Exception;
 use SebastianBergmann\GlobalState\RuntimeException;
-use SocialConnect\Auth\AbstractBaseProvider;
-use SocialConnect\Auth\Consumer;
-use SocialConnect\Auth\Provider\Exception\InvalidAccessToken;
-use SocialConnect\Auth\Provider\Exception\InvalidResponse;
+use SocialConnect\Provider\AbstractBaseProvider;
+use SocialConnect\Provider\Consumer;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
+use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Auth\Service;
-use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\OAuth1\Exception\InvalidRequestToken;
 use SocialConnect\OAuth1\Signature\MethodHMACSHA1;

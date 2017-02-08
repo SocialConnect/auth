@@ -7,14 +7,13 @@
 namespace Test\Provider;
 
 use SocialConnect\Auth\CollectionFactory;
-use SocialConnect\Auth\FactoryInterface;
 use SocialConnect\Auth\Service;
 
 class FactoryTest extends \Test\TestCase
 {
     public function testSuccessFactory()
     {
-        $service = new Service(array(), null);
+        $service = $this->getService();
 
         $vkProvider = (new CollectionFactory())->factory('Vk', array(
             'applicationId' => 'applicationIdTest',

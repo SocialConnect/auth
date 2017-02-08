@@ -6,9 +6,9 @@
 
 namespace SocialConnect\Auth\Provider;
 
-use SocialConnect\Auth\AccessTokenInterface;
-use SocialConnect\Auth\Provider\Exception\InvalidAccessToken;
-use SocialConnect\Auth\Provider\Exception\InvalidResponse;
+use SocialConnect\Provider\AccessTokenInterface;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
+use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
@@ -74,7 +74,7 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->service->getHttpClient()->request(
+        $response = $this->httpClient->request(
             $this->getBaseUri() . 'user',
             [
                 'oauth_token' => $accessToken->getToken()

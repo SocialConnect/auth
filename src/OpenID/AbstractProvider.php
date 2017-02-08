@@ -6,9 +6,9 @@
 
 namespace SocialConnect\OpenID;
 
-use SocialConnect\Auth\AbstractBaseProvider;
-use SocialConnect\Auth\Provider\Exception\InvalidAccessToken;
-use SocialConnect\Auth\Provider\Exception\InvalidResponse;
+use SocialConnect\Provider\AbstractBaseProvider;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
+use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Http\Client\Client;
 
 abstract class AbstractProvider extends AbstractBaseProvider

@@ -4,17 +4,12 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace SocialConnect\Auth;
+namespace SocialConnect\Provider;
 
-use SocialConnect\Auth\AccessTokenInterface;
+use SocialConnect\Common\Http\Client\ClientInterface;
 
 abstract class AbstractBaseProvider
 {
-    /**
-     * @var Service
-     */
-    public $service;
-
     /**
      * @var Consumer
      */
@@ -31,13 +26,36 @@ abstract class AbstractBaseProvider
     protected $fields = array();
 
     /**
-     * @param Service $service
-     * @param Consumer $consumer
+     * @var ClientInterface
      */
-    public function __construct(Service $service, Consumer $consumer)
+    protected $httpClient;
+
+    /**
+     * @var string
+     */
+    protected $redirectUri;
+
+    /**
+     * @param ClientInterface $httpClient
+     * @param Consumer $consumer
+     * @param array $parameters
+     */
+    public function __construct(ClientInterface $httpClient, Consumer $consumer, array $parameters)
     {
-        $this->service = $service;
         $this->consumer = $consumer;
+        $this->httpClient = $httpClient;
+
+        if (isset($parameters['scope'])) {
+            $this->setScope($parameters['scope']);
+        }
+
+        if (isset($parameters['fields'])) {
+            $this->setFields($parameters['fields']);
+        }
+
+        if (isset($parameters['redirectUri'])) {
+            $this->redirectUri = $parameters['redirectUri'];
+        }
     }
 
     /**
@@ -45,7 +63,7 @@ abstract class AbstractBaseProvider
      */
     protected function getRedirectUri()
     {
-        return $this->service->getConfig()['redirectUri'];
+        return $this->redirectUri;
     }
 
     /**
@@ -70,7 +88,7 @@ abstract class AbstractBaseProvider
 
     /**
      * @param array $requestParameters
-     * @return \SocialConnect\Auth\AccessTokenInterface
+     * @return \SocialConnect\Provider\AccessTokenInterface
      */
     abstract public function getAccessTokenByRequestParameters(array $requestParameters);
 
@@ -85,7 +103,7 @@ abstract class AbstractBaseProvider
      * @param AccessTokenInterface $accessToken
      * @return \SocialConnect\Common\Entity\User
      *
-     * @throws \SocialConnect\Auth\Provider\Exception\InvalidResponse
+     * @throws \SocialConnect\Provider\Exception\InvalidResponse
      */
     abstract public function getIdentity(AccessTokenInterface $accessToken);
 
@@ -138,7 +156,7 @@ abstract class AbstractBaseProvider
     }
 
     /**
-     * @return \SocialConnect\Auth\Consumer
+     * @return \SocialConnect\Provider\Consumer
      */
     public function getConsumer()
     {

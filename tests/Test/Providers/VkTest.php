@@ -6,11 +6,10 @@
 
 namespace Test\Providers;
 
-use SocialConnect\Auth\Provider\Exception\InvalidAccessToken;
-use SocialConnect\Auth\Consumer;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
+use SocialConnect\Provider\Consumer;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Http\Client\ClientInterface;
-use Test\TestCase;
 
 class VkTest extends AbstractProviderTestCase
 {
@@ -20,22 +19,22 @@ class VkTest extends AbstractProviderTestCase
      */
     protected function getProvider(ClientInterface $httpClient = null)
     {
-        $service = new \SocialConnect\Auth\Service(
-            [
-                'redirectUri' => 'http://localhost:8000/'
-            ]
-        );
-
-        if ($httpClient) {
-            $service->setHttpClient($httpClient);
+        if (!$httpClient) {
+            $httpClient = $this->getMockBuilder(\SocialConnect\Common\Http\Client\Curl::class)
+                ->disableOriginalConstructor()
+                ->disableProxyingToOriginalMethods()
+                ->getMock();
         }
 
         return new \SocialConnect\Auth\Provider\Vk(
-            $service,
+            $httpClient,
             new Consumer(
                 'unknown',
                 'unkwown'
-            )
+            ),
+            [
+                'redirectUri' => 'http://localhost:8000/'
+            ]
         );
     }
 
@@ -57,7 +56,7 @@ class VkTest extends AbstractProviderTestCase
     }
 
     /**
-     * @expectedException \SocialConnect\Auth\Provider\Exception\InvalidResponse
+     * @expectedException \SocialConnect\Provider\Exception\InvalidResponse
      * @expectedExceptionMessage API response with error code
      */
     public function testGetAccessTokenResponseInternalServerErrorFail()
@@ -160,7 +159,7 @@ class VkTest extends AbstractProviderTestCase
     }
 
     /**
-     * @expectedException \SocialConnect\Auth\Provider\Exception\InvalidResponse
+     * @expectedException \SocialConnect\Provider\Exception\InvalidResponse
      * @expectedExceptionMessage API response with error code
      */
     public function testGetIdentityInternalServerError()
@@ -180,7 +179,7 @@ class VkTest extends AbstractProviderTestCase
     }
 
     /**
-     * @expectedException \SocialConnect\Auth\Provider\Exception\InvalidResponse
+     * @expectedException \SocialConnect\Provider\Exception\InvalidResponse
      * @expectedExceptionMessage API response is not a valid JSON object
      */
     public function testGetIdentityNotData()

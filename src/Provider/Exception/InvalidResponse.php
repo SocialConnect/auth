@@ -4,7 +4,7 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace SocialConnect\Auth\Provider\Exception;
+namespace SocialConnect\Provider\Exception;
 
 class InvalidResponse extends \SocialConnect\Common\Exception
 {

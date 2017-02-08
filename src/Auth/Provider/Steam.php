@@ -6,8 +6,8 @@
 
 namespace SocialConnect\Auth\Provider;
 
-use SocialConnect\Auth\AccessTokenInterface;
-use SocialConnect\Auth\Provider\Exception\InvalidResponse;
+use SocialConnect\Provider\AccessTokenInterface;
+use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
@@ -59,7 +59,7 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->service->getHttpClient()->request(
+        $response = $this->httpClient->request(
             $this->getBaseUri() . 'ISteamUser/GetPlayerSummaries/v0002/',
             [
                 'key' => $this->consumer->getKey(),

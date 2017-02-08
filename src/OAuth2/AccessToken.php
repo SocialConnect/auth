@@ -6,8 +6,8 @@
 
 namespace SocialConnect\OAuth2;
 
-use SocialConnect\Auth\AccessTokenInterface;
-use SocialConnect\Auth\Provider\Exception\InvalidAccessToken;
+use SocialConnect\Provider\AccessTokenInterface;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
 
 class AccessToken implements AccessTokenInterface
 {

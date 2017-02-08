@@ -6,7 +6,7 @@
 
 namespace SocialConnect\OAuth1;
 
-use SocialConnect\Auth\AccessTokenInterface;
+use SocialConnect\Provider\AccessTokenInterface;
 
 class AccessToken extends \SocialConnect\OAuth1\Token implements AccessTokenInterface
 {

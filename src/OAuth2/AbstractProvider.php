@@ -7,9 +7,9 @@
 namespace SocialConnect\OAuth2;
 
 use InvalidArgumentException;
-use SocialConnect\Auth\AbstractBaseProvider;
-use SocialConnect\Auth\Provider\Exception\InvalidAccessToken;
-use SocialConnect\Auth\Provider\Exception\InvalidResponse;
+use SocialConnect\Provider\AbstractBaseProvider;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
+use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Http\Client\Client;
 
 abstract class AbstractProvider extends AbstractBaseProvider
@@ -120,7 +120,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
             throw new InvalidArgumentException('Parameter $code must be a string');
         }
 
-        $response = $this->service->getHttpClient()->fromRequest(
+        $response = $this->httpClient->fromRequest(
             $this->makeAccessTokenRequest($code)
         );
 

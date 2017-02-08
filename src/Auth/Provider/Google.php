@@ -8,9 +8,9 @@
 
 namespace SocialConnect\Auth\Provider;
 
-use SocialConnect\Auth\AccessTokenInterface;
-use SocialConnect\Auth\Provider\Exception\InvalidAccessToken;
-use SocialConnect\Auth\Provider\Exception\InvalidResponse;
+use SocialConnect\Provider\AccessTokenInterface;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
+use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth2\AbstractProvider;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
@@ -72,7 +72,7 @@ class Google extends AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->service->getHttpClient()->request(
+        $response = $this->httpClient->request(
             $this->getBaseUri() . 'oauth2/v1/userinfo',
             [
                 'access_token' => $accessToken->getToken()

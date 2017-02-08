@@ -13,7 +13,7 @@ class TestCase extends PHPUnit_Framework_TestCase
 {
     protected function getService()
     {
-        return new Service(
+        $service = new Service(
             array(
                 'provider' => array(
                     'Vk' => array(
@@ -24,5 +24,14 @@ class TestCase extends PHPUnit_Framework_TestCase
             ),
             null
         );
+
+        $httpClient = $this->getMockBuilder(\SocialConnect\Common\Http\Client\Curl::class)
+            ->disableOriginalConstructor()
+            ->disableProxyingToOriginalMethods()
+            ->getMock();
+
+        $service->setHttpClient($httpClient);
+
+        return $service;
     }
 }

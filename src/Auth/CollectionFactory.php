@@ -7,6 +7,7 @@
 namespace SocialConnect\Auth;
 
 use LogicException;
+use SocialConnect\Provider\Consumer;
 
 /**
  * Class Factory
@@ -61,7 +62,7 @@ class CollectionFactory implements FactoryInterface
      * @param string $id
      * @param array $parameters
      * @param Service $service
-     * @return AbstractBaseProvider
+     * @return \SocialConnect\Provider\AbstractBaseProvider
      */
     public function factory($id, array $parameters, Service $service)
     {
@@ -80,17 +81,16 @@ class CollectionFactory implements FactoryInterface
         $providerClassName = $this->providers[$id];
 
         /**
-         * @var $provider AbstractBaseProvider
+         * @var $provider \SocialConnect\Provider\AbstractBaseProvider
          */
-        $provider = new $providerClassName($service, $consumer);
-        
-        if (isset($parameters['scope'])) {
-            $provider->setScope($parameters['scope']);
-        }
-
-        if (isset($parameters['fields'])) {
-            $provider->setFields($parameters['fields']);
-        }
+        $provider = new $providerClassName(
+            $service->getHttpClient(),
+            $consumer,
+            array_merge(
+                $parameters,
+                $service->getConfig()
+            )
+        );
 
         return $provider;
     }

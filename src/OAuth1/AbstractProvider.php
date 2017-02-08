@@ -8,11 +8,11 @@ namespace SocialConnect\OAuth1;
 
 use Exception;
 use SebastianBergmann\GlobalState\RuntimeException;
+use SocialConnect\Common\Http\Client\ClientInterface;
 use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\Consumer;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
-use SocialConnect\Auth\Service;
 use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\OAuth1\Exception\InvalidRequestToken;
 use SocialConnect\OAuth1\Signature\MethodHMACSHA1;
@@ -55,12 +55,13 @@ abstract class AbstractProvider extends AbstractBaseProvider
     protected $scope = array();
 
     /**
-     * @param Service $service
+     * @param ClientInterface $httpClient
      * @param Consumer $consumer
+     * @param array $parameters
      */
-    public function __construct(Service $service, Consumer $consumer)
+    public function __construct(ClientInterface $httpClient, Consumer $consumer, array $parameters)
     {
-        parent::__construct($service, $consumer);
+        parent::__construct($httpClient, $consumer, $parameters);
 
         $this->consumerToken = new Token('', '');
     }

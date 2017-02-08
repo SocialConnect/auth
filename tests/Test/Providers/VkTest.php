@@ -56,6 +56,20 @@ class VkTest extends AbstractProviderTestCase
         $this->getProvider()->getAccessToken(null);
     }
 
+    /**
+     * @expectedException \SocialConnect\Auth\Provider\Exception\InvalidResponse
+     * @expectedExceptionMessage API response with error code
+     */
+    public function testGetAccessTokenResponseInternalServerErrorFail()
+    {
+        $this->getProvider(
+            $this->mockClientResponse(
+                null,
+                500,
+                true
+            )
+        )->getAccessToken('XXXXXXXXXXXX');
+    }
 
     public function testMakeAccessTokenRequest()
     {
@@ -115,7 +129,7 @@ class VkTest extends AbstractProviderTestCase
 
     public function testGetIdentitySuccess()
     {
-        $mockedHttpClient = $this->makeIdentityClientResponse(
+        $mockedHttpClient = $this->mockClientResponse(
             json_encode(
                 [
                     'response' => [
@@ -151,7 +165,7 @@ class VkTest extends AbstractProviderTestCase
      */
     public function testGetIdentityInternalServerError()
     {
-        $mockedHttpClient = $this->makeIdentityClientResponse(
+        $mockedHttpClient = $this->mockClientResponse(
             [],
             500
         );
@@ -171,7 +185,7 @@ class VkTest extends AbstractProviderTestCase
      */
     public function testGetIdentityNotData()
     {
-        $mockedHttpClient = $this->makeIdentityClientResponse(
+        $mockedHttpClient = $this->mockClientResponse(
             [],
             200
         );

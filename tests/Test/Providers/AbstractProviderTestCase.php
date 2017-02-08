@@ -18,12 +18,12 @@ class AbstractProviderTestCase extends TestCase
     /**
      * @param mixed $responseData
      * @param int $responseCode
+     * @param bool $mockFromRequest
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function makeIdentityClientResponse($responseData, $responseCode = 200)
+    protected function mockClientResponse($responseData, $responseCode = 200, $mockFromRequest = false)
     {
         $mockedHttpClient = $this->getMockBuilder(\SocialConnect\Common\Http\Client\Curl::class)
-            ->disableProxyingToOriginalMethods()
             ->getMock();
 
         $response = new \SocialConnect\Common\Http\Response(
@@ -32,9 +32,15 @@ class AbstractProviderTestCase extends TestCase
             []
         );
 
-        $mockedHttpClient->expects($this->once())
-            ->method('request')
-            ->willReturn($response);
+        if ($mockFromRequest) {
+            $mockedHttpClient->expects($this->once())
+                ->method('fromRequest')
+                ->willReturn($response);
+        } else {
+            $mockedHttpClient->expects($this->once())
+                ->method('request')
+                ->willReturn($response);
+        }
 
         return $mockedHttpClient;
     }

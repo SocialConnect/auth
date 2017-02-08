@@ -36,6 +36,13 @@ abstract class AbstractBaseProvider
     protected $redirectUri;
 
     /**
+     * Nonce/State to protect CSRF
+     *
+     * @var string|null
+     */
+    protected $nonce;
+
+    /**
      * @param ClientInterface $httpClient
      * @param Consumer $consumer
      * @param array $parameters
@@ -161,5 +168,13 @@ abstract class AbstractBaseProvider
     public function getConsumer()
     {
         return $this->consumer;
+    }
+
+    /**
+     * @param null|string $nonce
+     */
+    public function setNonce($nonce)
+    {
+        $this->nonce = $nonce;
     }
 }

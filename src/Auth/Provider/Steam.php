@@ -37,7 +37,6 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
         return 'steam';
     }
 
-
     /**
      * @param string $identity
      * @return string
@@ -45,7 +44,7 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
     protected function parseUserIdFromIdentity($identity)
     {
         preg_match(
-            "/^http:\/\/steamcommunity\.com\/openid\/id\/(7[0-9]{15,25}+)$/",
+            '/^http:\/\/steamcommunity\.com\/openid\/id\/(7[0-9]{15,25}+)$/',
             $identity,
             $matches
         );

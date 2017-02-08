@@ -1,6 +1,6 @@
 {
-    "name": "socialconnect/openid-connect",
-    "description": "Implementation of OpenId (v1.1 - v2) client specification",
+    "name": "socialconnect/provider",
+    "description": "Base interfaces for implementation of Providers (OAuth1/OAuth2/OpenID/OpenConnect)",
     "type": "library",
     "require": {
         "php": ">=5.5",

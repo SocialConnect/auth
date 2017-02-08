@@ -6,7 +6,8 @@
 
 namespace Test\Provider;
 
-use SocialConnect\Auth\Factory;
+use SocialConnect\Auth\CollectionFactory;
+use SocialConnect\Auth\FactoryInterface;
 use SocialConnect\Auth\Service;
 
 class FactoryTest extends \Test\TestCase
@@ -15,7 +16,7 @@ class FactoryTest extends \Test\TestCase
     {
         $service = new Service(array(), null);
 
-        $vkProvider = (new Factory)->factory('Vk', array(
+        $vkProvider = (new CollectionFactory())->factory('Vk', array(
             'applicationId' => 'applicationIdTest',
             'applicationSecret' => 'applicationSecretTest'
         ), $service);

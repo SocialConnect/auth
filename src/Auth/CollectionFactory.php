@@ -83,7 +83,7 @@ class CollectionFactory implements FactoryInterface
          * @var $provider AbstractBaseProvider
          */
         $provider = new $providerClassName($service, $consumer);
-
+        
         if (isset($parameters['scope'])) {
             $provider->setScope($parameters['scope']);
         }

@@ -35,7 +35,7 @@ class Service
     public function __construct(array $config, $factory = null)
     {
         $this->config = $config;
-        $this->factory = is_null($factory) ? new Factory() : $factory;
+        $this->factory = is_null($factory) ? new CollectionFactory() : $factory;
     }
 
     /**

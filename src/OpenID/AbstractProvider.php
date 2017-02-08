@@ -54,7 +54,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     protected function discover($url)
     {
-        $response = $this->service->getHttpClient()->request(
+        $response = $this->httpClient->request(
             $url,
             [],
             Client::GET
@@ -136,7 +136,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
         $this->discover($claimedId);
 
-        $response = $this->service->getHttpClient()->request(
+        $response = $this->httpClient->request(
             $this->loginEntrypoint,
             $params,
             Client::POST

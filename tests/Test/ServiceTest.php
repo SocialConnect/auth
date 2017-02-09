@@ -19,6 +19,6 @@ class ServiceTest extends TestCase
         $service = $this->getService();
         $vkProvider = $service->getProvider('Vk');
 
-        $this->assertInstanceOf(\SocialConnect\Auth\Provider\Vk::class, $vkProvider);
+        $this->assertInstanceOf(\SocialConnect\OAuth2\Provider\Vk::class, $vkProvider);
     }
 }

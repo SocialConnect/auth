@@ -14,7 +14,7 @@ class VkTest extends AbstractProviderTestCase
 {
     /**
      * @param ClientInterface|null $httpClient
-     * @return \SocialConnect\Auth\Provider\Vk
+     * @return \SocialConnect\OAuth2\Provider\Vk
      */
     protected function getProvider(ClientInterface $httpClient = null)
     {
@@ -25,7 +25,7 @@ class VkTest extends AbstractProviderTestCase
                 ->getMock();
         }
 
-        return new \SocialConnect\Auth\Provider\Vk(
+        return new \SocialConnect\OAuth2\Provider\Vk(
             $httpClient,
             new Consumer(
                 'unknown',

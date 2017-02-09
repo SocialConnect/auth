@@ -20,7 +20,7 @@ class FactoryTest extends \Test\TestCase
             'applicationSecret' => 'applicationSecretTest'
         ), $service);
 
-        $this->assertInstanceOf(\SocialConnect\Auth\Provider\Vk::class, $vkProvider);
+        $this->assertInstanceOf(\SocialConnect\OAuth2\Provider\Vk::class, $vkProvider);
         $consumer = $vkProvider->getConsumer();
 
         $this->assertSame('applicationIdTest', $consumer->getKey());

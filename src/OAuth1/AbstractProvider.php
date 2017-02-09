@@ -196,7 +196,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @param Token $token
      * @param $oauthVerifier
      * @return AccessToken
-     * @throws Exception
+     * @throws InvalidResponse
      */
     public function getAccessToken(Token $token, $oauthVerifier)
     {

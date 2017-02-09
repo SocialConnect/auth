@@ -6,7 +6,6 @@
 
 namespace Test\Providers;
 
-use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Consumer;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Http\Client\ClientInterface;
@@ -108,20 +107,22 @@ class VkTest extends AbstractProviderTestCase
         parent::assertSame($expectedUserId, $accessToken->getUserId());
     }
 
+    /**
+     * @expectedException \SocialConnect\Provider\Exception\InvalidAccessToken
+     */
     public function testParseTokenNotToken()
     {
-        $this->setExpectedException(InvalidAccessToken::class);
-
-        $accessToken = $this->getProvider()->parseToken(
+        $this->getProvider()->parseToken(
             json_encode([])
         );
     }
 
+    /**
+     * @expectedException \SocialConnect\Provider\Exception\InvalidAccessToken
+     */
     public function testParseTokenNotValidJSON()
     {
-        $this->setExpectedException(InvalidAccessToken::class);
-
-        $accessToken = $this->getProvider()->parseToken(
+        $this->getProvider()->parseToken(
             'lelelelel'
         );
     }

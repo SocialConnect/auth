@@ -4,23 +4,23 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace SocialConnect\Auth\Provider;
+namespace SocialConnect\OAuth2\Provider;
 
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
+use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
-use SocialConnect\OAuth2\AccessToken;
 
-class Instagram extends \SocialConnect\OAuth2\AbstractProvider
+class Slack extends \SocialConnect\OAuth2\AbstractProvider
 {
     /**
      * {@inheritdoc}
      */
     public function getBaseUri()
     {
-        return 'https://api.instagram.com/v1/';
+        return 'https://slack.com/';
     }
 
     /**
@@ -28,7 +28,7 @@ class Instagram extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getAuthorizeUri()
     {
-        return 'https://api.instagram.com/oauth/authorize';
+        return 'https://slack.com/oauth/authorize';
     }
 
     /**
@@ -36,25 +36,27 @@ class Instagram extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getRequestTokenUri()
     {
-        return 'https://api.instagram.com/oauth/access_token';
+        return 'https://slack.com/api/oauth.access';
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getName()
     {
-        return 'instagram';
+        return 'slack';
     }
 
     /**
-     * {@inheritdoc}
+     * @param $body
+     * @return AccessToken
+     * @throws InvalidAccessToken
      */
     public function parseToken($body)
     {
-        $result = json_decode($body, true);
-        if ($result) {
-            return new AccessToken($result);
+        $response = json_decode($body, true);
+        if ($response) {
+            return new AccessToken($response);
         }
 
         throw new InvalidAccessToken('AccessToken is not a valid JSON');
@@ -66,9 +68,9 @@ class Instagram extends \SocialConnect\OAuth2\AbstractProvider
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         $response = $this->httpClient->request(
-            $this->getBaseUri() . 'users/self',
+            $this->getBaseUri() . 'api/users.identity',
             [
-                'access_token' => $accessToken->getToken()
+                'token' => $accessToken->getToken()
             ]
         );
 
@@ -79,20 +81,31 @@ class Instagram extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
-        $body = $response->getBody();
-        $result = json_decode($body);
+        $result = $response->json();
+        if (!$result) {
+            throw new InvalidResponse(
+                'API response is not a valid JSON object',
+                $response->getBody()
+            );
+        }
+
+        if (!$result->ok) {
+            throw new InvalidResponse(
+                'API response->ok is false',
+                $result
+            );
+        }
 
         $hydrator = new ObjectMap(
             [
                 'id' => 'id',
-                'username' => 'username',
-                'bio' => 'bio',
-                'website' => 'website',
-                'profile_picture' => 'profile_picture',
-                'full_name' => 'fullname'
+                'name' => 'name',
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result->data);
+        $user = $hydrator->hydrate(new User(), $result->user);
+        $user->team = $result->team;
+
+        return $user;
     }
 }

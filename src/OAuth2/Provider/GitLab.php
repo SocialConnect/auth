@@ -4,7 +4,7 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace SocialConnect\Auth\Provider;
+namespace SocialConnect\OAuth2\Provider;
 
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
@@ -13,14 +13,14 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
-class MailRu extends \SocialConnect\OAuth2\AbstractProvider
+class GitLab extends \SocialConnect\OAuth2\AbstractProvider
 {
     /**
      * {@inheritdoc}
      */
     public function getBaseUri()
     {
-        return 'http://www.appsmail.ru/platform/api';
+        return 'https://gitlab.com/api/v3/';
     }
 
     /**
@@ -28,7 +28,7 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getAuthorizeUri()
     {
-        return 'https://connect.mail.ru/oauth/authorize';
+        return 'https://gitlab.com/oauth/authorize';
     }
 
     /**
@@ -36,7 +36,7 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getRequestTokenUri()
     {
-        return 'https://connect.mail.ru/oauth/token';
+        return 'https://gitlab.com/oauth/token';
     }
 
     /**
@@ -44,7 +44,15 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'mail-ru';
+        return 'gitlab';
+    }
+
+    /**
+     * @return string
+     */
+    public function getScopeInline()
+    {
+        return implode('+', $this->scope);
     }
 
     /**
@@ -58,32 +66,10 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
 
         $result = json_decode($body, true);
         if ($result) {
-            $token = new AccessToken($result);
-            $token->setUid($result['x_mailru_vid']);
-
-            return $token;
+            return new AccessToken($result);
         }
 
         throw new InvalidAccessToken('Provider response with not valid JSON');
-    }
-
-    /**
-     * Copy/pasted from MailRU examples :)
-     *
-     * @param array $requestParameters
-     * @return string
-     */
-    protected function makeSecureSignature(array $requestParameters)
-    {
-        ksort($requestParameters);
-
-        $params = '';
-
-        foreach ($requestParameters as $key => $value) {
-            $params .= "$key=$value";
-        }
-
-        return md5($params . $this->consumer->getSecret());
     }
 
     /**
@@ -91,19 +77,11 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $parameters = [
-            'client_id' => $this->consumer->getKey(),
-            'format' => 'json',
-            'method' => 'users.getInfo',
-            'secure' => 1,
-            'session_key' => $accessToken->getToken()
-        ];
-
-        $parameters['sig'] = $this->makeSecureSignature($parameters);
-
         $response = $this->httpClient->request(
-            $this->getBaseUri(),
-            $parameters
+            $this->getBaseUri() . 'user',
+            [
+                'access_token' => $accessToken->getToken()
+            ]
         );
 
         if (!$response->isSuccess()) {
@@ -123,19 +101,11 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
 
         $hydrator = new ObjectMap(
             [
-                'uid' => 'id',
-                'first_name' => 'firstname',
-                'last_name' => 'lastname',
-                'nick' => 'username'
+                'user_id' => 'id',
+                'name' => 'fullname',
             ]
         );
 
-        $user = $hydrator->hydrate(new User(), $result[0]);
-
-        if ($user->sex) {
-            $user->sex = $user->sex === 1 ? 'female' : 'male';
-        }
-
-        return $user;
+        return $hydrator->hydrate(new User(), $result);
     }
 }

@@ -4,24 +4,23 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace SocialConnect\Auth\Provider;
+namespace SocialConnect\OAuth2\Provider;
 
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
-class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
+class MailRu extends \SocialConnect\OAuth2\AbstractProvider
 {
     /**
      * {@inheritdoc}
      */
     public function getBaseUri()
     {
-        return 'https://api.digitalocean.com/v2/';
+        return 'http://www.appsmail.ru/platform/api';
     }
 
     /**
@@ -29,7 +28,7 @@ class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getAuthorizeUri()
     {
-        return 'https://cloud.digitalocean.com/v1/oauth/authorize';
+        return 'https://connect.mail.ru/oauth/authorize';
     }
 
     /**
@@ -37,7 +36,7 @@ class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getRequestTokenUri()
     {
-        return 'https://cloud.digitalocean.com/v1/oauth/token';
+        return 'https://connect.mail.ru/oauth/token';
     }
 
     /**
@@ -45,7 +44,7 @@ class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'digital-ocean';
+        return 'mail-ru';
     }
 
     /**
@@ -59,10 +58,32 @@ class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
 
         $result = json_decode($body, true);
         if ($result) {
-            return new AccessToken($result);
+            $token = new AccessToken($result);
+            $token->setUid($result['x_mailru_vid']);
+
+            return $token;
         }
 
         throw new InvalidAccessToken('Provider response with not valid JSON');
+    }
+
+    /**
+     * Copy/pasted from MailRU examples :)
+     *
+     * @param array $requestParameters
+     * @return string
+     */
+    protected function makeSecureSignature(array $requestParameters)
+    {
+        ksort($requestParameters);
+
+        $params = '';
+
+        foreach ($requestParameters as $key => $value) {
+            $params .= "$key=$value";
+        }
+
+        return md5($params . $this->consumer->getSecret());
     }
 
     /**
@@ -70,13 +91,19 @@ class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
+        $parameters = [
+            'client_id' => $this->consumer->getKey(),
+            'format' => 'json',
+            'method' => 'users.getInfo',
+            'secure' => 1,
+            'session_key' => $accessToken->getToken()
+        ];
+
+        $parameters['sig'] = $this->makeSecureSignature($parameters);
+
         $response = $this->httpClient->request(
-            $this->getBaseUri() . 'account',
-            [],
-            Client::GET,
-            [
-                'Authorization' => 'Bearer ' . $accessToken->getToken()
-            ]
+            $this->getBaseUri(),
+            $parameters
         );
 
         if (!$response->isSuccess()) {
@@ -96,10 +123,19 @@ class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
 
         $hydrator = new ObjectMap(
             [
-                'uuid' => 'id',
+                'uid' => 'id',
+                'first_name' => 'firstname',
+                'last_name' => 'lastname',
+                'nick' => 'username'
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result->account);
+        $user = $hydrator->hydrate(new User(), $result[0]);
+
+        if ($user->sex) {
+            $user->sex = $user->sex === 1 ? 'female' : 'male';
+        }
+
+        return $user;
     }
 }

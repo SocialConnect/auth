@@ -4,23 +4,23 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace SocialConnect\Auth\Provider;
+namespace SocialConnect\OAuth2\Provider;
 
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
-use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
+use SocialConnect\OAuth2\AccessToken;
 
-class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
+class Instagram extends \SocialConnect\OAuth2\AbstractProvider
 {
     /**
      * {@inheritdoc}
      */
     public function getBaseUri()
     {
-        return 'https://api.bitbucket.org/2.0/';
+        return 'https://api.instagram.com/v1/';
     }
 
     /**
@@ -28,7 +28,7 @@ class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getAuthorizeUri()
     {
-        return 'https://bitbucket.org/site/oauth2/authorize';
+        return 'https://api.instagram.com/oauth/authorize';
     }
 
     /**
@@ -36,7 +36,7 @@ class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getRequestTokenUri()
     {
-        return 'https://bitbucket.org/site/oauth2/access_token';
+        return 'https://api.instagram.com/oauth/access_token';
     }
 
     /**
@@ -44,23 +44,21 @@ class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'bitbucket';
+        return 'instagram';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function parseToken($body)
     {
-        if (empty($body)) {
-            throw new InvalidAccessToken('Provider response with empty body');
-        }
-
         $result = json_decode($body, true);
         if ($result) {
             return new AccessToken($result);
         }
 
-        throw new InvalidAccessToken('Server response with not valid/empty JSON');
+        throw new InvalidAccessToken('AccessToken is not a valid JSON');
     }
-
 
     /**
      * {@inheritdoc}
@@ -68,7 +66,7 @@ class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         $response = $this->httpClient->request(
-            $this->getBaseUri() . 'user',
+            $this->getBaseUri() . 'users/self',
             [
                 'access_token' => $accessToken->getToken()
             ]
@@ -81,21 +79,20 @@ class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response->getBody()
-            );
-        }
+        $body = $response->getBody();
+        $result = json_decode($body);
 
         $hydrator = new ObjectMap(
             [
-                'uuid' => 'id',
-                'display_name' => 'fullname',
+                'id' => 'id',
+                'username' => 'username',
+                'bio' => 'bio',
+                'website' => 'website',
+                'profile_picture' => 'profile_picture',
+                'full_name' => 'fullname'
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result);
+        return $hydrator->hydrate(new User(), $result->data);
     }
 }

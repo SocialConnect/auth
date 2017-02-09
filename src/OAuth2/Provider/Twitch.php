@@ -4,7 +4,7 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace SocialConnect\Auth\Provider;
+namespace SocialConnect\OAuth2\Provider;
 
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
@@ -13,14 +13,14 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
-class Yandex extends \SocialConnect\OAuth2\AbstractProvider
+class Twitch extends \SocialConnect\OAuth2\AbstractProvider
 {
     /**
      * {@inheritdoc}
      */
     public function getBaseUri()
     {
-        return 'https://login.yandex.ru/info';
+        return 'https://api.twitch.tv/kraken/';
     }
 
     /**
@@ -28,7 +28,7 @@ class Yandex extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getAuthorizeUri()
     {
-        return 'https://oauth.yandex.ru/authorize';
+        return 'https://api.twitch.tv/kraken/oauth2/authorize';
     }
 
     /**
@@ -36,7 +36,7 @@ class Yandex extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getRequestTokenUri()
     {
-        return 'https://oauth.yandex.ru/token';
+        return 'https://api.twitch.tv/kraken/oauth2/token';
     }
 
     /**
@@ -44,7 +44,16 @@ class Yandex extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'yandex';
+        return 'twitch';
+    }
+
+    /**
+     * @return string
+     */
+    public function getScopeInline()
+    {
+        // @link https://github.com/justintv/Twitch-API/blob/master/authentication.md#scopes
+        return implode('+', $this->scope);
     }
 
     /**
@@ -52,16 +61,12 @@ class Yandex extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function parseToken($body)
     {
-        if (empty($body)) {
-            throw new InvalidAccessToken('Provider response with empty body');
+        $response = json_decode($body, true);
+        if ($response) {
+            return new AccessToken($response);
         }
 
-        $result = json_decode($body, true);
-        if ($result) {
-            return new AccessToken($result);
-        }
-
-        throw new InvalidAccessToken('Provider response with not valid JSON');
+        throw new InvalidAccessToken('AccessToken is not a valid JSON');
     }
 
     /**
@@ -70,10 +75,9 @@ class Yandex extends \SocialConnect\OAuth2\AbstractProvider
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         $response = $this->httpClient->request(
-            $this->getBaseUri(),
+            $this->getBaseUri() . 'user',
             [
-                'oauth_token' => $accessToken->getToken(),
-                'format' => 'json'
+                'oauth_token' => $accessToken->getToken()
             ]
         );
 
@@ -94,12 +98,9 @@ class Yandex extends \SocialConnect\OAuth2\AbstractProvider
 
         $hydrator = new ObjectMap(
             [
-                'first_name' => 'firstname',
-                'last_name' => 'lastname',
-                'default_email' => 'email',
-                'real_name' => 'fullname',
-                'birthday' => 'birthday',
-                'login' => 'username',
+                '_id' => 'id',
+                'display_name' => 'fullname', // Custom Capitalized Users name
+                'name' => 'username',
             ]
         );
 

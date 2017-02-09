@@ -4,56 +4,54 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace SocialConnect\Auth\Provider;
+namespace SocialConnect\OpenID\Provider;
 
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidResponse;
-use SocialConnect\OAuth1\AbstractProvider;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
-class Px500 extends AbstractProvider
+class Steam extends \SocialConnect\OpenID\AbstractProvider
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getOpenIdUrl()
+    {
+        return 'http://steamcommunity.com/openid/id';
+    }
+
     /**
      * {@inheritdoc}
      */
     public function getBaseUri()
     {
-        return 'https://api.500px.com/v1/';
+        return 'http://api.steampowered.com/';
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAuthorizeUri()
-    {
-        return 'https://api.500px.com/v1/oauth/authorize';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRequestTokenUri()
-    {
-        return 'https://api.500px.com/v1/oauth/request_token';
-    }
-
-    /**
-     * @return string
-     */
-    public function getRequestTokenAccessUri()
-    {
-        return 'https://api.500px.com/v1/oauth/access_token';
-    }
-
 
     /**
      * {@inheritdoc}
      */
     public function getName()
     {
-        return 'px500';
+        return 'steam';
     }
+
+    /**
+     * @param string $identity
+     * @return string
+     */
+    protected function parseUserIdFromIdentity($identity)
+    {
+        preg_match(
+            '/^http:\/\/steamcommunity\.com\/openid\/id\/(7[0-9]{15,25}+)$/',
+            $identity,
+            $matches
+        );
+
+        return $matches[1];
+    }
+
 
     /**
      * {@inheritdoc}
@@ -61,7 +59,11 @@ class Px500 extends AbstractProvider
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         $response = $this->httpClient->request(
-            $this->getBaseUri() . 'users'
+            $this->getBaseUri() . 'ISteamUser/GetPlayerSummaries/v0002/',
+            [
+                'key' => $this->consumer->getKey(),
+                'steamids' => $accessToken->getUserId()
+            ]
         );
 
         if (!$response->isSuccess()) {
@@ -79,20 +81,14 @@ class Px500 extends AbstractProvider
             );
         }
 
-        if (!isset($result->user) || !$result->user) {
-            throw new InvalidResponse(
-                'API response without user inside JSON',
-                $response->getBody()
-            );
-        }
-
         $hydrator = new ObjectMap(
             [
-                'id' => 'id',
-                'name' => 'name',
+                'steamid' => 'id',
+                'personaname' => 'username',
+                'realname' => 'fullname'
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result->user);
+        return $hydrator->hydrate(new User(), $result->response->players[0]);
     }
 }

@@ -4,41 +4,33 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace SocialConnect\Auth\Provider;
+namespace SocialConnect\OAuth2\Provider;
 
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
-class Facebook extends \SocialConnect\OAuth2\AbstractProvider
+class GitHub extends \SocialConnect\OAuth2\AbstractProvider
 {
-    /**
-     * By default AbstractProvider use POST method, FB does not accept POST and return HTML page ᕙ(⇀‸↼‶)ᕗ
-     *
-     * @var string
-     */
-    protected $requestHttpMethod = Client::GET;
-
     public function getBaseUri()
     {
-        return 'https://graph.facebook.com/v2.8/';
+        return 'https://api.github.com/';
     }
 
     public function getAuthorizeUri()
     {
-        return 'https://www.facebook.com/dialog/oauth';
+        return 'https://github.com/login/oauth/authorize';
     }
 
     public function getRequestTokenUri()
     {
-        return 'https://graph.facebook.com/oauth/access_token';
+        return 'https://github.com/login/oauth/access_token';
     }
 
     public function getName()
     {
-        return 'facebook';
+        return 'github';
     }
 
     /**
@@ -47,10 +39,9 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         $response = $this->httpClient->request(
-            $this->getBaseUri() . 'me',
+            $this->getBaseUri() . 'user',
             [
-                'access_token' => $accessToken->getToken(),
-                'fields' => $this->getFieldsInline()
+                'access_token' => $accessToken->getToken()
             ]
         );
 
@@ -67,16 +58,8 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
         $hydrator = new ObjectMap(
             [
                 'id' => 'id',
-                'first_name' => 'firstname',
-                'last_name' => 'lastname',
+                'login' => 'username',
                 'email' => 'email',
-                'gender' => 'sex',
-                'link' => 'url',
-                'locale' => 'locale',
-                'name' => 'fullname',
-                'timezone' => 'timezone',
-                'updated_time' => 'dateModified',
-                'verified' => 'verified'
             ]
         );
 

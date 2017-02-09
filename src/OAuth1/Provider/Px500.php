@@ -4,23 +4,22 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace SocialConnect\Auth\Provider;
+namespace SocialConnect\OAuth1\Provider;
 
 use SocialConnect\Provider\AccessTokenInterface;
-use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
-use SocialConnect\OAuth2\AccessToken;
+use SocialConnect\OAuth1\AbstractProvider;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
-class GitLab extends \SocialConnect\OAuth2\AbstractProvider
+class Px500 extends AbstractProvider
 {
     /**
      * {@inheritdoc}
      */
     public function getBaseUri()
     {
-        return 'https://gitlab.com/api/v3/';
+        return 'https://api.500px.com/v1/';
     }
 
     /**
@@ -28,7 +27,7 @@ class GitLab extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getAuthorizeUri()
     {
-        return 'https://gitlab.com/oauth/authorize';
+        return 'https://api.500px.com/v1/oauth/authorize';
     }
 
     /**
@@ -36,40 +35,24 @@ class GitLab extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getRequestTokenUri()
     {
-        return 'https://gitlab.com/oauth/token';
+        return 'https://api.500px.com/v1/oauth/request_token';
     }
+
+    /**
+     * @return string
+     */
+    public function getRequestTokenAccessUri()
+    {
+        return 'https://api.500px.com/v1/oauth/access_token';
+    }
+
 
     /**
      * {@inheritdoc}
      */
     public function getName()
     {
-        return 'gitlab';
-    }
-
-    /**
-     * @return string
-     */
-    public function getScopeInline()
-    {
-        return implode('+', $this->scope);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function parseToken($body)
-    {
-        if (empty($body)) {
-            throw new InvalidAccessToken('Provider response with empty body');
-        }
-
-        $result = json_decode($body, true);
-        if ($result) {
-            return new AccessToken($result);
-        }
-
-        throw new InvalidAccessToken('Provider response with not valid JSON');
+        return 'px500';
     }
 
     /**
@@ -78,10 +61,7 @@ class GitLab extends \SocialConnect\OAuth2\AbstractProvider
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         $response = $this->httpClient->request(
-            $this->getBaseUri() . 'user',
-            [
-                'access_token' => $accessToken->getToken()
-            ]
+            $this->getBaseUri() . 'users'
         );
 
         if (!$response->isSuccess()) {
@@ -99,13 +79,20 @@ class GitLab extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
+        if (!isset($result->user) || !$result->user) {
+            throw new InvalidResponse(
+                'API response without user inside JSON',
+                $response->getBody()
+            );
+        }
+
         $hydrator = new ObjectMap(
             [
-                'user_id' => 'id',
-                'name' => 'fullname',
+                'id' => 'id',
+                'name' => 'name',
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result);
+        return $hydrator->hydrate(new User(), $result->user);
     }
 }

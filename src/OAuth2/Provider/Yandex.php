@@ -4,7 +4,7 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace SocialConnect\Auth\Provider;
+namespace SocialConnect\OAuth2\Provider;
 
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
@@ -13,14 +13,14 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
-class Twitch extends \SocialConnect\OAuth2\AbstractProvider
+class Yandex extends \SocialConnect\OAuth2\AbstractProvider
 {
     /**
      * {@inheritdoc}
      */
     public function getBaseUri()
     {
-        return 'https://api.twitch.tv/kraken/';
+        return 'https://login.yandex.ru/info';
     }
 
     /**
@@ -28,7 +28,7 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getAuthorizeUri()
     {
-        return 'https://api.twitch.tv/kraken/oauth2/authorize';
+        return 'https://oauth.yandex.ru/authorize';
     }
 
     /**
@@ -36,7 +36,7 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getRequestTokenUri()
     {
-        return 'https://api.twitch.tv/kraken/oauth2/token';
+        return 'https://oauth.yandex.ru/token';
     }
 
     /**
@@ -44,16 +44,7 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'twitch';
-    }
-
-    /**
-     * @return string
-     */
-    public function getScopeInline()
-    {
-        // @link https://github.com/justintv/Twitch-API/blob/master/authentication.md#scopes
-        return implode('+', $this->scope);
+        return 'yandex';
     }
 
     /**
@@ -61,12 +52,16 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function parseToken($body)
     {
-        $response = json_decode($body, true);
-        if ($response) {
-            return new AccessToken($response);
+        if (empty($body)) {
+            throw new InvalidAccessToken('Provider response with empty body');
         }
 
-        throw new InvalidAccessToken('AccessToken is not a valid JSON');
+        $result = json_decode($body, true);
+        if ($result) {
+            return new AccessToken($result);
+        }
+
+        throw new InvalidAccessToken('Provider response with not valid JSON');
     }
 
     /**
@@ -75,9 +70,10 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         $response = $this->httpClient->request(
-            $this->getBaseUri() . 'user',
+            $this->getBaseUri(),
             [
-                'oauth_token' => $accessToken->getToken()
+                'oauth_token' => $accessToken->getToken(),
+                'format' => 'json'
             ]
         );
 
@@ -98,9 +94,12 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
 
         $hydrator = new ObjectMap(
             [
-                '_id' => 'id',
-                'display_name' => 'fullname', // Custom Capitalized Users name
-                'name' => 'username',
+                'first_name' => 'firstname',
+                'last_name' => 'lastname',
+                'default_email' => 'email',
+                'real_name' => 'fullname',
+                'birthday' => 'birthday',
+                'login' => 'username',
             ]
         );
 

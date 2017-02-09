@@ -1,26 +1,33 @@
 <?php
+
 /**
  * SocialConnect project
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
+ * @author Alexander Fedyashov <a@fedyashov.com>
  */
 
-namespace SocialConnect\Auth\Provider;
+namespace SocialConnect\OAuth2\Provider;
 
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
+use SocialConnect\OAuth2\AbstractProvider;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
-class Amazon extends \SocialConnect\OAuth2\AbstractProvider
+/**
+ * Class Provider
+ * @package SocialConnect\Google
+ */
+class Google extends AbstractProvider
 {
     /**
      * {@inheritdoc}
      */
     public function getBaseUri()
     {
-        return 'https://api.amazon.com/';
+        return 'https://www.googleapis.com/';
     }
 
     /**
@@ -28,7 +35,7 @@ class Amazon extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getAuthorizeUri()
     {
-        return 'https://www.amazon.com/ap/oa';
+        return 'https://accounts.google.com/o/oauth2/auth';
     }
 
     /**
@@ -36,7 +43,7 @@ class Amazon extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getRequestTokenUri()
     {
-        return 'https://api.amazon.com/auth/o2/token';
+        return 'https://accounts.google.com/o/oauth2/token';
     }
 
     /**
@@ -44,7 +51,7 @@ class Amazon extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'amazon';
+        return 'google';
     }
 
     /**
@@ -52,10 +59,6 @@ class Amazon extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function parseToken($body)
     {
-        if (empty($body)) {
-            throw new InvalidAccessToken('Provider response with empty body');
-        }
-
         $result = json_decode($body, true);
         if ($result) {
             return new AccessToken($result);
@@ -70,7 +73,7 @@ class Amazon extends \SocialConnect\OAuth2\AbstractProvider
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         $response = $this->httpClient->request(
-            $this->getBaseUri() . 'user/profile',
+            $this->getBaseUri() . 'oauth2/v1/userinfo',
             [
                 'access_token' => $accessToken->getToken()
             ]
@@ -83,18 +86,17 @@ class Amazon extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response->getBody()
-            );
-        }
+        $body = $response->getBody();
+        $result = json_decode($body);
 
         $hydrator = new ObjectMap(
             [
-                'user_id' => 'id',
-                'name' => 'firstname',
+                'id' => 'id',
+                'given_name' => 'firstname',
+                'family_name' => 'lastname',
+                'email' => 'email',
+                'name' => 'fullname',
+                'gender' => 'sex',
             ]
         );
 

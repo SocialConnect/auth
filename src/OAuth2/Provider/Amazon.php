@@ -4,29 +4,39 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace SocialConnect\Auth\Provider;
+namespace SocialConnect\OAuth2\Provider;
 
 use SocialConnect\Provider\AccessTokenInterface;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
+use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
-class Steam extends \SocialConnect\OpenID\AbstractProvider
+class Amazon extends \SocialConnect\OAuth2\AbstractProvider
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getOpenIdUrl()
-    {
-        return 'http://steamcommunity.com/openid/id';
-    }
-
     /**
      * {@inheritdoc}
      */
     public function getBaseUri()
     {
-        return 'http://api.steampowered.com/';
+        return 'https://api.amazon.com/';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAuthorizeUri()
+    {
+        return 'https://www.amazon.com/ap/oa';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRequestTokenUri()
+    {
+        return 'https://api.amazon.com/auth/o2/token';
     }
 
     /**
@@ -34,24 +44,25 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
      */
     public function getName()
     {
-        return 'steam';
+        return 'amazon';
     }
 
     /**
-     * @param string $identity
-     * @return string
+     * {@inheritdoc}
      */
-    protected function parseUserIdFromIdentity($identity)
+    public function parseToken($body)
     {
-        preg_match(
-            '/^http:\/\/steamcommunity\.com\/openid\/id\/(7[0-9]{15,25}+)$/',
-            $identity,
-            $matches
-        );
+        if (empty($body)) {
+            throw new InvalidAccessToken('Provider response with empty body');
+        }
 
-        return $matches[1];
+        $result = json_decode($body, true);
+        if ($result) {
+            return new AccessToken($result);
+        }
+
+        throw new InvalidAccessToken('Provider response with not valid JSON');
     }
-
 
     /**
      * {@inheritdoc}
@@ -59,10 +70,9 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         $response = $this->httpClient->request(
-            $this->getBaseUri() . 'ISteamUser/GetPlayerSummaries/v0002/',
+            $this->getBaseUri() . 'user/profile',
             [
-                'key' => $this->consumer->getKey(),
-                'steamids' => $accessToken->getUserId()
+                'access_token' => $accessToken->getToken()
             ]
         );
 
@@ -83,12 +93,11 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
 
         $hydrator = new ObjectMap(
             [
-                'steamid' => 'id',
-                'personaname' => 'username',
-                'realname' => 'fullname'
+                'user_id' => 'id',
+                'name' => 'firstname',
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result->response->players[0]);
+        return $hydrator->hydrate(new User(), $result);
     }
 }

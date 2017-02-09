@@ -1,33 +1,26 @@
 <?php
-
 /**
  * SocialConnect project
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
- * @author Alexander Fedyashov <a@fedyashov.com>
  */
 
-namespace SocialConnect\Auth\Provider;
+namespace SocialConnect\OAuth2\Provider;
 
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
-use SocialConnect\OAuth2\AbstractProvider;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
-/**
- * Class Provider
- * @package SocialConnect\Google
- */
-class Google extends AbstractProvider
+class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
 {
     /**
      * {@inheritdoc}
      */
     public function getBaseUri()
     {
-        return 'https://www.googleapis.com/';
+        return 'https://api.bitbucket.org/2.0/';
     }
 
     /**
@@ -35,7 +28,7 @@ class Google extends AbstractProvider
      */
     public function getAuthorizeUri()
     {
-        return 'https://accounts.google.com/o/oauth2/auth';
+        return 'https://bitbucket.org/site/oauth2/authorize';
     }
 
     /**
@@ -43,7 +36,7 @@ class Google extends AbstractProvider
      */
     public function getRequestTokenUri()
     {
-        return 'https://accounts.google.com/o/oauth2/token';
+        return 'https://bitbucket.org/site/oauth2/access_token';
     }
 
     /**
@@ -51,21 +44,23 @@ class Google extends AbstractProvider
      */
     public function getName()
     {
-        return 'google';
+        return 'bitbucket';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function parseToken($body)
     {
+        if (empty($body)) {
+            throw new InvalidAccessToken('Provider response with empty body');
+        }
+
         $result = json_decode($body, true);
         if ($result) {
             return new AccessToken($result);
         }
 
-        throw new InvalidAccessToken('Provider response with not valid JSON');
+        throw new InvalidAccessToken('Server response with not valid/empty JSON');
     }
+
 
     /**
      * {@inheritdoc}
@@ -73,7 +68,7 @@ class Google extends AbstractProvider
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         $response = $this->httpClient->request(
-            $this->getBaseUri() . 'oauth2/v1/userinfo',
+            $this->getBaseUri() . 'user',
             [
                 'access_token' => $accessToken->getToken()
             ]
@@ -86,17 +81,18 @@ class Google extends AbstractProvider
             );
         }
 
-        $body = $response->getBody();
-        $result = json_decode($body);
+        $result = $response->json();
+        if (!$result) {
+            throw new InvalidResponse(
+                'API response is not a valid JSON object',
+                $response->getBody()
+            );
+        }
 
         $hydrator = new ObjectMap(
             [
-                'id' => 'id',
-                'given_name' => 'firstname',
-                'family_name' => 'lastname',
-                'email' => 'email',
-                'name' => 'fullname',
-                'gender' => 'sex',
+                'uuid' => 'id',
+                'display_name' => 'fullname',
             ]
         );
 

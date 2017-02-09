@@ -4,23 +4,24 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace SocialConnect\Auth\Provider;
+namespace SocialConnect\OAuth2\Provider;
 
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
+use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
-class Slack extends \SocialConnect\OAuth2\AbstractProvider
+class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
 {
     /**
      * {@inheritdoc}
      */
     public function getBaseUri()
     {
-        return 'https://slack.com/';
+        return 'https://api.digitalocean.com/v2/';
     }
 
     /**
@@ -28,7 +29,7 @@ class Slack extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getAuthorizeUri()
     {
-        return 'https://slack.com/oauth/authorize';
+        return 'https://cloud.digitalocean.com/v1/oauth/authorize';
     }
 
     /**
@@ -36,30 +37,32 @@ class Slack extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getRequestTokenUri()
     {
-        return 'https://slack.com/api/oauth.access';
+        return 'https://cloud.digitalocean.com/v1/oauth/token';
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getName()
     {
-        return 'slack';
+        return 'digital-ocean';
     }
 
     /**
-     * @param $body
-     * @return AccessToken
-     * @throws InvalidAccessToken
+     * {@inheritdoc}
      */
     public function parseToken($body)
     {
-        $response = json_decode($body, true);
-        if ($response) {
-            return new AccessToken($response);
+        if (empty($body)) {
+            throw new InvalidAccessToken('Provider response with empty body');
         }
 
-        throw new InvalidAccessToken('AccessToken is not a valid JSON');
+        $result = json_decode($body, true);
+        if ($result) {
+            return new AccessToken($result);
+        }
+
+        throw new InvalidAccessToken('Provider response with not valid JSON');
     }
 
     /**
@@ -68,9 +71,11 @@ class Slack extends \SocialConnect\OAuth2\AbstractProvider
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         $response = $this->httpClient->request(
-            $this->getBaseUri() . 'api/users.identity',
+            $this->getBaseUri() . 'account',
+            [],
+            Client::GET,
             [
-                'token' => $accessToken->getToken()
+                'Authorization' => 'Bearer ' . $accessToken->getToken()
             ]
         );
 
@@ -89,23 +94,12 @@ class Slack extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
-        if (!$result->ok) {
-            throw new InvalidResponse(
-                'API response->ok is false',
-                $result
-            );
-        }
-
         $hydrator = new ObjectMap(
             [
-                'id' => 'id',
-                'name' => 'name',
+                'uuid' => 'id',
             ]
         );
 
-        $user = $hydrator->hydrate(new User(), $result->user);
-        $user->team = $result->team;
-
-        return $user;
+        return $hydrator->hydrate(new User(), $result->account);
     }
 }

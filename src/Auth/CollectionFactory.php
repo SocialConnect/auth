@@ -8,6 +8,9 @@ namespace SocialConnect\Auth;
 
 use LogicException;
 use SocialConnect\Provider\Consumer;
+use SocialConnect\OAuth1;
+use SocialConnect\OAuth2;
+use SocialConnect\OpenID;
 
 /**
  * Class Factory
@@ -19,24 +22,27 @@ class CollectionFactory implements FactoryInterface
      * @var array
      */
     protected $providers = [
-        'facebook' => \SocialConnect\Auth\Provider\Facebook::class,
-        'github' => \SocialConnect\Auth\Provider\GitHub::class,
-        'instagram' => \SocialConnect\Auth\Provider\Instagram::class,
-        'twitter' => \SocialConnect\Auth\Provider\Twitter::class,
-        'google' => \SocialConnect\Auth\Provider\Google::class,
-        'vk' => \SocialConnect\Auth\Provider\Vk::class,
-        'slack' => \SocialConnect\Auth\Provider\Slack::class,
-        'twitch' => \SocialConnect\Auth\Provider\Twitch::class,
-        'px500' => \SocialConnect\Auth\Provider\Px500::class,
-        'bitbucket' => \SocialConnect\Auth\Provider\Bitbucket::class,
-        'amazon' => \SocialConnect\Auth\Provider\Amazon::class,
-        'gitlab' => \SocialConnect\Auth\Provider\GitLab::class,
-        'vimeo' => \SocialConnect\Auth\Provider\Vimeo::class,
-        'digital-ocean' => \SocialConnect\Auth\Provider\DigitalOcean::class,
-        'yandex' => \SocialConnect\Auth\Provider\Yandex::class,
-        'mail-ru' => \SocialConnect\Auth\Provider\MailRu::class,
-        'odnoklassniki' => \SocialConnect\Auth\Provider\Odnoklassniki::class,
-        'steam' => \SocialConnect\Auth\Provider\Steam::class,
+        // OAuth1
+        'twitter'       => OAuth1\Provider\Twitter::class,
+        'px500'         => OAuth1\Provider\Px500::class,
+        // OAuth2
+        'facebook'      => OAuth2\Provider\Facebook::class,
+        'github'        => OAuth2\Provider\GitHub::class,
+        'instagram'     => OAuth2\Provider\Instagram::class,
+        'google'        => OAuth2\Provider\Google::class,
+        'vk'            => OAuth2\Provider\Vk::class,
+        'slack'         => OAuth2\Provider\Slack::class,
+        'twitch'        => OAuth2\Provider\Twitch::class,
+        'bitbucket'     => OAuth2\Provider\Bitbucket::class,
+        'amazon'        => OAuth2\Provider\Amazon::class,
+        'gitlab'        => OAuth2\Provider\GitLab::class,
+        'vimeo'         => OAuth2\Provider\Vimeo::class,
+        'digital-ocean' => OAuth2\Provider\DigitalOcean::class,
+        'yandex'        => OAuth2\Provider\Yandex::class,
+        'mail-ru'       => OAuth2\Provider\MailRu::class,
+        'odnoklassniki' => OAuth2\Provider\Odnoklassniki::class,
+        // OpenID
+        'steam'         => OpenID\Provider\Steam::class,
     ];
 
     /**

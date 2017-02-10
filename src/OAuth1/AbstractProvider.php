@@ -28,16 +28,6 @@ abstract class AbstractProvider extends AbstractBaseProvider
     protected $requestTokenMethod = Client::POST;
 
     /**
-     * @var array
-     */
-    protected $requestTokenParams = [];
-
-    /**
-     * @var array
-     */
-    protected $requestTokenHeaders = [];
-
-    /**
      * @var Consumer
      */
     protected $consumer;
@@ -85,6 +75,8 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     protected function requestAuthToken()
     {
+        $parameters = [];
+
         /**
          * OAuth Core 1.0 Revision A: oauth_callback: An absolute URL to which the Service Provider will redirect
          * the User back when the Obtaining User Authorization step is completed.
@@ -92,18 +84,22 @@ abstract class AbstractProvider extends AbstractBaseProvider
          * http://oauth.net/core/1.0a/#auth_step1
          */
         if ('1.0a' == $this->oauth1Version) {
-            $this->requestTokenParams['oauth_callback'] = $this->getRedirectUrl();
+            $parameters['oauth_callback'] = $this->getRedirectUrl();
         }
 
         $response = $this->oauthRequest(
             $this->getRequestTokenUri(),
             $this->requestTokenMethod,
-            $this->requestTokenParams,
-            $this->requestTokenHeaders
+            $parameters
         );
 
         if ($response->isSuccess()) {
-            return $this->parseToken($response->getBody());
+            $token = $this->parseToken($response->getBody());
+
+            session_start();
+            $_SESSION['oauth1_request_token'] = serialize($token);
+
+            return $token;
         }
 
         throw new InvalidResponse('Provider response is not success');
@@ -135,17 +131,28 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @param string $uri
      * @param string $method
      * @param array $parameters
-     * @param array $headers
      * @return \SocialConnect\Common\Http\Response
      */
-    protected function oauthRequest($uri, $method = 'GET', $parameters = [], $headers = [])
+    protected function oauthRequest($uri, $method = Client::GET, $parameters = [])
     {
-        $request = Request::fromConsumerAndToken(
-            $this->consumer,
-            $this->consumerToken,
-            $method,
-            $uri,
+        $headers['Accept'] = 'application/json';
+        $headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
+        $parameters = array_merge(
+            [
+                'oauth_version' => '1.0',
+                'oauth_nonce' => md5(time() . mt_rand()),
+                'oauth_timestamp' => time(),
+                'oauth_consumer_key' => $this->consumer->getKey()
+            ],
             $parameters
+        );
+
+        $request = new Request(
+            $uri,
+            $parameters,
+            $method,
+            $headers
         );
 
         $request->signRequest(
@@ -154,20 +161,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
             $this->consumerToken
         );
 
-        $parameters = array_merge($parameters, $request->parameters);
-        $headers = array_replace($request->toHeader(), (array)$headers);
-
-        $headers['Accept'] = 'application/json';
-        $headers['Content-Type'] = 'application/x-www-form-urlencoded';
-
-        $response = $this->httpClient->request(
-            $request->getNormalizedHttpUrl(),
-            $parameters,
-            $method,
-            $headers
-        );
-
-        return $response;
+        return $this->httpClient->fromRequest($request);
     }
 
     /**
@@ -188,7 +182,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     public function getAccessTokenByRequestParameters(array $parameters)
     {
-        $token = new Token($parameters['oauth_token'], '');
+        session_start();
+        $token = unserialize($_SESSION['oauth1_request_token']);
+
         return $this->getAccessToken($token, $parameters['oauth_verifier']);
     }
 
@@ -202,14 +198,16 @@ abstract class AbstractProvider extends AbstractBaseProvider
     {
         $this->consumerToken = $token;
 
-        $parameters = $this->requestTokenParams;
-        $parameters['oauth_verifier'] = $oauthVerifier;
+        $parameters = [
+            'oauth_consumer_key' => $this->consumer->getKey(),
+            'oauth_token' => $token->getKey(),
+            'oauth_verifier' => $oauthVerifier
+        ];
 
         $response = $this->oauthRequest(
             $this->getRequestTokenAccessUri(),
             $this->requestTokenMethod,
-            $parameters,
-            $this->requestTokenHeaders
+            $parameters
         );
 
         if ($response->getStatusCode() === 200) {

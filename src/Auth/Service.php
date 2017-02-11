@@ -7,7 +7,9 @@
 namespace SocialConnect\Auth;
 
 use Exception;
+use SocialConnect\Common\Http\Client\ClientInterface;
 use SocialConnect\Common\HttpClient;
+use SocialConnect\Provider\Session\SessionInterface;
 
 /**
  * Class Service
@@ -15,7 +17,10 @@ use SocialConnect\Common\HttpClient;
  */
 class Service
 {
-    use HttpClient;
+    /**
+     * @var ClientInterface
+     */
+    protected $httpClient;
 
     /**
      * @var FactoryInterface
@@ -28,13 +33,23 @@ class Service
     protected $config;
 
     /**
+     * @var SessionInterface
+     */
+    protected $session;
+
+    /**
+     * @param ClientInterface $httpClient
+     * @param SessionInterface $session
      * @param array $config
-     * @param null $factory
+     * @param FactoryInterface|null $factory
      * @internal param $storage
      */
-    public function __construct(array $config, $factory = null)
+    public function __construct(ClientInterface $httpClient, SessionInterface $session, array $config, FactoryInterface $factory = null)
     {
+        $this->httpClient = $httpClient;
+        $this->session = $session;
         $this->config = $config;
+
         $this->factory = is_null($factory) ? new CollectionFactory() : $factory;
     }
 
@@ -78,5 +93,21 @@ class Service
     public function getFactory()
     {
         return $this->factory;
+    }
+
+    /**
+     * @return ClientInterface
+     */
+    public function getHttpClient()
+    {
+        return $this->httpClient;
+    }
+
+    /**
+     * @return SessionInterface
+     */
+    public function getSession()
+    {
+        return $this->session;
     }
 }

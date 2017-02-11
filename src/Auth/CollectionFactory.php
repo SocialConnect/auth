@@ -92,6 +92,7 @@ class CollectionFactory implements FactoryInterface
          */
         $provider = new $providerClassName(
             $service->getHttpClient(),
+            $service->getSession(),
             $consumer,
             array_merge(
                 $parameters,

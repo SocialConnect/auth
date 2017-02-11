@@ -31,7 +31,7 @@ If I didn't see your issue, PR please ping me direct by [Telegram](https://teleg
 ### OAuth 1
 
 * Twitter
-* 500px (WIP)
+* 500px
 
 ### OAuth 2
 

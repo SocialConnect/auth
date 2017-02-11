@@ -7,6 +7,9 @@
 namespace SocialConnect\OAuth2;
 
 use InvalidArgumentException;
+use SocialConnect\OAuth2\Exception\InvalidState;
+use SocialConnect\OAuth2\Exception\UnknownAuthorization;
+use SocialConnect\OAuth2\Exception\UnknownState;
 use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
@@ -48,13 +51,24 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * @return string
      */
+    protected function generateState()
+    {
+        return md5(
+            time() . mt_rand()
+        );
+    }
+
+    /**
+     * @return string
+     */
     public function makeAuthUrl()
     {
         $urlParameters = $this->getAuthUrlParameters();
 
-        if ($this->state) {
-            $urlParameters['state'] = $this->state;
-        }
+        $this->session->set(
+            'oauth2_state',
+            $urlParameters['state'] = $this->generateState()
+        );
 
         if (count($this->scope) > 0) {
             $urlParameters['scope'] = $this->getScopeInline();
@@ -143,9 +157,25 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * @param array $parameters
      * @return AccessToken
+     * @throws \SocialConnect\OAuth2\Exception\InvalidState
+     * @throws \SocialConnect\OAuth2\Exception\UnknownState
+     * @throws \SocialConnect\OAuth2\Exception\UnknownAuthorization
      */
     public function getAccessTokenByRequestParameters(array $parameters)
     {
+        $state = $this->session->get('oauth2_state');
+        if (!$state) {
+            throw new UnknownAuthorization();
+        }
+
+        if (!isset($parameters['state'])) {
+            throw new UnknownState();
+        }
+
+        if ($state !== $parameters['state']) {
+            throw new InvalidState();
+        }
+
         return $this->getAccessToken($parameters['code']);
     }
 }

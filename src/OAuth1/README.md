@@ -7,6 +7,6 @@ OAuth1 client implementation for `socialconnect/auth` project.
 
 Library has built in support for the following providers:
 
-- Twitter
-- 500ox
-- Tumblr
+* Twitter
+* 500ox
+* Tumblr

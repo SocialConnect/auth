@@ -48,10 +48,20 @@ class VkTest extends AbstractProviderTestCase
 
     public function testMakeAuthUrl()
     {
-        parent::assertSame(
-            'https://oauth.vk.com/authorize?client_id=unknown&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2F%2Fvk%2F&response_type=code',
-            $this->getProvider()->makeAuthUrl()
-        );
+        $authUrl = $this->getProvider()->makeAuthUrl();
+        parent::assertInternalType('string', $authUrl);
+
+        $query = parse_url($authUrl, PHP_URL_QUERY);
+        parent::assertInternalType('string', $query);
+
+        parse_str($query, $queryParameters);
+        parent::assertInternalType('array', $queryParameters);
+
+
+        parent::assertArrayHasKey('client_id', $queryParameters);
+        parent::assertArrayHasKey('redirect_uri', $queryParameters);
+        parent::assertArrayHasKey('response_type', $queryParameters);
+        parent::assertArrayHasKey('state', $queryParameters);
     }
 
     /**

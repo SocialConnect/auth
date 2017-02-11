@@ -8,6 +8,10 @@ namespace SocialConnect\OAuth1;
 
 class Util
 {
+    /**
+     * @param mixed $input
+     * @return array|string
+     */
     public static function urlencodeRFC3986($input)
     {
         if (is_array($input)) {
@@ -22,121 +26,24 @@ class Util
         }
     }
 
-    // This decode function isn't taking into consideration the above
-    // modifications to the encoding process. However, this method doesn't
-    // seem to be used anywhere so leaving it as is.
+    /**
+     * This decode function isn't taking into consideration the above
+     * modifications to the encoding process. However, this method doesn't
+     * seem to be used anywhere so leaving it as is.
+     *
+     * @param $string
+     * @return string
+     */
     public static function urldecodeRFC3986($string)
     {
         return urldecode($string);
     }
 
     /**
-     * Utility function for turning the Authorization: header into
-     * parameters, has to do some unescaping
-     * Can filter out any non-oauth parameters if needed (default behaviour)
-     * May 28th, 2010 - method updated to tjerk.meesters for a speed improvement.
-     * see http://code.google.com/p/oauth/issues/detail?id=163
-     *
-     * @param $header
-     * @param bool|true $oauthParameters Allow only oauth parameters
-     * @return array
+     * @param array $params
+     * @return string
      */
-    public static function splitHeader($header, $oauthParameters = true)
-    {
-        $params = [];
-
-        if (preg_match_all('/(' . ($oauthParameters ? 'oauth_' : '') . '[a-z_-]*)=(:?"([^"]*)"|([^,]*))/', $header, $matches)) {
-            foreach ($matches[1] as $i => $h) {
-                $params[$h] = self::urldecodeRFC3986(empty($matches[3][$i]) ? $matches[4][$i] : $matches[3][$i]);
-            }
-            if (isset($params['realm'])) {
-                unset($params['realm']);
-            }
-        }
-
-        return $params;
-    }
-
-    // helper to try to sort out headers for people who aren't running apache
-    public static function getHeaders()
-    {
-        if (function_exists('apache_request_headers')) {
-            // we need this to get the actual Authorization: header
-            // because apache tends to tell us it doesn't exist
-            $headers = apache_request_headers();
-
-            // sanitize the output of apache_request_headers because
-            // we always want the keys to be Cased-Like-This and arh()
-            // returns the headers in the same case as they are in the
-            // request
-            $out = [];
-
-            foreach ($headers as $key => $value) {
-                $key       = str_replace(" ", "-", ucwords(strtolower(str_replace("-", " ", $key))));
-                $out[$key] = $value;
-            }
-        } else {
-            // otherwise we don't have apache and are just going to have to hope
-            // that $_SERVER actually contains what we need
-            $out = [];
-
-            if (isset($_SERVER['CONTENT_TYPE'])) {
-                $out['Content-Type'] = $_SERVER['CONTENT_TYPE'];
-            }
-            if (isset($_ENV['CONTENT_TYPE'])) {
-                $out['Content-Type'] = $_ENV['CONTENT_TYPE'];
-            }
-
-            foreach ($_SERVER as $key => $value) {
-                if (substr($key, 0, 5) == "HTTP_") {
-                    // this is chaos, basically it is just there to capitalize the first
-                    // letter of every word that is not an initial HTTP and strip HTTP
-                    // code from przemek
-                    $key       = str_replace(" ", "-", ucwords(strtolower(str_replace("_", " ", substr($key, 5)))));
-                    $out[$key] = $value;
-                }
-            }
-        }
-        return $out;
-    }
-    // This function takes a input like a=b&a=c&d=e and returns the parsed
-    // parameters like this
-    // array('a' => array('b','c'), 'd' => 'e')
-    public static function parseParameters($input)
-    {
-        if (!isset($input) || !$input) {
-            return [];
-        }
-
-        $pairs = explode('&', $input);
-
-        $parsed_parameters = [];
-
-        foreach ($pairs as $pair) {
-            $split     = explode('=', $pair, 2);
-            $parameter = self::urldecodeRFC3986($split[0]);
-            $value     = isset($split[1]) ? self::urldecodeRFC3986($split[1]) : '';
-
-            if (isset($parsed_parameters[$parameter])) {
-                // We have already recieved parameter(s) with this name, so add to the list
-                // of parameters with this name
-
-                if (is_scalar($parsed_parameters[$parameter])) {
-                    // This is the first duplicate, so transform scalar (string) into an array
-                    // so we can add the duplicates
-                    $parsed_parameters[$parameter] = [
-                        $parsed_parameters[$parameter]
-                    ];
-                }
-
-                $parsed_parameters[$parameter][] = $value;
-            } else {
-                $parsed_parameters[$parameter] = $value;
-            }
-        }
-        return $parsed_parameters;
-    }
-    public static function buildHttpQuery($params)
+    public static function buildHttpQuery(array $params)
     {
         if (!$params) {
             return '';
@@ -166,6 +73,7 @@ class Util
                 $pairs[] = $parameter . '=' . $value;
             }
         }
+
         // For each parameter, the name is separated from the corresponding value by an '=' character (ASCII code 61)
         // Each name-value pair is separated by an '&' character (ASCII code 38)
         return implode('&', $pairs);

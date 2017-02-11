@@ -7,6 +7,7 @@
 namespace SocialConnect\OAuth1;
 
 use SocialConnect\Common\Http\Client\ClientInterface;
+use SocialConnect\OAuth1\Exception\UnknownAuthorization;
 use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\Consumer;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
@@ -180,10 +181,16 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * @param array $parameters
      * @return AccessToken
+     * @throws \SocialConnect\OAuth1\Exception\UnknownAuthorization
      */
     public function getAccessTokenByRequestParameters(array $parameters)
     {
         $token = $this->session->get('oauth1_request_token');
+        if (!$token) {
+            throw new UnknownAuthorization();
+        }
+
+        $this->session->delete('oauth1_request_token');
 
         return $this->getAccessToken($token, $parameters['oauth_verifier']);
     }

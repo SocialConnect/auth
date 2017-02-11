@@ -46,14 +46,15 @@ class Twitter extends \SocialConnect\OAuth1\AbstractProvider
     {
         $this->consumerToken = $accessToken;
 
-        $parameters = $this->requestTokenParams;
-        $parameters['user_id'] = $accessToken->getUserId();
+        $parameters = [
+            'oauth_consumer_key' => $this->consumer->getKey(),
+            'oauth_token' => $accessToken->getToken()
+        ];
 
         $response = $this->oauthRequest(
-            $this->getBaseUri() . 'users/lookup.json',
+            $this->getBaseUri() . 'account/verify_credentials.json',
             Client::GET,
-            $parameters,
-            $this->requestTokenHeaders
+            $parameters
         );
 
         if (!$response->isSuccess()) {
@@ -79,6 +80,6 @@ class Twitter extends \SocialConnect\OAuth1\AbstractProvider
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result[0]);
+        return $hydrator->hydrate(new User(), $result);
     }
 }

@@ -62,7 +62,7 @@ class AccessToken extends \SocialConnect\OAuth1\Token implements AccessTokenInte
      */
     public function getToken()
     {
-        // Not supported for OAuth1, only getUserId()
-        return null;
+        // It's a key, not a secret
+        return $this->key;
     }
 }

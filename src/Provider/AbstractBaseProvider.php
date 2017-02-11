@@ -7,6 +7,7 @@
 namespace SocialConnect\Provider;
 
 use SocialConnect\Common\Http\Client\ClientInterface;
+use SocialConnect\Provider\Session\SessionInterface;
 
 abstract class AbstractBaseProvider
 {
@@ -43,14 +44,20 @@ abstract class AbstractBaseProvider
     protected $state;
 
     /**
+     * @var SessionInterface
+     */
+    protected $session;
+
+    /**
      * @param ClientInterface $httpClient
-     * @param Consumer $consumer
+     * @param SessionInterface $session
      * @param array $parameters
      */
-    public function __construct(ClientInterface $httpClient, Consumer $consumer, array $parameters)
+    public function __construct(ClientInterface $httpClient, SessionInterface $session, Consumer $consumer, array $parameters)
     {
-        $this->consumer = $consumer;
         $this->httpClient = $httpClient;
+        $this->session = $session;
+        $this->consumer = $consumer;
 
         if (isset($parameters['scope'])) {
             $this->setScope($parameters['scope']);

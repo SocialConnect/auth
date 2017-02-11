@@ -54,11 +54,10 @@ If I didn't see your issue, PR please ping me direct by [Telegram](https://teleg
 
 ## How to use
 
-
-First you need to setup service:
+First you need to setup `SocialConnect\Auth\Service`:
 
 ```php
-$service = new \SocialConnect\Auth\Service([
+$configuration = [
         'redirectUri' => 'http://sconnect.local/auth/cb',
         'provider' => [
             'facebook' => [
@@ -69,9 +68,14 @@ $service = new \SocialConnect\Auth\Service([
                 ]
             ],
         ]
-]);
+];
 
-$service->setHttpClient(new \SocialConnect\Common\Http\Client\Curl());
+
+$service = new \SocialConnect\Auth\Service(
+    new \SocialConnect\Common\Http\Client\Curl(),
+    new \SocialConnect\Provider\Session\Session(),
+    $configuration
+);
 ```
 
 Next create you loginAction:

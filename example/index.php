@@ -11,8 +11,11 @@ include_once __DIR__ . '/../vendor/autoload.php';
 include_once __DIR__ . '/vendor/autoload.php';
 $configureProviders = include_once 'config.php';
 
-$service = new \SocialConnect\Auth\Service($configureProviders, new \SocialConnect\Auth\CollectionFactory());
-$service->setHttpClient(new \SocialConnect\Common\Http\Client\Curl());
+$service = new \SocialConnect\Auth\Service(
+    new \SocialConnect\Common\Http\Client\Curl(),
+    new \SocialConnect\Provider\Session\Session(),
+    $configureProviders
+);
 
 $app = new \Slim\App(
     [

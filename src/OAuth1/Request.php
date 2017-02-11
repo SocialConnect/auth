@@ -50,5 +50,19 @@ class Request extends \SocialConnect\Common\Http\Request
             $consumer,
             $token
         );
+
+        $this->headers['Authorization'] = $this->authorizationHeader();
+    }
+
+    public function authorizationHeader()
+    {
+        $parameters = http_build_query(
+            $this->parameters,
+            '',
+            ', ',
+            PHP_QUERY_RFC3986
+        );
+
+        return "OAuth $parameters";
     }
 }

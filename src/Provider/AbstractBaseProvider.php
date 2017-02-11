@@ -37,13 +37,6 @@ abstract class AbstractBaseProvider
     protected $redirectUri;
 
     /**
-     * Nonce/State to protect CSRF
-     *
-     * @var string|null
-     */
-    protected $state;
-
-    /**
      * @var SessionInterface
      */
     protected $session;
@@ -175,23 +168,5 @@ abstract class AbstractBaseProvider
     public function getConsumer()
     {
         return $this->consumer;
-    }
-
-    /**
-     * @param null|string $state
-     */
-    public function setState($state)
-    {
-        $this->state = $state;
-    }
-
-    /**
-     * @return string
-     */
-    public function useState()
-    {
-        return $this->state = md5(
-            mt_rand(0, PHP_INT_MAX)
-        );
     }
 }

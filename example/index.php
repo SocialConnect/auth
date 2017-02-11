@@ -62,7 +62,6 @@ $app->post('/', function () use (&$configureProviders, $service) {
         }
 
         $provider = $service->getProvider($providerName);
-        $provider->useState();
 
         header('Location: ' . $provider->makeAuthUrl());
     } catch (\Exception $e) {

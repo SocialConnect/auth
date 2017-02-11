@@ -32,6 +32,7 @@ If I didn't see your issue, PR please ping me direct by [Telegram](https://teleg
 
 * Twitter
 * 500px
+* Tumblr
 
 ### OAuth 2
 

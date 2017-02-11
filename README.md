@@ -58,16 +58,19 @@ If I didn't see your issue, PR please ping me direct by [Telegram](https://teleg
 First you need to setup service:
 
 ```php
-$service = new \SocialConnect\Auth\Service(array(
+$service = new \SocialConnect\Auth\Service([
         'redirectUri' => 'http://sconnect.local/auth/cb',
-        'provider' => array(
-            'Facebook' => array(
+        'provider' => [
+            'facebook' => [
                 'applicationId' => '',
                 'applicationSecret' => '',
-                'scope' => array('email')
-            ),
-        )
-));
+                'scope' => [
+                    'email'
+                ]
+            ],
+        ]
+]);
+
 $service->setHttpClient(new \SocialConnect\Common\Http\Client\Curl());
 ```
 

@@ -52,7 +52,35 @@ If I didn't see your issue, PR please ping me direct by [Telegram](https://teleg
 * MailRu
 * Odnoklassniki
 
+## Installation
+
+The recommended way to install `socialconnect/auth` is via Composer.
+
+1. If you do not have composer installed, download the [`composer.phar`](https://getcomposer.org/composer.phar) executable or use the installer.
+
+``` sh
+$ curl -sS https://getcomposer.org/installer | php
+```
+
+2. Run `php composer.phar require socialconnect/auth` or add a new requirement in your composer.json.
+
+``` json
+{
+  "require": {
+    "socialconnect/auth": "~1.0.0"
+  }
+}
+```
+
+3. Run `php composer.phar update`
+
 ## How to use
+
+Composer:
+
+```sh
+composer install 
+```
 
 First you need to setup `SocialConnect\Auth\Service`:
 

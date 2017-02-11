@@ -116,6 +116,11 @@ return array(
             'applicationId' => '',
             'applicationSecret' => '',
             'scope' => array()
+        ],
+        'tumblr' => [
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => array()
         ]
     )
 );

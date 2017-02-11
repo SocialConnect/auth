@@ -14,6 +14,7 @@ use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\OAuth1\Exception\InvalidRequestToken;
 use SocialConnect\OAuth1\Signature\MethodHMACSHA1;
+use SocialConnect\Provider\Session\SessionInterface;
 
 abstract class AbstractProvider extends AbstractBaseProvider
 {
@@ -47,9 +48,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @param Consumer $consumer
      * @param array $parameters
      */
-    public function __construct(ClientInterface $httpClient, Consumer $consumer, array $parameters)
+    public function __construct(ClientInterface $httpClient, SessionInterface $session, Consumer $consumer, array $parameters)
     {
-        parent::__construct($httpClient, $consumer, $parameters);
+        parent::__construct($httpClient, $session, $consumer, $parameters);
 
         $this->consumerToken = new Token('', '');
     }
@@ -96,8 +97,8 @@ abstract class AbstractProvider extends AbstractBaseProvider
         if ($response->isSuccess()) {
             $token = $this->parseToken($response->getBody());
 
-            session_start();
-            $_SESSION['oauth1_request_token'] = serialize($token);
+
+            $this->session->set('oauth1_request_token', $token);
 
             return $token;
         }
@@ -182,8 +183,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     public function getAccessTokenByRequestParameters(array $parameters)
     {
-        session_start();
-        $token = unserialize($_SESSION['oauth1_request_token']);
+        $token = $this->session->get('oauth1_request_token');
 
         return $this->getAccessToken($token, $parameters['oauth_verifier']);
     }

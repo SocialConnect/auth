@@ -20,7 +20,9 @@ If I didn't see your issue, PR please ping me direct by [Telegram](https://teleg
 - [x] OAuth2 [spec RFC 6749](https://tools.ietf.org/html/rfc6749)
 - [X] OpenID v1 (1.1) (WIP!) [spec](https://openid.net/specs/openid-authentication-1_1.html)
 - [X] OpenID v2 [spec](http://openid.net/specs/openid-authentication-2_0.html)
-- [X] OpenID Connect (1.0) (WIP!) [spec](http://openid.net/specs/openid-connect-core-1_0.html#OpenID.Discovery)
+- [X] OpenID Connect (1.0) [spec](http://openid.net/specs/openid-connect-core-1_0.html#OpenID.Discovery)
+    - [X] JWT (JSON Web Token) [spec RFC 7519](https://tools.ietf.org/html/rfc7519)
+    - [X] JWK (JSON Web Keys) [spec RFC 7517](https://tools.ietf.org/html/rfc7517)
 
 ## Supported providers
 
@@ -52,6 +54,11 @@ If I didn't see your issue, PR please ping me direct by [Telegram](https://teleg
 * Yandex
 * MailRu
 * Odnoklassniki
+
+
+#### OpenIDConnect
+
+* Google (you can use Google from `OAuth2` or `OpenIDConnect`)
 
 ## Installation
 

@@ -153,7 +153,6 @@ abstract class AbstractProvider extends AbstractBaseProvider
         return $this->parseToken($body);
     }
 
-
     /**
      * @param array $parameters
      * @return AccessToken

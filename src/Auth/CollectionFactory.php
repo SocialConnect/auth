@@ -12,6 +12,7 @@ use SocialConnect\Provider\Consumer;
 use SocialConnect\OAuth1;
 use SocialConnect\OAuth2;
 use SocialConnect\OpenID;
+use SocialConnect\OpenIDConnect;
 
 /**
  * Class Factory
@@ -29,9 +30,9 @@ class CollectionFactory implements FactoryInterface
         'tumblr'        => OAuth1\Provider\Tumblr::class,
         // OAuth2
         'facebook'      => OAuth2\Provider\Facebook::class,
+        'google'        => OAuth2\Provider\Google::class,
         'github'        => OAuth2\Provider\GitHub::class,
         'instagram'     => OAuth2\Provider\Instagram::class,
-        'google'        => OAuth2\Provider\Google::class,
         'vk'            => OAuth2\Provider\Vk::class,
         'slack'         => OAuth2\Provider\Slack::class,
         'twitch'        => OAuth2\Provider\Twitch::class,
@@ -45,6 +46,8 @@ class CollectionFactory implements FactoryInterface
         'odnoklassniki' => OAuth2\Provider\Odnoklassniki::class,
         // OpenID
         'steam'         => OpenID\Provider\Steam::class,
+        // OpenIDConnect - currently disabled before 1.1 release
+        //'google'        => OpenIDConnect\Provider\Google::class,
     ];
 
     /**

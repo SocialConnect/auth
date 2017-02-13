@@ -6,8 +6,41 @@
 
 namespace SocialConnect\OpenIDConnect;
 
-use SocialConnect\Auth\AccessTokenInterface;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
 
-class AccessToken extends \SocialConnect\OAuth2\AccessToken implements AccessTokenInterface
+class AccessToken extends \SocialConnect\OAuth2\AccessToken
 {
+    /**
+     * @var JWT
+     */
+    protected $jwt;
+
+    /**
+     * @param array $token
+     * @throws InvalidAccessToken
+     */
+    public function __construct(array $token)
+    {
+        parent::__construct($token);
+
+        if (!isset($token['id_token'])) {
+            throw new InvalidAccessToken('id_token doesnot exists inside AccessToken');
+        }
+    }
+
+    /**
+     * @return JWT
+     */
+    public function getJwt()
+    {
+        return $this->jwt;
+    }
+
+    /**
+     * @param JWT $jwt
+     */
+    public function setJwt($jwt)
+    {
+        $this->jwt = $jwt;
+    }
 }

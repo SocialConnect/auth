@@ -25,6 +25,10 @@ class JWK
      */
     protected $e;
 
+    /**
+     * @param array $parameters
+     * @throws InvalidJWK
+     */
     public function __construct($parameters)
     {
         if (!isset($parameters['kty'])) {
@@ -46,6 +50,9 @@ class JWK
         $this->e = $parameters['e'];
     }
 
+    /**
+     * @return string
+     */
     public function getPublicKey()
     {
         $modulus = JWT::urlsafeB64Decode($this->n);
@@ -56,7 +63,7 @@ class JWK
             'publicExponent' => pack('Ca*a*', 2, self::encodeLength(strlen($publicExponent)), $publicExponent)
         );
 
-        $RSAPublicKey = pack(
+        $publicKey = pack(
             'Ca*a*a*',
             48,
             self::encodeLength(strlen($components['modulus']) + strlen($components['publicExponent'])),
@@ -66,32 +73,20 @@ class JWK
 
         // sequence(oid(1.2.840.113549.1.1.1), null)) = rsaEncryption.
         $rsaOID = pack('H*', '300d06092a864886f70d0101010500'); // hex version of MA0GCSqGSIb3DQEBAQUA
-        $RSAPublicKey = chr(0) . $RSAPublicKey;
-        $RSAPublicKey = chr(3) . self::encodeLength(strlen($RSAPublicKey)) . $RSAPublicKey;
-        $RSAPublicKey = pack(
+        $publicKey = chr(0) . $publicKey;
+        $publicKey = chr(3) . self::encodeLength(strlen($publicKey)) . $publicKey;
+        $publicKey = pack(
             'Ca*a*',
             48,
             self::encodeLength(strlen($rsaOID . $RSAPublicKey)),
-            $rsaOID . $RSAPublicKey
+            $rsaOID . $publicKey
         );
 
-        $RSAPublicKey = "-----BEGIN PUBLIC KEY-----\r\n" .
-            chunk_split(base64_encode($RSAPublicKey), 64) .
+        $publicKey = "-----BEGIN PUBLIC KEY-----\r\n" .
+            chunk_split(base64_encode($publicKey), 64) .
             '-----END PUBLIC KEY-----';
 
-        return $RSAPublicKey;
-    }
-
-    public static function urlsafeB64Decode($input)
-    {
-        $remainder = strlen($input) % 4;
-
-        if ($remainder) {
-            $padlen = 4 - $remainder;
-            $input .= str_repeat('=', $padlen);
-        }
-
-        return base64_decode(strtr($input, '-_', '+/'));
+        return $publicKey;
     }
 
     /**

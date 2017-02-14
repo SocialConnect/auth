@@ -11,10 +11,27 @@ include_once __DIR__ . '/../vendor/autoload.php';
 include_once __DIR__ . '/vendor/autoload.php';
 $configureProviders = include_once 'config.php';
 
+/**
+ * Why we need cache for Auth Providers?
+ * Providers like OpenID & OpenIDConnect require as
+ * to request OpenID specification (and JWK(s) for OpenIDConnect)
+ *
+ * It's not a good idea to request it every time, because it's unneeded round trip to the server
+ * if you are using OpenID or OpenIDConnect we suggest you to use cache
+ */
+$cache = null;
+
+/**
+ * It's a collection of providers, by default it's \SocialConnect\Auth\CollectionFactory
+ */
+$providerFactory = null;
+
 $service = new \SocialConnect\Auth\Service(
     new \SocialConnect\Common\Http\Client\Curl(),
     new \SocialConnect\Provider\Session\Session(),
-    $configureProviders
+    $configureProviders,
+    $cache,
+    $providerFactory
 );
 
 $app = new \Slim\App(

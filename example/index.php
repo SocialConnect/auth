@@ -4,6 +4,8 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
+use Cache\Adapter\Doctrine\DoctrineCachePool;
+
 error_reporting(-1);
 ini_set('display_errors', 1);
 
@@ -20,6 +22,13 @@ $configureProviders = include_once 'config.php';
  * if you are using OpenID or OpenIDConnect we suggest you to use cache
  */
 $cache = null;
+
+// Wrap Doctrine's cache with the PSR-6 adapter, I would like to use it
+$cache = new DoctrineCachePool(
+    new \Doctrine\Common\Cache\FilesystemCache(
+        __DIR__ . '/cache/'
+    )
+);
 
 /**
  * It's a collection of providers, by default it's \SocialConnect\Auth\CollectionFactory

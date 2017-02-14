@@ -6,11 +6,13 @@
 
 namespace SocialConnect\OpenID;
 
+use SocialConnect\Common\Http\Request;
 use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\CacheUsageInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Http\Client\Client;
+use SocialConnect\Provider\HttpClientCache;
 
 abstract class AbstractProvider extends AbstractBaseProvider implements CacheUsageInterface
 {
@@ -60,10 +62,12 @@ abstract class AbstractProvider extends AbstractBaseProvider implements CacheUsa
      */
     protected function discover($url)
     {
-        $response = $this->httpClient->request(
-            $url,
-            [],
-            Client::GET
+        $response = HttpClientCache::cacheResponse(
+            $this->httpClient,
+            new Request(
+                $url
+            ),
+            $this->cache
         );
 
         if (!$response->isSuccess()) {

@@ -7,12 +7,18 @@
 namespace SocialConnect\OpenID;
 
 use SocialConnect\Provider\AbstractBaseProvider;
+use SocialConnect\Provider\CacheUsageInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Http\Client\Client;
 
-abstract class AbstractProvider extends AbstractBaseProvider
+abstract class AbstractProvider extends AbstractBaseProvider implements CacheUsageInterface
 {
+    /**
+     * @var \Psr\Cache\CacheItemPoolInterface|null
+     */
+    protected $cache;
+
     /**
      * @return string
      */
@@ -152,5 +158,13 @@ abstract class AbstractProvider extends AbstractBaseProvider
         }
 
         throw new InvalidAccessToken;
+    }
+
+    /**
+     * @param \Psr\Cache\CacheItemPoolInterface $cache
+     */
+    public function setCache(\Psr\Cache\CacheItemPoolInterface $cache)
+    {
+        $this->cache = $cache;
     }
 }

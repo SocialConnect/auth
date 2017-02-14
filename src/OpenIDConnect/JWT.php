@@ -152,7 +152,7 @@ class JWT
                     $jwk->getPublicKey(),
                     $signatureAlg
                 );
-                
+
                 return $result == 1;
         }
 

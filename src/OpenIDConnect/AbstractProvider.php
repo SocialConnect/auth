@@ -6,11 +6,17 @@
 
 namespace SocialConnect\OpenIDConnect;
 
+use SocialConnect\Provider\CacheUsageInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 
-abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
+abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider implements CacheUsageInterface
 {
+    /**
+     * @var \Psr\Cache\CacheItemPoolInterface|null
+     */
+    protected $cache;
+
     /**
      * @return array
      * @throws InvalidResponse
@@ -112,5 +118,13 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
         }
 
         throw new InvalidAccessToken('Provider response with not valid JSON');
+    }
+
+    /**
+     * @param \Psr\Cache\CacheItemPoolInterface $cache
+     */
+    public function setCache(\Psr\Cache\CacheItemPoolInterface $cache)
+    {
+        $this->cache = $cache;
     }
 }

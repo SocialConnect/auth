@@ -7,14 +7,10 @@
 namespace SocialConnect\Auth;
 
 use Exception;
+use Psr\Cache\CacheItemPoolInterface;
 use SocialConnect\Common\Http\Client\ClientInterface;
-use SocialConnect\Common\HttpClient;
 use SocialConnect\Provider\Session\SessionInterface;
 
-/**
- * Class Service
- * @package SocialConnect\Auth
- */
 class Service
 {
     /**
@@ -38,18 +34,24 @@ class Service
     protected $session;
 
     /**
+     * @var CacheItemPoolInterface
+     */
+    protected $cache;
+
+    /**
      * @param ClientInterface $httpClient
      * @param SessionInterface $session
      * @param array $config
+     * @param CacheItemPoolInterface|null $cache
      * @param FactoryInterface|null $factory
-     * @internal param $storage
      */
-    public function __construct(ClientInterface $httpClient, SessionInterface $session, array $config, FactoryInterface $factory = null)
+    public function __construct(ClientInterface $httpClient, SessionInterface $session, array $config, CacheItemPoolInterface $cache = null, FactoryInterface $factory = null)
     {
         $this->httpClient = $httpClient;
         $this->session = $session;
         $this->config = $config;
 
+        $this->cache = $cache;
         $this->factory = is_null($factory) ? new CollectionFactory() : $factory;
     }
 
@@ -109,5 +111,13 @@ class Service
     public function getSession()
     {
         return $this->session;
+    }
+
+    /**
+     * @return CacheItemPoolInterface
+     */
+    public function getCache()
+    {
+        return $this->cache;
     }
 }

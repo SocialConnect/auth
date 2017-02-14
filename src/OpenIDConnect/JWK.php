@@ -11,6 +11,11 @@ use SocialConnect\OpenIDConnect\Exception\InvalidJWK;
 class JWK
 {
     /**
+     * @link https://tools.ietf.org/html/rfc7517#section-4.1
+     *
+     * The "kty" (key type) parameter identifies the cryptographic algorithm
+     * family used with the key, such as "RSA" or "EC"
+     *
      * @var string
      */
     protected $kty;

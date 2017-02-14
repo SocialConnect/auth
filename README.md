@@ -144,10 +144,17 @@ $configuration = [
         ]
 ];
 
+/**
+ * By default collection factory is null, in this case Auth\Service will create a new instance of \SocialConnect\Auth\CollectionFactory
+ * you can use custom or register another providers by CollectionFactory instance
+ */
+$collectionFactory = null;
+
 $service = new \SocialConnect\Auth\Service(
     $httpClient,
     new \SocialConnect\Provider\Session\Session(),
-    $configuration
+    $configureProviders,
+    $collectionFactory
 );
 ```
 

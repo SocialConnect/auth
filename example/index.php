@@ -43,10 +43,17 @@ $httpClient = new \SocialConnect\Common\Http\Client\Cache(
     )
 );
 
+/**
+ * By default collection factory is null, in this case Auth\Service will use \SocialConnect\Auth\CollectionFactory
+ * you can use custom or register another providers by CollectionFactory instance
+ */
+$collectionFactory = null;
+
 $service = new \SocialConnect\Auth\Service(
     $httpClient,
     new \SocialConnect\Provider\Session\Session(),
-    $configureProviders
+    $configureProviders,
+    $collectionFactory
 );
 
 $app = new \Slim\App(

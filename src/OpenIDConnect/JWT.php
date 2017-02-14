@@ -5,6 +5,7 @@
 
 namespace SocialConnect\OpenIDConnect;
 
+use DateTime;
 use SocialConnect\OpenIDConnect\Exception\InvalidJWT;
 use SocialConnect\OpenIDConnect\Exception\UnsupportedSignatureAlgoritm;
 
@@ -108,6 +109,8 @@ class JWT
      */
     protected function validate($data, array $keys)
     {
+        $now = time();
+
         if (!isset($this->header->alg)) {
             throw new InvalidJWT('No alg inside header');
         }
@@ -119,6 +122,36 @@ class JWT
         $result = $this->verifySignature($data, $keys);
         if (!$result) {
             throw new InvalidJWT('Unexpected signature');
+        }
+
+        /**
+         * @link https://tools.ietf.org/html/rfc7519#section-4.1.5
+         * "nbf" (Not Before) Claim check
+         */
+        if (isset($this->payload->nbf) && $this->payload->nbf > ($now)) {
+            throw new InvalidJWT(
+                'nbf (Not Fefore) claim is not valid ' . date(DateTime::RFC3339, $this->payload->nbf)
+            );
+        }
+
+        /**
+         * @link https://tools.ietf.org/html/rfc7519#section-4.1.6
+         * "iat" (Issued At) Claim
+         */
+        if (isset($this->payload->iat) && $this->payload->iat > $now) {
+            throw new InvalidJWT(
+                'iat (Issued At) claim is not valid ' . date(DateTime::RFC3339, $this->payload->ait)
+            );
+        }
+
+        /**
+         * @link https://tools.ietf.org/html/rfc7519#section-4.1.4
+         * "exp" (Expiration Time) Claim
+         */
+        if (isset($this->payload->exp) && $now >= $this->payload->exp) {
+            throw new InvalidJWT(
+                'exp (Expiration Time) claim is not valid ' . date(DateTime::RFC3339, $this->payload->ait)
+            );
         }
     }
 

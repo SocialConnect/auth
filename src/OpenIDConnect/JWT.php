@@ -6,6 +6,7 @@
 namespace SocialConnect\OpenIDConnect;
 
 use SocialConnect\OpenIDConnect\Exception\InvalidJWT;
+use SocialConnect\OpenIDConnect\Exception\UnsupportedSignatureAlgoritm;
 
 class JWT
 {
@@ -16,13 +17,13 @@ class JWT
      */
     public static $algorithms = array(
         // HS
-        'HS256' => array('hash_hmac', MHASH_SHA256),
-        'HS384' => array('hash_hmac', MHASH_SHA384),
-        'HS512' => array('hash_hmac', MHASH_SHA512),
+        'HS256' => ['hash_hmac', MHASH_SHA256],
+        'HS384' => ['hash_hmac', MHASH_SHA384],
+        'HS512' => ['hash_hmac', MHASH_SHA512],
         // RS
-        'RS256' => array('openssl', OPENSSL_ALGO_SHA256),
-        'RS384' => array('openssl', OPENSSL_ALGO_SHA384),
-        'RS512' => array('openssl', OPENSSL_ALGO_SHA512),
+        'RS256' => ['openssl', OPENSSL_ALGO_SHA256],
+        'RS384' => ['openssl', OPENSSL_ALGO_SHA384],
+        'RS512' => ['openssl', OPENSSL_ALGO_SHA512],
     );
 
     /**
@@ -126,23 +127,35 @@ class JWT
 
     /**
      * @return bool
+     * @throws \RuntimeException
+     * @throws \SocialConnect\OpenIDConnect\Exception\UnsupportedSignatureAlgoritm
      */
     protected function verifySignature($data, array $keys)
     {
-        if (!function_exists('openssl_sign')) {
-            throw new \RuntimeException('Openssl is required to use RSA encryption.');
+        $supported = isset(self::$algorithms[$this->header->alg]);
+        if (!$supported) {
+            throw new UnsupportedSignatureAlgoritm($this->header->alg);
         }
 
-        $jwk = $this->findKeyByKind($keys, $this->header->kid);
+        list ($function, $signatureAlg) = self::$algorithms[$this->header->alg];
+        switch ($function) {
+            case 'openssl':
+                if (!function_exists('openssl_verify')) {
+                    throw new \RuntimeException('Openssl-ext is required to use RSA encryption.');
+                }
 
-        $result = openssl_verify(
-            $data,
-            $this->signature,
-            $jwk->getPublicKey(),
-            OPENSSL_ALGO_SHA256
-        );
+                $jwk = $this->findKeyByKind($keys, $this->header->kid);
 
+                $result = openssl_verify(
+                    $data,
+                    $this->signature,
+                    $jwk->getPublicKey(),
+                    $signatureAlg
+                );
 
-        return $result == 1;
+                return $result == 1;
+        }
+
+        throw new UnsupportedSignatureAlgoritm($this->header->alg);
     }
 }

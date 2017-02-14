@@ -8,6 +8,7 @@ namespace SocialConnect\Auth;
 
 use LogicException;
 use SocialConnect\Provider\AbstractBaseProvider;
+use SocialConnect\Provider\CacheUsageInterface;
 use SocialConnect\Provider\Consumer;
 use SocialConnect\OAuth1;
 use SocialConnect\OAuth2;
@@ -103,6 +104,11 @@ class CollectionFactory implements FactoryInterface
                 $service->getConfig()
             )
         );
+
+        $cache = $service->getCache();
+        if ($cache && $provider instanceof CacheUsageInterface) {
+            $provider->setCache($cache);
+        }
 
         return $provider;
     }

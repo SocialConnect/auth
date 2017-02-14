@@ -218,7 +218,7 @@ class JWT
                 $ret = 0;
                 $res = $this->signature ^ $hash;
 
-                for($i = strlen($res) - 1; $i >= 0; $i--) {
+                for ($i = strlen($res) - 1; $i >= 0; $i--) {
                     $ret |= ord($res[$i]);
                 }
 

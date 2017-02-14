@@ -137,14 +137,14 @@ class JWT
             throw new UnsupportedSignatureAlgoritm($this->header->alg);
         }
 
+        $jwk = $this->findKeyByKind($keys, $this->header->kid);
+
         list ($function, $signatureAlg) = self::$algorithms[$this->header->alg];
         switch ($function) {
             case 'openssl':
                 if (!function_exists('openssl_verify')) {
                     throw new \RuntimeException('Openssl-ext is required to use RSA encryption.');
                 }
-
-                $jwk = $this->findKeyByKind($keys, $this->header->kid);
 
                 $result = openssl_verify(
                     $data,
@@ -154,6 +154,28 @@ class JWT
                 );
                 
                 return $result == 1;
+            case 'hash_hmac':
+                $hash = hash_hmac($signatureAlg, $data, $jwk->getPublicKey(), true);
+
+                /**
+                 * @todo In SocialConnect/Auth 2.0 drop PHP 5.5 support and support for hash_equals emulation
+                 */
+                if (function_exists('hash_equals')) {
+                    return hash_equals($this->signature, $hash);
+                }
+
+                if (strlen($this->signature) != strlen($hash)) {
+                    return false;
+                }
+
+                $ret = 0;
+                $res = $this->signature ^ $hash;
+
+                for($i = strlen($res) - 1; $i >= 0; $i--) {
+                    $ret |= ord($res[$i]);
+                }
+
+                return !$ret;
         }
 
         throw new UnsupportedSignatureAlgoritm($this->header->alg);

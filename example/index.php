@@ -11,8 +11,40 @@ include_once __DIR__ . '/../vendor/autoload.php';
 include_once __DIR__ . '/vendor/autoload.php';
 $configureProviders = include_once 'config.php';
 
+$httpClient = new \SocialConnect\Common\Http\Client\Curl();
+
+/**
+ * By default We are using Curl class from SocialConnect/Common
+ * but you can use Guzzle wrapper ^5.3|^6.0
+ */
+//$httpClient = new \SocialConnect\Common\Http\Client\Guzzle(
+//    new \GuzzleHttp\Client()
+//);
+
+/**
+ * Why We need Cache decorator for HTTP Client?
+ * Providers like OpenID & OpenIDConnect require US
+ * to request OpenID specification (and JWK(s) for OpenIDConnect)
+ *
+ * It's not a good idea to request it every time, because it's unneeded round trip to the server
+ * if you are using OpenID or OpenIDConnect we suggest you to use cache
+ *
+ * If you don`t use providers like (Steam) from OpenID or OpenIDConnect
+ * you may skip this because it's not needed
+ */
+$httpClient = new \SocialConnect\Common\Http\Client\Cache(
+    $httpClient,
+    /**
+     * Please dont use FilesystemCache for production/stage env, only for local testing!
+     * It doesnot support cache expire (remove)
+     */
+    new \Doctrine\Common\Cache\FilesystemCache(
+        __DIR__ . '/cache'
+    )
+);
+
 $service = new \SocialConnect\Auth\Service(
-    new \SocialConnect\Common\Http\Client\Curl(),
+    $httpClient,
     new \SocialConnect\Provider\Session\Session(),
     $configureProviders
 );

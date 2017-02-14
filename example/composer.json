@@ -3,7 +3,9 @@
     "type": "project",
     "require": {
         "slim/slim": "~3.7.0",
-        "symfony/var-dumper": "~3.2.2"
+        "symfony/var-dumper": "~3.2.2",
+        "guzzlehttp/guzzle": "~6.2.2",
+        "doctrine/cache": "~1.6.1"
     },
     "license": "MIT",
     "authors": [

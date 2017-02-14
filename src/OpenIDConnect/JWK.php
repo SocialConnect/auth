@@ -78,7 +78,7 @@ class JWK
         $publicKey = pack(
             'Ca*a*',
             48,
-            self::encodeLength(strlen($rsaOID . $RSAPublicKey)),
+            self::encodeLength(strlen($rsaOID . $publicKey)),
             $rsaOID . $publicKey
         );
 

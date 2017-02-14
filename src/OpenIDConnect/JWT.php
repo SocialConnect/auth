@@ -9,10 +9,17 @@ use SocialConnect\OpenIDConnect\Exception\InvalidJWT;
 
 class JWT
 {
+    /**
+     * Map of supported algorithms
+     *
+     * @var array
+     */
     public static $algorithms = array(
-        'HS256' => array('hash_hmac', 'SHA256'),
-        'HS512' => array('hash_hmac', 'SHA512'),
-        'HS384' => array('hash_hmac', 'SHA384'),
+        // HS
+        'HS256' => array('hash_hmac', MHASH_SHA256),
+        'HS384' => array('hash_hmac', MHASH_SHA384),
+        'HS512' => array('hash_hmac', MHASH_SHA512),
+        // RS
         'RS256' => array('openssl', OPENSSL_ALGO_SHA256),
         'RS384' => array('openssl', OPENSSL_ALGO_SHA384),
         'RS512' => array('openssl', OPENSSL_ALGO_SHA512),

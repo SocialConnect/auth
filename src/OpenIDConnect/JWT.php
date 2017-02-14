@@ -77,10 +77,24 @@ class JWT
         list ($header64, $payload64, $token64) = $parts;
 
         $headerPayload = base64_decode($header64, true);
+        if (!$headerPayload) {
+            throw new InvalidJWT('Cannot decode base64 from header');
+        }
+
         $this->header = json_decode($headerPayload);
+        if ($this->header === null) {
+            throw new InvalidJWT('Cannot decode JSON from header');
+        }
 
         $decodedPayload = base64_decode($payload64, true);
+        if (!$decodedPayload) {
+            throw new InvalidJWT('Cannot decode base64 from payload');
+        }
+
         $this->payload = json_decode($decodedPayload);
+        if ($this->payload === null) {
+            throw new InvalidJWT('Cannot decode JSON from payload');
+        }
 
         $this->signature = self::urlsafeB64Decode($token64);
 

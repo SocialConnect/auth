@@ -183,12 +183,51 @@ abstract class AbstractProviderTestCase extends TestCase
             500
         );
 
-        $result = $this->getProvider($mockedHttpClient)->getIdentity(
+        $this->getProvider($mockedHttpClient)->getIdentity(
             new AccessToken(
                 [
                     'access_token' => '123456789'
                 ]
             )
         );
+    }
+
+    /**
+     * @expectedException \SocialConnect\Provider\Exception\InvalidAccessToken
+     */
+    public function testParseTokenNotToken()
+    {
+        $this->getProvider()->parseToken(
+            json_encode([])
+        );
+    }
+
+    /**
+     * @expectedException \SocialConnect\Provider\Exception\InvalidAccessToken
+     */
+    public function testParseTokenNotValidJSON()
+    {
+        $this->getProvider()->parseToken(
+            'lelelelel'
+        );
+    }
+
+    public function testParseTokenSuccess()
+    {
+        $expectedToken = 'XXXXXXXX';
+        $expectedUserId = 123456;
+
+        $accessToken = $this->getProvider()->parseToken(
+            json_encode(
+                [
+                    'access_token' => $expectedToken,
+                    'user_id' => $expectedUserId
+                ]
+            )
+        );
+
+        parent::assertInstanceOf(AccessToken::class, $accessToken);
+        parent::assertSame($expectedToken, $accessToken->getToken());
+        parent::assertSame($expectedUserId, $accessToken->getUserId());
     }
 }

@@ -80,6 +80,9 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
         return $result['keys'];
     }
 
+    /**
+     * @return string
+     */
     abstract public function getOpenIdUrl();
 
     /**

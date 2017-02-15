@@ -4,7 +4,7 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         processIsolation="false"
+         processIsolation="true"
          stopOnFailure="false"
          syntaxCheck="true"
          bootstrap="./tests/Bootstrap.php"
@@ -27,8 +27,8 @@
     </filter>
 
     <logging>
-        <log type="coverage-text" target="php://stdout" showUncoveredFiles="true"/>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-        <log type="coverage-html" target="build/html"/>
+        <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
+        <log type="coverage-clover" target="build/logs/clover.xml" showUncoveredFiles="true"/>
+        <log type="coverage-html" target="build/html" showUncoveredFiles="true"/>
     </logging>
 </phpunit>

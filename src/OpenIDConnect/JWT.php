@@ -173,9 +173,10 @@ class JWT
     }
 
     /**
+     * @param $data
+     * @param array $keys
      * @return bool
-     * @throws \RuntimeException
-     * @throws \SocialConnect\OpenIDConnect\Exception\UnsupportedSignatureAlgoritm
+     * @throws UnsupportedSignatureAlgoritm
      */
     protected function verifySignature($data, array $keys)
     {

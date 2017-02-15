@@ -39,7 +39,7 @@ class AccessToken extends \SocialConnect\OAuth2\AccessToken
     /**
      * @param JWT $jwt
      */
-    public function setJwt($jwt)
+    public function setJwt(JWT $jwt)
     {
         $this->jwt = $jwt;
     }

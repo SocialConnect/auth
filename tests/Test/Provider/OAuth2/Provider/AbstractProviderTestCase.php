@@ -8,6 +8,7 @@ namespace Test\OAuth2\Provider;
 
 use ReflectionClass;
 use SocialConnect\Common\Http\Client\ClientInterface;
+use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Provider\Consumer;
 use SocialConnect\Provider\Session\SessionInterface;
 use Test\TestCase;
@@ -169,5 +170,25 @@ abstract class AbstractProviderTestCase extends TestCase
                 true
             )
         )->getAccessToken('XXXXXXXXXXXX');
+    }
+
+    /**
+     * @expectedException \SocialConnect\Provider\Exception\InvalidResponse
+     * @expectedExceptionMessage API response with error code
+     */
+    public function testGetIdentityInternalServerError()
+    {
+        $mockedHttpClient = $this->mockClientResponse(
+            [],
+            500
+        );
+
+        $result = $this->getProvider($mockedHttpClient)->getIdentity(
+            new AccessToken(
+                [
+                    'access_token' => '123456789'
+                ]
+            )
+        );
     }
 }

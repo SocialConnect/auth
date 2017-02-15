@@ -146,26 +146,6 @@ class VkTest extends AbstractProviderTestCase
 
     /**
      * @expectedException \SocialConnect\Provider\Exception\InvalidResponse
-     * @expectedExceptionMessage API response with error code
-     */
-    public function testGetIdentityInternalServerError()
-    {
-        $mockedHttpClient = $this->mockClientResponse(
-            [],
-            500
-        );
-
-        $result = $this->getProvider($mockedHttpClient)->getIdentity(
-            new AccessToken(
-                [
-                    'access_token' => '123456789'
-                ]
-            )
-        );
-    }
-
-    /**
-     * @expectedException \SocialConnect\Provider\Exception\InvalidResponse
      * @expectedExceptionMessage API response is not a valid JSON object
      */
     public function testGetIdentityNotData()

@@ -4,7 +4,7 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace Test\Provider;
+namespace Test\Auth;
 
 use SocialConnect\Auth\CollectionFactory;
 use SocialConnect\Auth\Service;

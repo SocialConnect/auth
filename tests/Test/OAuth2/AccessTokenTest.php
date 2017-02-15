@@ -4,7 +4,7 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace Test\Provider\OAuth2;
+namespace Test\OAuth2;
 
 use SocialConnect\OAuth2\AccessToken;
 

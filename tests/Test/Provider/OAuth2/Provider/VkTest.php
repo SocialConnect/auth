@@ -4,7 +4,7 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace Test\Providers;
+namespace Test\OAuth2\Provider;
 
 use SocialConnect\Provider\Consumer;
 use SocialConnect\OAuth2\AccessToken;
@@ -13,6 +13,14 @@ use SocialConnect\Provider\Session\SessionInterface;
 
 class VkTest extends AbstractProviderTestCase
 {
+    /**
+     * {@inheritdoc}
+     */
+    protected function getProviderClassName()
+    {
+        return \SocialConnect\OAuth2\Provider\Vk::class;
+    }
+
     /**
      * @param ClientInterface|null $httpClient
      * @return \SocialConnect\OAuth2\Provider\Vk
@@ -62,15 +70,6 @@ class VkTest extends AbstractProviderTestCase
         parent::assertArrayHasKey('redirect_uri', $queryParameters);
         parent::assertArrayHasKey('response_type', $queryParameters);
         parent::assertArrayHasKey('state', $queryParameters);
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Parameter $code must be a string
-     */
-    public function testGetAccessTokenFail()
-    {
-        $this->getProvider()->getAccessToken(null);
     }
 
     /**

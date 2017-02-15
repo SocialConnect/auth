@@ -111,21 +111,48 @@ abstract class AbstractProviderTestCase extends TestCase
 
     public function testGetBaseUriReturnString()
     {
-        parent::assertInternalType('string',  $this->getProvider()->getBaseUri());
+        parent::assertInternalType('string', $this->getProvider()->getBaseUri());
     }
 
     public function testGetAuthorizeUriReturnString()
     {
-        parent::assertInternalType('string',  $this->getProvider()->getAuthorizeUri());
+        parent::assertInternalType('string', $this->getProvider()->getAuthorizeUri());
     }
 
     public function testGetRequestTokenUriReturnString()
     {
-        parent::assertInternalType('string',  $this->getProvider()->getRequestTokenUri());
+        parent::assertInternalType('string', $this->getProvider()->getRequestTokenUri());
     }
 
     public function testGetNameReturnString()
     {
-        parent::assertInternalType('string',  $this->getProvider()->getName());
+        parent::assertInternalType('string', $this->getProvider()->getName());
+    }
+
+    public function testMakeAuthUrl()
+    {
+        $provider = $this->getProvider();
+
+        $authUrl = $provider->makeAuthUrl();
+        parent::assertInternalType('string', $authUrl);
+
+        /**
+         * Auth url must be started from getAuthorizeUri
+         */
+        parent::assertSame(
+            0,
+            substr($authUrl, $provider->getAuthorizeUri())
+        );
+
+        $query = parse_url($authUrl, PHP_URL_QUERY);
+        parent::assertInternalType('string', $query);
+
+        parse_str($query, $queryParameters);
+        parent::assertInternalType('array', $queryParameters);
+
+        parent::assertArrayHasKey('client_id', $queryParameters);
+        parent::assertArrayHasKey('redirect_uri', $queryParameters);
+        parent::assertArrayHasKey('response_type', $queryParameters);
+        parent::assertArrayHasKey('state', $queryParameters);
     }
 }

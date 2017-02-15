@@ -54,24 +54,6 @@ class VkTest extends AbstractProviderTestCase
         );
     }
 
-    public function testMakeAuthUrl()
-    {
-        $authUrl = $this->getProvider()->makeAuthUrl();
-        parent::assertInternalType('string', $authUrl);
-
-        $query = parse_url($authUrl, PHP_URL_QUERY);
-        parent::assertInternalType('string', $query);
-
-        parse_str($query, $queryParameters);
-        parent::assertInternalType('array', $queryParameters);
-
-
-        parent::assertArrayHasKey('client_id', $queryParameters);
-        parent::assertArrayHasKey('redirect_uri', $queryParameters);
-        parent::assertArrayHasKey('response_type', $queryParameters);
-        parent::assertArrayHasKey('state', $queryParameters);
-    }
-
     /**
      * @expectedException \SocialConnect\Provider\Exception\InvalidResponse
      * @expectedExceptionMessage API response with error code

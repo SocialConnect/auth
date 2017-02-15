@@ -141,7 +141,7 @@ abstract class AbstractProviderTestCase extends TestCase
          */
         parent::assertSame(
             0,
-            substr($authUrl, $provider->getAuthorizeUri())
+            strpos($authUrl, $provider->getAuthorizeUri())
         );
 
         $query = parse_url($authUrl, PHP_URL_QUERY);
@@ -154,5 +154,20 @@ abstract class AbstractProviderTestCase extends TestCase
         parent::assertArrayHasKey('redirect_uri', $queryParameters);
         parent::assertArrayHasKey('response_type', $queryParameters);
         parent::assertArrayHasKey('state', $queryParameters);
+    }
+
+    /**
+     * @expectedException \SocialConnect\Provider\Exception\InvalidResponse
+     * @expectedExceptionMessage API response with error code
+     */
+    public function testGetAccessTokenResponseInternalServerErrorFail()
+    {
+        $this->getProvider(
+            $this->mockClientResponse(
+                null,
+                500,
+                true
+            )
+        )->getAccessToken('XXXXXXXXXXXX');
     }
 }

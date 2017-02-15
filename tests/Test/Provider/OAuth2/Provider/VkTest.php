@@ -54,21 +54,6 @@ class VkTest extends AbstractProviderTestCase
         );
     }
 
-    /**
-     * @expectedException \SocialConnect\Provider\Exception\InvalidResponse
-     * @expectedExceptionMessage API response with error code
-     */
-    public function testGetAccessTokenResponseInternalServerErrorFail()
-    {
-        $this->getProvider(
-            $this->mockClientResponse(
-                null,
-                500,
-                true
-            )
-        )->getAccessToken('XXXXXXXXXXXX');
-    }
-
     public function testMakeAccessTokenRequest()
     {
         $expectedCode = 'djsflkSdjflskdfjFlsd9';

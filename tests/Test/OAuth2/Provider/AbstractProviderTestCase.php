@@ -193,6 +193,26 @@ abstract class AbstractProviderTestCase extends TestCase
     }
 
     /**
+     * @expectedException \SocialConnect\Provider\Exception\InvalidResponse
+     * @expectedExceptionMessage API response is not a valid JSON object
+     */
+    public function testGetIdentityNotValidJSON()
+    {
+        $mockedHttpClient = $this->mockClientResponse(
+            'NOT VALID JSON',
+            200
+        );
+
+        $this->getProvider($mockedHttpClient)->getIdentity(
+            new AccessToken(
+                [
+                    'access_token' => '123456789'
+                ]
+            )
+        );
+    }
+
+    /**
      * @expectedException \SocialConnect\Provider\Exception\InvalidAccessToken
      */
     public function testParseTokenNotToken()

@@ -20,4 +20,9 @@ class VimeoTest extends AbstractProviderTestCase
     {
         // Ignore this test for Vimeo
     }
+    
+    public function testGetIdentityNotValidJSON()
+    {
+        // Ignore this test for Vimeo
+    }
 }

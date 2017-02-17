@@ -19,6 +19,12 @@
     <filter>
         <whitelist>
             <directory>./src</directory>
+            <exclude>
+                <directory>./src/OAuth1/Exception</directory>
+                <directory>./src/OAuth2/Exception</directory>
+                <directory>./src/OpenID/Exception</directory>
+                <directory>./src/OpenIDConnect/Exception</directory>
+            </exclude>
         </whitelist>
         <blacklist>
             <directory>./vendor/</directory>

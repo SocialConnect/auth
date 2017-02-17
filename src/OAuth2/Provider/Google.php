@@ -86,8 +86,13 @@ class Google extends AbstractProvider
             );
         }
 
-        $body = $response->getBody();
-        $result = json_decode($body);
+        $result = $response->json();
+        if (!$result) {
+            throw new InvalidResponse(
+                'API response is not a valid JSON object',
+                $response->getBody()
+            );
+        }
 
         $hydrator = new ObjectMap(
             [

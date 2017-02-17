@@ -14,4 +14,23 @@ class SteamTest extends AbstractProviderTestCase
     {
         return \SocialConnect\OpenID\Provider\Steam::class;
     }
+
+    public function testParseUserIdFromIdentity()
+    {
+        $expectedUserId = 76561198066894048;
+        $provider = $this->getProvider();
+
+        $result = parent::callProtectedMethod(
+            $provider,
+            'parseUserIdFromIdentity',
+            [
+                'http://steamcommunity.com/openid/id/76561198066894048'
+            ]
+        );
+
+        parent::assertEquals(
+            $expectedUserId,
+            $result
+        );
+    }
 }

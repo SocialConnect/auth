@@ -173,7 +173,7 @@ class JWT
     }
 
     /**
-     * @param $data
+     * @param string $data
      * @param array $keys
      * @return bool
      * @throws UnsupportedSignatureAlgoritm

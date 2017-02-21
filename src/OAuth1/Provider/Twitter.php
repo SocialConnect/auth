@@ -48,9 +48,12 @@ class Twitter extends \SocialConnect\OAuth1\AbstractProvider
 
         $parameters = [
             'oauth_consumer_key' => $this->consumer->getKey(),
-            'oauth_token' => $accessToken->getToken()
+            'oauth_token' => $accessToken->getToken(),
+            // String is expected because Twitter is awful
+            'include_email' => 'true'
         ];
 
+        // @link https://dev.twitter.com/rest/reference/get/account/verify_credentials
         $response = $this->oauthRequest(
             $this->getBaseUri() . 'account/verify_credentials.json',
             Client::GET,
@@ -80,6 +83,14 @@ class Twitter extends \SocialConnect\OAuth1\AbstractProvider
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result);
+        /** @var User $user */
+        $user = $hydrator->hydrate(new User(), $result);
+
+        // When set to true email will be returned in the user objects as a string.
+        // If the user does not have an email address on their account,
+        // or if the email address is not verified, null will be returned.
+        $user->emailVerified = true;
+
+        return $user;
     }
 }

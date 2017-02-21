@@ -100,6 +100,7 @@ class Google extends AbstractProvider
                 'given_name' => 'firstname',
                 'family_name' => 'lastname',
                 'email' => 'email',
+                'verified_email' => 'emailVerified',
                 'name' => 'fullname',
                 'gender' => 'sex',
             ]

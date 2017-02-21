@@ -85,6 +85,10 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result);
+        /** @var User $user */
+        $user = $hydrator->hydrate(new User(), $result);
+        $user->emailVerified = true;
+
+        return $user;
     }
 }

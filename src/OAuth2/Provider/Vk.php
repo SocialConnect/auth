@@ -106,6 +106,7 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
             ]
         );
 
+        /** @var User $user */
         $user = $hydrator->hydrate(new User(), $result->response[0]);
 
         if ($user->sex) {
@@ -113,6 +114,7 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
         }
 
         $user->email = $this->email;
+        $user->emailVerified = true;
 
         return $user;
     }

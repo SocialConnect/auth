@@ -140,7 +140,7 @@ class JWT
          */
         if (isset($this->payload['nbf']) && $this->payload['nbf'] >= ($now + self::$screw)) {
             throw new InvalidJWT(
-                'nbf (Not Fefore) claim is not valid ' . date(DateTime::RFC3339, $this->payload->nbf)
+                'nbf (Not Fefore) claim is not valid ' . date(DateTime::RFC3339, $this->payload['nbf'])
             );
         }
 
@@ -150,7 +150,7 @@ class JWT
          */
         if (isset($this->payload['iat']) && $this->payload['iat'] > ($now + self::$screw)) {
             throw new InvalidJWT(
-                'iat (Issued At) claim is not valid ' . date(DateTime::RFC3339, $this->payload->ait)
+                'iat (Issued At) claim is not valid ' . date(DateTime::RFC3339, $this->payload['iat'])
             );
         }
 
@@ -160,7 +160,7 @@ class JWT
          */
         if (isset($this->payload['exp']) && ($now - self::$screw) >= $this->payload['exp']) {
             throw new InvalidJWT(
-                'exp (Expiration Time) claim is not valid ' . date(DateTime::RFC3339, $this->payload->ait)
+                'exp (Expiration Time) claim is not valid ' . date(DateTime::RFC3339, $this->payload['exp'])
             );
         }
     }
@@ -173,7 +173,7 @@ class JWT
     protected function validate($data, array $keys)
     {
         $this->validateHeader();
-        $this->validateHeader();
+        $this->validateClaims();
 
         $result = $this->verifySignature($data, $keys);
         if (!$result) {

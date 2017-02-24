@@ -38,11 +38,6 @@ class JWT
     /**
      * @var array
      */
-    protected $parts;
-
-    /**
-     * @var array
-     */
     protected $header;
 
     /**
@@ -51,7 +46,7 @@ class JWT
     protected $payload;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $signature;
 
@@ -72,71 +67,78 @@ class JWT
     }
 
     /**
+     * @param array $payload
+     * @param array $header
+     * @param string|null $signature
+     */
+    public function __construct(array $payload, array $header, $signature = null)
+    {
+        $this->payload = $payload;
+        $this->header = $header;
+        $this->signature = $signature;
+    }
+
+    /**
      * @param string $token
      * @param array $keys
+     * @return JWT
      * @throws InvalidJWT
      */
-    public function __construct($token, array $keys)
+    public static function decode($token, array $keys)
     {
         $parts = explode('.', $token);
         if (count($parts) !== 3) {
             throw new InvalidJWT('Wrong number of segments');
         }
 
-        list ($header64, $payload64, $token64) = $parts;
+        list ($header64, $payload64, $signature64) = $parts;
 
-        $headerPayload = base64_decode($header64, true);
+        $headerPayload = base64_decode($header64);
         if (!$headerPayload) {
             throw new InvalidJWT('Cannot decode base64 from header');
         }
 
-        $this->header = json_decode($headerPayload);
-        if ($this->header === null) {
+        $header = json_decode($headerPayload, true);
+        if ($header === null) {
             throw new InvalidJWT('Cannot decode JSON from header');
         }
 
-        $decodedPayload = base64_decode($payload64, true);
+        $decodedPayload = base64_decode($payload64);
         if (!$decodedPayload) {
             throw new InvalidJWT('Cannot decode base64 from payload');
         }
 
-        $this->payload = json_decode($decodedPayload);
-        if ($this->payload === null) {
+        $payload = json_decode($decodedPayload, true);
+        if ($payload === null) {
             throw new InvalidJWT('Cannot decode JSON from payload');
         }
 
-        $this->signature = self::urlsafeB64Decode($token64);
+        $token = new self($payload, $header, self::urlsafeB64Decode($signature64));
+        $token->validate("{$header64}.{$payload64}", $keys);
 
-        $this->validate("{$header64}.{$payload64}", $keys);
+        return $token;
     }
 
-    /**
-     * @param string $data
-     * @param array $keys
-     * @throws InvalidJWT
-     */
-    protected function validate($data, array $keys)
+    protected function validateHeader()
     {
-        $now = time();
-
-        if (!isset($this->header->alg)) {
+        if (!isset($this->header['alg'])) {
             throw new InvalidJWT('No alg inside header');
         }
 
-        if (!isset($this->header->kid)) {
+        if (!isset($this->header['kid'])) {
             throw new InvalidJWT('No kid inside header');
         }
+    }
 
-        $result = $this->verifySignature($data, $keys);
-        if (!$result) {
-            throw new InvalidJWT('Unexpected signature');
-        }
+    protected function validateClaims()
+    {
+        $now = time();
 
         /**
          * @link https://tools.ietf.org/html/rfc7519#section-4.1.5
          * "nbf" (Not Before) Claim check
          */
-        if (isset($this->payload->nbf) && $this->payload->nbf >= ($now + self::$screw)) {
+        if (isset($this->payload['nbf']) && $this->payload['nbf'] >= ($now + self::$screw)) {
             throw new InvalidJWT(
                 'nbf (Not Fefore) claim is not valid ' . date(DateTime::RFC3339, $this->payload->nbf)
             );
@@ -146,7 +148,7 @@ class JWT
          * @link https://tools.ietf.org/html/rfc7519#section-4.1.6
          * "iat" (Issued At) Claim
          */
-        if (isset($this->payload->iat) && $this->payload->iat > ($now + self::$screw)) {
+        if (isset($this->payload['iat']) && $this->payload['iat'] > ($now + self::$screw)) {
             throw new InvalidJWT(
                 'iat (Issued At) claim is not valid ' . date(DateTime::RFC3339, $this->payload->ait)
             );
@@ -156,10 +158,26 @@ class JWT
          * @link https://tools.ietf.org/html/rfc7519#section-4.1.4
          * "exp" (Expiration Time) Claim
          */
-        if (isset($this->payload->exp) && ($now - self::$screw) >= $this->payload->exp) {
+        if (isset($this->payload['exp']) && ($now - self::$screw) >= $this->payload['exp']) {
             throw new InvalidJWT(
                 'exp (Expiration Time) claim is not valid ' . date(DateTime::RFC3339, $this->payload->ait)
             );
+        }
+    }
+
+    /**
+     * @param string $data
+     * @param array $keys
+     * @throws InvalidJWT
+     */
+    protected function validate($data, array $keys)
+    {
+        $this->validateHeader();
+        $this->validateHeader();
+
+        $result = $this->verifySignature($data, $keys);
+        if (!$result) {
+            throw new InvalidJWT('Unexpected signature');
         }
     }
 
@@ -188,14 +206,14 @@ class JWT
      */
     protected function verifySignature($data, array $keys)
     {
-        $supported = isset(self::$algorithms[$this->header->alg]);
+        $supported = isset(self::$algorithms[$this->header['alg']]);
         if (!$supported) {
-            throw new UnsupportedSignatureAlgoritm($this->header->alg);
+            throw new UnsupportedSignatureAlgoritm($this->header['alg']);
         }
 
-        $jwk = $this->findKeyByKind($keys, $this->header->kid);
+        $jwk = $this->findKeyByKind($keys, $this->header['kid']);
 
-        list ($function, $signatureAlg) = self::$algorithms[$this->header->alg];
+        list ($function, $signatureAlg) = self::$algorithms[$this->header['alg']];
         switch ($function) {
             case 'openssl':
                 if (!function_exists('openssl_verify')) {
@@ -234,6 +252,6 @@ class JWT
                 return !$ret;
         }
 
-        throw new UnsupportedSignatureAlgoritm($this->header->alg);
+        throw new UnsupportedSignatureAlgoritm($this->header['alg']);
     }
 }

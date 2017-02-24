@@ -12,6 +12,14 @@ use SocialConnect\OpenIDConnect\Exception\UnsupportedSignatureAlgoritm;
 class JWT
 {
     /**
+     * When checking nbf, iat or exp
+     * we provide additional time screw/leeway
+     *
+     * @link https://github.com/SocialConnect/auth/issues/26
+     */
+    public static $screw = 0;
+
+    /**
      * Map of supported algorithms
      *
      * @var array
@@ -128,7 +136,7 @@ class JWT
          * @link https://tools.ietf.org/html/rfc7519#section-4.1.5
          * "nbf" (Not Before) Claim check
          */
-        if (isset($this->payload->nbf) && $this->payload->nbf >= ($now)) {
+        if (isset($this->payload->nbf) && $this->payload->nbf >= ($now + self::$screw)) {
             throw new InvalidJWT(
                 'nbf (Not Fefore) claim is not valid ' . date(DateTime::RFC3339, $this->payload->nbf)
             );
@@ -138,7 +146,7 @@ class JWT
          * @link https://tools.ietf.org/html/rfc7519#section-4.1.6
          * "iat" (Issued At) Claim
          */
-        if (isset($this->payload->iat) && $this->payload->iat > $now) {
+        if (isset($this->payload->iat) && $this->payload->iat > ($now + self::$screw)) {
             throw new InvalidJWT(
                 'iat (Issued At) claim is not valid ' . date(DateTime::RFC3339, $this->payload->ait)
             );
@@ -148,7 +156,7 @@ class JWT
          * @link https://tools.ietf.org/html/rfc7519#section-4.1.4
          * "exp" (Expiration Time) Claim
          */
-        if (isset($this->payload->exp) && $now >= $this->payload->exp) {
+        if (isset($this->payload->exp) && ($now - self::$screw) >= $this->payload->exp) {
             throw new InvalidJWT(
                 'exp (Expiration Time) claim is not valid ' . date(DateTime::RFC3339, $this->payload->ait)
             );

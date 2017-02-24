@@ -110,6 +110,27 @@ class JWTTest extends \Test\TestCase
         );
     }
 
+    public function testValidateClaimsNbfScrew()
+    {
+        JWT::$screw = 30;
+
+        $token = new JWT(
+            array(
+                'nbf' => $nbf = time() + 10,
+                'iat' => time(),
+                'exp' => time() + 20,
+            ),
+            $this->getTestHeader()
+        );
+
+        self::callProtectedMethod(
+            $token,
+            'validateClaims'
+        );
+
+        JWT::$screw = 0;
+    }
+
     public function testValidateClaimsExpFail()
     {
         $token = new JWT(

@@ -109,7 +109,9 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
         $result = json_decode($body, true);
         if ($result) {
             $token = new AccessToken($result);
-            $token->setJwt(new JWT($result['id_token'], $this->getJWKSet()));
+            $token->setJwt(
+                JWT::decode($result['id_token'], $this->getJWKSet())
+            );
 
             return $token;
         }

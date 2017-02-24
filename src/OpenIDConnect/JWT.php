@@ -217,7 +217,7 @@ class JWT
         switch ($function) {
             case 'openssl':
                 if (!function_exists('openssl_verify')) {
-                    throw new \RuntimeException('Openssl-ext is required to use RSA encryption.');
+                    throw new \RuntimeException('Openssl-ext is required to use RS encryption.');
                 }
 
                 $result = openssl_verify(
@@ -229,6 +229,10 @@ class JWT
                 
                 return $result == 1;
             case 'hash_hmac':
+                if (!function_exists('hash_hmac')) {
+                    throw new \RuntimeException('hash-ext is required to use HS encryption.');
+                }
+
                 $hash = hash_hmac($signatureAlg, $data, $jwk->getPublicKey(), true);
 
                 /**

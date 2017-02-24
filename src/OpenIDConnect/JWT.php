@@ -138,7 +138,7 @@ class JWT
          * @link https://tools.ietf.org/html/rfc7519#section-4.1.5
          * "nbf" (Not Before) Claim check
          */
-        if (isset($this->payload['nbf']) && $this->payload['nbf'] >= ($now + self::$screw)) {
+        if (isset($this->payload['nbf']) && $this->payload['nbf'] > ($now + self::$screw)) {
             throw new InvalidJWT(
                 'nbf (Not Fefore) claim is not valid ' . date(DateTime::RFC3339, $this->payload['nbf'])
             );

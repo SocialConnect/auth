@@ -71,8 +71,7 @@ class JWTTest extends \Test\TestCase
     {
         $token = new JWT(
             array(
-                // @todo check nbf spec again
-                'nbf' => time() - 1,
+                'nbf' => time(),
                 'iat' => time(),
                 'exp' => time() + 20,
             ),
@@ -135,8 +134,7 @@ class JWTTest extends \Test\TestCase
     {
         $token = new JWT(
             array(
-                // @todo check nbf spec again
-                'nbf' => time() - 1,
+                'nbf' => time(),
                 'iat' => time(),
                 'exp' => $exp = time() - 20,
             ),

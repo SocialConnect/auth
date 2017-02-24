@@ -26,13 +26,13 @@ class JWT
      */
     public static $algorithms = array(
         // HS
-        'HS256' => ['hash_hmac', MHASH_SHA256],
-        'HS384' => ['hash_hmac', MHASH_SHA384],
-        'HS512' => ['hash_hmac', MHASH_SHA512],
+        'HS256' => ['hash_hmac', 'SHA256'],
+        'HS384' => ['hash_hmac', 'SHA384'],
+        'HS512' => ['hash_hmac', 'SHA512'],
         // RS
-        'RS256' => ['openssl', OPENSSL_ALGO_SHA256],
-        'RS384' => ['openssl', OPENSSL_ALGO_SHA384],
-        'RS512' => ['openssl', OPENSSL_ALGO_SHA512],
+        'RS256' => ['openssl', 'SHA256'],
+        'RS384' => ['openssl', 'SHA384'],
+        'RS512' => ['openssl', 'SHA512'],
     );
 
     /**

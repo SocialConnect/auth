@@ -8,6 +8,7 @@ namespace Test\OpenIDConnect\JWT;
 
 use DateTime;
 use ReflectionClass;
+use SocialConnect\OpenIDConnect\Exception\InvalidJWT;
 use SocialConnect\OpenIDConnect\JWT;
 
 class JWTTest extends \Test\TestCase
@@ -152,6 +153,59 @@ class JWTTest extends \Test\TestCase
         self::callProtectedMethod(
             $token,
             'validateClaims'
+        );
+    }
+
+    public function testValidateHeaderSuccess()
+    {
+        $token = new JWT(
+            [],
+            $this->getTestHeader()
+        );
+
+        self::callProtectedMethod(
+            $token,
+            'validateHeader'
+        );
+    }
+
+    public function testValidateHeaderNoAlg()
+    {
+        $token = new JWT(
+            [],
+            [
+                'kid' => 'testSigKey'
+            ]
+        );
+
+        parent::setExpectedException(
+            InvalidJWT::class,
+            'No alg inside header'
+        );
+
+        self::callProtectedMethod(
+            $token,
+            'validateHeader'
+        );
+    }
+
+    public function testValidateHeaderNoKid()
+    {
+        $token = new JWT(
+            [],
+            [
+                'alg' => 'RS256'
+            ]
+        );
+
+        parent::setExpectedException(
+            InvalidJWT::class,
+            'No kid inside header'
+        );
+
+        self::callProtectedMethod(
+            $token,
+            'validateHeader'
         );
     }
 }

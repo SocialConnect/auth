@@ -137,9 +137,14 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     protected function oauthRequest($uri, $method = Client::GET, $parameters = [])
     {
-        $headers['Accept'] = 'application/json';
-        $headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        $headers = [
+            'Accept' => 'application/json'
+        ];
 
+        if ($method == Client::POST) {
+            $headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        }
+        
         $parameters = array_merge(
             [
                 'oauth_version' => '1.0',

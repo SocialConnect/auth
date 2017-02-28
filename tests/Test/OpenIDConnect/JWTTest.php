@@ -208,4 +208,17 @@ class JWTTest extends \Test\TestCase
             'validateHeader'
         );
     }
+
+    public function testDecodeWrongNumberOfSegments()
+    {
+        parent::setExpectedException(
+            InvalidJWT::class,
+            'Wrong number of segments'
+        );
+
+        JWT::decode(
+            'lol',
+            []
+        );
+    }
 }

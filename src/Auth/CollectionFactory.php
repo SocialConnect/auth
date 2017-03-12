@@ -44,6 +44,7 @@ class CollectionFactory implements FactoryInterface
         'yandex'        => OAuth2\Provider\Yandex::class,
         'mail-ru'       => OAuth2\Provider\MailRu::class,
         'odnoklassniki' => OAuth2\Provider\Odnoklassniki::class,
+        'discord'       => OAuth2\Provider\Discord::class,
         // OpenID
         'steam'         => OpenID\Provider\Steam::class,
         // OpenIDConnect - currently disabled before 1.1 release

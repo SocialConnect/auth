@@ -76,7 +76,7 @@ $ curl -sS https://getcomposer.org/installer | php
 ``` json
 {
   "require": {
-    "socialconnect/auth": "~1.0.0"
+    "socialconnect/auth": "^1.1.0"
   }
 }
 ```

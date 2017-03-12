@@ -6,6 +6,7 @@
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
@@ -20,7 +21,7 @@ class Discord extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getBaseUri()
     {
-        return 'https://disqus.com/api/3.0/';
+        return 'https://discordapp.com/api/';
     }
 
     /**
@@ -28,7 +29,7 @@ class Discord extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getAuthorizeUri()
     {
-        return 'https://disqus.com/api/oauth/2.0/authorize/';
+        return 'https://discordapp.com/api/oauth2/authorize';
     }
 
     /**
@@ -36,7 +37,7 @@ class Discord extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getRequestTokenUri()
     {
-        return 'https://disqus.com/api/oauth/2.0/access_token/';
+        return 'https://discordapp.com/api/oauth2/token';
     }
 
     /**
@@ -45,6 +46,14 @@ class Discord extends \SocialConnect\OAuth2\AbstractProvider
     public function getName()
     {
         return 'discord';
+    }
+
+    /**
+     * @return string
+     */
+    public function getScopeInline()
+    {
+        return implode(' ', $this->scope);
     }
 
     /**
@@ -70,9 +79,11 @@ class Discord extends \SocialConnect\OAuth2\AbstractProvider
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         $response = $this->httpClient->request(
-            $this->getBaseUri() . 'users/details',
+            $this->getBaseUri() . 'users/@me',
+            [],
+            Client::GET,
             [
-                'access_token' => $accessToken->getToken()
+                'Authorization' => 'Bearer ' . $accessToken->getToken()
             ]
         );
 
@@ -91,7 +102,11 @@ class Discord extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
-        $hydrator = new ObjectMap([]);
+        $hydrator = new ObjectMap(
+            [
+                'verified' => 'emailVerified'
+            ]
+        );
 
         return $hydrator->hydrate(new User(), $result);
     }

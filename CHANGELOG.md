@@ -1,5 +1,10 @@
 # CHANGELOG
 
+# 1.2.0
+
+- [OAuth2] Implement Discord provider
+- Up code coverage from `40%` -> `41%`
+
 # 1.1.0
 
 - Start using `socialconnect/common` ~1.0 (`HTTP\Client\Cache` & `Entity\User`->`emailVerified`)

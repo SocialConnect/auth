@@ -6,6 +6,8 @@
 
 namespace Test\OAuth2\Provider;
 
+use SocialConnect\OAuth2\AccessToken;
+
 class GitHubTest extends AbstractProviderTestCase
 {
     /**
@@ -16,11 +18,21 @@ class GitHubTest extends AbstractProviderTestCase
         return \SocialConnect\OAuth2\Provider\GitHub::class;
     }
 
-    /**
-     * @todo
-     */
     public function testParseTokenSuccess()
     {
-        parent::markTestSkipped('todo');
+        $expectedToken = 'XXXXXXXX';
+
+        $accessToken = $this->getProvider()->parseToken(
+            http_build_query(
+                [
+                    'access_token' => $expectedToken
+                ],
+                null,
+                '&'
+            )
+        );
+
+        parent::assertInstanceOf(AccessToken::class, $accessToken);
+        parent::assertSame($expectedToken, $accessToken->getToken());
     }
 }

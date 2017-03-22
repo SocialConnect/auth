@@ -18,9 +18,6 @@ class FacebookTest extends AbstractProviderTestCase
         return \SocialConnect\OAuth2\Provider\Facebook::class;
     }
 
-    /**
-     * @todo Test getExpires
-     */
     public function testParseTokenSuccess()
     {
         $expectedToken = 'XXXXXXXX';
@@ -39,5 +36,6 @@ class FacebookTest extends AbstractProviderTestCase
 
         parent::assertInstanceOf(AccessToken::class, $accessToken);
         parent::assertSame($expectedToken, $accessToken->getToken());
+        parent::assertEquals($expectedExpires, $accessToken->getExpires());
     }
 }

@@ -274,4 +274,20 @@ abstract class AbstractProvider extends AbstractBaseProvider
     {
         $this->scope = $scope;
     }
+
+    /**
+     * @param Token $token
+     */
+    public function setConsumerToken(Token $token)
+    {
+        $this->consumerToken = $token;
+    }
+
+    /**
+     * @return \SocialConnect\OAuth1\Token
+     */
+    public function getConsumerToken()
+    {
+        return $this->consumerToken;
+    }
 }

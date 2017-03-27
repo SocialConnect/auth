@@ -45,6 +45,12 @@ abstract class AbstractProvider extends AbstractBaseProvider
     protected $scope = [];
 
     /**
+     * @var  \SocialConnect\OAuth1\Signature\AbstractSignatureMethod
+     */
+    protected $signature;
+
+
+    /**
      * @param ClientInterface $httpClient
      * @param Consumer $consumer
      * @param array $parameters
@@ -54,6 +60,8 @@ abstract class AbstractProvider extends AbstractBaseProvider
         parent::__construct($httpClient, $session, $consumer, $parameters);
 
         $this->consumerToken = new Token('', '');
+
+        $this->signature = new MethodHMACSHA1();
     }
 
     /**
@@ -163,7 +171,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         );
 
         $request->signRequest(
-            new MethodHMACSHA1(),
+            $this->signature,
             $this->consumer,
             $this->consumerToken
         );

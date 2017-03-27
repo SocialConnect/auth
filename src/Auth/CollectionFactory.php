@@ -28,6 +28,7 @@ class CollectionFactory implements FactoryInterface
         'twitter'       => OAuth1\Provider\Twitter::class,
         'px500'         => OAuth1\Provider\Px500::class,
         'tumblr'        => OAuth1\Provider\Tumblr::class,
+        'atlassian'     => OAuth1\Provider\Atlassian::class,
         // OAuth2
         'facebook'      => OAuth2\Provider\Facebook::class,
         'google'        => OAuth2\Provider\Google::class,

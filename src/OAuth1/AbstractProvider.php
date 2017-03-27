@@ -141,6 +141,11 @@ abstract class AbstractProvider extends AbstractBaseProvider
             'Accept' => 'application/json'
         ];
 
+        if (isset($parameters['headers']) && is_Array($parameters['headers'])) {
+            $headers = array_merge($headers, $parameters['headers']);
+            unset ($parameters['headers']);
+        }
+
         if ($method == Client::POST) {
             $headers['Content-Type'] = 'application/x-www-form-urlencoded';
         }

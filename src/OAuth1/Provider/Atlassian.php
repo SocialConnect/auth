@@ -6,7 +6,6 @@
 
 namespace SocialConnect\OAuth1\Provider;
 
-
 use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Common\Http\Client\ClientInterface;
 use SocialConnect\OAuth1\Signature\MethodRSASHA1;

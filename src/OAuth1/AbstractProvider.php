@@ -143,7 +143,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
         if (isset($parameters['headers']) && is_Array($parameters['headers'])) {
             $headers = array_merge($headers, $parameters['headers']);
-            unset ($parameters['headers']);
+            unset($parameters['headers']);
         }
 
         if ($method == Client::POST) {

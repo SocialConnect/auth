@@ -6,7 +6,9 @@
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Provider\AccessTokenInterface;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;

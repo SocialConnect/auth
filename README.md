@@ -83,6 +83,11 @@ $ curl -sS https://getcomposer.org/installer | php
 
 3. Run `php composer.phar update`
 
+## Referenced projects
+
+- [OrgHeiglHybridAuth](https://github.com/heiglandreas/HybridAuth) from [@heiglandreas](https://github.com/heiglandreas) - Authentication-Layer for your ZendFramework3 App.
+- [Phalcon-module-skeleton](https://github.com/ovr/phalcon-module-skeleton) from [@ovr](https://github.com/ovr) - There is a module for Phalcon inside project.
+
 ## How to use
 
 Composer:

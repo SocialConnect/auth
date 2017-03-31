@@ -79,7 +79,5 @@ class MethodRSASHA1Test extends \Test\TestCase
         . 'e96e0VFjCqHHPFQKZxmgdahWQ+bQFHbMjsNf42uyZVj7ujX78wq8zkCMxaD4etOFOVE0z'
         . 'MKEf23JfcEQqky7NKVwUKp5yuJ5cRjA8IOyVVO9X7+m15q2nTAirR2XyZnoUlyZN5Aquq'
         . 'rFyOP8CROORrv45Uv4F9bBGOA==', $signature);
-
     }
-
 }

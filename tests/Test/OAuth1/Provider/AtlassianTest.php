@@ -72,6 +72,4 @@ class AtlassianTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals('http://example.com', 'baseUri', $provider);
         $this->assertAttributeInstanceOf(MethodRSASHA1::class, 'signature', $provider);
     }
-
-
 }

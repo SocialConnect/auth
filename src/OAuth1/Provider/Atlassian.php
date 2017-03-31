@@ -71,7 +71,7 @@ class Atlassian extends AbstractProvider
      *
      * @param \SocialConnect\Common\Http\Client\ClientInterface $httpClient
      * @param \SocialConnect\Provider\Session\SessionInterface  $session
-     * @param \SocialConnect\OAuth1\Provider\Consumer           $consumer
+     * @param \SocialConnect\Provider\Consumer           $consumer
      * @param array                                             $parameters
      */
     public function __construct(ClientInterface $httpClient, SessionInterface $session, Consumer $consumer, array $parameters)

@@ -6,8 +6,6 @@
 
 namespace Test\OAuth2\Provider;
 
-use SocialConnect\OAuth2\AccessToken;
-
 class FacebookTest extends AbstractProviderTestCase
 {
     /**
@@ -16,26 +14,5 @@ class FacebookTest extends AbstractProviderTestCase
     protected function getProviderClassName()
     {
         return \SocialConnect\OAuth2\Provider\Facebook::class;
-    }
-
-    public function testParseTokenSuccess()
-    {
-        $expectedToken = 'XXXXXXXX';
-        $expectedExpires = time() + 60 * 60;
-
-        $accessToken = $this->getProvider()->parseToken(
-            http_build_query(
-                [
-                    'access_token' => $expectedToken,
-                    'expires' => $expectedExpires
-                ],
-                null,
-                '&'
-            )
-        );
-
-        parent::assertInstanceOf(AccessToken::class, $accessToken);
-        parent::assertSame($expectedToken, $accessToken->getToken());
-        parent::assertEquals($expectedExpires, $accessToken->getExpires());
     }
 }

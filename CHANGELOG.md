@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 1.2.1
+
+- [OAuth2] Provider\Facebook - fixed BC changes
+
 # 1.2.0
 
 - [OAuth2] Implement Discord provider

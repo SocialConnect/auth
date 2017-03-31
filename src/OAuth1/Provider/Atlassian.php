@@ -84,15 +84,11 @@ class Atlassian extends AbstractProvider
             $this->baseUri = substr($this->baseUri, 0, $lastSlash);
         }
 
-        if (! isset($parameters['privateKey'])) {
-            throw new \UnexpectedValueException('There is no "privateKey" given in the configuration');
-        }
-
         parent::__construct($httpClient, $session, $consumer, $parameters);
 
         // needs to be set after calling the parent constructor as there the
         // signature is set as well.
-        $this->signature = new MethodRSASHA1($parameters['privateKey']);
+        $this->signature = new MethodRSASHA1($consumer->getSecret());
     }
 
     /**
@@ -150,17 +146,5 @@ class Atlassian extends AbstractProvider
         ]);
 
         return $hydrator->hydrate(new User(), $result);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function oauthRequest($uri, $method = Client::GET, $parameters = [])
-    {
-        error_log($uri);
-        error_log($method);
-        error_log(print_R($parameters, true));
-
-        return parent::oauthRequest($uri, $method, $parameters);
     }
 }

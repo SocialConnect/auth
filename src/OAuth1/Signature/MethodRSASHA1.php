@@ -13,11 +13,11 @@ use SocialConnect\OAuth1\Util;
 
 class MethodRSASHA1 extends AbstractSignatureMethod
 {
-    private $private_key;
+    private $privateKey;
 
-    public function __construct($private_key)
+    public function __construct($privateKey)
     {
-        if (! is_readable($private_key)) {
+        if (! is_readable($privateKey)) {
             throw new \InvalidArgumentException('The private key is not readable');
         }
 
@@ -25,7 +25,7 @@ class MethodRSASHA1 extends AbstractSignatureMethod
             throw new \InvalidArgumentException('The OpenSSL-Extension seems not to be available. That is necessary to handle RSA-SHA1');
         }
 
-        $this->private_key = $private_key;
+        $this->privateKey = $privateKey;
     }
 
     /**
@@ -50,7 +50,7 @@ class MethodRSASHA1 extends AbstractSignatureMethod
         $parts = Util::urlencodeRFC3986($parts);
         $key = implode('&', $parts);
 
-        $certificate = openssl_pkey_get_private('file://' . $this->private_key);
+        $certificate = openssl_pkey_get_private('file://' . $this->privateKey);
         $privateKeyId = openssl_get_privatekey($certificate);
         $signature = null;
         openssl_sign($signatureBase, $signature, $privateKeyId);

@@ -135,21 +135,16 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @param array $parameters
      * @return \SocialConnect\Common\Http\Response
      */
-    public function oauthRequest($uri, $method = Client::GET, $parameters = [])
+    public function oauthRequest($uri, $method = Client::GET, $parameters = [], $headers = [])
     {
-        $headers = [
+        $headers = array_merge([
             'Accept' => 'application/json'
-        ];
-
-        if (isset($parameters['headers']) && is_Array($parameters['headers'])) {
-            $headers = array_merge($headers, $parameters['headers']);
-            unset($parameters['headers']);
-        }
+        ], $headers);
 
         if ($method == Client::POST) {
             $headers['Content-Type'] = 'application/x-www-form-urlencoded';
         }
-        
+
         $parameters = array_merge(
             [
                 'oauth_version' => '1.0',

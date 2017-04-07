@@ -49,6 +49,7 @@ class CollectionFactory implements FactoryInterface
         'steam'         => OpenID\Provider\Steam::class,
         // OpenIDConnect - currently disabled before 1.1 release
         //'google'        => OpenIDConnect\Provider\Google::class,
+        //'pixelpin'      => OpenIDConnect\Provider\PixelPin::class,
     ];
 
     /**

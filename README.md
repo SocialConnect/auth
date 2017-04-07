@@ -60,6 +60,7 @@ If I didn't see your issue, PR please ping me direct by [Telegram](https://teleg
 #### OpenIDConnect
 
 * Google (you can use Google from `OAuth2` or `OpenIDConnect`)
+* PixelPin
 
 ## Installation
 

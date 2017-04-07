@@ -108,7 +108,7 @@ class PixelPin extends AbstractProvider
         }
 
         $Email = (isset($result->email) ? $result->email : false);
-        if ($Email === false){
+        if ($Email === false) {
             $email2          = 'Not Set';
         } else {
             $email2          = $result->email;

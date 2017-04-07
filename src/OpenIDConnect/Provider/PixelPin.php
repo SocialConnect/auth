@@ -94,111 +94,98 @@ class PixelPin extends AbstractProvider
         $sub2         = $result->sub;
 
         $firstName = (isset($result->given_name) ? $result->given_name : false);
-        if($firstName === false) {
+        if ($firstName === false) {
             $given_name2         = 'Not Set';
-        }
-        else {
+        } else {
             $given_name2          = $result->given_name;
         }
 
         $familyName = (isset($result->family_name) ? $result->family_name : false);
-        if($familyName === false) {
+        if ($familyName === false) {
             $family_name2          = 'Not Set';
-        }
-        else {
+        } else {
             $family_name2          = $result->family_name;
         }
 
         $Email = (isset($result->email) ? $result->email : false);
-        if($Email === false){
+        if ($Email === false){
             $email2          = 'Not Set';
-        }
-        else {
+        } else {
             $email2          = $result->email;
         }
 
         $display_name = (isset($result->displayName) ? $result->displayName : false);
-        if($display_name === false) {
+        if ($display_name === false) {
             $displayName2         = 'Not Set';
-        }
-        else {
+        } else {
             $displayName2         = $result->displayName;
         }
 
         $Gender = (isset($result->gender) ? $result->gender : false);
-        if($Gender === false) {
+        if ($Gender === false) {
             $gender2          = 'Not Set';
-        }
-        else {
+        } else {
             $gender2          = $result->gender;
         }
 
         $phone_number = (isset($result->phone_number) ? $result->phone_number : false);
-        if($phone_number === false) {
+        if ($phone_number === false) {
             $phoneNumber2          = 'Not Set';
-        }
-        else {
+        } else {
             $phoneNumber2          = $result->phone_number;
         }
 
         $birth_date = (isset($result->birthdate) ? $result->birthdate : false);
-        if($birth_date === false) {
+        if ($birth_date === false) {
             $birthdate2          = 'Not Set';
-        }
-        else {
+        } else {
             $birthdate2          = $result->birthdate;
         }
 
         $json_address = (isset($result->address) ? $result->address : false);
-        if($json_address === false) {
+        if ($json_address === false) {
             $streetAddress2 = 'Not Set';
             $townCity2      = 'Not Set';
             $region2        = 'Not Set';
             $postalCode2    = 'Not Set';
             $country2       = 'Not Set';
-        }
-        else {
+        } else {
             $jsonAddress          = $result->address;
 
             $decodeAddress = json_decode($jsonAddress);
 
             $street_address = (isset($decodeAddress->street_address) ? $decodeAddress->street_address : false);
-            if($street_address === false) {
+            if ($street_address === false) {
                 $streetAddress2          = 'Not Set';
-            }
-            else {
+            } else {
                 $streetAddress2          = $decodeAddress->street_address;
             }
 
             $town_city = (isset($decodeAddress->locality) ? $decodeAddress->locality : false);
-            if($town_city === false) {
+            if ($town_city === false) {
                 $townCity2          = 'Not Set';
-            }
-            else {
+            } else {
                 $townCity2          = $decodeAddress->locality;
             }
 
             $Region = (isset($decodeAddress->region) ? $decodeAddress->region : false);
-            if($Region === false) {
+            if ($Region === false) {
                 $region2          = 'Not Set';
-            }
-            else {
+            } else {
                 $region2          = $decodeAddress->region;
             }
 
             $postal_code = (isset($decodeAddress->postal_code) ? $decodeAddress->postal_code : false);
-            if($postal_code === false) {
+            if ($postal_code === false) {
                 $postalCode2          = 'Not Set';
-            }
-            else {
+            } else {
                 $postalCode2          = $decodeAddress->postal_code;
             }
 
             $Country = (isset($decodeAddress->country) ? $decodeAddress->country : false);
-            if($Country === false) {
+            if ($Country === false) {
                 $country2          = 'Not Set';
-            }
-            else {
+            } else {
                 $country2          = $decodeAddress->country;
             }
         }

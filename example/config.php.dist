@@ -4,123 +4,124 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-return array(
+return [
     'redirectUri' => 'http://localhost:8000/auth/cb',
-    'provider' => array(
-        'facebook' => array(
+    'provider' => [
+        'facebook' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => array('email')
-        ),
-        'twitter' => array(
+            'scope' => ['email']
+        ],
+        'twitter' => [
             'applicationId' => '',
             'applicationSecret' => '',
             'enabled' => false
-        ),
-        'google' => array(
+        ],
+        'google' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => array(
-                'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
-            )
-        ),
-        'paypal' => array(
+            'scope' => [
+                'https://www.googleapis.com/auth/userinfo.email',
+                'https://www.googleapis.com/auth/userinfo.profile'
+            ]
+        ],
+        'paypal' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => array(
+            'scope' => [
                 'profile',
                 'email',
                 'address',
                 'phone',
                 'https://uri.paypal.com/services/paypalattributes'
-            )
-        ),
-        'vk' => array(
+            ]
+        ],
+        'vk' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => array('email')
-        ),
-        'github' => array(
+            'scope' => ['email']
+        ],
+        'github' => [
             'applicationId' => '',
             'applicationSecret' => '',
-        ),
-        'instagram' => array(
+        ],
+        'instagram' => [
             'applicationId' => '',
             'applicationSecret' => '',
-        ),
-        'slack' => array(
+        ],
+        'slack' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => array(
+            'scope' => [
                 'identity.basic',
                 'identity.email',
                 'identity.team',
                 'identity.avatar',
-            )
-        ),
-        'twitch' => array(
+            ]
+        ],
+        'twitch' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => array('user_read')
-        ),
-        'px500' => array(
+            'scope' => ['user_read']
+        ],
+        'px500' => [
             'applicationId' => '',
             'applicationSecret' => ''
-        ),
-        'bitbucket' => array(
+        ],
+        'bitbucket' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => array('account')
-        ),
-        'amazon' => array(
+            'scope' => ['account']
+        ],
+        'amazon' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => array('profile')
-        ),
-        'gitlab' => array(
+            'scope' => ['profile']
+        ],
+        'gitlab' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => array('read_user')
-        ),
-        'vimeo' => array(
+            'scope' => ['read_user']
+        ],
+        'vimeo' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => array()
-        ),
-        'digital-ocean' => array(
+            'scope' => []
+        ],
+        'digital-ocean' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => array()
-        ),
-        'yandex' => array(
+            'scope' => []
+        ],
+        'yandex' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => array()
-        ),
+            'scope' => []
+        ],
         //http://api.mail.ru/sites/my/add
         'mail-ru' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => array()
+            'scope' => []
         ],
         //http://api.mail.ru/sites/my/add
         'odnoklassniki' => [
             'applicationId' => '',
             'applicationSecret' => '',
             'applicationPublic' => '',
-            'scope' => array(
+            'scope' => [
                 'GET_EMAIL'
-            )
+            ]
         ],
         'steam' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => array()
+            'scope' => []
         ],
         'tumblr' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => array()
+            'scope' => []
         ]
-    )
-);
+    ]
+];

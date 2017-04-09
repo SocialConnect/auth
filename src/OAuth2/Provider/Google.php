@@ -108,4 +108,12 @@ class Google extends AbstractProvider
 
         return $hydrator->hydrate(new User(), $result);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getScopeInline()
+    {
+        return implode(' ', $this->scope);
+    }
 }

@@ -131,13 +131,7 @@ $httpClient = new \SocialConnect\Common\Http\Client\Cache(
     )
 );
 
-$service = new \SocialConnect\Auth\Service(
-    $httpClient,
-    new \SocialConnect\Provider\Session\Session(),
-    $configureProviders
-);
-
-$configuration = [
+$configureProviders = [
         'redirectUri' => 'http://sconnect.local/auth/cb',
         'provider' => [
             'facebook' => [
@@ -149,6 +143,12 @@ $configuration = [
             ],
         ]
 ];
+
+$service = new \SocialConnect\Auth\Service(
+    $httpClient,
+    new \SocialConnect\Provider\Session\Session(),
+    $configureProviders
+);
 
 /**
  * By default collection factory is null, in this case Auth\Service will create 

@@ -9,7 +9,7 @@ php:
 
 install:
   - composer self-update
-  - composer --prefer-source install
+  - composer --prefer-dist install
 
 script:
   - ./vendor/bin/phpcs --standard=PSR2 --report=emacs --extensions=php --warning-severity=0 src/ tests/Test

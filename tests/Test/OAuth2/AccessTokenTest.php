@@ -31,6 +31,27 @@ class AccessTokenTest extends \Test\TestCase
         return $token;
     }
 
+    public function testConstructSuccessWithExpiresIn()
+    {
+        $expectedToken = "XSFJSKLFJDLKFJDLSJFLDSJFDSLFSD";
+        $expectedExpires = time();
+        $expectedUserId = 123456789;
+
+        $token = new AccessToken(
+            [
+                'access_token' => $expectedToken,
+                'expires_in' => $expectedExpires,
+                'user_id' => $expectedUserId
+            ]
+        );
+
+        $this->assertSame($expectedToken, $token->getToken());
+        $this->assertSame($expectedUserId, $token->getUserId());
+        $this->assertTrue($expectedExpires < $token->getExpires());
+
+        return $token;
+    }
+
     public function testSetUserId()
     {
         $expectedToken = "XSFJSKLFJDLKFJDLSJFLDSJFDSLFSD";

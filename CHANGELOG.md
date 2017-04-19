@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 1.2.2
+
+- [OAuth2] Provider\Google - fix scope delimiter - refs #42
+
 # 1.2.1
 
 - [OAuth2] Provider\Facebook - fixed BC changes

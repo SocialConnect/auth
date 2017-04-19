@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 1.3.0
+
+- [OpenIDConnect] Implement Provider\PixelPin
+
 # 1.2.2
 
 - [OAuth2] Provider\Google - fix scope delimiter - refs #42

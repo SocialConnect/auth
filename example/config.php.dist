@@ -122,6 +122,13 @@ return [
             'applicationId' => '',
             'applicationSecret' => '',
             'scope' => []
+        ],
+        'pixelpin' => [
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => [
+                'email'
+            ]
         ]
     ]
 ];

@@ -1,7 +1,7 @@
 <?php
 /**
  * SocialConnect project
- * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
+ * @author: Andreas Heigl https://github.com/heiglandreas <andreas@heigl.org>
  */
 
 namespace SocialConnect\OAuth1\Provider;
@@ -19,7 +19,11 @@ use SocialConnect\Provider\Session\SessionInterface;
 
 class Atlassian extends AbstractProvider
 {
+    /**
+     * @var string The Base-URI of the Atlassian instance
+     */
     private $baseUri;
+
     /**
      * {@inheritdoc}
      */
@@ -76,7 +80,7 @@ class Atlassian extends AbstractProvider
      */
     public function __construct(ClientInterface $httpClient, SessionInterface $session, Consumer $consumer, array $parameters)
     {
-        if (! isset($parameters['baseUri'])) {
+        if (!isset($parameters['baseUri'])) {
             throw new \InvalidArgumentException('There is no "baseUri" given in the configuration');
         }
         $this->baseUri = $parameters['baseUri'];
@@ -108,7 +112,14 @@ class Atlassian extends AbstractProvider
             Client::GET,
             $parameters
         );
+
+        $redirectMax = 30;
+        $redirectCount = 0;
         while ($response->hasHeader('Location')) {
+            if ($redirectMax < $redirectCount++) {
+                throw new \RangeException('Too many redirects');
+            }
+
             $response = $this->oauthRequest(
                 $response->getHeader('Location'),
                 Client::GET,
@@ -123,7 +134,6 @@ class Atlassian extends AbstractProvider
             );
         }
 
-        $headers = $response->getHeader('X-AUSERNAME');
         $result = $response->json();
         if (!$result) {
             throw new InvalidResponse(

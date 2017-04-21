@@ -1,7 +1,7 @@
 <?php
 /**
  * SocialConnect project
- * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
+ * @author: Andreas Heigl https://github.com/heiglandreas <andreas@heigl.org>
  */
 
 namespace SocialConnect\OAuth1\Signature;
@@ -13,15 +13,23 @@ use SocialConnect\OAuth1\Util;
 
 class MethodRSASHA1 extends AbstractSignatureMethod
 {
+    /**
+     * @var string Path to the private key used for signing
+     */
     private $privateKey;
 
+    /**
+     * MethodRSASHA1 constructor.
+     *
+     * @param string $privateKey The path to the private key used for signing
+     */
     public function __construct($privateKey)
     {
-        if (! is_readable($privateKey)) {
+        if (!is_readable($privateKey)) {
             throw new \InvalidArgumentException('The private key is not readable');
         }
 
-        if (! function_exists('openssl_pkey_get_private')) {
+        if (!function_exists('openssl_pkey_get_private')) {
             throw new \InvalidArgumentException('The OpenSSL-Extension seems not to be available. That is necessary to handle RSA-SHA1');
         }
 

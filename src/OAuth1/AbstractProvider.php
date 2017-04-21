@@ -49,7 +49,6 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     protected $signature;
 
-
     /**
      * @param ClientInterface $httpClient
      * @param Consumer $consumer

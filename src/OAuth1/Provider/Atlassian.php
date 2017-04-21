@@ -70,8 +70,9 @@ class Atlassian extends AbstractProvider
      *
      * Required configuration parameters are:
      *
-     * * base_uri The base URI of your self-hosted atlassian product
-     * * private_key The path to the private key file used for signing.
+     * * baseUri The base URI of your self-hosted atlassian product
+     * * applicationSecret The path to the private key file used for signing.
+     * * applicationId The ID shared with your Atlassian instance
      *
      * @param \SocialConnect\Common\Http\Client\ClientInterface $httpClient
      * @param \SocialConnect\Provider\Session\SessionInterface  $session

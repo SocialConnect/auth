@@ -38,6 +38,11 @@
             "SocialConnect\\": "src/"
         }
     },
+    "autoload-dev" : {
+        "psr-4" : {
+            "Test\\" : "tests/Test/"
+        }
+    },
     "replace": {
         "socialconnect/oauth1": "self.version",
         "socialconnect/oauth2": "self.version",

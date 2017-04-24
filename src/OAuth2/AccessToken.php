@@ -6,6 +6,7 @@
 
 namespace SocialConnect\OAuth2;
 
+use InvalidArgumentException;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 
@@ -40,13 +41,40 @@ class AccessToken implements AccessTokenInterface
 
         $this->token = $token['access_token'];
 
-        if (isset($token['expires'])) {
-            $this->expires = $token['expires'];
+        // Show preference to 'expires_in' since it is defined in RFC6749 Section 5.1.
+        // Defer to 'expires' if it is provided instead.
+        if (isset($token['expires_in'])) {
+            if (!is_numeric($token['expires_in'])) {
+                throw new \InvalidArgumentException('expires_in value must be an integer');
+            }
+            $this->expires = $token['expires_in'] != 0 ? time() + $token['expires_in'] : 0;
+        } elseif (!empty($token['expires'])) {
+            // Some providers supply the seconds until expiration rather than
+            // the exact timestamp. Take a best guess at which we received.
+            $expires = $token['expires'];
+            if (!$this->isExpirationTimestamp($expires)) {
+                $expires += time();
+            }
+            $this->expires = $expires;
         }
 
         if (isset($token['user_id'])) {
             $this->uid = $token['user_id'];
         }
+    }
+
+    /**
+     * Check if a value is an expiration timestamp or second value.
+     *
+     * @param integer $value
+     * @return bool
+     */
+    protected function isExpirationTimestamp($value)
+    {
+        // If the given value is larger than the original OAuth 2 draft date,
+        // assume that it is meant to be a (possible expired) timestamp.
+        $oauth2InceptionDate = 1349067600; // 2012-10-01
+        return ($value > $oauth2InceptionDate);
     }
 
     /**

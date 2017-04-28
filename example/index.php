@@ -84,6 +84,7 @@ $app->get('/auth/cb/{provider}/', function (\Slim\Http\Request $request) use (&$
     dump($accessToken);
 
     dump($accessToken->getUserId());
+    dump($accessToken->getExpires());
 
     $user = $provider->getIdentity($accessToken);
     dump($user);

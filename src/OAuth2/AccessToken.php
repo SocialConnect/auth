@@ -6,7 +6,6 @@
 
 namespace SocialConnect\OAuth2;
 
-use InvalidArgumentException;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 
@@ -45,8 +44,9 @@ class AccessToken implements AccessTokenInterface
         // Defer to 'expires' if it is provided instead.
         if (isset($token['expires_in'])) {
             if (!is_numeric($token['expires_in'])) {
-                throw new \InvalidArgumentException('expires_in value must be an integer');
+                throw new InvalidAccessToken('expires_in value must be an integer');
             }
+
             $this->expires = $token['expires_in'] != 0 ? time() + $token['expires_in'] : 0;
         } elseif (!empty($token['expires'])) {
             // Some providers supply the seconds until expiration rather than
@@ -55,6 +55,7 @@ class AccessToken implements AccessTokenInterface
             if (!$this->isExpirationTimestamp($expires)) {
                 $expires += time();
             }
+
             $this->expires = $expires;
         }
 

@@ -65,4 +65,13 @@ class AccessToken extends \SocialConnect\OAuth1\Token implements AccessTokenInte
         // It's a key, not a secret
         return $this->key;
     }
+
+    /**
+     * @return int|null
+     */
+    public function getExpires()
+    {
+        // @todo support
+        return null;
+    }
 }

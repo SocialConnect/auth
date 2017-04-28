@@ -16,4 +16,9 @@ interface AccessTokenInterface
      * @return integer|null
      */
     public function getUserId();
+
+    /**
+     * @return integer|null
+     */
+    public function getExpires();
 }

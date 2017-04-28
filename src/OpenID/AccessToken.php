@@ -47,4 +47,12 @@ class AccessToken implements AccessTokenInterface
     {
         return $this->uid;
     }
+
+    /**
+     * @return int|null
+     */
+    public function getExpires()
+    {
+        return null;
+    }
 }

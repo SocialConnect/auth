@@ -2,7 +2,12 @@
 
 # 1.3.0
 
-- [OpenIDConnect] Implement Provider\PixelPin
+- [OpenIDConnect] Implement `Provider\PixelPin`
+- [OAuth1] `Provider\Atlassian`
+- [OAuth1] Support `Signature\MethodRSASHA1`
+- [OAuth1] Feature/allow authenticated calls
+- [OAuth2] `AccessToken` - support expires field
+- [Provider] `AccessTokenInterface` - added `getExpires()` method
 
 # 1.2.2
 

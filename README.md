@@ -103,7 +103,7 @@ First you need to setup `SocialConnect\Auth\Service`:
 $httpClient = new \SocialConnect\Common\Http\Client\Curl();
 
 /**
- * By default We are using Curl class from SocialConnect/Common
+ * By default we are using Curl class from SocialConnect/Common
  * but you can use Guzzle wrapper ^5.3|^6.0
  */
 //$httpClient = new \SocialConnect\Common\Http\Client\Guzzle(
@@ -111,11 +111,11 @@ $httpClient = new \SocialConnect\Common\Http\Client\Curl();
 //);
 
 /**
- * Why We need Cache decorator for HTTP Client?
+ * Why do we need cache decorator for HTTP Client?
  * Providers like OpenID & OpenIDConnect require US
  * to request OpenID specification (and JWK(s) for OpenIDConnect)
  *
- * It's not a best practise to request it every time, because it's unneeded round trip to the server
+ * It's not a best practice to request it every time, because it's unneeded round trip to the server
  * if you are using OpenID or OpenIDConnect we suggest you to use cache
  *
  * If you don`t use providers like (Steam) from OpenID or OpenIDConnect

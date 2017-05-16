@@ -129,6 +129,25 @@ return [
             'scope' => [
                 'email'
             ]
+        ],
+        // https://discordapp.com/developers/applications/me
+        'discord' => [
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => [
+                'identify',
+                'email'
+            ]
+        ],
+        // https://apps.dev.microsoft.com/portal/register-app
+        'microsoft' => [
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => [
+                'wl.basic',
+                'wl.birthday',
+                'wl.emails'
+            ]
         ]
     ]
 ];

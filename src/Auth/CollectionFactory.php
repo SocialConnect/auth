@@ -44,6 +44,7 @@ class CollectionFactory implements FactoryInterface
         'digital-ocean' => OAuth2\Provider\DigitalOcean::class,
         'yandex'        => OAuth2\Provider\Yandex::class,
         'mail-ru'       => OAuth2\Provider\MailRu::class,
+        'microsoft'     => OAuth2\Provider\Microsoft::class,
         'odnoklassniki' => OAuth2\Provider\Odnoklassniki::class,
         'discord'       => OAuth2\Provider\Discord::class,
         // OpenID

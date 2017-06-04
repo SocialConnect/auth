@@ -35,6 +35,7 @@ class CollectionFactory implements FactoryInterface
         'github'        => OAuth2\Provider\GitHub::class,
         'instagram'     => OAuth2\Provider\Instagram::class,
         'vk'            => OAuth2\Provider\Vk::class,
+        'smashcast'     => OAuth2\Provider\SmashCast::class,
         'slack'         => OAuth2\Provider\Slack::class,
         'twitch'        => OAuth2\Provider\Twitch::class,
         'bitbucket'     => OAuth2\Provider\Bitbucket::class,

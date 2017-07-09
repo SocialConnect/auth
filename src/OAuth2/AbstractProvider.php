@@ -180,6 +180,10 @@ abstract class AbstractProvider extends AbstractBaseProvider
             throw new InvalidState();
         }
 
+        if (!isset($parameters['code'])) {
+            throw new Unauthorized('Unknown code');
+        }
+
         return $this->getAccessToken($parameters['code']);
     }
 }

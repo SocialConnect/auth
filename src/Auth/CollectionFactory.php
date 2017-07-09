@@ -37,6 +37,7 @@ class CollectionFactory implements FactoryInterface
         'vk'            => OAuth2\Provider\Vk::class,
         'smashcast'     => OAuth2\Provider\SmashCast::class,
         'slack'         => OAuth2\Provider\Slack::class,
+        'steein'        => OAuth2\Provider\Steein::class,
         'twitch'        => OAuth2\Provider\Twitch::class,
         'bitbucket'     => OAuth2\Provider\Bitbucket::class,
         'amazon'        => OAuth2\Provider\Amazon::class,

@@ -256,6 +256,17 @@ abstract class AbstractProviderTestCase extends TestCase
      */
     public function testAccessDenied()
     {
-        $this->getProvider()->getAccessTokenByRequestParameters(['error' => 'access_denied']);
+        $sessionMock = $this->getMockBuilder(\SocialConnect\Provider\Session\Session::class)
+            ->disableOriginalConstructor()
+            ->disableProxyingToOriginalMethods()
+            ->getMock();
+
+        $sessionMock->expects($this->once())
+            ->method('get')
+            ->willReturn(md5(time()));
+
+        $provider = $this->getProvider(null, $sessionMock);
+
+        $provider->getAccessTokenByRequestParameters(['error' => 'access_denied']);
     }
 }

@@ -8,6 +8,7 @@ namespace SocialConnect\OAuth2;
 
 use InvalidArgumentException;
 use SocialConnect\OAuth2\Exception\InvalidState;
+use SocialConnect\OAuth2\Exception\Unauthorized;
 use SocialConnect\OAuth2\Exception\UnknownAuthorization;
 use SocialConnect\OAuth2\Exception\UnknownState;
 use SocialConnect\Provider\AbstractBaseProvider;
@@ -165,6 +166,10 @@ abstract class AbstractProvider extends AbstractBaseProvider
         $state = $this->session->get('oauth2_state');
         if (!$state) {
             throw new UnknownAuthorization();
+        }
+
+        if (isset($parameters['error']) && $parameters['error'] === 'access_denied') {
+            throw new Unauthorized();
         }
 
         if (!isset($parameters['state'])) {

@@ -250,4 +250,12 @@ abstract class AbstractProviderTestCase extends TestCase
         parent::assertSame($expectedToken, $accessToken->getToken());
         parent::assertSame($expectedUserId, $accessToken->getUserId());
     }
+
+    /**
+     * @expectedException \SocialConnect\OAuth2\Exception\Unauthorized
+     */
+    public function testAccessDenied()
+    {
+        $this->getProvider()->getAccessTokenByRequestParameters(['error' => 'access_denied']);
+    }
 }

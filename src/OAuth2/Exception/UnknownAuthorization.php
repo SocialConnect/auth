@@ -6,7 +6,7 @@
 
 namespace SocialConnect\OAuth2\Exception;
 
-class UnknownAuthorization extends \SocialConnect\Common\Exception
+class UnknownAuthorization extends \SocialConnect\Provider\Exception\AuthFailed
 {
     public function __construct($message = 'Unknown authorization')
     {

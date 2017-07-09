@@ -7,6 +7,7 @@
 namespace SocialConnect\OAuth2\Provider;
 
 use SocialConnect\OAuth2\AccessToken;
+use SocialConnect\OAuth2\Exception\Unauthorized;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
@@ -109,5 +110,17 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
         $user->emailVerified = true;
 
         return $user;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAccessTokenByRequestParameters(array $parameters)
+    {
+        if (isset($parameters['error']) && $parameters['error'] === 'access_denied') {
+            throw new Unauthorized();
+        }
+
+        return parent::getAccessTokenByRequestParameters();
     }
 }

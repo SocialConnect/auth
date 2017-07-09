@@ -148,6 +148,19 @@ return [
                 'wl.birthday',
                 'wl.emails'
             ]
+        ],
+        'smashcast' => [
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => []
+        ],
+        'steein' => [
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => [
+                'users',
+                'email'
+            ]
         ]
     ]
 ];

@@ -58,6 +58,7 @@ If I didn't see your issue, PR please ping me direct by [Telegram](https://teleg
 * Odnoklassniki
 * Discord
 * SmashCast
+* Steein
 
 #### OpenIDConnect
 
@@ -79,7 +80,7 @@ $ curl -sS https://getcomposer.org/installer | php
 ``` json
 {
   "require": {
-    "socialconnect/auth": "^1.4.0"
+    "socialconnect/auth": "^1.5.0"
   }
 }
 ```

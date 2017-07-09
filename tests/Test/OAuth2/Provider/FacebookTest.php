@@ -15,4 +15,12 @@ class FacebookTest extends AbstractProviderTestCase
     {
         return \SocialConnect\OAuth2\Provider\Facebook::class;
     }
+
+    /**
+     * @expectedException \SocialConnect\OAuth2\Exception\Unauthorized
+     */
+    public function testAccessDenied()
+    {
+        $this->getProvider()->getAccessTokenByRequestParameters(['error' => 'access_denied']);
+    }
 }

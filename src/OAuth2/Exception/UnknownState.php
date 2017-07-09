@@ -6,7 +6,7 @@
 
 namespace SocialConnect\OAuth2\Exception;
 
-class UnknownState extends \SocialConnect\Common\Exception
+class UnknownState extends \SocialConnect\Provider\Exception\AuthFailed
 {
     public function __construct($message = 'Unknown state')
     {

@@ -143,6 +143,9 @@ $configureProviders = [
                 'applicationSecret' => '',
                 'scope' => [
                     'email'
+                ],
+                'fields' => [
+                    'email'
                 ]
             ],
         ]

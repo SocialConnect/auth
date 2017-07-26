@@ -10,7 +10,8 @@ return [
         'facebook' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => ['email']
+            'scope' => ['email'],
+            'fields' => ['email']
         ],
         'twitter' => [
             'applicationId' => '',

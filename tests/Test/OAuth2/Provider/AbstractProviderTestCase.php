@@ -269,4 +269,12 @@ abstract class AbstractProviderTestCase extends TestCase
 
         $provider->getAccessTokenByRequestParameters(['error' => 'access_denied']);
     }
+
+    public function testGenerateState()
+    {
+        $state = $this->callProtectedMethod($this->getProvider(), 'generateState', []);
+
+        parent::assertInternalType('string', $state);
+        parent::assertEquals(32, mb_strlen($state));
+    }
 }

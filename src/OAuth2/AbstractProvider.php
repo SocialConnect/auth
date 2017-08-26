@@ -59,34 +59,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     protected function generateState()
     {
-        if (function_exists('random_bytes')) {
-            return bin2hex(random_bytes(self::STATE_BYTES));
-        }
-
-        if (function_exists('openssl_random_pseudo_bytes')) {
-            $bytes = openssl_random_pseudo_bytes(self::STATE_BYTES, $strongSource);
-            if (!$strongSource) {
-                trigger_error(
-                    'openssl was unable to use a strong source of entropy. ' .
-                    'Consider updating your system libraries, or ensuring ' .
-                    'you have more available entropy.',
-                    E_USER_WARNING
-                );
-            }
-
-            return bin2hex($bytes);
-        }
-
-        trigger_error(
-            'You do not have a safe source of random data available. ' .
-            'Install either the openssl extension, or paragonie/random_compat. ' .
-            'Falling back to an insecure random source.',
-            E_USER_WARNING
-        );
-
-        return md5(
-            time() . mt_rand()
-        );
+        return bin2hex(random_bytes(self::STATE_BYTES));
     }
 
     /**

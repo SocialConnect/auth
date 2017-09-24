@@ -162,6 +162,14 @@ return [
                 'users',
                 'email'
             ]
+        ],
+        // https://www.reddit.com/prefs/apps/
+        'reddit' => [
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => [
+                'identity'
+            ]
         ]
     ]
 ];

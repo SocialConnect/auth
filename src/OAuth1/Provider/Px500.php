@@ -85,14 +85,14 @@ class Px500 extends AbstractProvider
         if (!$result) {
             throw new InvalidResponse(
                 'API response is not a valid JSON object',
-                $response->getBody()
+                $response
             );
         }
 
         if (!isset($result->user) || !$result->user) {
             throw new InvalidResponse(
                 'API response without user inside JSON',
-                $response->getBody()
+                $response
             );
         }
 

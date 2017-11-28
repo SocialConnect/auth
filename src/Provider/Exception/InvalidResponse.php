@@ -11,13 +11,13 @@ use SocialConnect\Common\Http\Response;
 class InvalidResponse extends \SocialConnect\Common\Exception
 {
     /**
-     * @var \SocialConnect\Common\Http\Response|null
+     * @var Response|null
      */
     protected $response;
 
     /**
      * @param string $message
-     * @param \SocialConnect\Common\Http\Response|null $response
+     * @param Response|null $response
      */
     public function __construct($message = 'API bad response', Response $response = null)
     {
@@ -29,7 +29,7 @@ class InvalidResponse extends \SocialConnect\Common\Exception
     /**
      * Get response data.
      *
-     * @return \SocialConnect\Common\Http\Response|null
+     * @return Response|null
      */
     public function getResponse()
     {

@@ -71,7 +71,7 @@ class Twitter extends \SocialConnect\OAuth1\AbstractProvider
         if (!$result) {
             throw new InvalidResponse(
                 'API response is not a valid JSON object',
-                $response->getBody()
+                $response
             );
         }
 

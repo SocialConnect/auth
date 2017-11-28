@@ -235,7 +235,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
         throw new InvalidResponse(
             'Unexpected response code',
-            $response->getBody()
+            $response
         );
     }
 

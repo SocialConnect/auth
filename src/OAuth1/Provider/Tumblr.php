@@ -85,14 +85,14 @@ class Tumblr extends AbstractProvider
         if (!$result) {
             throw new InvalidResponse(
                 'API response is not a valid JSON object',
-                $response->getBody()
+                $response
             );
         }
 
         if (!isset($result->response, $result->response->user) || !$result->response->user) {
             throw new InvalidResponse(
                 'API response without user inside JSON',
-                $response->getBody()
+                $response
             );
         }
 

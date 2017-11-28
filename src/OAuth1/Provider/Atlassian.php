@@ -139,14 +139,14 @@ class Atlassian extends AbstractProvider
         if (!$result) {
             throw new InvalidResponse(
                 'API response is not a valid JSON object',
-                $response->getBody()
+                $response
             );
         }
 
         if (!isset($result->name) || !$result->name) {
             throw new InvalidResponse(
                 'API response without user inside JSON',
-                $response->getBody()
+                $response
             );
         }
 

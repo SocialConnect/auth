@@ -56,7 +56,7 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
         if (!$result) {
             throw new InvalidResponse(
                 'API response is not a valid JSON object',
-                $response->getBody()
+                $response
             );
         }
 

@@ -89,7 +89,8 @@ $ curl -sS https://getcomposer.org/installer | php
 
 ## Referenced projects
 
-- [OrgHeiglHybridAuth](https://github.com/heiglandreas/HybridAuth) from [@heiglandreas](https://github.com/heiglandreas) - Authentication-Layer for your ZendFramework3 App.
+- [OrgHeiglHybridAuth](https://github.com/heiglandreas/HybridAuth) from [@heiglandreas](https://github.com/heiglandreas) - Authentication-layer for your ZendFramework3 App.
+- [cakephp-social-auth](https://github.com/ADmad/cakephp-social-auth) from [@ADmad](https://github.com/ADmad) - CakePHP plugin. 
 - [Phalcon-module-skeleton](https://github.com/ovr/phalcon-module-skeleton) from [@ovr](https://github.com/ovr) - There is a module for Phalcon inside project.
 
 ## How to use

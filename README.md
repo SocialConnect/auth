@@ -1,8 +1,8 @@
 SocialConnect Auth
 ==================
 
-[![Packagist](https://img.shields.io/packagist/v/socialconnect/auth.svg?style=flat-square)](https://packagist.org/packages/socialconnect/auth)
-[![License](http://img.shields.io/packagist/l/SocialConnect/auth.svg?style=flat-square)](https://github.com/SocialConnect/auth/blob/master/LICENSE)
+[![Packagist](https://img.shields.io/packagist/v/socialconnect/auth.svg?style=flat-square)](https://github.com/socialConnect/auth)
+[![License](http://img.shields.io/packagist/l/SocialConnect/auth.svg?style=flat-square)](https://packagist.org/packages/socialconnect/auth)
 [![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/socialconnect/auth/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/SocialConnect/auth/?branch=master)
 [![Build Status](http://img.shields.io/travis/SocialConnect/auth.svg?style=flat-square)](https://travis-ci.org/SocialConnect/auth)
 [![Dependency Status](https://www.versioneye.com/user/projects/54d7935c2bc7901e48000014/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54d7935c2bc7901e48000014)
@@ -89,8 +89,7 @@ $ curl -sS https://getcomposer.org/installer | php
 
 ## Referenced projects
 
-- [OrgHeiglHybridAuth](https://github.com/heiglandreas/HybridAuth) from [@heiglandreas](https://github.com/heiglandreas) - Authentication-layer for your ZendFramework3 App.
-- [cakephp-social-auth](https://github.com/ADmad/cakephp-social-auth) from [@ADmad](https://github.com/ADmad) - CakePHP plugin. 
+- [OrgHeiglHybridAuth](https://github.com/heiglandreas/HybridAuth) from [@heiglandreas](https://github.com/heiglandreas) - Authentication-Layer for your ZendFramework3 App.
 - [Phalcon-module-skeleton](https://github.com/ovr/phalcon-module-skeleton) from [@ovr](https://github.com/ovr) - There is a module for Phalcon inside project.
 
 ## How to use

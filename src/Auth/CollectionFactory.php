@@ -50,6 +50,7 @@ class CollectionFactory implements FactoryInterface
         'odnoklassniki' => OAuth2\Provider\Odnoklassniki::class,
         'discord'       => OAuth2\Provider\Discord::class,
         'reddit'        => OAuth2\Provider\Reddit::class,
+        'linkedin'      => OAuth2\Provider\LinkedIn::class,
         // OpenID
         'steam'         => OpenID\Provider\Steam::class,
         // OpenIDConnect - currently disabled before 1.1 release

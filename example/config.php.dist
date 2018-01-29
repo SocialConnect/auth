@@ -170,6 +170,11 @@ return [
             'scope' => [
                 'identity'
             ]
-        ]
+        ],
+
+        'linkedin'  => [
+            'applicationId'     => '',
+            'applicationSecret' => '',
+        ],
     ]
 ];

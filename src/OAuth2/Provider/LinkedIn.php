@@ -72,7 +72,7 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
             [
                 'format' => 'json'
             ],
-            'GET',
+            Client::GET,
             [
                 'Authorization' => 'Bearer ' . $accessToken->getToken(),
             ]

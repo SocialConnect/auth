@@ -105,7 +105,9 @@ class Yahoo extends \SocialConnect\OAuth2\AbstractProvider
 
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'user/' . $uid . '/profile',
-            ['format' => 'json'],
+            [
+                'format' => 'json',
+            ],
             Client::GET,
             [
                 'Authorization' => 'Bearer ' . $accessToken->getToken(),

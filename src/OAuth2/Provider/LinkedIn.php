@@ -1,11 +1,13 @@
 <?php
 /**
  * SocialConnect project
+ *
  * @author: Bogdan Popa https://github.com/icex <bogdan@pixelwattstudio.com>
  */
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;

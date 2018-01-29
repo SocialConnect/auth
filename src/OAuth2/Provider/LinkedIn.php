@@ -1,11 +1,13 @@
 <?php
 /**
  * SocialConnect project
+ *
  * @author: Bogdan Popa https://github.com/icex <bogdan@pixelwattstudio.com>
  */
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
@@ -68,7 +70,8 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
         $response = $this->httpClient->request(
             $this->getBaseUri() .
             'people/~:(id,first-name,last-name,email-address,picture-url,location:(name))?format=json',
-            [], 'GET',
+            [],
+            Client::GET,
             [
                 'Authorization' => 'Bearer ' . $accessToken->getToken(),
             ]

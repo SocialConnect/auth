@@ -51,6 +51,7 @@ class CollectionFactory implements FactoryInterface
         'discord'       => OAuth2\Provider\Discord::class,
         'reddit'        => OAuth2\Provider\Reddit::class,
         'linkedin'      => OAuth2\Provider\LinkedIn::class,
+        'yahoo'         => OAuth2\Provider\Yahoo::class,
         // OpenID
         'steam'         => OpenID\Provider\Steam::class,
         // OpenIDConnect - currently disabled before 1.1 release

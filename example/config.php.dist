@@ -170,6 +170,11 @@ return [
             'scope' => [
                 'identity'
             ]
-        ]
+        ],
+        // https://www.linkedin.com/developer/apps
+        'linkedin'  => [
+            'applicationId'     => '',
+            'applicationSecret' => '',
+        ],
     ]
 ];

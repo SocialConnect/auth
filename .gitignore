@@ -3,3 +3,4 @@
 composer.lock
 example/config.php
 build
+.DS_Store

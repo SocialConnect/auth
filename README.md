@@ -59,6 +59,7 @@ If I didn't see your issue, PR please ping me direct by [Telegram](https://teleg
 * Discord
 * SmashCast
 * Steein
+* LinkedIn
 
 #### OpenIDConnect
 

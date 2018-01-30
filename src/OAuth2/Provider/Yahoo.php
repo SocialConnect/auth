@@ -56,46 +56,13 @@ class Yahoo extends \SocialConnect\OAuth2\AbstractProvider
     {
         $result = json_decode($body, true);
         if ($result) {
-            return new AccessToken($result);
+            $token = new AccessToken($result);
+            $token->setUid($result['xoauth_yahoo_guid']);
+
+            return $token;
         }
 
         throw new InvalidAccessToken('AccessToken is not a valid JSON');
-    }
-
-    /**
-     * Retreive userId
-     * @throws InvalidResponse
-     */
-    private function getCurrentUserId(AccessTokenInterface $accessToken)
-    {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'me/guid',
-            [
-                'format' => 'json'
-            ],
-            Client::GET,
-            [
-                'Authorization' => 'Bearer ' . $accessToken->getToken(),
-            ]
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API (get guid) response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
-
-        return $result->guid->value;
     }
 
     /**
@@ -103,10 +70,8 @@ class Yahoo extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $uid = $this->getCurrentUserId($accessToken);
-
         $response = $this->httpClient->request(
-            $this->getBaseUri() . 'user/' . $uid . '/profile',
+            $this->getBaseUri() . "user/{$accessToken->getUserId()}/profile",
             [
                 'format' => 'json',
             ],

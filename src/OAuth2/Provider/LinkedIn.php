@@ -70,7 +70,7 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'people/~:(id,first-name,last-name,email-address,picture-url,location:(name))',
             [
-                'format' => 'json'
+                'format' => 'json',
             ],
             Client::GET,
             [

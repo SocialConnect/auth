@@ -176,5 +176,10 @@ return [
             'applicationId'     => '',
             'applicationSecret' => '',
         ],
+        // https://developer.yahoo.com/apps/create/
+        'yahoo'  => [
+            'applicationId'     => '',
+            'applicationSecret' => '',
+        ],
     ]
 ];

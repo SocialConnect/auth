@@ -64,19 +64,21 @@ class Yahoo extends \SocialConnect\OAuth2\AbstractProvider
 
     /**
      * Retreive userId
+     * @throws InvalidResponse
      */
     private function getCurrentUserId(AccessTokenInterface $accessToken)
     {
-        $parameters = [];
-        $parameters['format'] = 'json';
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'me/guid',
-            $parameters,
+            [
+                'format' => 'json'
+            ],
             Client::GET,
             [
                 'Authorization' => 'Bearer ' . $accessToken->getToken(),
             ]
         );
+
         if (!$response->isSuccess()) {
             throw new InvalidResponse(
                 'API (get guid) response with error code',
@@ -134,18 +136,19 @@ class Yahoo extends \SocialConnect\OAuth2\AbstractProvider
         if (isset($result->image)) {
             $result->image = $result->image->imageUrl;
         }
-        if ($result->emails) {
+
+        if (isset($result->emails)) {
             // first one should do it, should be the default one
             $result->email = reset($result->emails);
             $result->email = $result->email->handle;
         }
 
-        if ($result->ims) {
+        if (isset($result->ims)) {
             $result->username = reset($result->ims);
             $result->username = $result->username->handle;
         }
 
-        if ($result->birthdate) {
+        if (isset($result->birthdate)) {
             $result->birth_date = date('Y-m-d', strtotime($result->birthdate . '/' . $result->birthYear));
         }
 

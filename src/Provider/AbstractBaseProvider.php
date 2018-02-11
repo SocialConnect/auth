@@ -42,6 +42,11 @@ abstract class AbstractBaseProvider
     protected $session;
 
     /**
+     * @var array
+     */
+    protected $options = [];
+
+    /**
      * @param ClientInterface $httpClient
      * @param SessionInterface $session
      * @param array $parameters
@@ -63,6 +68,24 @@ abstract class AbstractBaseProvider
         if (isset($parameters['redirectUri'])) {
             $this->redirectUri = $parameters['redirectUri'];
         }
+
+        if (isset($parameters['options'])) {
+            $this->options = $parameters['options'];
+        }
+    }
+
+    /**
+     * @param string $key
+     * @param bool $default
+     * @return bool
+     */
+    public function getBoolOption($key, $default)
+    {
+        if (array_key_exists($key, $this->options)) {
+            return (bool) $this->options[$key];
+        }
+
+        return $default;
     }
 
     /**

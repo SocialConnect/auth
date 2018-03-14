@@ -52,6 +52,7 @@ class CollectionFactory implements FactoryInterface
         'reddit'        => OAuth2\Provider\Reddit::class,
         'linkedin'      => OAuth2\Provider\LinkedIn::class,
         'yahoo'         => OAuth2\Provider\Yahoo::class,
+        'wordpress'     => OAuth2\Provider\WordPress::class,
         // OpenID
         'steam'         => OpenID\Provider\Steam::class,
         // OpenIDConnect - currently disabled before 1.1 release

@@ -88,6 +88,9 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
+        $result->picture_object = $result->picture;
+        $result->picture =  $result->picture->data->url;
+
         $hydrator = new ObjectMap(
             [
                 'id' => 'id',

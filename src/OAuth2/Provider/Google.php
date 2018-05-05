@@ -103,6 +103,7 @@ class Google extends AbstractProvider
                 'verified_email' => 'emailVerified',
                 'name' => 'fullname',
                 'gender' => 'sex',
+                'picture' => 'pictureURL'
             ]
         );
 

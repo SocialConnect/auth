@@ -103,6 +103,7 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
                 'bdate' => 'birthday',
                 'nickname' => 'username',
                 'sex' => 'sex',
+                'photo_max_orig' => 'pictureURL',
             ]
         );
 

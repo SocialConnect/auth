@@ -88,9 +88,6 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
-        $result->picture_object = $result->picture;
-        $result->picture =  $result->picture->data->url;
-
         $hydrator = new ObjectMap(
             [
                 'id' => 'id',
@@ -110,6 +107,10 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
         /** @var User $user */
         $user = $hydrator->hydrate(new User(), $result);
         $user->emailVerified = true;
+
+        if ($result->picture) {
+            $user->pictureURL = $result->picture->data->url;
+        }
 
         return $user;
     }

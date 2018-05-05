@@ -79,7 +79,8 @@ class Twitter extends \SocialConnect\OAuth1\AbstractProvider
             [
                 'id' => 'id',
                 'name' => 'fullname',
-                'screen_name' => 'username'
+                'screen_name' => 'username',
+                'profile_image_url_https' => 'pictureURL'
             ]
         );
 

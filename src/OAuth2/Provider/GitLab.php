@@ -103,6 +103,7 @@ class GitLab extends \SocialConnect\OAuth2\AbstractProvider
             [
                 'user_id' => 'id',
                 'name' => 'fullname',
+                'avatar_url' => 'pictureURL'
             ]
         );
 

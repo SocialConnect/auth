@@ -126,7 +126,8 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
                 'uid' => 'id',
                 'first_name' => 'firstname',
                 'last_name' => 'lastname',
-                'nick' => 'username'
+                'nick' => 'username',
+                'pic_big' => 'pictureURL'
             ]
         );
 

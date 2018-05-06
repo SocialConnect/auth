@@ -93,7 +93,7 @@ class Instagram extends \SocialConnect\OAuth2\AbstractProvider
                 'username' => 'username',
                 'bio' => 'bio',
                 'website' => 'website',
-                'profile_picture' => 'profile_picture',
+                'profile_picture' => 'pictureURL',
                 'full_name' => 'fullname'
             ]
         );

@@ -20,7 +20,7 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getBaseUri()
     {
-        return 'http://www.appsmail.ru/platform/api';
+        return 'https://appsmail.ru/platform/api';
     }
 
     /**

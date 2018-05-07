@@ -44,12 +44,12 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
     protected function parseUserIdFromIdentity($identity)
     {
         preg_match(
-            '/^http:\/\/steamcommunity\.com\/openid\/id\/(7[0-9]{15,25}+)$/',
+            '/7[0-9]{15,25}/',
             $identity,
             $matches
         );
 
-        return $matches[1];
+        return $matches[0];
     }
 
 

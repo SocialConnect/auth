@@ -18,7 +18,7 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
      */
     public function getOpenIdUrl()
     {
-        return 'http://steamcommunity.com/openid/id';
+        return 'https://steamcommunity.com/openid/id';
     }
 
     /**
@@ -26,7 +26,7 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
      */
     public function getBaseUri()
     {
-        return 'http://api.steampowered.com/';
+        return 'https://api.steampowered.com/';
     }
 
     /**

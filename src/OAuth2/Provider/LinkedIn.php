@@ -96,13 +96,19 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
         $hydrator = new ObjectMap(
             [
                 'id'           => 'id',
-                'pictureUrl'   => 'picture',
                 'emailAddress' => 'email',
                 'firstName'    => 'firstname',
                 'lastName'     => 'lastname',
+                'pictureUrl'   => 'pictureURL',
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result);
+        /** @var User $user */
+        $user = $hydrator->hydrate(new User(), $result);
+
+        // @todo Remove in 2.0, didnt remove because it's was a bug and I am not interested to break semver!
+        $user->picture = $user->pictureURL;
+
+        return $user;
     }
 }

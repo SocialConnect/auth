@@ -129,7 +129,8 @@ class Odnoklassniki extends \SocialConnect\OAuth2\AbstractProvider
                 'uid' => 'id',
                 'first_name' => 'firstname',
                 'last_name' => 'lastname',
-                'name' => 'fullname'
+                'name' => 'fullname',
+                'pic_3' => 'pictureURL'
             ]
         );
 

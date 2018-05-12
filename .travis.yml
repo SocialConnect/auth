@@ -5,8 +5,6 @@ sudo: false
 language: php
 
 php:
-  - 5.5
-  - 5.6
   - 7.0
   - 7.1
   - 7.2
@@ -18,12 +16,12 @@ install:
 
 script:
   - ./vendor/bin/phpcs --standard=PSR2 --report=emacs --extensions=php --warning-severity=0 src/ tests/Test
-  - 'if [ {$TRAVIS_PHP_VERSION} = "5.6" ]; then
+  - 'if [ {$TRAVIS_PHP_VERSION} = "7.2" ]; then
       ./vendor/bin/phpunit --process-isolation -v --debug --coverage-clover=coverage.clover;
     else
       ./vendor/bin/phpunit -v --debug --coverage-clover=coverage.clover;
     fi'
 
 after_script:
-  - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-  - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+  - if [ "$TRAVIS_PHP_VERSION" == "7.2" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [ "$TRAVIS_PHP_VERSION" == "7.2" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi

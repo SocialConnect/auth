@@ -3,7 +3,7 @@
     "description": "Implementation of OAuth 2 client specification",
     "type": "library",
     "require": {
-        "php": ">=5.5",
+        "php": ">=7.0",
         "socialconnect/provider": "^1.5.0",
         "paragonie/random_compat": "^2.0"
     },

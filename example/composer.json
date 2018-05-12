@@ -2,10 +2,11 @@
     "name": "socialconnect/auth-example",
     "type": "project",
     "require": {
-        "slim/slim": "~3.7.0",
-        "symfony/var-dumper": "~3.2.2",
-        "guzzlehttp/guzzle": "~6.2.2",
-        "doctrine/cache": "~1.6.1"
+        "php": ">=7.0",
+        "slim/slim": "^3.10.0",
+        "symfony/var-dumper": "^4.0.9",
+        "guzzlehttp/guzzle": "^6.3.3",
+        "doctrine/cache": "^1.7.1"
     },
     "license": "MIT",
     "authors": [

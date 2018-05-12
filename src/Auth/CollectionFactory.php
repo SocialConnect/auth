@@ -7,7 +7,6 @@
 namespace SocialConnect\Auth;
 
 use LogicException;
-use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\Consumer;
 use SocialConnect\OAuth1;
 use SocialConnect\OAuth2;
@@ -120,10 +119,11 @@ class CollectionFactory implements FactoryInterface
     /**
      * Register new provider to Provider's collection
      *
-     * @param AbstractBaseProvider $provider
+     * @param $providerName
+     * @param $providerClass
      */
-    public function register(AbstractBaseProvider $provider)
+    public function register($providerName, $providerClass)
     {
-        $this->providers[$provider->getName()] = get_class($provider);
+        $this->providers[$providerName] = $providerClass;
     }
 }

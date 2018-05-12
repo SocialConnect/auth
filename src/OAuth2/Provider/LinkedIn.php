@@ -103,12 +103,6 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
             ]
         );
 
-        /** @var User $user */
-        $user = $hydrator->hydrate(new User(), $result);
-
-        // @todo Remove in 2.0, didnt remove because it's was a bug and I am not interested to break semver!
-        $user->picture = $user->pictureURL;
-
-        return $user;
+        return $hydrator->hydrate(new User(), $result);
     }
 }

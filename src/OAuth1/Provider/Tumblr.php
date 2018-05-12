@@ -15,6 +15,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Tumblr extends AbstractProvider
 {
+    const NAME = 'tumblr';
+
     /**
      * {@inheritdoc}
      */
@@ -53,7 +55,7 @@ class Tumblr extends AbstractProvider
      */
     public function getName()
     {
-        return 'tumblr';
+        return self::NAME;
     }
 
     /**

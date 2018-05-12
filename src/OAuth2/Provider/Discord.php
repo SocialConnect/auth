@@ -16,6 +16,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Discord extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'discord';
+
     /**
      * {@inheritdoc}
      */
@@ -45,7 +47,7 @@ class Discord extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'discord';
+        return self::NAME;
     }
 
     /**

@@ -15,6 +15,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Px500 extends AbstractProvider
 {
+    const NAME = 'px500';
+
     /**
      * {@inheritdoc}
      */
@@ -53,7 +55,7 @@ class Px500 extends AbstractProvider
      */
     public function getName()
     {
-        return 'px500';
+        return self::NAME;
     }
 
     /**

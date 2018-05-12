@@ -15,6 +15,8 @@ use SocialConnect\OAuth2\AccessToken;
 
 class Instagram extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'instagram';
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +46,7 @@ class Instagram extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'instagram';
+        return self::NAME;
     }
 
     /**

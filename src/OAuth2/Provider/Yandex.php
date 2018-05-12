@@ -15,6 +15,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Yandex extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'yandex';
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +46,7 @@ class Yandex extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'yandex';
+        return self::NAME;
     }
 
     /**

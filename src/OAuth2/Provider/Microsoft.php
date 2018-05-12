@@ -15,6 +15,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Microsoft extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'microsoft';
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +46,7 @@ class Microsoft extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'microsoft';
+        return self::NAME;
     }
 
     /**

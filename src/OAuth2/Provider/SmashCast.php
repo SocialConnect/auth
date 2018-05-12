@@ -19,6 +19,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'smashcast';
+
     /**
      * {@inheritdoc}
      */
@@ -48,7 +50,7 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'smashcast';
+        return self::NAME;
     }
 
     /**

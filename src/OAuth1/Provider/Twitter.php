@@ -14,6 +14,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Twitter extends \SocialConnect\OAuth1\AbstractProvider
 {
+    const NAME = 'twitter';
+
     public function getBaseUri()
     {
         return 'https://api.twitter.com/1.1/';
@@ -36,7 +38,7 @@ class Twitter extends \SocialConnect\OAuth1\AbstractProvider
 
     public function getName()
     {
-        return 'twitter';
+        return self::NAME;
     }
 
     /**

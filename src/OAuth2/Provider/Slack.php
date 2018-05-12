@@ -15,6 +15,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Slack extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'slack';
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +46,7 @@ class Slack extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'slack';
+        return self::NAME;
     }
 
     /**

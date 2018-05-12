@@ -15,6 +15,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class GitLab extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'gitlab';
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +46,7 @@ class GitLab extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'gitlab';
+        return self::NAME;
     }
 
     /**

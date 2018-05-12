@@ -13,6 +13,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class GitHub extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'github';
+
     /**
      * @var array
      */
@@ -44,7 +46,7 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
 
     public function getName()
     {
-        return 'github';
+        return self::NAME;
     }
 
     /**

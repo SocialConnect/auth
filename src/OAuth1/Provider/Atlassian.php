@@ -19,6 +19,8 @@ use SocialConnect\Provider\Session\SessionInterface;
 
 class Atlassian extends AbstractProvider
 {
+    const NAME = 'atlassian';
+
     /**
      * @var string The Base-URI of the Atlassian instance
      */
@@ -62,7 +64,7 @@ class Atlassian extends AbstractProvider
      */
     public function getName()
     {
-        return 'atlassian';
+        return self::NAME;
     }
 
     /**

@@ -15,6 +15,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class WordPress extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'wordpress';
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +46,7 @@ class WordPress extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'wordpress';
+        return self::NAME;
     }
 
     public function parseToken($body)

@@ -6,6 +6,7 @@
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
@@ -69,8 +70,10 @@ class WordPress extends \SocialConnect\OAuth2\AbstractProvider
     {
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'me/',
+            [],
+            Client::GET,
             [
-                'access_token' => $accessToken->getToken()
+                'Authorization' => "Bearer {$accessToken->getToken()}"
             ]
         );
 
@@ -91,8 +94,8 @@ class WordPress extends \SocialConnect\OAuth2\AbstractProvider
 
         $hydrator = new ObjectMap(
             [
-                'uuid' => 'id',
-                'display_name' => 'fullname',
+                'ID' => 'id',
+                'avatar_URL' => 'pictureURL',
             ]
         );
 

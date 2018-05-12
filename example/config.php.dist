@@ -192,5 +192,10 @@ return [
             'applicationId'     => '',
             'applicationSecret' => '',
         ],
+        // https://developer.wordpress.com/apps/
+        'wordpress'  => [
+            'applicationId'     => '',
+            'applicationSecret' => '',
+        ],
     ]
 ];

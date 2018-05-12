@@ -83,6 +83,9 @@ class JWTTest extends \Test\TestCase
             $token,
             'validateClaims'
         );
+
+        // to skip warning
+        parent::assertTrue(true);
     }
 
     public function testValidateClaimsNbfFail()
@@ -96,7 +99,7 @@ class JWTTest extends \Test\TestCase
             $this->getTestHeader()
         );
 
-        parent::setExpectedException(
+        parent::expectException(
             \SocialConnect\OpenIDConnect\Exception\InvalidJWT::class,
             sprintf(
                 'nbf (Not Fefore) claim is not valid %s',
@@ -129,6 +132,9 @@ class JWTTest extends \Test\TestCase
         );
 
         JWT::$screw = 0;
+
+        // to skip warning
+        parent::assertTrue(true);
     }
 
     public function testValidateClaimsExpFail()
@@ -142,7 +148,7 @@ class JWTTest extends \Test\TestCase
             $this->getTestHeader()
         );
 
-        parent::setExpectedException(
+        parent::expectException(
             \SocialConnect\OpenIDConnect\Exception\InvalidJWT::class,
             sprintf(
                 'exp (Expiration Time) claim is not valid %s',
@@ -167,6 +173,9 @@ class JWTTest extends \Test\TestCase
             $token,
             'validateHeader'
         );
+
+        // to skip warning
+        parent::assertTrue(true);
     }
 
     public function testValidateHeaderNoAlg()
@@ -178,7 +187,7 @@ class JWTTest extends \Test\TestCase
             ]
         );
 
-        parent::setExpectedException(
+        parent::expectException(
             InvalidJWT::class,
             'No alg inside header'
         );
@@ -198,7 +207,7 @@ class JWTTest extends \Test\TestCase
             ]
         );
 
-        parent::setExpectedException(
+        parent::expectException(
             InvalidJWT::class,
             'No kid inside header'
         );
@@ -211,7 +220,7 @@ class JWTTest extends \Test\TestCase
 
     public function testDecodeWrongNumberOfSegments()
     {
-        parent::setExpectedException(
+        parent::expectException(
             InvalidJWT::class,
             'Wrong number of segments'
         );

@@ -8,12 +8,11 @@ namespace Test\OAuth1\Provider;
 
 use SocialConnect\Common\Http\Client\ClientInterface;
 use SocialConnect\OAuth1\Provider\Atlassian;
-use SocialConnect\OAuth1\Signature\AbstractSignatureMethod;
 use SocialConnect\OAuth1\Signature\MethodRSASHA1;
 use SocialConnect\Provider\Consumer;
 use SocialConnect\Provider\Session\SessionInterface;
 
-class AtlassianTest extends \PHPUnit_Framework_TestCase
+class AtlassianTest extends \PHPUnit\Framework\TestCase
 {
     /** @expectedException \InvalidArgumentException */
     public function testConstructorThrowsExceptionOnMissingBaseUri()

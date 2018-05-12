@@ -15,6 +15,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class MailRu extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'mail-ru';
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +46,7 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'mail-ru';
+        return self::NAME;
     }
 
     /**

@@ -15,6 +15,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Twitch extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'twitch';
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +46,7 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'twitch';
+        return self::NAME;
     }
 
     /**

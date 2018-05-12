@@ -17,6 +17,8 @@ use SocialConnect\OAuth2\AccessToken;
 
 class Yahoo extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'yahoo';
+
     /**
      * {@inheritdoc}
      */
@@ -46,7 +48,7 @@ class Yahoo extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'yahoo';
+        return self::NAME;
     }
 
     /**

@@ -17,6 +17,8 @@ use SocialConnect\OAuth2\AccessToken;
 
 class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'linkedin';
+
     /**
      * {@inheritdoc}
      */
@@ -46,7 +48,7 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'linkedin';
+        return self::NAME;
     }
 
     /**

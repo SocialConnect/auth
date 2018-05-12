@@ -16,6 +16,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'digital-ocean';
+
     /**
      * {@inheritdoc}
      */
@@ -45,7 +47,7 @@ class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'digital-ocean';
+        return self::NAME;
     }
 
     /**

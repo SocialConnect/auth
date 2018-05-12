@@ -16,6 +16,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Facebook extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'facebook';
+
     /**
      * By default AbstractProvider use POST method, FB does not accept POST and return HTML page ᕙ(⇀‸↼‶)ᕗ
      *
@@ -40,7 +42,7 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
 
     public function getName()
     {
-        return 'facebook';
+        return self::NAME;
     }
 
     /**

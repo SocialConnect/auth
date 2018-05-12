@@ -16,6 +16,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Vk extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'vk';
+
     /**
      * {@inheritdoc}
      */
@@ -45,7 +47,7 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
 
     public function getName()
     {
-        return 'vk';
+        return self::NAME;
     }
 
     /**

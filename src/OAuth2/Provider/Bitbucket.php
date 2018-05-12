@@ -15,6 +15,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'bitbucket';
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +46,7 @@ class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'bitbucket';
+        return self::NAME;
     }
 
     public function parseToken($body)

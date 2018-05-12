@@ -16,6 +16,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Steein extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'steein';
+
     /**
      * {@inheritdoc}
      */
@@ -45,7 +47,7 @@ class Steein extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'steein';
+        return self::NAME;
     }
 
     /**

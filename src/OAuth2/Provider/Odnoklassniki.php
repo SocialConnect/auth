@@ -18,6 +18,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
  */
 class Odnoklassniki extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'odnoklassniki';
+
     /**
      * {@inheritdoc}
      */
@@ -47,7 +49,7 @@ class Odnoklassniki extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'odnoklassniki';
+        return self::NAME;
     }
 
     /**

@@ -20,6 +20,8 @@ use SocialConnect\Common\Http\Client\Client;
  */
 class PixelPin extends AbstractProvider
 {
+    const NAME = 'pixelpin';
+
     /**
      * {@inheritdoc}
      */
@@ -57,7 +59,7 @@ class PixelPin extends AbstractProvider
      */
     public function getName()
     {
-        return 'pixelpin';
+        return self::NAME;
     }
 
     /**

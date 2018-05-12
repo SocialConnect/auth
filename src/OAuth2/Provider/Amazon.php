@@ -15,6 +15,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Amazon extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'amazon';
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +46,7 @@ class Amazon extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'amazon';
+        return self::NAME;
     }
 
     /**

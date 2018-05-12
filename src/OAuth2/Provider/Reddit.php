@@ -16,6 +16,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Reddit extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'reddit';
+
     public function getBaseUri()
     {
         return 'https://oauth.reddit.com/api/v1/';
@@ -33,7 +35,7 @@ class Reddit extends \SocialConnect\OAuth2\AbstractProvider
 
     public function getName()
     {
-        return 'reddit';
+        return self::NAME;
     }
 
     /**

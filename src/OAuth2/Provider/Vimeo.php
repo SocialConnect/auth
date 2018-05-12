@@ -14,6 +14,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Vimeo extends \SocialConnect\OAuth2\AbstractProvider
 {
+    const NAME = 'vimeo';
+
     /**
      * @var User|null
      */
@@ -48,7 +50,7 @@ class Vimeo extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getName()
     {
-        return 'vimeo';
+        return self::NAME;
     }
 
     /**

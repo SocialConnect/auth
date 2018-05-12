@@ -13,6 +13,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Steam extends \SocialConnect\OpenID\AbstractProvider
 {
+    const NAME = 'steam';
+
     /**
      * {@inheritdoc}
      */
@@ -34,7 +36,7 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
      */
     public function getName()
     {
-        return 'steam';
+        return self::NAME;
     }
 
     /**

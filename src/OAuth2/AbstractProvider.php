@@ -3,6 +3,7 @@
  * SocialConnect project
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
+declare(strict_types=1);
 
 namespace SocialConnect\OAuth2;
 
@@ -36,17 +37,18 @@ abstract class AbstractProvider extends AbstractBaseProvider
     abstract public function getRequestTokenUri();
 
     /**
-     * Default parameters for auth url, can be redeclared inside implementation of the Provider
-     *
-     * @return array
+     * {@inheritdoc}
      */
-    public function getAuthUrlParameters()
+    public function getAuthUrlParameters(): array
     {
-        return [
-            'client_id' => $this->consumer->getKey(),
-            'redirect_uri' => $this->getRedirectUrl(),
-            'response_type' => 'code',
-        ];
+        $parameters = parent::getAuthUrlParameters();
+
+        // special parameters only required for OAuth2
+        $parameters['client_id'] = $this->consumer->getKey();
+        $parameters['redirect_uri'] = $this->getRedirectUrl();
+        $parameters['response_type'] = 'code';
+
+        return $parameters;
     }
 
     /**
@@ -63,9 +65,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
-    public function makeAuthUrl()
+    public function makeAuthUrl(): string
     {
         $urlParameters = $this->getAuthUrlParameters();
 

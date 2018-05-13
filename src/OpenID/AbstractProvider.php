@@ -3,6 +3,7 @@
  * SocialConnect project
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
+declare(strict_types=1);
 
 namespace SocialConnect\OpenID;
 
@@ -90,7 +91,10 @@ abstract class AbstractProvider extends AbstractBaseProvider
         return $this->getOpenIdUrl();
     }
 
-    public function makeAuthUrl()
+    /**
+     * {@inheritdoc}
+     */
+    public function makeAuthUrl(): string
     {
         $this->discover($this->getOpenIdUrl());
 

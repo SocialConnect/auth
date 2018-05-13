@@ -3,6 +3,7 @@
  * SocialConnect project
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
+declare(strict_types=1);
 
 namespace SocialConnect\OpenIDConnect;
 
@@ -86,19 +87,20 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
     abstract public function getOpenIdUrl();
 
     /**
-     * Default parameters for auth url, can be redeclared inside implementation of the Provider
-     *
-     * @return array
+     * {@inheritdoc}
      */
-    public function getAuthUrlParameters()
+    public function getAuthUrlParameters(): array
     {
-        return [
-            'client_id' => $this->consumer->getKey(),
-            'redirect_uri' => $this->getRedirectUrl(),
-            'response_type' => 'code',
-            //'response_mode' => 'form_post',
-            'scope' => 'openid'
-        ];
+        $parameters = parent::getAuthUrlParameters();
+
+        // special parameters only required for OpenIDConnect
+        $parameters['client_id'] = $this->consumer->getKey();
+        $parameters['redirect_uri'] = $this->getRedirectUrl();
+        $parameters['response_type'] = 'code';
+        $parameters['response_mode'] = 'form_post';
+        $parameters['scope'] = 'openid';
+
+        return $parameters;
     }
 
     /**

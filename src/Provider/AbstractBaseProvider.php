@@ -104,19 +104,11 @@ abstract class AbstractBaseProvider
     }
 
     /**
-     * @return mixed
-     */
-    protected function getRedirectUri()
-    {
-        return $this->redirectUri;
-    }
-
-    /**
      * @return string
      */
     public function getRedirectUrl(): string
     {
-        return str_replace('${provider}', $this->getName(), $this->getRedirectUri());
+        return str_replace('${provider}', $this->getName(), $this->redirectUri);
     }
 
     /**

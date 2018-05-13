@@ -23,11 +23,6 @@ abstract class AbstractBaseProvider
     protected $scope = [];
 
     /**
-     * @var array
-     */
-    protected $fields = [];
-
-    /**
      * @var ClientInterface
      */
     protected $httpClient;
@@ -60,10 +55,6 @@ abstract class AbstractBaseProvider
 
         if (isset($parameters['scope'])) {
             $this->setScope($parameters['scope']);
-        }
-
-        if (isset($parameters['fields'])) {
-            $this->setFields($parameters['fields']);
         }
 
         if (isset($parameters['redirectUri'])) {
@@ -176,30 +167,6 @@ abstract class AbstractBaseProvider
     public function getScopeInline()
     {
         return implode(',', $this->scope);
-    }
-
-    /**
-     * @return array
-     */
-    public function getFields()
-    {
-        return $this->fields;
-    }
-
-    /**
-     * @param array $fields
-     */
-    public function setFields(array $fields)
-    {
-        $this->fields = $fields;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFieldsInline()
-    {
-        return implode(',', $this->fields);
     }
 
     /**

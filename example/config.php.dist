@@ -11,7 +11,12 @@ return [
             'applicationId' => '',
             'applicationSecret' => '',
             'scope' => ['email'],
-            'fields' => ['email']
+            'options' => [
+                'identity.fields' => [
+                    'email',
+                    'picture.width(99999)'
+                ],
+            ]
         ],
         'twitter' => [
             'applicationId' => '',

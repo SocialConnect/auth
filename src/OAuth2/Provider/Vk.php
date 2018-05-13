@@ -72,13 +72,19 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
+        $parameters = [
+            'v' => '5.24',
+            'access_token' => $accessToken->getToken(),
+        ];
+
+        $fields = $this->getArrayOption('identity.fields', []);
+        if ($fields) {
+            $parameters['fields'] = implode(',', $fields);
+        }
+
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'method/users.get',
-            [
-                'v' => '5.24',
-                'access_token' => $accessToken->getToken(),
-                'fields' => $this->getFieldsInline()
-            ]
+            $parameters
         );
 
         if (!$response->isSuccess()) {

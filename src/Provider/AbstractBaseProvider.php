@@ -3,6 +3,7 @@
  * SocialConnect project
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
+declare(strict_types=1);
 
 namespace SocialConnect\Provider;
 
@@ -79,10 +80,24 @@ abstract class AbstractBaseProvider
      * @param bool $default
      * @return bool
      */
-    public function getBoolOption($key, $default)
+    public function getBoolOption($key, $default): bool
     {
         if (array_key_exists($key, $this->options)) {
             return (bool) $this->options[$key];
+        }
+
+        return $default;
+    }
+
+    /**
+     * @param string $key
+     * @param array $default
+     * @return array
+     */
+    public function getArrayOption($key, array $default = []): array
+    {
+        if (array_key_exists($key, $this->options)) {
+            return (array) $this->options[$key];
         }
 
         return $default;
@@ -99,9 +114,19 @@ abstract class AbstractBaseProvider
     /**
      * @return string
      */
-    public function getRedirectUrl()
+    public function getRedirectUrl(): string
     {
         return str_replace('${provider}', $this->getName(), $this->getRedirectUri());
+    }
+
+    /**
+     * Default parameters for auth url, can be redeclared inside implementation of the Provider
+     *
+     * @return array
+     */
+    public function getAuthUrlParameters(): array
+    {
+        return $this->getArrayOption('auth.parameters', []);
     }
 
     /**
@@ -125,7 +150,7 @@ abstract class AbstractBaseProvider
     /**
      * @return string
      */
-    abstract public function makeAuthUrl();
+    abstract public function makeAuthUrl(): string;
 
     /**
      * Get current user identity from social network by $accessToken

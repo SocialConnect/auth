@@ -2,6 +2,7 @@
 /**
  * @author Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
+declare(strict_types=1);
 
 namespace Test\Provider;
 
@@ -40,9 +41,10 @@ class ProviderMock extends AbstractBaseProvider
     /**
      * @return string
      */
-    public function makeAuthUrl()
+    public function makeAuthUrl(): string
     {
         // TODO: Implement makeAuthUrl() method.
+        return '';
     }
 
     /**

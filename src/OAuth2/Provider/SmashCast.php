@@ -3,6 +3,7 @@
  * SocialConnect project
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
+declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
@@ -56,13 +57,16 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function getAuthUrlParameters()
+    public function getAuthUrlParameters(): array
     {
-        return [
-            'app_token' => $this->consumer->getKey(),
-            'redirect_uri' => $this->getRedirectUrl(),
-            'response_type' => 'code',
-        ];
+        $parameters = $this->getArrayOption('auth.parameters', []);
+
+        // Because SmashCast developers dont know about OAuth spec...
+        $parameters['app_token'] = $this->consumer->getKey();
+        $parameters['redirect_uri'] = $this->getRedirectUrl();
+        $parameters['response_type'] = 'code';
+
+        return $parameters;
     }
 
     /**

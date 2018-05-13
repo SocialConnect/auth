@@ -50,7 +50,14 @@ return [
         'vk' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => ['email']
+            'scope' => ['email'],
+            'options' => [
+                'identity.fields' => array(
+                    'sex',
+                    'screen_name',
+                    'photo_max_orig',
+                )
+            ]
         ],
         'github' => [
             'applicationId' => '',

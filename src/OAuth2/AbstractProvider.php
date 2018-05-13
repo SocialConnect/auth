@@ -80,10 +80,6 @@ abstract class AbstractProvider extends AbstractBaseProvider
             $urlParameters['scope'] = $this->getScopeInline();
         }
 
-        if (count($this->fields) > 0) {
-            $urlParameters['fields'] = $this->getFieldsInline();
-        }
-
         return $this->getAuthorizeUri() . '?' . http_build_query($urlParameters);
     }
 

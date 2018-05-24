@@ -97,7 +97,8 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
         $parameters['client_id'] = $this->consumer->getKey();
         $parameters['redirect_uri'] = $this->getRedirectUrl();
         $parameters['response_type'] = 'code';
-        $parameters['response_mode'] = 'form_post';
+        // Optional field...
+        //$parameters['response_mode'] = 'form_post';
         $parameters['scope'] = 'openid';
 
         return $parameters;

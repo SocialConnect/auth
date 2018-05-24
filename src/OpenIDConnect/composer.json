@@ -4,8 +4,8 @@
     "type": "library",
     "require": {
         "php": ">=7.0",
-        "socialconnect/provider": "^1.4.0",
-        "socialconnect/oauth2": "^1.4.0"
+        "socialconnect/provider": "^2.0.0",
+        "socialconnect/oauth2": "^2.0.0"
     },
     "license": "MIT",
     "authors": [

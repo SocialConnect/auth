@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "php": ">=7.0",
-        "socialconnect/provider": "^1.5.0",
+        "socialconnect/provider": "^2.0.0",
         "paragonie/random_compat": "^2.0"
     },
     "license": "MIT",

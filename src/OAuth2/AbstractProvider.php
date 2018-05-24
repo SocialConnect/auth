@@ -71,10 +71,12 @@ abstract class AbstractProvider extends AbstractBaseProvider
     {
         $urlParameters = $this->getAuthUrlParameters();
 
-        $this->session->set(
-            'oauth2_state',
-            $urlParameters['state'] = $this->generateState()
-        );
+        if (!$this->getBoolOption('stateless', false)) {
+            $this->session->set(
+                'oauth2_state',
+                $urlParameters['state'] = $this->generateState()
+            );
+        }
 
         if (count($this->scope) > 0) {
             $urlParameters['scope'] = $this->getScopeInline();
@@ -164,9 +166,11 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     public function getAccessTokenByRequestParameters(array $parameters)
     {
-        $state = $this->session->get('oauth2_state');
-        if (!$state) {
-            throw new UnknownAuthorization();
+        if (!$this->getBoolOption('stateless', false)) {
+            $state = $this->session->get('oauth2_state');
+            if (!$state) {
+                throw new UnknownAuthorization();
+            }
         }
 
         if (isset($parameters['error']) && $parameters['error'] === 'access_denied') {

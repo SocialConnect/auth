@@ -52,18 +52,18 @@ return [
             'applicationSecret' => '',
             'scope' => ['email'],
             'options' => [
-                'identity.fields' => array(
+                'identity.fields' => [
                     'sex',
                     'screen_name',
                     'photo_max_orig',
-                )
+                ]
             ]
         ],
         'github' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'scope' => array('user', 'email'),
-            'options' => array(
+            'scope' => ['user', 'email'],
+            'options' => [
                 /**
                  * GitHub store only unverified and public email inside User
                  * It's not possible to fetch user with email in one query with GraphQL (new API)
@@ -72,7 +72,7 @@ return [
                  * It's disabled by default in SocialConnect 1.x, but you can enable it from configuration :)
                  */
                 'fetch_emails' => true
-            )
+            ]
         ],
         'instagram' => [
             'applicationId' => '',

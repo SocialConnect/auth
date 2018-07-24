@@ -52,6 +52,7 @@ class CollectionFactory implements FactoryInterface
         OAuth2\Provider\LinkedIn::NAME      => OAuth2\Provider\LinkedIn::class,
         OAuth2\Provider\Yahoo::NAME         => OAuth2\Provider\Yahoo::class,
         OAuth2\Provider\WordPress::NAME     => OAuth2\Provider\WordPress::class,
+        OAuth2\Provider\Meetup::NAME        => OAuth2\Provider\Meetup::class,
         // OpenID
         OpenID\Provider\Steam::NAME         => OpenID\Provider\Steam::class,
         // OpenIDConnect

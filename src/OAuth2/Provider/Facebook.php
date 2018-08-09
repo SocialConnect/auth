@@ -116,7 +116,7 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
         $user = $hydrator->hydrate(new User(), $result);
         $user->emailVerified = true;
 
-        if ($result->picture) {
+        if (!empty($result->picture)) {
             $user->pictureURL = $result->picture->data->url;
         }
 

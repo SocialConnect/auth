@@ -9,7 +9,9 @@ class Session implements SessionInterface
 {
     public function __construct()
     {
-        if (session_status() == PHP_SESSION_NONE) {
+        if (session_status() === PHP_SESSION_NONE &&
+            !(PHP_SAPI === 'cli' || PHP_SAPI === 'phpdbg')
+        ) {
             session_start();
         }
     }

@@ -5,6 +5,7 @@
  */
 
 namespace SocialConnect\OAuth2\Exception;
+
 /**
  * Class UnknownAuthorization
  */

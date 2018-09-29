@@ -47,7 +47,7 @@ class AccessToken extends \SocialConnect\OAuth1\Token implements AccessTokenInte
     /**
      * @param int $userId
      */
-    public function setUserId(int $userId)
+    public function setUserId($userId)
     {
         $this->userId = $userId;
     }
@@ -55,7 +55,7 @@ class AccessToken extends \SocialConnect\OAuth1\Token implements AccessTokenInte
     /**
      * @param string $screenName
      */
-    public function setScreenName(string $screenName)
+    public function setScreenName($screenName)
     {
         $this->screenName = $screenName;
     }

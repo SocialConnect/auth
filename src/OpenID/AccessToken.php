@@ -8,6 +8,9 @@ namespace SocialConnect\OpenID;
 
 use SocialConnect\Provider\AccessTokenInterface;
 
+/**
+ * Class AccessToken
+ */
 class AccessToken implements AccessTokenInterface
 {
     /**
@@ -23,7 +26,7 @@ class AccessToken implements AccessTokenInterface
     protected $uid;
 
     /**
-     * @param string $identity
+     * @param string   $identity
      * @param int|null $uid
      */
     public function __construct($identity, $uid = null)

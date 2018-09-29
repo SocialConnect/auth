@@ -17,6 +17,9 @@ use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 use SocialConnect\Provider\Session\SessionInterface;
 
+/**
+ * Class Atlassian
+ */
 class Atlassian extends AbstractProvider
 {
     const NAME = 'atlassian';
@@ -78,7 +81,7 @@ class Atlassian extends AbstractProvider
      *
      * @param \SocialConnect\Common\Http\Client\ClientInterface $httpClient
      * @param \SocialConnect\Provider\Session\SessionInterface  $session
-     * @param \SocialConnect\Provider\Consumer           $consumer
+     * @param \SocialConnect\Provider\Consumer                  $consumer
      * @param array                                             $parameters
      */
     public function __construct(ClientInterface $httpClient, SessionInterface $session, Consumer $consumer, array $parameters)

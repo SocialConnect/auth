@@ -14,6 +14,9 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class WordPress
+ */
 class WordPress extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'wordpress';
@@ -50,6 +53,13 @@ class WordPress extends \SocialConnect\OAuth2\AbstractProvider
         return self::NAME;
     }
 
+    /**
+     * @param bool|string $body
+     *
+     * @return AccessToken
+     *
+     * @throws InvalidAccessToken
+     */
     public function parseToken($body)
     {
         if (empty($body)) {
@@ -75,7 +85,7 @@ class WordPress extends \SocialConnect\OAuth2\AbstractProvider
             [],
             Client::GET,
             [
-                'Authorization' => "Bearer {$accessToken->getToken()}"
+                'Authorization' => "Bearer {$accessToken->getToken()}",
             ]
         );
 

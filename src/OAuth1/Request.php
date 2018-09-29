@@ -9,6 +9,9 @@ namespace SocialConnect\OAuth1;
 use SocialConnect\Provider\Consumer;
 use SocialConnect\OAuth1\Signature\AbstractSignatureMethod;
 
+/**
+ * Class Request
+ */
 class Request extends \SocialConnect\Common\Http\Request
 {
     /**
@@ -19,7 +22,7 @@ class Request extends \SocialConnect\Common\Http\Request
         $parts = [
             $this->method,
             $this->uri,
-            $this->getSignableParameters()
+            $this->getSignableParameters(),
         ];
 
         $parts = Util::urlencodeRFC3986($parts);
@@ -39,8 +42,8 @@ class Request extends \SocialConnect\Common\Http\Request
 
     /**
      * @param AbstractSignatureMethod $signatureMethod
-     * @param Consumer $consumer
-     * @param Token $token
+     * @param Consumer                $consumer
+     * @param Token                   $token
      */
     public function signRequest(AbstractSignatureMethod $signatureMethod, Consumer $consumer, Token $token)
     {
@@ -54,6 +57,9 @@ class Request extends \SocialConnect\Common\Http\Request
         $this->headers['Authorization'] = $this->authorizationHeader();
     }
 
+    /**
+     * @return string
+     */
     public function authorizationHeader()
     {
         $parameters = http_build_query(

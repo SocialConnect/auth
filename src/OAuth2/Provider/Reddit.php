@@ -14,56 +14,50 @@ use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class Reddit
+ */
 class Reddit extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'reddit';
 
+    /**
+     * @return string
+     */
     public function getBaseUri()
     {
         return 'https://oauth.reddit.com/api/v1/';
     }
 
+    /**
+     * @return string
+     */
     public function getAuthorizeUri()
     {
         return 'https://ssl.reddit.com/api/v1/authorize';
     }
 
+    /**
+     * @return string
+     */
     public function getRequestTokenUri()
     {
         return 'https://ssl.reddit.com/api/v1/access_token';
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return self::NAME;
     }
 
     /**
-     * @param string $code
-     * @return \SocialConnect\Common\Http\Request
-     */
-    protected function makeAccessTokenRequest($code)
-    {
-        $parameters = [
-            'code' => $code,
-            'grant_type' => 'authorization_code',
-            'redirect_uri' => $this->getRedirectUrl()
-        ];
-
-        return new \SocialConnect\Common\Http\Request(
-            $this->getRequestTokenUri(),
-            $parameters,
-            $this->requestHttpMethod,
-            [
-                'Content-Type' => 'application/x-www-form-urlencoded',
-                'Authorization' => 'Basic ' . base64_encode($this->consumer->getKey() . ':' . $this->consumer->getSecret())
-            ]
-        );
-    }
-
-    /**
-     * @param $body
+     * @param mixed $body
+     *
      * @return AccessToken
+     *
      * @throws InvalidAccessToken
      */
     public function parseToken($body)
@@ -86,7 +80,7 @@ class Reddit extends \SocialConnect\OAuth2\AbstractProvider
             [],
             Client::GET,
             [
-                'Authorization' => 'Bearer ' . $accessToken->getToken()
+                'Authorization' => 'Bearer ' . $accessToken->getToken(),
             ]
         );
 
@@ -108,5 +102,29 @@ class Reddit extends \SocialConnect\OAuth2\AbstractProvider
         $hydrator = new ObjectMap([]);
 
         return $hydrator->hydrate(new User(), $result);
+    }
+
+    /**
+     * @param string $code
+     *
+     * @return \SocialConnect\Common\Http\Request
+     */
+    protected function makeAccessTokenRequest($code)
+    {
+        $parameters = [
+            'code' => $code,
+            'grant_type' => 'authorization_code',
+            'redirect_uri' => $this->getRedirectUrl(),
+        ];
+
+        return new \SocialConnect\Common\Http\Request(
+            $this->getRequestTokenUri(),
+            $parameters,
+            $this->requestHttpMethod,
+            [
+                'Content-Type' => 'application/x-www-form-urlencoded',
+                'Authorization' => 'Basic ' . base64_encode($this->consumer->getKey() . ':' . $this->consumer->getSecret()),
+            ]
+        );
     }
 }

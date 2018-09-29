@@ -9,6 +9,9 @@ use DateTime;
 use SocialConnect\OpenIDConnect\Exception\InvalidJWT;
 use SocialConnect\OpenIDConnect\Exception\UnsupportedSignatureAlgoritm;
 
+/**
+ * Class JWT
+ */
 class JWT
 {
     /**
@@ -52,6 +55,7 @@ class JWT
 
     /**
      * @param string $input
+     *
      * @return string
      */
     public static function urlsafeB64Decode($input)
@@ -67,22 +71,26 @@ class JWT
     }
 
     /**
-     * @param array $payload
-     * @param array $header
+     * @param array       $payload
+     * @param array       $header
      * @param string|null $signature
      */
     public function __construct(array $payload, array $header, $signature = null)
     {
-        $this->payload = $payload;
-        $this->header = $header;
+        $this->payload   = $payload;
+        $this->header    = $header;
         $this->signature = $signature;
     }
 
     /**
      * @param string $token
-     * @param array $keys
+     * @param array  $keys
+     *
      * @return JWT
+     *
+     * @throws Exception\InvalidJWK
      * @throws InvalidJWT
+     * @throws UnsupportedSignatureAlgoritm
      */
     public static function decode($token, array $keys)
     {
@@ -99,7 +107,7 @@ class JWT
         }
 
         $header = json_decode($headerPayload, true);
-        if ($header === null) {
+        if (empty($header)) {
             throw new InvalidJWT('Cannot decode JSON from header');
         }
 
@@ -109,7 +117,7 @@ class JWT
         }
 
         $payload = json_decode($decodedPayload, true);
-        if ($payload === null) {
+        if (empty($payload)) {
             throw new InvalidJWT('Cannot decode JSON from payload');
         }
 
@@ -119,6 +127,9 @@ class JWT
         return $token;
     }
 
+    /**
+     * @throws InvalidJWT
+     */
     protected function validateHeader()
     {
         if (!isset($this->header['alg'])) {
@@ -130,6 +141,9 @@ class JWT
         }
     }
 
+    /**
+     * @throws InvalidJWT
+     */
     protected function validateClaims()
     {
         $now = time();
@@ -167,8 +181,11 @@ class JWT
 
     /**
      * @param string $data
-     * @param array $keys
+     * @param array  $keys
+     *
+     * @throws Exception\InvalidJWK
      * @throws InvalidJWT
+     * @throws UnsupportedSignatureAlgoritm
      */
     protected function validate($data, array $keys)
     {
@@ -182,10 +199,12 @@ class JWT
     }
 
     /**
-     * @param array $keys
+     * @param array  $keys
      * @param string $kid
+     *
      * @return JWK
-     * @throws \RuntimeException
+     *
+     * @throws Exception\InvalidJWK
      */
     protected function findKeyByKind(array $keys, $kid)
     {
@@ -200,8 +219,11 @@ class JWT
 
     /**
      * @param string $data
-     * @param array $keys
+     * @param array  $keys
+     *
      * @return bool
+     *
+     * @throws Exception\InvalidJWK
      * @throws UnsupportedSignatureAlgoritm
      */
     protected function verifySignature($data, array $keys)
@@ -226,8 +248,8 @@ class JWT
                     $jwk->getPublicKey(),
                     $signatureAlg
                 );
-                
-                return $result == 1;
+
+                return $result === 1;
             case 'hash_hmac':
                 if (!function_exists('hash_hmac')) {
                     throw new \RuntimeException('hash-ext is required to use HS encryption.');

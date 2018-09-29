@@ -11,6 +11,9 @@ use SocialConnect\OAuth1\Request;
 use SocialConnect\OAuth1\Token;
 use SocialConnect\OAuth1\Util;
 
+/**
+ * Class MethodRSASHA1
+ */
 class MethodRSASHA1 extends AbstractSignatureMethod
 {
     /**
@@ -45,9 +48,10 @@ class MethodRSASHA1 extends AbstractSignatureMethod
     }
 
     /**
-     * @param Request $request
+     * @param Request  $request
      * @param Consumer $consumer
-     * @param Token $token
+     * @param Token    $token
+     *
      * @return string
      */
     public function buildSignature(Request $request, Consumer $consumer, Token $token)

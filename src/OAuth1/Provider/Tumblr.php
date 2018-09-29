@@ -13,6 +13,9 @@ use SocialConnect\OAuth1\AbstractProvider;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class Tumblr
+ */
 class Tumblr extends AbstractProvider
 {
     const NAME = 'tumblr';
@@ -67,7 +70,7 @@ class Tumblr extends AbstractProvider
 
         $parameters = [
             'oauth_consumer_key' => $this->consumer->getKey(),
-            'oauth_token' => $accessToken->getToken()
+            'oauth_token' => $accessToken->getToken(),
         ];
 
         $response = $this->oauthRequest(
@@ -100,7 +103,7 @@ class Tumblr extends AbstractProvider
 
         $hydrator = new ObjectMap(
             [
-                'name' => 'id'
+                'name' => 'id',
             ]
         );
 

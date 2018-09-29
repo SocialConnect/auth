@@ -6,6 +6,9 @@
 
 namespace SocialConnect\Provider;
 
+/**
+ * Class Consumer
+ */
 class Consumer
 {
     /**
@@ -31,8 +34,8 @@ class Consumer
     public $callback_url;
 
     /**
-     * @param string $key
-     * @param string $secret
+     * @param string      $key
+     * @param string      $secret
      * @param string|null $callback_url
      */
     public function __construct($key, $secret, $callback_url = null)
@@ -42,6 +45,9 @@ class Consumer
         $this->callback_url = $callback_url;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return "OAuthConsumer[key=$this->key,secret=$this->secret]";

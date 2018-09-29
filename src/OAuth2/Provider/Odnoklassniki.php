@@ -70,30 +70,6 @@ class Odnoklassniki extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
-     * @link https://apiok.ru/dev/methods/
-     *
-     * @param array $requestParameters
-     * @param AccessTokenInterface $accessToken
-     * @return string
-     */
-    protected function makeSecureSignature(array $requestParameters, AccessTokenInterface $accessToken)
-    {
-        ksort($requestParameters);
-
-        $params = '';
-
-        foreach ($requestParameters as $key => $value) {
-            if ($key === 'access_token') {
-                continue;
-            }
-
-            $params .= "$key=$value";
-        }
-
-        return strtolower(md5($params . md5($accessToken->getToken() . $this->consumer->getSecret())));
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getIdentity(AccessTokenInterface $accessToken)
@@ -101,7 +77,7 @@ class Odnoklassniki extends \SocialConnect\OAuth2\AbstractProvider
         $parameters = [
             'application_key' => $this->consumer->getPublic(),
             'access_token' => $accessToken->getToken(),
-            'format' => 'json'
+            'format' => 'json',
         ];
 
         $parameters['sig'] = $this->makeSecureSignature($parameters, $accessToken);
@@ -132,10 +108,35 @@ class Odnoklassniki extends \SocialConnect\OAuth2\AbstractProvider
                 'first_name' => 'firstname',
                 'last_name' => 'lastname',
                 'name' => 'fullname',
-                'pic_3' => 'pictureURL'
+                'pic_3' => 'pictureURL',
             ]
         );
 
         return $hydrator->hydrate(new User(), $result);
+    }
+
+    /**
+     * @link https://apiok.ru/dev/methods/
+     *
+     * @param array                $requestParameters
+     * @param AccessTokenInterface $accessToken
+     *
+     * @return string
+     */
+    protected function makeSecureSignature(array $requestParameters, AccessTokenInterface $accessToken)
+    {
+        ksort($requestParameters);
+
+        $params = '';
+
+        foreach ($requestParameters as $key => $value) {
+            if ('access_token' === $key) {
+                continue;
+            }
+
+            $params .= "$key=$value";
+        }
+
+        return strtolower(md5($params . md5($accessToken->getToken() . $this->consumer->getSecret())));
     }
 }

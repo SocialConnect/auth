@@ -15,6 +15,9 @@ use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 use SocialConnect\OAuth2\AccessToken;
 
+/**
+ * Class LinkedIn
+ */
 class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'linkedin';
@@ -72,7 +75,7 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'people/~:(id,first-name,last-name,email-address,picture-url,location:(name))',
             [
-                'format' => 'json'
+                'format' => 'json',
             ],
             Client::GET,
             [

@@ -14,6 +14,9 @@ use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class Vk
+ */
 class Vk extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'vk';
@@ -30,21 +33,33 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
      */
     protected $email;
 
+    /**
+     * @return string
+     */
     public function getBaseUri()
     {
         return 'https://api.vk.com/';
     }
 
+    /**
+     * @return string
+     */
     public function getAuthorizeUri()
     {
         return 'https://oauth.vk.com/authorize';
     }
 
+    /**
+     * @return string
+     */
     public function getRequestTokenUri()
     {
         return 'https://oauth.vk.com/access_token';
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return self::NAME;

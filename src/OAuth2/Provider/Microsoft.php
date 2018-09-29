@@ -13,6 +13,9 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class Microsoft
+ */
 class Microsoft extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'microsoft';
@@ -74,7 +77,7 @@ class Microsoft extends \SocialConnect\OAuth2\AbstractProvider
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'me',
             [
-                'access_token' => $accessToken->getToken()
+                'access_token' => $accessToken->getToken(),
             ]
         );
 

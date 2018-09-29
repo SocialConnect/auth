@@ -8,6 +8,9 @@ namespace SocialConnect\OpenIDConnect;
 
 use SocialConnect\OpenIDConnect\Exception\InvalidJWK;
 
+/**
+ * Class JWK
+ */
 class JWK
 {
     /**
@@ -32,6 +35,7 @@ class JWK
 
     /**
      * @param array $parameters
+     *
      * @throws InvalidJWK
      */
     public function __construct($parameters)
@@ -63,10 +67,10 @@ class JWK
         $modulus = JWT::urlsafeB64Decode($this->n);
         $publicExponent = JWT::urlsafeB64Decode($this->e);
 
-        $components = array(
+        $components = [
             'modulus' => pack('Ca*a*', 2, self::encodeLength(strlen($modulus)), $modulus),
-            'publicExponent' => pack('Ca*a*', 2, self::encodeLength(strlen($publicExponent)), $publicExponent)
-        );
+            'publicExponent' => pack('Ca*a*', 2, self::encodeLength(strlen($publicExponent)), $publicExponent),
+        ];
 
         $publicKey = pack(
             'Ca*a*a*',
@@ -101,7 +105,9 @@ class JWK
      * {@link http://itu.int/ITU-T/studygroups/com17/languages/X.690-0207.pdf#p=13 X.690 paragraph 8.1.3} for more information.
      *
      * @access private
+     *
      * @param int $length
+     *
      * @return string
      */
     private static function encodeLength($length)
@@ -111,6 +117,7 @@ class JWK
         }
 
         $temp = ltrim(pack('N', $length), chr(0));
+
         return pack('Ca*', 0x80 | strlen($temp), $temp);
     }
 }

@@ -7,9 +7,14 @@ declare(strict_types=1);
 
 namespace SocialConnect\Provider;
 
+use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\ClientInterface;
+use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Provider\Session\SessionInterface;
 
+/**
+ * Class AbstractBaseProvider
+ */
 abstract class AbstractBaseProvider
 {
     /**
@@ -43,9 +48,10 @@ abstract class AbstractBaseProvider
     protected $options = [];
 
     /**
-     * @param ClientInterface $httpClient
+     * @param ClientInterface  $httpClient
      * @param SessionInterface $session
-     * @param array $parameters
+     * @param Consumer         $consumer
+     * @param array            $parameters
      */
     public function __construct(ClientInterface $httpClient, SessionInterface $session, Consumer $consumer, array $parameters)
     {
@@ -68,7 +74,8 @@ abstract class AbstractBaseProvider
 
     /**
      * @param string $key
-     * @param bool $default
+     * @param bool   $default
+     *
      * @return bool
      */
     public function getBoolOption($key, $default): bool
@@ -82,7 +89,8 @@ abstract class AbstractBaseProvider
 
     /**
      * @param string $key
-     * @param array $default
+     * @param array  $default
+     *
      * @return array
      */
     public function getArrayOption($key, array $default = []): array
@@ -126,7 +134,8 @@ abstract class AbstractBaseProvider
 
     /**
      * @param array $requestParameters
-     * @return \SocialConnect\Provider\AccessTokenInterface
+     *
+     * @return AccessTokenInterface
      */
     abstract public function getAccessTokenByRequestParameters(array $requestParameters);
 
@@ -139,9 +148,10 @@ abstract class AbstractBaseProvider
      * Get current user identity from social network by $accessToken
      *
      * @param AccessTokenInterface $accessToken
-     * @return \SocialConnect\Common\Entity\User
      *
-     * @throws \SocialConnect\Provider\Exception\InvalidResponse
+     * @return User
+     *
+     * @throws InvalidResponse
      */
     abstract public function getIdentity(AccessTokenInterface $accessToken);
 
@@ -170,7 +180,7 @@ abstract class AbstractBaseProvider
     }
 
     /**
-     * @return \SocialConnect\Provider\Consumer
+     * @return Consumer
      */
     public function getConsumer()
     {

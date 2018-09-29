@@ -16,7 +16,6 @@ use SocialConnect\Common\Http\Client\Client;
 
 /**
  * Class Provider
- * @package SocialConnect\Google
  */
 class PixelPin extends AbstractProvider
 {
@@ -70,11 +69,11 @@ class PixelPin extends AbstractProvider
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'connect/userinfo',
             [
-            'access_token' => $accessToken->getToken()
+            'access_token' => $accessToken->getToken(),
             ],
             Client::GET,
             [
-                'Authorization' => 'Bearer ' . $accessToken->getToken()
+                'Authorization' => 'Bearer ' . $accessToken->getToken(),
             ]
         );
 
@@ -107,7 +106,7 @@ class PixelPin extends AbstractProvider
                 'town_city' => 'townCity',
                 'region'   => 'region',
                 'postal_code' => 'postalCode',
-                'country' => 'country'
+                'country' => 'country',
             ]
         );
 

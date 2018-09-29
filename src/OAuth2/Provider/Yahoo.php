@@ -15,6 +15,9 @@ use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 use SocialConnect\OAuth2\AccessToken;
 
+/**
+ * Class Yahoo
+ */
 class Yahoo extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'yahoo';

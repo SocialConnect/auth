@@ -5,11 +5,17 @@
 
 namespace SocialConnect\Provider\Session;
 
+/**
+ * Class Session
+ */
 class Session implements SessionInterface
 {
+    /**
+     * Session constructor.
+     */
     public function __construct()
     {
-        if (session_status() == PHP_SESSION_NONE) {
+        if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
     }
@@ -30,7 +36,7 @@ class Session implements SessionInterface
 
     /**
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function set($key, $value)
     {

@@ -6,8 +6,15 @@
 
 namespace SocialConnect\OAuth2\Exception;
 
+/**
+ * Class Unauthorized
+ */
 class Unauthorized extends \SocialConnect\Provider\Exception\AuthFailed
 {
+    /**
+     * Unauthorized constructor.
+     * @param string $message
+     */
     public function __construct($message = 'Unauthorized')
     {
         parent::__construct($message);

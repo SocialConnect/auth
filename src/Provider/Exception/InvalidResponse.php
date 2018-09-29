@@ -8,6 +8,9 @@ namespace SocialConnect\Provider\Exception;
 
 use SocialConnect\Common\Http\Response;
 
+/**
+ * Class InvalidResponse
+ */
 class InvalidResponse extends \SocialConnect\Common\Exception
 {
     /**
@@ -16,7 +19,7 @@ class InvalidResponse extends \SocialConnect\Common\Exception
     protected $response;
 
     /**
-     * @param string $message
+     * @param string        $message
      * @param Response|null $response
      */
     public function __construct($message = 'API bad response', Response $response = null)

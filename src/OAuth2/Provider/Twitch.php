@@ -13,6 +13,9 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class Twitch
+ */
 class Twitch extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'twitch';
@@ -79,7 +82,7 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'user',
             [
-                'oauth_token' => $accessToken->getToken()
+                'oauth_token' => $accessToken->getToken(),
             ]
         );
 

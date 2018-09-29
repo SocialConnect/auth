@@ -14,6 +14,9 @@ use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class Facebook
+ */
 class Facebook extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'facebook';
@@ -25,21 +28,33 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
      */
     protected $requestHttpMethod = Client::GET;
 
+    /**
+     * @return string
+     */
     public function getBaseUri()
     {
         return 'https://graph.facebook.com/v2.8/';
     }
 
+    /**
+     * @return string
+     */
     public function getAuthorizeUri()
     {
         return 'https://www.facebook.com/dialog/oauth';
     }
 
+    /**
+     * @return string
+     */
     public function getRequestTokenUri()
     {
         return 'https://graph.facebook.com/oauth/access_token';
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return self::NAME;
@@ -108,7 +123,7 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
                 'name' => 'fullname',
                 'timezone' => 'timezone',
                 'updated_time' => 'dateModified',
-                'verified' => 'verified'
+                'verified' => 'verified',
             ]
         );
 

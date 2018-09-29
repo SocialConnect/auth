@@ -1,7 +1,13 @@
 <?php
 
+/**
+ * SocialConnect project
+ */
 namespace SocialConnect\Provider\Session;
 
+/**
+ * Interface SessionInterface
+ */
 interface SessionInterface
 {
     /**
@@ -13,7 +19,7 @@ interface SessionInterface
 
     /**
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function set($key, $value);
 

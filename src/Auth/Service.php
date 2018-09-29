@@ -13,7 +13,6 @@ use SocialConnect\Provider\Session\SessionInterface;
 
 /**
  * Class Service
- * @package SocialConnect\Auth
  */
 class Service
 {
@@ -38,10 +37,11 @@ class Service
     protected $session;
 
     /**
-     * @param ClientInterface $httpClient
-     * @param SessionInterface $session
-     * @param array $config
+     * @param ClientInterface       $httpClient
+     * @param SessionInterface      $session
+     * @param array                 $config
      * @param FactoryInterface|null $factory
+     *
      * @internal param $storage
      */
     public function __construct(ClientInterface $httpClient, SessionInterface $session, array $config, FactoryInterface $factory = null)
@@ -54,8 +54,10 @@ class Service
     }
 
     /**
-     * @param $name
+     * @param mixed $name
+     *
      * @return array
+     *
      * @throws Exception
      */
     public function getProviderConfiguration($name)
@@ -70,8 +72,10 @@ class Service
     /**
      * Get provider class by $name
      *
-     * @param $name
+     * @param mixed $name
+     *
      * @return \SocialConnect\Provider\AbstractBaseProvider
+     *
      * @throws Exception
      */
     public function getProvider($name)

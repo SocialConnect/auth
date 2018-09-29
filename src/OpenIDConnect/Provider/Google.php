@@ -15,7 +15,6 @@ use SocialConnect\Common\Hydrator\ObjectMap;
 
 /**
  * Class Provider
- * @package SocialConnect\Google
  */
 class Google extends AbstractProvider
 {
@@ -67,7 +66,7 @@ class Google extends AbstractProvider
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'oauth2/v1/userinfo',
             [
-                'access_token' => $accessToken->getToken()
+                'access_token' => $accessToken->getToken(),
             ]
         );
 

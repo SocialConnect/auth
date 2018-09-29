@@ -8,6 +8,9 @@ namespace SocialConnect\OpenIDConnect;
 
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 
+/**
+ * Class AccessToken
+ */
 class AccessToken extends \SocialConnect\OAuth2\AccessToken
 {
     /**
@@ -17,6 +20,7 @@ class AccessToken extends \SocialConnect\OAuth2\AccessToken
 
     /**
      * @param array $token
+     *
      * @throws InvalidAccessToken
      */
     public function __construct(array $token)

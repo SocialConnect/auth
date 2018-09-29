@@ -12,30 +12,48 @@ use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class Twitter
+ */
 class Twitter extends \SocialConnect\OAuth1\AbstractProvider
 {
     const NAME = 'twitter';
 
+    /**
+     * @return string
+     */
     public function getBaseUri()
     {
         return 'https://api.twitter.com/1.1/';
     }
 
+    /**
+     * @return string
+     */
     public function getAuthorizeUri()
     {
         return 'https://api.twitter.com/oauth/authenticate';
     }
 
+    /**
+     * @return string
+     */
     public function getRequestTokenUri()
     {
         return 'https://api.twitter.com/oauth/request_token';
     }
 
+    /**
+     * @return string
+     */
     public function getRequestTokenAccessUri()
     {
         return 'https://api.twitter.com/oauth/access_token';
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return self::NAME;
@@ -52,7 +70,7 @@ class Twitter extends \SocialConnect\OAuth1\AbstractProvider
             'oauth_consumer_key' => $this->consumer->getKey(),
             'oauth_token' => $accessToken->getToken(),
             // String is expected because Twitter is awful
-            'include_email' => 'true'
+            'include_email' => 'true',
         ];
 
         // @link https://dev.twitter.com/rest/reference/get/account/verify_credentials
@@ -82,7 +100,7 @@ class Twitter extends \SocialConnect\OAuth1\AbstractProvider
                 'id' => 'id',
                 'name' => 'fullname',
                 'screen_name' => 'username',
-                'profile_image_url_https' => 'pictureURL'
+                'profile_image_url_https' => 'pictureURL',
             ]
         );
 

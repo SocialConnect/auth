@@ -13,6 +13,9 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class MailRu
+ */
 class MailRu extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'mail-ru';
@@ -70,25 +73,6 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
-     * Copy/pasted from MailRU examples :)
-     *
-     * @param array $requestParameters
-     * @return string
-     */
-    protected function makeSecureSignature(array $requestParameters)
-    {
-        ksort($requestParameters);
-
-        $params = '';
-
-        foreach ($requestParameters as $key => $value) {
-            $params .= "$key=$value";
-        }
-
-        return md5($params . $this->consumer->getSecret());
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getIdentity(AccessTokenInterface $accessToken)
@@ -98,7 +82,7 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
             'format' => 'json',
             'method' => 'users.getInfo',
             'secure' => 1,
-            'session_key' => $accessToken->getToken()
+            'session_key' => $accessToken->getToken(),
         ];
 
         $parameters['sig'] = $this->makeSecureSignature($parameters);
@@ -129,7 +113,7 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
                 'first_name' => 'firstname',
                 'last_name' => 'lastname',
                 'nick' => 'username',
-                'pic_big' => 'pictureURL'
+                'pic_big' => 'pictureURL',
             ]
         );
 
@@ -140,5 +124,25 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
         }
 
         return $user;
+    }
+
+    /**
+     * Copy/pasted from MailRU examples :)
+     *
+     * @param array $requestParameters
+     *
+     * @return string
+     */
+    protected function makeSecureSignature(array $requestParameters)
+    {
+        ksort($requestParameters);
+
+        $params = '';
+
+        foreach ($requestParameters as $key => $value) {
+            $params .= "$key=$value";
+        }
+
+        return md5($params . $this->consumer->getSecret());
     }
 }

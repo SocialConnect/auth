@@ -13,6 +13,9 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class Amazon
+ */
 class Amazon extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'amazon';
@@ -74,7 +77,7 @@ class Amazon extends \SocialConnect\OAuth2\AbstractProvider
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'user/profile',
             [
-                'access_token' => $accessToken->getToken()
+                'access_token' => $accessToken->getToken(),
             ]
         );
 

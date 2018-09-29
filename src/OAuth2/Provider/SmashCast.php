@@ -18,6 +18,9 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class SmashCast
+ */
 class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'smashcast';
@@ -89,27 +92,6 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function makeAccessTokenRequest($code)
-    {
-        $parameters = [
-            'request_token' => $code,
-            'app_token' => $this->consumer->getKey(),
-            'hash' => base64_encode($this->consumer->getKey() . $this->consumer->getSecret()),
-        ];
-
-        return new \SocialConnect\Common\Http\Request(
-            $this->getRequestTokenUri(),
-            $parameters,
-            $this->requestHttpMethod,
-            [
-                'Content-Type' => 'application/x-www-form-urlencoded'
-            ]
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getAccessTokenByRequestParameters(array $parameters)
     {
         if (!$this->getBoolOption('stateless', false)) {
@@ -135,39 +117,6 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
-     * This method it needed, because I cannot fix auth/login with accessToken
-     * BTW: Yes, I known that it's unneeded round trip to the server
-     *
-     * @param AccessTokenInterface $accessToken
-     * @return mixed
-     * @throws InvalidResponse
-     */
-    protected function getUserNameByToken(AccessTokenInterface $accessToken)
-    {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'userfromtoken/' . $accessToken->getToken()
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
-
-        return $result->user_name;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getIdentity(AccessTokenInterface $accessToken)
@@ -190,7 +139,7 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'user/' . $username,
             [
-                'authToken' => $accessToken->getToken()
+                'authToken' => $accessToken->getToken(),
             ]
         );
 
@@ -219,5 +168,61 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
         );
 
         return $hydrator->hydrate(new User(), $result);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function makeAccessTokenRequest($code)
+    {
+        $parameters = [
+            'request_token' => $code,
+            'app_token' => $this->consumer->getKey(),
+            'hash' => base64_encode($this->consumer->getKey() . $this->consumer->getSecret()),
+        ];
+
+        return new \SocialConnect\Common\Http\Request(
+            $this->getRequestTokenUri(),
+            $parameters,
+            $this->requestHttpMethod,
+            [
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ]
+        );
+    }
+
+    /**
+     * This method it needed, because I cannot fix auth/login with accessToken
+     * BTW: Yes, I known that it's unneeded round trip to the server
+     *
+     * @param AccessTokenInterface $accessToken
+     *
+     * @return mixed
+     *
+     * @throws InvalidResponse
+     */
+    protected function getUserNameByToken(AccessTokenInterface $accessToken)
+    {
+        $response = $this->httpClient->request(
+            $this->getBaseUri() . 'userfromtoken/' . $accessToken->getToken()
+        );
+
+        if (!$response->isSuccess()) {
+            throw new InvalidResponse(
+                'API response with error code',
+                $response
+            );
+        }
+
+        $result = $response->json();
+
+        if (!$result) {
+            throw new InvalidResponse(
+                'API response is not a valid JSON object',
+                $response
+            );
+        }
+
+        return $result->user_name;
     }
 }

@@ -11,6 +11,10 @@ namespace SocialConnect\Provider\Exception;
  */
 abstract class AuthFailed extends \SocialConnect\Common\Exception
 {
+    /**
+     * AuthFailed constructor.
+     * @param string $message
+     */
     public function __construct($message = 'Auth failed')
     {
         parent::__construct($message);

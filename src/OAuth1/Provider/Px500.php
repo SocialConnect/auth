@@ -13,6 +13,9 @@ use SocialConnect\OAuth1\AbstractProvider;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class Px500
+ */
 class Px500 extends AbstractProvider
 {
     const NAME = 'px500';
@@ -67,7 +70,7 @@ class Px500 extends AbstractProvider
 
         $parameters = [
             'oauth_consumer_key' => $this->consumer->getKey(),
-            'oauth_token' => $accessToken->getToken()
+            'oauth_token' => $accessToken->getToken(),
         ];
 
         $response = $this->oauthRequest(

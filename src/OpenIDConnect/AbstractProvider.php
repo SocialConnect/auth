@@ -10,10 +10,14 @@ namespace SocialConnect\OpenIDConnect;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 
+/**
+ * Class AbstractProvider
+ */
 abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
 {
     /**
      * @return array
+     *
      * @throws InvalidResponse
      */
     public function discover()
@@ -42,6 +46,7 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
 
     /**
      * @return array
+     *
      * @throws InvalidResponse
      */
     public function getJWKSet()

@@ -6,8 +6,15 @@
 
 namespace SocialConnect\OAuth1\Exception;
 
+/**
+ * Class UnknownAuthorization
+ */
 class UnknownAuthorization extends \SocialConnect\Common\Exception
 {
+    /**
+     * UnknownAuthorization constructor.
+     * @param string $message
+     */
     public function __construct($message = 'Unknown authorization')
     {
         parent::__construct($message);

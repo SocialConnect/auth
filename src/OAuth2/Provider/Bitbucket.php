@@ -13,6 +13,9 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class Bitbucket
+ */
 class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'bitbucket';
@@ -49,6 +52,13 @@ class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
         return self::NAME;
     }
 
+    /**
+     * @param bool|string $body
+     *
+     * @return AccessToken
+     *
+     * @throws InvalidAccessToken
+     */
     public function parseToken($body)
     {
         if (empty($body)) {
@@ -63,7 +73,6 @@ class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
         throw new InvalidAccessToken('Server response with not valid/empty JSON');
     }
 
-
     /**
      * {@inheritdoc}
      */
@@ -72,7 +81,7 @@ class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'user',
             [
-                'access_token' => $accessToken->getToken()
+                'access_token' => $accessToken->getToken(),
             ]
         );
 

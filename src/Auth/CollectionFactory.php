@@ -15,7 +15,6 @@ use SocialConnect\OpenIDConnect;
 
 /**
  * Class Factory
- * @package SocialConnect\Auth\Provider
  */
 class CollectionFactory implements FactoryInterface
 {
@@ -71,7 +70,8 @@ class CollectionFactory implements FactoryInterface
     }
 
     /**
-     * @param $id
+     * @param int $id
+     *
      * @return bool
      */
     public function has($id)
@@ -80,9 +80,10 @@ class CollectionFactory implements FactoryInterface
     }
 
     /**
-     * @param string $id
-     * @param array $parameters
+     * @param string  $id
+     * @param array   $parameters
      * @param Service $service
+     *
      * @return \SocialConnect\Provider\AbstractBaseProvider
      */
     public function factory($id, array $parameters, Service $service)
@@ -120,8 +121,8 @@ class CollectionFactory implements FactoryInterface
     /**
      * Register new provider to Provider's collection
      *
-     * @param $providerName
-     * @param $providerClass
+     * @param mixed $providerName
+     * @param mixed $providerClass
      */
     public function register($providerName, $providerClass)
     {

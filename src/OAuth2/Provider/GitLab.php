@@ -13,6 +13,9 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class GitLab
+ */
 class GitLab extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'gitlab';
@@ -82,7 +85,7 @@ class GitLab extends \SocialConnect\OAuth2\AbstractProvider
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'user',
             [
-                'access_token' => $accessToken->getToken()
+                'access_token' => $accessToken->getToken(),
             ]
         );
 
@@ -105,7 +108,7 @@ class GitLab extends \SocialConnect\OAuth2\AbstractProvider
             [
                 'user_id' => 'id',
                 'name' => 'fullname',
-                'avatar_url' => 'pictureURL'
+                'avatar_url' => 'pictureURL',
             ]
         );
 

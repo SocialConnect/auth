@@ -13,6 +13,9 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class Slack
+ */
 class Slack extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'slack';
@@ -50,8 +53,10 @@ class Slack extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
-     * @param $body
+     * @param mixed $body
+     *
      * @return AccessToken
+     *
      * @throws InvalidAccessToken
      */
     public function parseToken($body)
@@ -72,7 +77,7 @@ class Slack extends \SocialConnect\OAuth2\AbstractProvider
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'api/users.identity',
             [
-                'token' => $accessToken->getToken()
+                'token' => $accessToken->getToken(),
             ]
         );
 

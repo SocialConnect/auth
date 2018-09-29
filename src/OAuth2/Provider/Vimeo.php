@@ -12,6 +12,9 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class Vimeo
+ */
 class Vimeo extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'vimeo';

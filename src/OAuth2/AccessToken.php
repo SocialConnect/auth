@@ -9,6 +9,9 @@ namespace SocialConnect\OAuth2;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 
+/**
+ * Class AccessToken
+ */
 class AccessToken implements AccessTokenInterface
 {
     /**
@@ -28,6 +31,7 @@ class AccessToken implements AccessTokenInterface
 
     /**
      * @param array $token
+     *
      * @throws InvalidAccessToken
      */
     public function __construct(array $token)
@@ -65,20 +69,6 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * Check if a value is an expiration timestamp or second value.
-     *
-     * @param integer $value
-     * @return bool
-     */
-    protected function isExpirationTimestamp($value)
-    {
-        // If the given value is larger than the original OAuth 2 draft date,
-        // assume that it is meant to be a (possible expired) timestamp.
-        $oauth2InceptionDate = 1349067600; // 2012-10-01
-        return ($value > $oauth2InceptionDate);
-    }
-
-    /**
      * @return string
      */
     public function getToken()
@@ -108,5 +98,21 @@ class AccessToken implements AccessTokenInterface
     public function getExpires()
     {
         return $this->expires;
+    }
+
+    /**
+     * Check if a value is an expiration timestamp or second value.
+     *
+     * @param integer $value
+     *
+     * @return bool
+     */
+    protected function isExpirationTimestamp($value)
+    {
+        // If the given value is larger than the original OAuth 2 draft date,
+        // assume that it is meant to be a (possible expired) timestamp.
+        $oauth2InceptionDate = 1349067600; // 2012-10-01
+
+        return ($value > $oauth2InceptionDate);
     }
 }

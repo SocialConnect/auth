@@ -14,6 +14,9 @@ use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class DigitalOcean
+ */
 class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'digital-ocean';
@@ -77,7 +80,7 @@ class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
             [],
             Client::GET,
             [
-                'Authorization' => 'Bearer ' . $accessToken->getToken()
+                'Authorization' => 'Bearer ' . $accessToken->getToken(),
             ]
         );
 

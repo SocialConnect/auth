@@ -6,10 +6,14 @@
 
 namespace SocialConnect\OAuth1;
 
+/**
+ * Class Util
+ */
 class Util
 {
     /**
      * @param mixed $input
+     *
      * @return array|string
      */
     public static function urlencodeRFC3986($input)
@@ -32,6 +36,7 @@ class Util
      * seem to be used anywhere so leaving it as is.
      *
      * @param string $string
+     *
      * @return string
      */
     public static function urldecodeRFC3986($string)
@@ -41,6 +46,7 @@ class Util
 
     /**
      * @param array $params
+     *
      * @return string
      */
     public static function buildHttpQuery(array $params)

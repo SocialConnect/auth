@@ -11,6 +11,9 @@ use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class GitHub
+ */
 class GitHub extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'github';
@@ -26,24 +29,36 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
          *
          * It's disabled by default in SocialConnect 1.x, but you can enable it from configuration :)
          */
-        'fetch_emails' => false
+        'fetch_emails' => false,
     ];
 
+    /**
+     * @return string
+     */
     public function getBaseUri()
     {
         return 'https://api.github.com/';
     }
 
+    /**
+     * @return string
+     */
     public function getAuthorizeUri()
     {
         return 'https://github.com/login/oauth/authorize';
     }
 
+    /**
+     * @return string
+     */
     public function getRequestTokenUri()
     {
         return 'https://github.com/login/oauth/access_token';
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return self::NAME;
@@ -57,7 +72,7 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'user',
             [
-                'access_token' => $accessToken->getToken()
+                'access_token' => $accessToken->getToken(),
             ]
         );
 
@@ -81,7 +96,7 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
                 'id' => 'id',
                 'login' => 'username',
                 'email' => 'email',
-                'avatar_url' => 'pictureURL'
+                'avatar_url' => 'pictureURL',
             ]
         );
 
@@ -102,7 +117,9 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
 
     /**
      * @param AccessTokenInterface $accessToken
+     *
      * @return object
+     *
      * @throws InvalidResponse
      */
     public function getPrimaryEmail(AccessTokenInterface $accessToken)
@@ -121,7 +138,9 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
 
     /**
      * @param AccessTokenInterface $accessToken
+     *
      * @return array
+     *
      * @throws InvalidResponse
      */
     public function getEmails(AccessTokenInterface $accessToken)
@@ -129,7 +148,7 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'user/emails',
             [
-                'access_token' => $accessToken->getToken()
+                'access_token' => $accessToken->getToken(),
             ]
         );
 

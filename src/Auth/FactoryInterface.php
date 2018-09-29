@@ -12,18 +12,23 @@ use SocialConnect\OAuth1\AbstractProvider as OAuth1AbstractProvider;
 use SocialConnect\OAuth2\AbstractProvider as OAuth2AbstractProvider;
 use SocialConnect\Auth\Service;
 
+/**
+ * Interface FactoryInterface
+ */
 interface FactoryInterface
 {
     /**
-     * @param string $id
-     * @param array $parameters
+     * @param string  $id
+     * @param array   $parameters
      * @param Service $service
+     *
      * @return OAuth1AbstractProvider|OAuth2AbstractProvider
      */
     public function factory($id, array $parameters, Service $service);
 
     /**
      * @param string $id
+     *
      * @return boolean
      */
     public function has($id);

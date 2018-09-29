@@ -17,8 +17,16 @@ use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Http\Client\Client;
 
+/**
+ * Class AbstractProvider
+ */
 abstract class AbstractProvider extends AbstractBaseProvider
 {
+    /**
+     * 16 bytes / 128 bit / 16 symbols / 32 symbols in hex
+     */
+    const STATE_BYTES = 16;
+
     /**
      * HTTP method for access token request
      *
@@ -52,19 +60,6 @@ abstract class AbstractProvider extends AbstractBaseProvider
     }
 
     /**
-     * 16 bytes / 128 bit / 16 symbols / 32 symbols in hex
-     */
-    const STATE_BYTES = 16;
-
-    /**
-     * @return string
-     */
-    protected function generateState()
-    {
-        return bin2hex(random_bytes(self::STATE_BYTES));
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function makeAuthUrl(): string
@@ -89,7 +84,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * Parse access token from response's $body
      *
      * @param string|bool $body
+     *
      * @return AccessToken
+     *
      * @throws InvalidAccessToken
      */
     public function parseToken($body)
@@ -109,31 +106,10 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
     /**
      * @param string $code
-     * @return \SocialConnect\Common\Http\Request
-     */
-    protected function makeAccessTokenRequest($code)
-    {
-        $parameters = [
-            'client_id' => $this->consumer->getKey(),
-            'client_secret' => $this->consumer->getSecret(),
-            'code' => $code,
-            'grant_type' => 'authorization_code',
-            'redirect_uri' => $this->getRedirectUrl()
-        ];
-
-        return new \SocialConnect\Common\Http\Request(
-            $this->getRequestTokenUri(),
-            $parameters,
-            $this->requestHttpMethod,
-            [
-                'Content-Type' => 'application/x-www-form-urlencoded'
-            ]
-        );
-    }
-
-    /**
-     * @param string $code
+     *
      * @return AccessToken
+     *
+     * @throws InvalidAccessToken
      * @throws InvalidResponse
      */
     public function getAccessToken($code)
@@ -154,15 +130,21 @@ abstract class AbstractProvider extends AbstractBaseProvider
         }
 
         $body = $response->getBody();
+
         return $this->parseToken($body);
     }
 
     /**
      * @param array $parameters
-     * @return AccessToken
-     * @throws \SocialConnect\OAuth2\Exception\InvalidState
-     * @throws \SocialConnect\OAuth2\Exception\UnknownState
-     * @throws \SocialConnect\OAuth2\Exception\UnknownAuthorization
+     *
+     * @return AccessToken|\SocialConnect\Provider\AccessTokenInterface
+     *
+     * @throws InvalidAccessToken
+     * @throws InvalidResponse
+     * @throws InvalidState
+     * @throws Unauthorized
+     * @throws UnknownAuthorization
+     * @throws UnknownState
      */
     public function getAccessTokenByRequestParameters(array $parameters)
     {
@@ -190,5 +172,40 @@ abstract class AbstractProvider extends AbstractBaseProvider
         }
 
         return $this->getAccessToken($parameters['code']);
+    }
+
+    /**
+     * @return string
+     *
+     * @throws \Exception
+     */
+    protected function generateState()
+    {
+        return bin2hex(random_bytes(self::STATE_BYTES));
+    }
+
+    /**
+     * @param string $code
+     *
+     * @return \SocialConnect\Common\Http\Request
+     */
+    protected function makeAccessTokenRequest($code)
+    {
+        $parameters = [
+            'client_id' => $this->consumer->getKey(),
+            'client_secret' => $this->consumer->getSecret(),
+            'code' => $code,
+            'grant_type' => 'authorization_code',
+            'redirect_uri' => $this->getRedirectUrl(),
+        ];
+
+        return new \SocialConnect\Common\Http\Request(
+            $this->getRequestTokenUri(),
+            $parameters,
+            $this->requestHttpMethod,
+            [
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ]
+        );
     }
 }

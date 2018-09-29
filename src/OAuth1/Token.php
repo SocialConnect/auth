@@ -6,6 +6,9 @@
 
 namespace SocialConnect\OAuth1;
 
+/**
+ * Class Token
+ */
 class Token
 {
     /**

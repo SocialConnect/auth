@@ -14,6 +14,9 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class Discord
+ */
 class Discord extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'discord';
@@ -85,7 +88,7 @@ class Discord extends \SocialConnect\OAuth2\AbstractProvider
             [],
             Client::GET,
             [
-                'Authorization' => 'Bearer ' . $accessToken->getToken()
+                'Authorization' => 'Bearer ' . $accessToken->getToken(),
             ]
         );
 
@@ -106,7 +109,7 @@ class Discord extends \SocialConnect\OAuth2\AbstractProvider
 
         $hydrator = new ObjectMap(
             [
-                'verified' => 'emailVerified'
+                'verified' => 'emailVerified',
             ]
         );
 

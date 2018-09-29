@@ -18,6 +18,9 @@ use SocialConnect\OAuth1\Exception\InvalidRequestToken;
 use SocialConnect\OAuth1\Signature\MethodHMACSHA1;
 use SocialConnect\Provider\Session\SessionInterface;
 
+/**
+ * Class AbstractProvider
+ */
 abstract class AbstractProvider extends AbstractBaseProvider
 {
     /**
@@ -51,9 +54,10 @@ abstract class AbstractProvider extends AbstractBaseProvider
     protected $signature;
 
     /**
-     * @param ClientInterface $httpClient
-     * @param Consumer $consumer
-     * @param array $parameters
+     * @param ClientInterface  $httpClient
+     * @param SessionInterface $session
+     * @param Consumer         $consumer
+     * @param array            $parameters
      */
     public function __construct(ClientInterface $httpClient, SessionInterface $session, Consumer $consumer, array $parameters)
     {
@@ -80,46 +84,12 @@ abstract class AbstractProvider extends AbstractBaseProvider
     abstract public function getRequestTokenAccessUri();
 
     /**
-     * @return Token
-     * @throws InvalidResponse
-     */
-    protected function requestAuthToken()
-    {
-        $parameters = [];
-
-        /**
-         * OAuth Core 1.0 Revision A: oauth_callback: An absolute URL to which the Service Provider will redirect
-         * the User back when the Obtaining User Authorization step is completed.
-         *
-         * http://oauth.net/core/1.0a/#auth_step1
-         */
-        if ('1.0a' == $this->oauth1Version) {
-            $parameters['oauth_callback'] = $this->getRedirectUrl();
-        }
-
-        $response = $this->oauthRequest(
-            $this->getRequestTokenUri(),
-            $this->requestTokenMethod,
-            $parameters
-        );
-
-        if ($response->isSuccess()) {
-            $token = $this->parseToken($response->getBody());
-
-
-            $this->session->set('oauth1_request_token', $token);
-
-            return $token;
-        }
-
-        throw new InvalidResponse('Provider response is not success');
-    }
-
-    /**
      * Parse Token from response's $body
      *
      * @param string|boolean $body
+     *
      * @return Token
+     *
      * @throws InvalidRequestToken
      * @throws InvalidResponse
      */
@@ -140,16 +110,18 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * @param string $uri
      * @param string $method
-     * @param array $parameters
+     * @param array  $parameters
+     * @param array  $headers
+     *
      * @return \SocialConnect\Common\Http\Response
      */
     public function oauthRequest($uri, $method = Client::GET, $parameters = [], $headers = [])
     {
         $headers = array_merge([
-            'Accept' => 'application/json'
+            'Accept' => 'application/json',
         ], $headers);
 
-        if ($method == Client::POST) {
+        if (Client::POST === $method) {
             $headers['Content-Type'] = 'application/x-www-form-urlencoded';
         }
 
@@ -158,7 +130,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
                 'oauth_version' => '1.0',
                 'oauth_nonce' => md5(time() . mt_rand()),
                 'oauth_timestamp' => time(),
-                'oauth_consumer_key' => $this->consumer->getKey()
+                'oauth_consumer_key' => $this->consumer->getKey(),
             ],
             $parameters
         );
@@ -185,7 +157,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     public function makeAuthUrl(): string
     {
         $urlParameters = [
-            'oauth_token' => $this->requestAuthToken()->getKey()
+            'oauth_token' => $this->requestAuthToken()->getKey(),
         ];
 
         return $this->getAuthorizeUri() . '?' . http_build_query($urlParameters, '', '&');
@@ -193,8 +165,12 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
     /**
      * @param array $parameters
-     * @return AccessToken
-     * @throws \SocialConnect\OAuth1\Exception\UnknownAuthorization
+     *
+     * @return AccessToken|\SocialConnect\Provider\AccessTokenInterface
+     *
+     * @throws InvalidAccessToken
+     * @throws InvalidResponse
+     * @throws UnknownAuthorization
      */
     public function getAccessTokenByRequestParameters(array $parameters)
     {
@@ -210,8 +186,11 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
     /**
      * @param Token $token
-     * @param $oauthVerifier
+     * @param mixed $oauthVerifier
+     *
      * @return AccessToken
+     *
+     * @throws InvalidAccessToken
      * @throws InvalidResponse
      */
     public function getAccessToken(Token $token, $oauthVerifier)
@@ -221,7 +200,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         $parameters = [
             'oauth_consumer_key' => $this->consumer->getKey(),
             'oauth_token' => $token->getKey(),
-            'oauth_verifier' => $oauthVerifier
+            'oauth_verifier' => $oauthVerifier,
         ];
 
         $response = $this->oauthRequest(
@@ -244,7 +223,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * Parse AccessToken from response's $body
      *
      * @param string|boolean $body
+     *
      * @return AccessToken
+     *
      * @throws InvalidAccessToken
      * @throws InvalidResponse
      */
@@ -297,5 +278,43 @@ abstract class AbstractProvider extends AbstractBaseProvider
     public function getConsumerToken()
     {
         return $this->consumerToken;
+    }
+
+    /**
+     * @return Token
+     *
+     * @throws InvalidRequestToken
+     * @throws InvalidResponse
+     */
+    protected function requestAuthToken()
+    {
+        $parameters = [];
+
+        /**
+         * OAuth Core 1.0 Revision A: oauth_callback: An absolute URL to which the Service Provider will redirect
+         * the User back when the Obtaining User Authorization step is completed.
+         *
+         * http://oauth.net/core/1.0a/#auth_step1
+         */
+        if ('1.0a' == $this->oauth1Version) {
+            $parameters['oauth_callback'] = $this->getRedirectUrl();
+        }
+
+        $response = $this->oauthRequest(
+            $this->getRequestTokenUri(),
+            $this->requestTokenMethod,
+            $parameters
+        );
+
+        if ($response->isSuccess()) {
+            $token = $this->parseToken($response->getBody());
+
+
+            $this->session->set('oauth1_request_token', $token);
+
+            return $token;
+        }
+
+        throw new InvalidResponse('Provider response is not success');
     }
 }

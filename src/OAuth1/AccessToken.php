@@ -8,10 +8,13 @@ namespace SocialConnect\OAuth1;
 
 use SocialConnect\Provider\AccessTokenInterface;
 
+/**
+ * Class AccessToken
+ */
 class AccessToken extends \SocialConnect\OAuth1\Token implements AccessTokenInterface
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $userId;
 
@@ -42,17 +45,17 @@ class AccessToken extends \SocialConnect\OAuth1\Token implements AccessTokenInte
     }
 
     /**
-     * @param $userId
+     * @param int $userId
      */
-    public function setUserId($userId)
+    public function setUserId(int $userId)
     {
         $this->userId = $userId;
     }
 
     /**
-     * @param $screenName
+     * @param string $screenName
      */
-    public function setScreenName($screenName)
+    public function setScreenName(string $screenName)
     {
         $this->screenName = $screenName;
     }

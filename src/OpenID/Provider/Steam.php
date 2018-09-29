@@ -11,6 +11,9 @@ use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class Steam
+ */
 class Steam extends \SocialConnect\OpenID\AbstractProvider
 {
     const NAME = 'steam';
@@ -40,22 +43,6 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
     }
 
     /**
-     * @param string $identity
-     * @return string
-     */
-    protected function parseUserIdFromIdentity($identity)
-    {
-        preg_match(
-            '/7[0-9]{15,25}/',
-            $identity,
-            $matches
-        );
-
-        return $matches[0];
-    }
-
-
-    /**
      * {@inheritdoc}
      */
     public function getIdentity(AccessTokenInterface $accessToken)
@@ -64,7 +51,7 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
             $this->getBaseUri() . 'ISteamUser/GetPlayerSummaries/v0002/',
             [
                 'key' => $this->consumer->getKey(),
-                'steamids' => $accessToken->getUserId()
+                'steamids' => $accessToken->getUserId(),
             ]
         );
 
@@ -92,5 +79,21 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
         );
 
         return $hydrator->hydrate(new User(), $result->response->players[0]);
+    }
+
+    /**
+     * @param string $identity
+     *
+     * @return string
+     */
+    protected function parseUserIdFromIdentity($identity)
+    {
+        preg_match(
+            '/7[0-9]{15,25}/',
+            $identity,
+            $matches
+        );
+
+        return $matches[0];
     }
 }

@@ -13,6 +13,9 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class Yandex
+ */
 class Yandex extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'yandex';
@@ -75,7 +78,7 @@ class Yandex extends \SocialConnect\OAuth2\AbstractProvider
             $this->getBaseUri(),
             [
                 'oauth_token' => $accessToken->getToken(),
-                'format' => 'json'
+                'format' => 'json',
             ]
         );
 

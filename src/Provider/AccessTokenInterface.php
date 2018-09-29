@@ -5,6 +5,9 @@
 
 namespace SocialConnect\Provider;
 
+/**
+ * Interface AccessTokenInterface
+ */
 interface AccessTokenInterface
 {
     /**

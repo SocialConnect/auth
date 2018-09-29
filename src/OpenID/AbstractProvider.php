@@ -12,13 +12,11 @@ use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Http\Client\Client;
 
+/**
+ * Class AbstractProvider
+ */
 abstract class AbstractProvider extends AbstractBaseProvider
 {
-    /**
-     * @return string
-     */
-    abstract public function getOpenIdUrl();
-
     /**
      * @var int
      */
@@ -30,7 +28,74 @@ abstract class AbstractProvider extends AbstractBaseProvider
     protected $loginEntrypoint;
 
     /**
+     * @return string
+     */
+    abstract public function getOpenIdUrl();
+
+    /**
+     * {@inheritdoc}
+     */
+    public function makeAuthUrl(): string
+    {
+        $this->discover($this->getOpenIdUrl());
+
+        return $this->makeAuthUrlV2(false);
+    }
+
+    /**
+     * @link http://openid.net/specs/openid-authentication-2_0.html#verification
+     *
+     * @param array $requestParameters
+     *
+     * @return AccessToken|\SocialConnect\Provider\AccessTokenInterface
+     *
+     * @throws InvalidAccessToken
+     * @throws InvalidResponse
+     */
+    public function getAccessTokenByRequestParameters(array $requestParameters)
+    {
+        $params = [
+            'openid.assoc_handle' => $requestParameters['openid_assoc_handle'],
+            'openid.signed' => $requestParameters['openid_signed'],
+            'openid.sig' => $requestParameters['openid_sig'],
+            'openid.ns' => $requestParameters['openid_ns'],
+            'openid.op_endpoint' => $requestParameters['openid_op_endpoint'],
+            'openid.claimed_id' => $requestParameters['openid_claimed_id'],
+            'openid.identity' => $requestParameters['openid_identity'],
+            'openid.return_to' => $this->getRedirectUrl(),
+            'openid.response_nonce' => $requestParameters['openid_response_nonce'],
+            'openid.mode' => 'check_authentication',
+        ];
+
+        if (isset($requestParameters['openid_claimed_id'])) {
+            $claimedId = $requestParameters['openid_claimed_id'];
+        } else {
+            $claimedId = $requestParameters['openid_identity'];
+        }
+
+        $this->discover($claimedId);
+
+        $response = $this->httpClient->request(
+            $this->loginEntrypoint,
+            $params,
+            Client::POST
+        );
+
+        if (preg_match('/is_valid\s*:\s*true/i', $response->getBody())) {
+            return new AccessToken(
+                $requestParameters['openid_identity'],
+                $this->parseUserIdFromIdentity(
+                    $requestParameters['openid_identity']
+                )
+            );
+        }
+
+        throw new InvalidAccessToken;
+    }
+
+    /**
      * @param bool $immediate
+     *
      * @return string
      */
     protected function makeAuthUrlV2($immediate)
@@ -39,7 +104,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
             'openid.ns' => 'http://specs.openid.net/auth/2.0',
             'openid.mode' => $immediate ? 'checkid_immediate' : 'checkid_setup',
             'openid.return_to' => $this->getRedirectUrl(),
-            'openid.realm' => $this->getRedirectUrl()
+            'openid.realm' => $this->getRedirectUrl(),
         ];
 
         $params['openid.ns.sreg'] = 'http://openid.net/extensions/sreg/1.1';
@@ -50,7 +115,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
     /**
      * @param string $url
+     *
      * @return string
+     *
      * @throws InvalidResponse
      */
     protected function discover($url)
@@ -92,69 +159,11 @@ abstract class AbstractProvider extends AbstractBaseProvider
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function makeAuthUrl(): string
-    {
-        $this->discover($this->getOpenIdUrl());
-
-        return $this->makeAuthUrlV2(false);
-    }
-
-    /**
      * @param string $identity
      * @return int
      */
     protected function parseUserIdFromIdentity($identity)
     {
         return null;
-    }
-
-    /**
-     * @link http://openid.net/specs/openid-authentication-2_0.html#verification
-     *
-     * @param $requestParameters
-     * @return AccessToken
-     * @throws InvalidAccessToken
-     */
-    public function getAccessTokenByRequestParameters(array $requestParameters)
-    {
-        $params = [
-            'openid.assoc_handle' => $requestParameters['openid_assoc_handle'],
-            'openid.signed' => $requestParameters['openid_signed'],
-            'openid.sig' => $requestParameters['openid_sig'],
-            'openid.ns' => $requestParameters['openid_ns'],
-            'openid.op_endpoint' => $requestParameters['openid_op_endpoint'],
-            'openid.claimed_id' => $requestParameters['openid_claimed_id'],
-            'openid.identity' => $requestParameters['openid_identity'],
-            'openid.return_to' => $this->getRedirectUrl(),
-            'openid.response_nonce' => $requestParameters['openid_response_nonce'],
-            'openid.mode' => 'check_authentication'
-        ];
-
-        if (isset($requestParameters['openid_claimed_id'])) {
-            $claimedId = $requestParameters['openid_claimed_id'];
-        } else {
-            $claimedId = $requestParameters['openid_identity'];
-        }
-
-        $this->discover($claimedId);
-
-        $response = $this->httpClient->request(
-            $this->loginEntrypoint,
-            $params,
-            Client::POST
-        );
-
-        if (preg_match('/is_valid\s*:\s*true/i', $response->getBody())) {
-            return new AccessToken(
-                $requestParameters['openid_identity'],
-                $this->parseUserIdFromIdentity(
-                    $requestParameters['openid_identity']
-                )
-            );
-        }
-
-        throw new InvalidAccessToken;
     }
 }

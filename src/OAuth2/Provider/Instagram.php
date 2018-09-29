@@ -13,6 +13,9 @@ use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 use SocialConnect\OAuth2\AccessToken;
 
+/**
+ * Class Instagram
+ */
 class Instagram extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'instagram';
@@ -70,7 +73,7 @@ class Instagram extends \SocialConnect\OAuth2\AbstractProvider
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'users/self',
             [
-                'access_token' => $accessToken->getToken()
+                'access_token' => $accessToken->getToken(),
             ]
         );
 
@@ -96,7 +99,7 @@ class Instagram extends \SocialConnect\OAuth2\AbstractProvider
                 'bio' => 'bio',
                 'website' => 'website',
                 'profile_picture' => 'pictureURL',
-                'full_name' => 'fullname'
+                'full_name' => 'fullname',
             ]
         );
 

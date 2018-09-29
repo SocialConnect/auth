@@ -14,6 +14,9 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
+/**
+ * Class Steein
+ */
 class Steein extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'steein';
@@ -59,8 +62,10 @@ class Steein extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
-     * @param $body
+     * @param mixed $body
+     *
      * @return AccessToken
+     *
      * @throws InvalidAccessToken
      */
     public function parseToken($body)
@@ -83,7 +88,7 @@ class Steein extends \SocialConnect\OAuth2\AbstractProvider
             [],
             Client::GET,
             [
-                'Authorization' => 'Bearer ' . $accessToken->getToken()
+                'Authorization' => 'Bearer ' . $accessToken->getToken(),
             ]
         );
 

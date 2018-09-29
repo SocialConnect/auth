@@ -15,6 +15,9 @@ use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 use SocialConnect\OAuth2\AccessToken;
 
+/**
+ * Class Meetup
+ */
 class Meetup extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'meetup';
@@ -72,7 +75,7 @@ class Meetup extends \SocialConnect\OAuth2\AbstractProvider
         $response = $this->httpClient->request(
             $this->getBaseUri() . '2/member/self?sign=true&photo-host=public&fields=gender',
             [
-                'format' => 'json'
+                'format' => 'json',
             ],
             Client::GET,
             [

@@ -141,19 +141,20 @@ $httpClient = new \SocialConnect\Common\Http\Client\Cache(
 );
 
 $configureProviders = [
-        'redirectUri' => 'http://sconnect.local/auth/cb/${provider}/',
-        'provider' => [
-            'facebook' => [
-                'applicationId' => '',
-                'applicationSecret' => '',
-                'scope' => [
-                    'email'
+    'redirectUri' => 'http://sconnect.local/auth/cb/${provider}/',
+    'provider' => [
+        'facebook' => [
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'scope' => ['email'],
+            'options' => [
+                'identity.fields' => [
+                    'email',
+                    'picture.width(99999)'
                 ],
-                'fields' => [
-                    'email'
-                ]
             ],
-        ]
+        ],
+    ],
 ];
 
 $service = new \SocialConnect\Auth\Service(

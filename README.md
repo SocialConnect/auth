@@ -6,11 +6,12 @@ SocialConnect Auth
 [![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/socialconnect/auth/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/SocialConnect/auth/?branch=master)
 [![Build Status](http://img.shields.io/travis/SocialConnect/auth.svg?style=flat-square)](https://travis-ci.org/SocialConnect/auth)
 [![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/socialconnect/auth/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/SocialConnect/auth/?branch=master)
+
 > Open source social sign on PHP. Connect your application(s) with social network(s).
 
-See [example](./example).
+Code examples you can find in [example](./example) directory
 
-If I didn't see your issue, PR please ping me direct by [Telegram](https://telegram.me/ovrweb)!
+Demo [https://sc.lowl.io/](https://sc.lowl.io/)
 
 ## Supported type of providers
 

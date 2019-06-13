@@ -261,10 +261,6 @@ abstract class AbstractProviderTestCase extends TestCase
             ->disableProxyingToOriginalMethods()
             ->getMock();
 
-        $sessionMock->expects($this->once())
-            ->method('get')
-            ->willReturn(md5(time()));
-
         $provider = $this->getProvider(null, $sessionMock);
 
         $provider->getAccessTokenByRequestParameters(['error' => 'access_denied']);

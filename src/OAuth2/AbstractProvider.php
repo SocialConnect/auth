@@ -168,6 +168,14 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     public function getAccessTokenByRequestParameters(array $parameters)
     {
+        if (isset($parameters['error']) && $parameters['error'] === 'access_denied') {
+            throw new Unauthorized();
+        }
+
+        if (!isset($parameters['code'])) {
+            throw new Unauthorized('Unknown code');
+        }
+
         if (!$this->getBoolOption('stateless', false)) {
             $state = $this->session->get('oauth2_state');
             if (!$state) {
@@ -181,14 +189,6 @@ abstract class AbstractProvider extends AbstractBaseProvider
             if ($state !== $parameters['state']) {
                 throw new InvalidState();
             }
-        }
-
-        if (isset($parameters['error']) && $parameters['error'] === 'access_denied') {
-            throw new Unauthorized();
-        }
-
-        if (!isset($parameters['code'])) {
-            throw new Unauthorized('Unknown code');
         }
 
         return $this->getAccessToken($parameters['code']);

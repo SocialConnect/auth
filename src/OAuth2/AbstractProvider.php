@@ -160,9 +160,11 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * @param array $parameters
      * @return AccessToken
-     * @throws \SocialConnect\OAuth2\Exception\InvalidState
-     * @throws \SocialConnect\OAuth2\Exception\UnknownState
-     * @throws \SocialConnect\OAuth2\Exception\UnknownAuthorization
+     * @throws InvalidResponse
+     * @throws InvalidState
+     * @throws Unauthorized
+     * @throws UnknownAuthorization
+     * @throws UnknownState
      */
     public function getAccessTokenByRequestParameters(array $parameters)
     {
@@ -171,18 +173,18 @@ abstract class AbstractProvider extends AbstractBaseProvider
             if (!$state) {
                 throw new UnknownAuthorization();
             }
+
+            if (!isset($parameters['state'])) {
+                throw new UnknownState();
+            }
+
+            if ($state !== $parameters['state']) {
+                throw new InvalidState();
+            }
         }
 
         if (isset($parameters['error']) && $parameters['error'] === 'access_denied') {
             throw new Unauthorized();
-        }
-
-        if (!isset($parameters['state'])) {
-            throw new UnknownState();
-        }
-
-        if ($state !== $parameters['state']) {
-            throw new InvalidState();
         }
 
         if (!isset($parameters['code'])) {

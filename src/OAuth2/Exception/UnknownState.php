@@ -8,7 +8,7 @@ namespace SocialConnect\OAuth2\Exception;
 
 class UnknownState extends \SocialConnect\Provider\Exception\AuthFailed
 {
-    public function __construct($message = 'Unknown state')
+    public function __construct($message = 'There is no state parameter inside redirect from OAuth provider')
     {
         parent::__construct($message);
     }

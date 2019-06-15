@@ -28,6 +28,7 @@ class CollectionFactory implements FactoryInterface
         OAuth1\Provider\Px500::NAME         => OAuth1\Provider\Px500::class,
         OAuth1\Provider\Tumblr::NAME        => OAuth1\Provider\Tumblr::class,
         OAuth1\Provider\Atlassian::NAME     => OAuth1\Provider\Atlassian::class,
+        OAuth1\Provider\Trello::NAME        => OAuth1\Provider\Trello::class,
         // OAuth2
         OAuth2\Provider\Facebook::NAME      => OAuth2\Provider\Facebook::class,
         OAuth2\Provider\Google::NAME        => OAuth2\Provider\Google::class,

@@ -35,6 +35,7 @@ Demo [https://sc.lowl.io/](https://sc.lowl.io/)
 * Twitter
 * 500px
 * Tumblr
+* Trello
 
 ### OAuth 2
 

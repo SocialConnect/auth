@@ -214,5 +214,17 @@ return [
             'applicationId'     => '',
             'applicationSecret' => '',
         ],
+        // https://trello.com/app-key
+        'trello' => [
+            'applicationId' => '',
+            'applicationSecret' => '',
+            'options' => [
+                'name' => 'My Awesome App',
+                'expiration' => '1day',
+            ],
+            'scope' => [
+                'read'
+            ]
+        ],
     ]
 ];

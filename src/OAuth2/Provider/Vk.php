@@ -73,7 +73,7 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         $parameters = [
-            'v' => '5.24',
+            'v' => '5.100',
             'access_token' => $accessToken->getToken(),
         ];
 

@@ -73,7 +73,7 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
         $response = $this->httpClient->request(
             $this->getBaseUri() . 'method/users.get',
             [
-                'v' => '5.24',
+                'v' => '5.100',
                 'access_token' => $accessToken->getToken(),
                 'fields' => $this->getFieldsInline()
             ]

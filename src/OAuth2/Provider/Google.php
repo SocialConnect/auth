@@ -81,6 +81,24 @@ class Google extends AbstractProvider
             ]
         );
 
+        $fields = $this->getArrayOption('identity.fields', [
+            'id',
+            'email',
+            'verified_email',
+            'name',
+            'given_name',
+            'family_name',
+            'picture',
+            'locale',
+            //
+            'gender',
+            'hd',
+            'link',
+        ]);
+        if ($fields) {
+            $parameters['fields'] = implode(',', $fields);
+        }
+
         if (!$response->isSuccess()) {
             throw new InvalidResponse(
                 'API response with error code',

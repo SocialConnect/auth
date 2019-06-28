@@ -109,7 +109,7 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
                 'last_name' => 'lastname',
                 'email' => 'email',
                 'bdate' => 'birthday',
-                'nickname' => 'username',
+                'screen_name' => 'username',
                 'sex' => 'sex',
                 'photo_max_orig' => 'pictureURL',
             ]

@@ -81,7 +81,8 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
                 'id' => 'id',
                 'login' => 'username',
                 'email' => 'email',
-                'avatar_url' => 'pictureURL'
+                'avatar_url' => 'pictureURL',
+                'name' => 'fullname'
             ]
         );
 

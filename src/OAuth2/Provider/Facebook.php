@@ -25,7 +25,7 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
 
     public function getBaseUri()
     {
-        return 'https://graph.facebook.com/v2.8/';
+        return 'https://graph.facebook.com/v3.3/';
     }
 
     public function getAuthorizeUri()

@@ -74,12 +74,9 @@ class Google extends AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'oauth2/v1/userinfo',
-            [
-                'access_token' => $accessToken->getToken()
-            ]
-        );
+        $parameters = [
+            'access_token' => $accessToken->getToken()
+        ];
 
         $fields = $this->getArrayOption('identity.fields', [
             'id',
@@ -98,6 +95,11 @@ class Google extends AbstractProvider
         if ($fields) {
             $parameters['fields'] = implode(',', $fields);
         }
+
+        $response = $this->httpClient->request(
+            $this->getBaseUri() . 'oauth2/v1/userinfo',
+            $parameters
+        );
 
         if (!$response->isSuccess()) {
             throw new InvalidResponse(

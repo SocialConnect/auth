@@ -5,7 +5,7 @@ COPY . .
 
 RUN gem install bundler -v '2.0.2'
 RUN bundle install
-RUN bundle exec jekyll build
+RUN JEKYLL_ENV=production bundle exec jekyll build
 
 FROM nginx:alpine
 

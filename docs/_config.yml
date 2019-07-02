@@ -1,7 +1,7 @@
 title: SocialConnect
 email: talk@dmtry.me
 description: ""
-baseurl: ""
+baseurl: "/"
 url: ""
 twitter_username: ovrweb
 github_username:  socialconnect
@@ -10,5 +10,12 @@ search_enabled: true
 
 markdown: kramdown
 theme: just-the-docs
+
 plugins:
   - jekyll-feed
+  - jekyll-analytics
+
+jekyll_analytics:
+  GoogleAnalytics:
+    id: UA-20503308-12
+    anonymizeIp: false

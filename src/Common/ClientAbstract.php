@@ -8,10 +8,6 @@ namespace SocialConnect\Common;
 
 use InvalidArgumentException;
 
-/**
- * Class ClientAbstract
- * @package SocialConnect\Common
- */
 abstract class ClientAbstract
 {
     /**

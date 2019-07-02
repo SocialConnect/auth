@@ -14,10 +14,6 @@ use SocialConnect\OAuth2;
 use SocialConnect\OpenID;
 use SocialConnect\OpenIDConnect;
 
-/**
- * Class Factory
- * @package SocialConnect\Auth\Provider
- */
 class CollectionFactory implements FactoryInterface
 {
     /**

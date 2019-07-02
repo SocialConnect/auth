@@ -6,10 +6,6 @@
 
 namespace SocialConnect\Common\Entity;
 
-/**
- * Class User
- * @package SocialConnect\Common\Entity
- */
 class User extends \stdClass
 {
     /**

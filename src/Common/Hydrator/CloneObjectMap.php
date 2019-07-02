@@ -6,10 +6,6 @@
 
 namespace SocialConnect\Common\Hydrator;
 
-/**
- * Class ObjectMap
- * @package SocialConnect\Common\Hydrator
- */
 class CloneObjectMap
 {
     /**

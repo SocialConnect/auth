@@ -1,5 +1,5 @@
 ---
-id:providers
+layout: home
 title: Providers
 sidebar_label: Providers
 ---

@@ -2,6 +2,7 @@
 layout: default
 title: Migrating from SocialConnect/Auth 2.x to 3.x
 parent: Documentation
+nav_order: 2
 ---
 
 # Migrating from SocialConnect/Auth 2.x to 3.x
@@ -17,7 +18,7 @@ $ composer require symfony/cache
 
 Next, You replace you `Http\Client\Cache` creation to:
 
-```
+```php
 $httpClient = new \SocialConnect\Common\Http\Client\Cache(
     $httpClient,
     /**

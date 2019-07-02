@@ -1,9 +1,10 @@
 <?php
 /**
  * SocialConnect project
- *
+ * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  * @author: Bogdan Popa https://github.com/icex <bogdan@pixelwattstudio.com>
  */
+declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 

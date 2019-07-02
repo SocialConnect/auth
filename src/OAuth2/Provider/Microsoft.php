@@ -2,7 +2,9 @@
 /**
  * SocialConnect project
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
+ * @author: Andreas Heigl https://github.com/heiglandreas <andreas@heigl.org>
  */
+declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 

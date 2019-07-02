@@ -101,10 +101,11 @@ $httpClient = new \SocialConnect\Common\Http\Client\Curl();
 $httpClient = new \SocialConnect\Common\Http\Client\Cache(
     $httpClient,
     /**
-     * Please dont use FilesystemCache for production/stage env, only for local testing!
-     * It doesnot support cache expire (remove)
+     * You can use any library with PSR-6 compatibility
      */
-    new \Doctrine\Common\Cache\FilesystemCache(
+    new \Symfony\Component\Cache\Adapter\FilesystemAdapter(
+        'socialconnect',
+        0,
         __DIR__ . '/cache'
     )
 );

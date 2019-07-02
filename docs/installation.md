@@ -1,5 +1,5 @@
 ---
-id:installation
+layout: home
 title: Installation
 sidebar_label: Installation
 ---

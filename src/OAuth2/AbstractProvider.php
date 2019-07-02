@@ -123,7 +123,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
         return new \SocialConnect\Common\Http\Request(
             $this->getRequestTokenUri(),
-            $parameters,
+            [
+                'form' => $parameters,
+            ],
             $this->requestHttpMethod,
             [
                 'Content-Type' => 'application/x-www-form-urlencoded'

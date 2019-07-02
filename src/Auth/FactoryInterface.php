@@ -1,10 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: ovr
- * Date: 19.08.15
- * Time: 10:14
+ * SocialConnect project
+ * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
+declare(strict_types=1);
 
 namespace SocialConnect\Auth;
 

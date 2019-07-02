@@ -12,10 +12,6 @@ use SocialConnect\Common\Http\Client\ClientInterface;
 use SocialConnect\Common\HttpClient;
 use SocialConnect\Provider\Session\SessionInterface;
 
-/**
- * Class Service
- * @package SocialConnect\Auth
- */
 class Service
 {
     /**

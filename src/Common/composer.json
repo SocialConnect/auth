@@ -1,10 +1,9 @@
 {
-    "name": "socialconnect/oauth1",
-    "description": "Implementation of OAuth 1 client specification",
+    "name": "socialconnect/common",
+    "description": "Common library",
     "type": "library",
     "require": {
-        "php": ">=7.0",
-        "socialconnect/provider": "^2.0.0"
+        "php": ">=7.0"
     },
     "license": "MIT",
     "authors": [
@@ -16,7 +15,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "SocialConnect\\OAuth1\\": ""
+            "SocialConnect\\Common\\": ""
         }
     }
 }

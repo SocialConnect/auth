@@ -26,7 +26,8 @@
     ],
     "require": {
         "php": ">=7.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "psr/cache": "^1.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.3.2",

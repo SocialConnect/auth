@@ -28,20 +28,20 @@ class Guzzle extends Client
     /**
      * {@inheritdoc}
      */
-    public function request($uri, array $parameters = array(), $method = Client::GET, array $headers = array(), array $options = array())
+    public function request(string $url, array $options = [], array $headers = [], string $method = Client::GET): Response
     {
         switch ($method) {
             case Client::GET:
-                $response = $this->client->get($uri, ['query' => $parameters, 'headers' => $headers]);
+                $response = $this->client->get($url, ['query' => $options['query'], 'headers' => $headers]);
                 break;
             case Client::POST:
-                $response = $this->client->post($uri, ['form_params' => $parameters, 'headers' => $headers]);
+                $response = $this->client->post($url, ['form_params' => $options['form'], 'headers' => $headers]);
                 break;
             case Client::PUT:
-                $response = $this->client->put($uri, ['form_params' => $parameters, 'headers' => $headers]);
+                $response = $this->client->put($url, ['form_params' => $options['form'], 'headers' => $headers]);
                 break;
             case Client::DELETE:
-                $response = $this->client->delete($uri, ['query' => $parameters, 'headers' => $headers]);
+                $response = $this->client->delete($url, ['query' => $options['query'], 'headers' => $headers]);
                 break;
             default:
                 throw new InvalidArgumentException("Method {$method} is not supported");

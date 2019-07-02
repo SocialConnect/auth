@@ -41,4 +41,4 @@ sh curl -sS https://getcomposer.org/installer | php
 
 ### License
 
-Just the Docs is distributed by an [MIT license](https://github.com/socialconnect/auth/tree/master/LICENSE).
+SocialConnect projects are distributed by an [MIT license](https://github.com/socialconnect/auth/tree/master/LICENSE).

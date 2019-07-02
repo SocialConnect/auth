@@ -6,6 +6,7 @@
 
 namespace SocialConnect\Common\Http\Client;
 
+use Psr\Cache\CacheItemPoolInterface;
 use SocialConnect\Common\Http\Response;
 
 class Cache extends Client
@@ -16,15 +17,15 @@ class Cache extends Client
     protected $client;
 
     /**
-     * @var \Doctrine\Common\Cache\Cache
+     * @var CacheItemPoolInterface
      */
     protected $cache;
 
     /**
      * @param Client $client
-     * @param \Doctrine\Common\Cache\Cache $cache
+     * @param CacheItemPoolInterface $cache
      */
-    public function __construct(Client $client, \Doctrine\Common\Cache\Cache $cache)
+    public function __construct(Client $client, CacheItemPoolInterface $cache)
     {
         $this->client = $client;
         $this->cache = $cache;

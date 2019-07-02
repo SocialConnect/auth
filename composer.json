@@ -26,8 +26,7 @@
     ],
     "require": {
         "php": ">=7.0",
-        "ext-json": "*",
-        "socialconnect/common": "^1.1"
+        "ext-json": "*"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.3.2",

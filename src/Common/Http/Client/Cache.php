@@ -6,6 +6,8 @@
 
 namespace SocialConnect\Common\Http\Client;
 
+use SocialConnect\Common\Http\Response;
+
 class Cache extends Client
 {
     /**
@@ -49,18 +51,18 @@ class Cache extends Client
     /**
      * {@inheritdoc}
      */
-    public function request($url, array $parameters = array(), $method = Client::GET, array $headers = array(), array $options = array())
+    public function request(string $url, array $options = [], array $headers = [], string $method = Client::GET): Response
     {
         if ($method != Client::GET) {
-            return $this->client->request($url, $parameters, $method, $headers, $options);
+            return $this->client->request($url, $options, $headers, $method);
         }
 
-        $key = $this->makeCacheKey($url, $parameters);
+        $key = $this->makeCacheKey($url, $options);
         if ($key && $this->cache->contains($key)) {
             return $this->cache->fetch($key);
         }
 
-        $response = $this->client->request($url, $parameters, $method, $headers, $options);
+        $response = $this->client->request($url, $options, $headers, $method);
         $noCache = $response->hasHeader('Pragma') && $response->getHeader('Pragma') == 'no-cache';
 
         if (!$noCache && $response->hasHeader('Expires')) {

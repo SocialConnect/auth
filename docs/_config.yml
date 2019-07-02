@@ -1,0 +1,14 @@
+title: SocialConnect
+email: talk@dmtry.me
+description: ""
+baseurl: ""
+url: ""
+twitter_username: ovrweb
+github_username:  socialconnect
+
+search_enabled: true
+
+markdown: kramdown
+theme: just-the-docs
+plugins:
+  - jekyll-feed

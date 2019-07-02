@@ -16,10 +16,6 @@ use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
-/**
- * Class Provider
- * @package SocialConnect\Google
- */
 class Google extends AbstractProvider
 {
     const NAME = 'google';

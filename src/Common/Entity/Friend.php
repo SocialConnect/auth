@@ -6,10 +6,6 @@
 
 namespace SocialConnect\Common\Entity;
 
-/**
- * Class Friend
- * @package SocialConnect\Common\Entity
- */
 class Friend extends User
 {
 

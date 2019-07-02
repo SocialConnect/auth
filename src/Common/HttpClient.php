@@ -6,10 +6,6 @@
 
 namespace SocialConnect\Common;
 
-/**
- * Class HttpClient
- * @package SocialConnect\Common
- */
 trait HttpClient
 {
     /**

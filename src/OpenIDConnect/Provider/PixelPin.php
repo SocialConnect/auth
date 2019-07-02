@@ -15,10 +15,6 @@ use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 use SocialConnect\Common\Http\Client\Client;
 
-/**
- * Class Provider
- * @package SocialConnect\Google
- */
 class PixelPin extends AbstractProvider
 {
     const NAME = 'pixelpin';

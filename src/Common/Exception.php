@@ -6,10 +6,6 @@
 
 namespace SocialConnect\Common;
 
-/**
- * Base Exception Class
- * @package SocialConnect\Common
- */
 class Exception extends \Exception
 {
 

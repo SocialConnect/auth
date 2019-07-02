@@ -14,10 +14,6 @@ use SocialConnect\OpenIDConnect\AbstractProvider;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
-/**
- * Class Provider
- * @package SocialConnect\Google
- */
 class Google extends AbstractProvider
 {
     /**

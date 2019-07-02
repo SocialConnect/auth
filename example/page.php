@@ -11,10 +11,10 @@
     <style>
         .top-buffer { margin-top:20px; }
     </style>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
 <body>
-<div class="row top-buffer">
-    <div class="col-md-3 col-md-offset-4">
+    <div class="container top-buffer">
         <form action="/" method="post">
             <legend>Auth from Social Networks</legend>
             <?php foreach ($configureProviders['provider'] as $name => $parameters) : ?>
@@ -24,12 +24,11 @@
                     $enabled = (bool) $parameters['enabled'];
                 }
                 ?>
-                <button class="btn btn-default" name="provider" type="submit" value="<?php echo strtolower($name); ?>"<?php echo (!$enabled) ? ' disabled="disabled"' : ''; ?>>
+                <button class="btn btn-default col-lg-2 col-md-2 col-sm-4 col-xs-6" name="provider" type="submit" value="<?php echo strtolower($name); ?>"<?php echo (!$enabled) ? ' disabled="disabled"' : ''; ?>>
                     <i class="fa fa-<?php echo strtolower($name); ?>"></i> <?php echo $name; ?>
                 </button>
             <?php endforeach; ?>
         </form>
     </div>
-</div>
 </body>
 </html>

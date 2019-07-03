@@ -53,19 +53,6 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function parseToken($body)
-    {
-        $result = json_decode($body, true);
-        if ($result) {
-            return new AccessToken($result);
-        }
-
-        throw new InvalidAccessToken('AccessToken is not a valid JSON');
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function prepareRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void

@@ -7,7 +7,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Provider\AccessTokenInterface;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
@@ -48,6 +50,24 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
     public function getName()
     {
         return self::NAME;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function parseToken(string $body)
+    {
+        if (empty($body)) {
+            throw new InvalidAccessToken('Provider response with empty body');
+        }
+
+        parse_str($body, $token);
+
+        if (!is_array($token) || !isset($token['access_token'])) {
+            throw new InvalidAccessToken('Provider API returned an unexpected response');
+        }
+
+        return new AccessToken($token);
     }
 
     /**

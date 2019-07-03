@@ -44,23 +44,6 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function parseToken(string $body): AccessToken
-    {
-        if (empty($body)) {
-            throw new InvalidAccessToken('Provider response with empty body');
-        }
-
-        $result = json_decode($body, true);
-        if ($result) {
-            return new AccessToken($result);
-        }
-
-        throw new InvalidAccessToken('Provider response with not valid JSON');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         $query = [];

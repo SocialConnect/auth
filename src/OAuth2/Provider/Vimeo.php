@@ -57,7 +57,7 @@ class Vimeo extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function parseToken($body)
+    public function parseToken(string $body)
     {
         $response = json_decode($body, true);
         if ($response) {

@@ -63,19 +63,6 @@ class Reddit extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritDoc}
      */
-    public function parseToken(string $body)
-    {
-        $response = json_decode($body, true);
-        if ($response) {
-            return new AccessToken($response);
-        }
-
-        throw new InvalidAccessToken('AccessToken is not a valid JSON');
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function prepareRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
     {
         if ($accessToken) {

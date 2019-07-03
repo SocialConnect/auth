@@ -53,7 +53,7 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function parseToken($body)
+    public function parseToken(string $body)
     {
         if (empty($body)) {
             throw new InvalidAccessToken('Provider response with empty body');

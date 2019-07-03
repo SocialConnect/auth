@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use Psr\Http\Message\RequestInterface;
+use SocialConnect\Common\Exception\Unsupported;
 use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Provider\AccessTokenInterface;
@@ -40,10 +42,9 @@ class Reddit extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
-     * @param string $code
-     * @return \SocialConnect\Common\Http\Request
+     * {@inheritDoc}
      */
-    protected function makeAccessTokenRequest($code)
+    protected function makeAccessTokenRequest(string $code): RequestInterface
     {
         $parameters = [
             'code' => $code,
@@ -51,23 +52,21 @@ class Reddit extends \SocialConnect\OAuth2\AbstractProvider
             'redirect_uri' => $this->getRedirectUrl()
         ];
 
-        return new \SocialConnect\Common\Http\Request(
-            $this->getRequestTokenUri(),
-            $parameters,
+        return new \GuzzleHttp\Psr7\Request(
             $this->requestHttpMethod,
+            $this->getRequestTokenUri(),
             [
                 'Content-Type' => 'application/x-www-form-urlencoded',
                 'Authorization' => 'Basic ' . base64_encode($this->consumer->getKey() . ':' . $this->consumer->getSecret())
-            ]
+            ],
+            http_build_query($parameters)
         );
     }
 
     /**
-     * @param $body
-     * @return AccessToken
-     * @throws InvalidAccessToken
+     * {@inheritDoc}
      */
-    public function parseToken($body)
+    public function parseToken(string $body)
     {
         $response = json_decode($body, true);
         if ($response) {
@@ -78,36 +77,24 @@ class Reddit extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function prepareRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    {
+        if ($accessToken) {
+            $headers['Authorization'] = "Bearer {$accessToken->getToken()}";
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'me.json',
-            [],
-            Client::GET,
-            [
-                'Authorization' => 'Bearer ' . $accessToken->getToken()
-            ]
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $response = $this->request('me.json', [], $accessToken);
 
         $hydrator = new ObjectMap([]);
 
-        return $hydrator->hydrate(new User(), $result);
+        return $hydrator->hydrate(new User(), $response);
     }
 }

@@ -66,43 +66,31 @@ class Meetup extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function prepareRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    {
+        $query['format'] = 'json';
+
+        if ($accessToken) {
+            $headers['Authorization'] = "Bearer {$accessToken->getToken()}";
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . '2/member/self?sign=true&photo-host=public&fields=gender',
-            [
-                'format' => 'json'
-            ],
-            Client::GET,
-            [
-                'Authorization' => 'Bearer ' . $accessToken->getToken(),
-            ]
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $response = $this->request('2/member/self?sign=true&photo-host=public&fields=gender', [], $accessToken);
 
         $user = new User();
 
-        $user->id         = $result->id;
-        $user->username   = $result->name;
-        $user->fullname   = $result->name;
-        $user->sex        = $result->gender;
-        $user->pictureURL = $result->photo->photo_link;
+        $user->id         = $response->id;
+        $user->username   = $response->name;
+        $user->fullname   = $response->name;
+        $user->sex        = $response->gender;
+        $user->pictureURL = $response->photo->photo_link;
 
         return $user;
     }

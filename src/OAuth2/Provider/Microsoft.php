@@ -73,27 +73,7 @@ class Microsoft extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'me',
-            [
-                'access_token' => $accessToken->getToken()
-            ]
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $response = $this->request('me', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [
@@ -105,15 +85,15 @@ class Microsoft extends \SocialConnect\OAuth2\AbstractProvider
         );
 
         /** @var User $user */
-        $user = $hydrator->hydrate(new User(), $result);
+        $user = $hydrator->hydrate(new User(), $response);
 
-        if ($result->emails) {
-            if ($result->emails->preferred) {
-                $user->email = $result->emails->preferred;
-            } elseif ($result->emails->account) {
-                $user->email = $result->emails->account;
-            } elseif ($result->emails->personal) {
-                $user->email = $result->emails->personal;
+        if ($response->emails) {
+            if ($response->emails->preferred) {
+                $user->email = $response->emails->preferred;
+            } elseif ($response->emails->account) {
+                $user->email = $response->emails->account;
+            } elseif ($response->emails->personal) {
+                $user->email = $response->emails->personal;
             }
         }
 

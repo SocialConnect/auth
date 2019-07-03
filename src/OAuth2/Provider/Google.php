@@ -70,9 +70,7 @@ class Google extends AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $parameters = [
-            'access_token' => $accessToken->getToken()
-        ];
+        $query = [];
 
         $fields = $this->getArrayOption('identity.fields', [
             'id',
@@ -89,28 +87,10 @@ class Google extends AbstractProvider
             'link',
         ]);
         if ($fields) {
-            $parameters['fields'] = implode(',', $fields);
+            $query['fields'] = implode(',', $fields);
         }
 
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'oauth2/v1/userinfo',
-            $parameters
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $response = $this->request('oauth2/v1/userinfo', $query, $accessToken);
 
         $hydrator = new ObjectMap(
             [
@@ -125,7 +105,7 @@ class Google extends AbstractProvider
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result);
+        return $hydrator->hydrate(new User(), $response);
     }
 
     /**

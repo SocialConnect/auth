@@ -50,7 +50,7 @@ class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
         return self::NAME;
     }
 
-    public function parseToken($body)
+    public function parseToken(string $body)
     {
         if (empty($body)) {
             throw new InvalidAccessToken('Provider response with empty body');
@@ -70,27 +70,7 @@ class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'user',
-            [
-                'access_token' => $accessToken->getToken()
-            ]
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $response = $this->request('user', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [
@@ -100,7 +80,7 @@ class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
         );
 
         /** @var User $user */
-        $user = $hydrator->hydrate(new User(), $result);
+        $user = $hydrator->hydrate(new User(), $response);
         $user->pictureURL = "https://bitbucket.org/account/{$user->username}/avatar/512/";
 
         return $user;

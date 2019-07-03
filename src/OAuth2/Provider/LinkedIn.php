@@ -66,35 +66,27 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function prepareRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    {
+        $query['format'] = 'json';
+
+        if ($accessToken) {
+            $headers['Authorization'] = "Bearer {$accessToken->getToken()}";
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'people/~:(id,first-name,last-name,email-address,picture-url,location:(name))',
-            [
-                'format' => 'json'
-            ],
-            Client::GET,
-            [
-                'Authorization' => 'Bearer ' . $accessToken->getToken(),
-            ]
+        $response = $this->request(
+            'people/~:(id,first-name,last-name,email-address,picture-url,location:(name))',
+            [],
+            $accessToken
         );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
 
         $hydrator = new ObjectMap(
             [
@@ -106,6 +98,6 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result);
+        return $hydrator->hydrate(new User(), $response);
     }
 }

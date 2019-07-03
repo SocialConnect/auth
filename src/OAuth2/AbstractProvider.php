@@ -160,7 +160,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     public function prepareRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
     {
         if ($accessToken) {
-            $headers['Authorization'] = "bearer {$accessToken->getToken()}";
+            $query['access_token'] = $accessToken->getToken();
         }
     }
 

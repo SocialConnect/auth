@@ -6,12 +6,15 @@
 
 namespace Test\OAuth2\Provider;
 
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\ResponseInterface;
 use ReflectionClass;
-use SocialConnect\Common\Http\Client\ClientInterface;
+use SocialConnect\OAuth2\AbstractProvider;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Provider\Consumer;
 use SocialConnect\Provider\Session\SessionInterface;
 use Test\TestCase;
+use function GuzzleHttp\Psr7\stream_for;
 
 abstract class AbstractProviderTestCase extends TestCase
 {
@@ -21,31 +24,24 @@ abstract class AbstractProviderTestCase extends TestCase
     abstract protected function getProviderClassName();
 
     /**
-     * @param mixed $responseData
+     * @param string|null $responseData
      * @param int $responseCode
-     * @param bool $mockFromRequest
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject|ResponseInterface
      */
-    protected function mockClientResponse($responseData, $responseCode = 200, $mockFromRequest = false)
+    protected function mockClientResponse($responseData, $responseCode = 200)
     {
-        $mockedHttpClient = $this->getMockBuilder(\SocialConnect\Common\Http\Client\Curl::class)
+        $mockedHttpClient = $this->getMockBuilder(ClientInterface::class)
             ->getMock();
 
-        $response = new \SocialConnect\Common\Http\Response(
+        $response = new \GuzzleHttp\Psr7\Response(
             $responseCode,
-            $responseData,
-            []
+            [],
+            stream_for($responseData)
         );
 
-        if ($mockFromRequest) {
-            $mockedHttpClient->expects($this->once())
-                ->method('fromRequest')
-                ->willReturn($response);
-        } else {
-            $mockedHttpClient->expects($this->once())
-                ->method('request')
-                ->willReturn($response);
-        }
+        $mockedHttpClient->expects($this->once())
+            ->method('sendRequest')
+            ->willReturn($response);
 
         return $mockedHttpClient;
     }
@@ -55,6 +51,7 @@ abstract class AbstractProviderTestCase extends TestCase
      * @param string $name
      * @param array $params
      * @return mixed
+     * @throws \ReflectionException
      */
     protected static function callProtectedMethod($object, $name, array $params = [])
     {
@@ -68,19 +65,20 @@ abstract class AbstractProviderTestCase extends TestCase
 
     /**
      * @param ClientInterface|null $httpClient
-     * @return \SocialConnect\OAuth2\AbstractProvider
+     * @param SessionInterface|null $session
+     * @return AbstractProvider
      */
     protected function getProvider(ClientInterface $httpClient = null, SessionInterface $session = null)
     {
         if (!$httpClient) {
-            $httpClient = $this->getMockBuilder(\SocialConnect\Common\Http\Client\Curl::class)
+            $httpClient = $this->getMockBuilder(ClientInterface::class)
                 ->disableOriginalConstructor()
                 ->disableProxyingToOriginalMethods()
                 ->getMock();
         }
 
         if (!$session) {
-            $session = $this->getMockBuilder(\SocialConnect\Provider\Session\Session::class)
+            $session = $this->getMockBuilder(SessionInterface::class)
                 ->disableOriginalConstructor()
                 ->disableProxyingToOriginalMethods()
                 ->getMock();
@@ -102,8 +100,8 @@ abstract class AbstractProviderTestCase extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Parameter $code must be a string
+     * @expectedException \TypeError
+     * @expectedExceptionMessage Argument 1 passed to SocialConnect\OAuth2\AbstractProvider::getAccessToken() must be of the type string, null given
      */
     public function testGetAccessTokenFail()
     {
@@ -163,13 +161,12 @@ abstract class AbstractProviderTestCase extends TestCase
      */
     public function testGetAccessTokenResponseInternalServerErrorFail()
     {
-        $this->getProvider(
-            $this->mockClientResponse(
-                null,
-                500,
-                true
-            )
-        )->getAccessToken('XXXXXXXXXXXX');
+        $client = $this->mockClientResponse(
+            null,
+            500,
+            true
+        );
+        $this->getProvider($client)->getAccessToken('XXXXXXXXXXXX');
     }
 
     /**
@@ -179,7 +176,7 @@ abstract class AbstractProviderTestCase extends TestCase
     public function testGetIdentityInternalServerError()
     {
         $mockedHttpClient = $this->mockClientResponse(
-            [],
+            null,
             500
         );
 

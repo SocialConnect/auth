@@ -110,7 +110,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
     /**
      * @param string $code
-     * @return \SocialConnect\Common\Http\Request
+     * @return \Psr\Http\Message\RequestInterface
      */
     protected function makeAccessTokenRequest($code)
     {
@@ -122,62 +122,62 @@ abstract class AbstractProvider extends AbstractBaseProvider
             'redirect_uri' => $this->getRedirectUrl()
         ];
 
-        return new \SocialConnect\Common\Http\Request(
+        return new \GuzzleHttp\Psr7\Request(
+            $this->requestHttpMethod,
             $this->getRequestTokenUri(),
             [
-                'form' => $parameters,
-            ],
-            $this->requestHttpMethod,
-            [
                 'Content-Type' => 'application/x-www-form-urlencoded'
-            ]
+            ],
+            http_build_query($parameters)
         );
     }
 
     /**
      * @param string $code
      * @return AccessToken
+     * @throws InvalidAccessToken
      * @throws InvalidResponse
+     * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public function getAccessToken($code)
+    public function getAccessToken(string $code): AccessToken
     {
-        if (!is_string($code)) {
-            throw new InvalidArgumentException('Parameter $code must be a string');
-        }
-
-        $response = $this->httpClient->fromRequest(
+        $response = $this->httpClient->sendRequest(
             $this->makeAccessTokenRequest($code)
         );
 
-        if (!$response->isSuccess()) {
+        $statusCode = $response->getStatusCode();
+        if (!(200 <= $statusCode && 300 > $statusCode)) {
             throw new InvalidResponse(
                 'API response with error code',
                 $response
             );
         }
 
-        $body = $response->getBody();
-        return $this->parseToken($body);
+        return $this->parseToken($response->getBody()->getContents());
     }
 
     public function request($uri, AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . $uri,
-            [],
-            [
-                'Authorization' => "token {$accessToken->getToken()}"
-            ]
+        $response = $this->httpClient->sendRequest(
+            new \GuzzleHttp\Psr7\Request(
+                'GET',
+                $this->getBaseUri() . $uri,
+                [
+                    'Authorization' => "token {$accessToken->getToken()}"
+                ],
+                null
+            )
         );
 
-        if (!$response->isSuccess()) {
+        $statusCode = $response->getStatusCode();
+        if (!(200 <= $statusCode && 300 > $statusCode)) {
             throw new InvalidResponse(
                 'API response with error code',
                 $response
             );
         }
 
-        $result = $response->json();
+        $result = json_decode($response->getBody()->getContents(), false);
         if (!$result) {
             throw new InvalidResponse(
                 'API response is not a valid JSON object',
@@ -191,11 +191,13 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * @param array $parameters
      * @return AccessToken
+     * @throws InvalidAccessToken
      * @throws InvalidResponse
      * @throws InvalidState
      * @throws Unauthorized
      * @throws UnknownAuthorization
      * @throws UnknownState
+     * @throws \Psr\Http\Client\ClientExceptionInterface
      */
     public function getAccessTokenByRequestParameters(array $parameters)
     {

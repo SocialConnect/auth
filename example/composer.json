@@ -5,8 +5,9 @@
         "php": ">=7.1",
         "slim/slim": "^3.9",
         "symfony/var-dumper": "^4.3",
-        "guzzlehttp/guzzle": "^6.3.3",
-        "symfony/cache": "^4.3"
+        "guzzlehttp/guzzle": "^6.3",
+        "symfony/cache": "^4.3",
+        "php-http/guzzle6-adapter": "^2.0"
     },
     "license": "MIT",
     "authors": [

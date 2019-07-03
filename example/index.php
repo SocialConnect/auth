@@ -17,9 +17,9 @@ $httpClient = new \SocialConnect\Common\Http\Client\Curl();
  * By default We are using Curl class from SocialConnect/Common
  * but you can use Guzzle wrapper ^5.3|^6.0
  */
-//$httpClient = new \SocialConnect\Common\Http\Client\Guzzle(
-//    new \GuzzleHttp\Client()
-//);
+$httpClient = new \Http\Adapter\Guzzle6\Client(
+    new \GuzzleHttp\Client()
+);
 
 /**
  * Why We need Cache decorator for HTTP Client?
@@ -32,19 +32,19 @@ $httpClient = new \SocialConnect\Common\Http\Client\Curl();
  * If you don`t use providers like (Steam) from OpenID or OpenIDConnect
  * you may skip this because it's not needed
  */
-$httpClient = new \SocialConnect\Common\Http\Client\Cache(
-    $httpClient,
-    /**
-     * You can use any library with PSR-16 (simple-cache) compatibility
-     */
-    new \Symfony\Component\Cache\Psr16Cache(
-        new \Symfony\Component\Cache\Adapter\PhpFilesAdapter(
-            'socialconnect',
-            0,
-            __DIR__ . '/cache'
-        )
-    )
-);
+//$httpClient = new \SocialConnect\Common\Http\Client\Cache(
+//    $httpClient,
+//    /**
+//     * You can use any library with PSR-16 (simple-cache) compatibility
+//     */
+//    new \Symfony\Component\Cache\Psr16Cache(
+//        new \Symfony\Component\Cache\Adapter\PhpFilesAdapter(
+//            'socialconnect',
+//            0,
+//            __DIR__ . '/cache'
+//        )
+//    )
+//);
 
 /**
  * By default collection factory is null, in this case Auth\Service will create

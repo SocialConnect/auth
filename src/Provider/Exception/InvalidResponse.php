@@ -7,20 +7,20 @@ declare(strict_types=1);
 
 namespace SocialConnect\Provider\Exception;
 
-use SocialConnect\Common\Http\Response;
+use Psr\Http\Message\ResponseInterface;
 
 class InvalidResponse extends \SocialConnect\Common\Exception
 {
     /**
-     * @var Response|null
+     * @var ResponseInterface|null
      */
     protected $response;
 
     /**
      * @param string $message
-     * @param Response|null $response
+     * @param ResponseInterface|null $response
      */
-    public function __construct($message = 'API bad response', Response $response = null)
+    public function __construct($message = 'API bad response', ResponseInterface $response = null)
     {
         parent::__construct($message);
 
@@ -30,7 +30,7 @@ class InvalidResponse extends \SocialConnect\Common\Exception
     /**
      * Get response data.
      *
-     * @return Response|null
+     * @return ResponseInterface|null
      */
     public function getResponse()
     {

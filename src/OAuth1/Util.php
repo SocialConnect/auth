@@ -15,16 +15,23 @@ class Util
      */
     public static function urlencodeRFC3986($input)
     {
+        if (is_int($input)) {
+            return (string) $input;
+        }
+
         if (is_array($input)) {
             return array_map(array(
                 __NAMESPACE__ . '\Util',
                 'urlencodeRFC3986'
             ), $input);
-        } elseif (is_scalar($input)) {
-            return rawurlencode($input);
-        } else {
-            return '';
         }
+
+        if (is_scalar($input)) {
+            return rawurlencode($input);
+        }
+
+        $type = gettype($input);
+        throw new \InvalidArgumentException("Unsupported type: {$type}");
     }
 
     /**
@@ -50,7 +57,6 @@ class Util
             return '';
         }
 
-        // Urlencode both keys and values
         $keys   = self::urlencodeRFC3986(array_keys($params));
         $values = self::urlencodeRFC3986(array_values($params));
         $params = array_combine($keys, $values);

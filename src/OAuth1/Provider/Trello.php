@@ -13,6 +13,7 @@ use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth1\AbstractProvider;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
+use function GuzzleHttp\Psr7\build_query;
 
 class Trello extends AbstractProvider
 {
@@ -72,19 +73,19 @@ class Trello extends AbstractProvider
         ];
 
         $response = $this->oauthRequest(
-            $this->getBaseUri() . 'members/me',
-            Client::GET,
-            $parameters
+            $this->getBaseUri() . 'members/me?' . build_query($parameters),
+            Client::GET
         );
 
-        if (!$response->isSuccess()) {
+        $statusCode = $response->getStatusCode();
+        if (!(200 <= $statusCode && 300 > $statusCode)) {
             throw new InvalidResponse(
                 'API response with error code',
                 $response
             );
         }
 
-        $result = $response->json();
+        $result = json_decode($response->getBody()->getContents(), false);
         if (!$result) {
             throw new InvalidResponse(
                 'API response is not a valid JSON object',

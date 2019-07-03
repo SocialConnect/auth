@@ -8,13 +8,16 @@ declare(strict_types=1);
 namespace SocialConnect\Common\Http\Client;
 
 use InvalidArgumentException;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use SocialConnect\Common\Http\Client\Curl\RequestException;
 use SocialConnect\Common\Http\Client\Response\HeadersParser;
 use SocialConnect\Common\Http\Response;
 use SocialConnect\Common\Exception;
 use RuntimeException;
 
-class Curl extends Client
+class Curl implements ClientInterface
 {
     /**
      * Curl resource
@@ -53,79 +56,31 @@ class Curl extends Client
     }
 
     /**
-     * {@inheritdoc}
-     * @throws RequestException
-     * @throws Exception\Unsupported
+     * {@inheritDoc}
      */
-    public function request(string $url, array $options = [], array $headers = [], string $method = Client::GET): Response
+    public function sendRequest(RequestInterface $request): ResponseInterface
     {
+        $method = strtoupper($request->getMethod());
         switch ($method) {
-            case Client::POST:
+            case 'POST':
                 curl_setopt($this->curlHandler, CURLOPT_POST, true);
                 break;
-            case Client::GET:
+            case 'GET':
                 curl_setopt($this->curlHandler, CURLOPT_HTTPGET, true);
                 break;
-            case Client::DELETE:
-            case Client::PATCH:
-            case Client::OPTIONS:
-            case Client::PUT:
-            case Client::HEAD:
+            case 'DELETE':
+            case 'PATCH':
+            case 'OPTIONS':
+            case 'PUT':
+            case 'HEAD':
                 curl_setopt($this->curlHandler, CURLOPT_CUSTOMREQUEST, $method);
                 break;
             default:
                 throw new InvalidArgumentException("Method {$method} is not supported");
         }
 
-        if (isset($options['body'])) {
-            curl_setopt($this->curlHandler, CURLOPT_POSTFIELDS, $options['body']);
-            unset($fields);
-        }
-
-        if (isset($options['form'])) {
-            $headers['Content-Type'] = 'application/x-www-form-urlencoded';
-
-            $fields = [];
-
-            foreach ($options['form'] as $name => $value) {
-                $fields[] = urlencode($name) . '=' . urlencode($value);
-            }
-
-            curl_setopt($this->curlHandler, CURLOPT_POSTFIELDS, implode('&', $fields));
-            unset($fields);
-        }
-
-        if (isset($options['multipart'])) {
-            throw new Exception\Unsupported('multipart/form-data is not supported');
-        }
-
-        if (isset($options['query'])) {
-            foreach ($options['query'] as $key => $parameter) {
-                if (is_array($parameter)) {
-                    $parameters[$key] = implode(',', $parameter);
-                }
-            }
-
-            if (strpos($url, '?') === false) {
-                $url .= '?';
-            } else {
-                $url .= '&';
-            }
-
-            $url .= http_build_query($parameters);
-        }
-
-        /**
-         * Prepare function for headers like this
-         *
-         * array('Authorization' => 'token fdsfds')
-         */
-        if (count($headers) > 0) {
-            foreach ($headers as $key => $header) {
-                if (!is_int($key)) {
-                    $headers[$key] = $key . ': ' . $header;
-                }
-            }
+        if ($request->getBody()->getSize()) {
+            curl_setopt($this->curlHandler, CURLOPT_POSTFIELDS, $request->getBody()->__toString());
         }
 
         /**
@@ -135,10 +90,16 @@ class Curl extends Client
             curl_setopt($this->curlHandler, $key, $value);
         }
 
+        $headers = [];
+
+        foreach ($request->getHeaders() as $key => $values) {
+            $headers[$key] = implode(',', $values);
+        }
+
         $headersParser = new HeadersParser();
         curl_setopt($this->curlHandler, CURLOPT_HEADERFUNCTION, array($headersParser, 'parseHeaders'));
         curl_setopt($this->curlHandler, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($this->curlHandler, CURLOPT_URL, $url);
+        curl_setopt($this->curlHandler, CURLOPT_URL, $request->getUri()->__toString());
 
         $result = curl_exec($this->curlHandler);
         if ($result === false) {
@@ -146,17 +107,16 @@ class Curl extends Client
                 curl_error($this->curlHandler),
                 curl_errno($this->curlHandler),
                 [
-                    'url' => $url,
+                    'url' => $request->getUri()->__toString(),
                     'method' => $method,
-                    'parameters' => $parameters
                 ]
             );
         }
 
-        $response = new Response(
+        $response = new \GuzzleHttp\Psr7\Response(
             curl_getinfo($this->curlHandler, CURLINFO_HTTP_CODE),
-            $result,
-            $headersParser->getHeaders()
+            $headersParser->getHeaders(),
+            $result
         );
 
         /**
@@ -187,21 +147,5 @@ class Curl extends Client
     public function getParameters()
     {
         return $this->parameters;
-    }
-
-    /**
-     * @param array $parameters
-     */
-    public function setParameters($parameters)
-    {
-        $this->parameters = $parameters;
-    }
-
-    /**
-     * @return resource
-     */
-    public function getCurlHandler()
-    {
-        return $this->curlHandler;
     }
 }

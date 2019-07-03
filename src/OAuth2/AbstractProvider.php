@@ -102,13 +102,12 @@ abstract class AbstractProvider extends AbstractBaseProvider
             throw new InvalidAccessToken('Provider response with empty body');
         }
 
-        parse_str($body, $token);
-
-        if (!is_array($token) || !isset($token['access_token'])) {
-            throw new InvalidAccessToken('Provider API returned an unexpected response');
+        $result = json_decode($body, true);
+        if ($result) {
+            return new AccessToken($result);
         }
 
-        return new AccessToken($token);
+        throw new InvalidAccessToken('Server response with not valid/empty JSON');
     }
 
     /**
@@ -140,6 +139,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @return AccessToken
      * @throws InvalidAccessToken
      * @throws InvalidResponse
+     * @throws \Psr\Http\Client\ClientExceptionInterface
      */
     public function getAccessToken(string $code): AccessToken
     {

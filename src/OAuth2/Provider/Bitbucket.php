@@ -50,21 +50,6 @@ class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
         return self::NAME;
     }
 
-    public function parseToken(string $body)
-    {
-        if (empty($body)) {
-            throw new InvalidAccessToken('Provider response with empty body');
-        }
-
-        $result = json_decode($body, true);
-        if ($result) {
-            return new AccessToken($result);
-        }
-
-        throw new InvalidAccessToken('Server response with not valid/empty JSON');
-    }
-
-
     /**
      * {@inheritdoc}
      */

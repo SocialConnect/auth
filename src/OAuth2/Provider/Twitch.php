@@ -60,19 +60,6 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function parseToken($body)
-    {
-        $response = json_decode($body, true);
-        if ($response) {
-            return new AccessToken($response);
-        }
-
-        throw new InvalidAccessToken('AccessToken is not a valid JSON');
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function signRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void

@@ -7,8 +7,6 @@ declare(strict_types=1);
 
 namespace SocialConnect\Common\Http;
 
-use SocialConnect\Common\Http\Client\Client;
-
 class Request
 {
     /**
@@ -39,7 +37,7 @@ class Request
      * @param string $method
      * @param array $headers
      */
-    public function __construct($uri, array $parameters = array(), $method = Client::GET, array $headers = [])
+    public function __construct($uri, array $parameters = array(), $method = 'GET', array $headers = [])
     {
         $this->uri = $uri;
         $this->method = $method;

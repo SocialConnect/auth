@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth1\Provider;
 
 use Psr\Http\Client\ClientInterface;
-use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\OAuth1\Signature\MethodRSASHA1;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Consumer;
@@ -115,7 +114,7 @@ class Atlassian extends AbstractProvider
 
         $response = $this->oauthRequest(
             $this->getBaseUri() . '/rest/prototype/1/user/current',
-            Client::GET,
+            'GET',
             $parameters
         );
 
@@ -128,7 +127,7 @@ class Atlassian extends AbstractProvider
 
             $response = $this->oauthRequest(
                 $response->getHeader('Location'),
-                Client::GET,
+                'GET',
                 $parameters
             );
         }

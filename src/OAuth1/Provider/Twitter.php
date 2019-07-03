@@ -10,7 +10,6 @@ namespace SocialConnect\OAuth1\Provider;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Twitter extends \SocialConnect\OAuth1\AbstractProvider
@@ -59,7 +58,7 @@ class Twitter extends \SocialConnect\OAuth1\AbstractProvider
         // @link https://dev.twitter.com/rest/reference/get/account/verify_credentials
         $response = $this->oauthRequest(
             $this->getBaseUri() . 'account/verify_credentials.json',
-            Client::GET,
+            'GET',
             $parameters
         );
 

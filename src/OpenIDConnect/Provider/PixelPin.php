@@ -9,11 +9,9 @@ declare(strict_types=1);
 namespace SocialConnect\OpenIDConnect\Provider;
 
 use SocialConnect\Provider\AccessTokenInterface;
-use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OpenIDConnect\AbstractProvider;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
-use SocialConnect\Common\Http\Client\Client;
 
 class PixelPin extends AbstractProvider
 {

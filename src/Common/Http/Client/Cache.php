@@ -7,6 +7,7 @@
 namespace SocialConnect\Common\Http\Client;
 
 use Psr\SimpleCache\CacheInterface;
+use SocialConnect\Common\Http\HeaderValue;
 use SocialConnect\Common\Http\Response;
 
 class Cache extends Client
@@ -51,9 +52,9 @@ class Cache extends Client
     /**
      * @param string $url
      * @param array $parameters
-     * @return string|null
+     * @return string
      */
-    protected function makeCacheKey($url, array $parameters = array())
+    protected function makeCacheKey(string $url, array $parameters = array()): string
     {
         $cacheKey = $url;
 
@@ -76,7 +77,8 @@ class Cache extends Client
         }
 
         $key = $this->makeCacheKey($url, $options);
-        if ($key && $this->cache->has($key)) {
+
+        if ($this->cache->has($key)) {
             return $this->cache->get($key);
         }
 
@@ -86,15 +88,28 @@ class Cache extends Client
             return $response;
         }
 
+        $cacheControl = new HeaderValue($response->getHeader('Cache-Control'));
+        if ($cacheControl->has('no-store') || $cacheControl->has('no-cache')) {
+            return $response;
+        }
+
+        if ($cacheControl->has('max-age')) {
+            $maxAge = $cacheControl->get('max-age');
+            if (is_numeric($maxAge)) {
+                $this->cache->set($key, $response, (int) $maxAge);
+            }
+
+            return $response;
+        }
+
         $noCache = $response->hasHeader('Pragma') && $response->getHeader('Pragma') == 'no-cache';
 
         if (!$noCache && $response->hasHeader('Expires')) {
             // @link https://tools.ietf.org/html/rfc7234#section-5.3
             $expires = \DateTime::createFromFormat(\DateTime::RFC1123, $response->getHeader('Expires'));
             if ($expires !== false) {
-                $lifeTime = $expires->getTimestamp() - time() - 60;
-
-                if ($key) {
+                $lifeTime = $expires->getTimestamp() - time();
+                if ($lifeTime > 0) {
                     $this->cache->set($key, $response, $lifeTime);
                 }
             }

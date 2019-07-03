@@ -22,6 +22,23 @@ class Cache extends Client
     protected $cache;
 
     /**
+     * @var int[]
+     */
+    protected $statusAccepted = [
+        200 => 200,
+        203 => 203,
+        204 => 204,
+        300 => 300,
+        301 => 301,
+        404 => 404,
+        405 => 405,
+        410 => 410,
+        414 => 414,
+        418 => 418,
+        501 => 501,
+    ];
+
+    /**
      * @param Client $client
      * @param CacheInterface $cache
      */
@@ -64,6 +81,11 @@ class Cache extends Client
         }
 
         $response = $this->client->request($url, $options, $headers, $method);
+
+        if (!isset($this->statusAccepted[$response->getStatusCode()])) {
+            return $response;
+        }
+
         $noCache = $response->hasHeader('Pragma') && $response->getHeader('Pragma') == 'no-cache';
 
         if (!$noCache && $response->hasHeader('Expires')) {

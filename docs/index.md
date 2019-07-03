@@ -40,10 +40,10 @@ sh curl -sS https://getcomposer.org/installer | php
 }
 ```
 
-Contributing
+Contributors
 ============
 
-Contributions are welcome!
+This project exists thanks to all the people who contribute. Contributions are welcome!
 
 [![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/0)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/0)
 [![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/1)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/1)

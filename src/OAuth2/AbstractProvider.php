@@ -7,7 +7,8 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2;
 
-use InvalidArgumentException;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use SocialConnect\OAuth2\Exception\InvalidState;
 use SocialConnect\OAuth2\Exception\Unauthorized;
 use SocialConnect\OAuth2\Exception\UnknownAuthorization;
@@ -17,6 +18,7 @@ use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Http\Client\Client;
+use function GuzzleHttp\Psr7\build_query;
 
 abstract class AbstractProvider extends AbstractBaseProvider
 {
@@ -59,8 +61,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
     /**
      * @return string
+     * @throws \Exception
      */
-    protected function generateState()
+    protected function generateState(): string
     {
         return bin2hex(random_bytes(self::STATE_BYTES));
     }
@@ -89,11 +92,11 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * Parse access token from response's $body
      *
-     * @param string|bool $body
+     * @param string $body
      * @return AccessToken
      * @throws InvalidAccessToken
      */
-    public function parseToken($body)
+    public function parseToken(string $body)
     {
         if (empty($body)) {
             throw new InvalidAccessToken('Provider response with empty body');
@@ -110,9 +113,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
     /**
      * @param string $code
-     * @return \Psr\Http\Message\RequestInterface
+     * @return RequestInterface
      */
-    protected function makeAccessTokenRequest($code)
+    protected function makeAccessTokenRequest(string $code): RequestInterface
     {
         $parameters = [
             'client_id' => $this->consumer->getKey(),
@@ -137,46 +140,58 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @return AccessToken
      * @throws InvalidAccessToken
      * @throws InvalidResponse
-     * @throws \Psr\Http\Client\ClientExceptionInterface
      */
     public function getAccessToken(string $code): AccessToken
     {
-        $response = $this->httpClient->sendRequest(
+        $response = $this->executeRequest(
             $this->makeAccessTokenRequest($code)
         );
-
-        $statusCode = $response->getStatusCode();
-        if (!(200 <= $statusCode && 300 > $statusCode)) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
 
         return $this->parseToken($response->getBody()->getContents());
     }
 
-    public function request($uri, AccessTokenInterface $accessToken)
+    /**
+     * This is a lifecycle method, should be redeclared inside Provider when it's needed to mutate $query or $headers
+     *
+     * @param array $headers
+     * @param array $query
+     * @param AccessTokenInterface|null $accessToken Null is needed to allow send request for not OAuth
+     */
+    public function prepareRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
     {
-        $response = $this->httpClient->sendRequest(
-            new \GuzzleHttp\Psr7\Request(
-                'GET',
-                $this->getBaseUri() . $uri,
-                [
-                    'Authorization' => "token {$accessToken->getToken()}"
-                ],
-                null
-            )
-        );
+        if ($accessToken) {
+            $headers['Authorization'] = "bearer {$accessToken->getToken()}";
+        }
+    }
+
+    /**
+     * @param RequestInterface $request
+     * @return ResponseInterface
+     * @throws InvalidResponse
+     * @throws \Psr\Http\Client\ClientExceptionInterface
+     */
+    protected function executeRequest(RequestInterface $request): ResponseInterface
+    {
+        $response = $this->httpClient->sendRequest($request);
 
         $statusCode = $response->getStatusCode();
-        if (!(200 <= $statusCode && 300 > $statusCode)) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
+        if (200 <= $statusCode && 300 > $statusCode) {
+            return $response;
         }
 
+        throw new InvalidResponse(
+            'API response with error code',
+            $response
+        );
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @return mixed
+     * @throws InvalidResponse
+     */
+    protected function hydrateResponse(ResponseInterface $response)
+    {
         $result = json_decode($response->getBody()->getContents(), false);
         if (!$result) {
             throw new InvalidResponse(
@@ -189,6 +204,42 @@ abstract class AbstractProvider extends AbstractBaseProvider
     }
 
     /**
+     * @param string $uri
+     * @param array $query
+     * @param AccessTokenInterface $accessToken
+     * @return mixed
+     * @throws InvalidResponse
+     * @throws \Psr\Http\Client\ClientExceptionInterface
+     */
+    public function request(string $uri, array $query, AccessTokenInterface $accessToken)
+    {
+        $headers = [];
+
+        $this->prepareRequest(
+            $headers,
+            $query,
+            $accessToken
+        );
+
+        $url = $this->getBaseUri() . $uri;
+
+        if ($query) {
+            $url .= '?' . build_query($query);
+        }
+
+        $response = $this->executeRequest(
+            new \GuzzleHttp\Psr7\Request(
+                'GET',
+                $url,
+                $headers,
+                null
+            )
+        );
+
+        return $this->hydrateResponse($response);
+    }
+
+    /**
      * @param array $parameters
      * @return AccessToken
      * @throws InvalidAccessToken
@@ -197,7 +248,6 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @throws Unauthorized
      * @throws UnknownAuthorization
      * @throws UnknownState
-     * @throws \Psr\Http\Client\ClientExceptionInterface
      */
     public function getAccessTokenByRequestParameters(array $parameters)
     {

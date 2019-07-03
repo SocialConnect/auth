@@ -8,8 +8,7 @@ declare(strict_types=1);
 namespace SocialConnect\Auth;
 
 use Exception;
-use SocialConnect\Common\Http\Client\ClientInterface;
-use SocialConnect\Common\HttpClient;
+use Psr\Http\Client\ClientInterface;
 use SocialConnect\Provider\Session\SessionInterface;
 
 class Service

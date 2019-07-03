@@ -9,7 +9,7 @@ namespace SocialConnect\Common\Http\Client;
 
 use SocialConnect\Common\Http\Request;
 
-abstract class Client implements ClientInterface
+abstract class Client
 {
     /**
      * @var string

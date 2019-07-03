@@ -3,8 +3,8 @@
     "type": "project",
     "require": {
         "php": ">=7.1",
-        "slim/slim": "^3.10.0",
-        "symfony/var-dumper": "^3.4",
+        "slim/slim": "^3.9",
+        "symfony/var-dumper": "^4.3",
         "guzzlehttp/guzzle": "^6.3.3",
         "symfony/cache": "^4.3"
     },

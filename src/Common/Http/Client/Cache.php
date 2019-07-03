@@ -6,7 +6,7 @@
 
 namespace SocialConnect\Common\Http\Client;
 
-use Psr\Cache\CacheItemPoolInterface;
+use Psr\SimpleCache\CacheInterface;
 use SocialConnect\Common\Http\Response;
 
 class Cache extends Client
@@ -17,15 +17,15 @@ class Cache extends Client
     protected $client;
 
     /**
-     * @var CacheItemPoolInterface
+     * @var CacheInterface
      */
     protected $cache;
 
     /**
      * @param Client $client
-     * @param CacheItemPoolInterface $cache
+     * @param CacheInterface $cache
      */
-    public function __construct(Client $client, CacheItemPoolInterface $cache)
+    public function __construct(Client $client, CacheInterface $cache)
     {
         $this->client = $client;
         $this->cache = $cache;
@@ -46,7 +46,7 @@ class Cache extends Client
             }
         }
 
-        return 'sc:' . md5($cacheKey);
+        return md5($cacheKey);
     }
 
     /**
@@ -59,8 +59,8 @@ class Cache extends Client
         }
 
         $key = $this->makeCacheKey($url, $options);
-        if ($key && $this->cache->contains($key)) {
-            return $this->cache->fetch($key);
+        if ($key && $this->cache->has($key)) {
+            return $this->cache->get($key);
         }
 
         $response = $this->client->request($url, $options, $headers, $method);
@@ -71,7 +71,7 @@ class Cache extends Client
             $lifeTime = $expires->getTimestamp() - time() - 60;
 
             if ($key) {
-                $this->cache->save($key, $response, $lifeTime);
+                $this->cache->set($key, $response, $lifeTime);
             }
         }
 

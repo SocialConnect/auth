@@ -21,7 +21,7 @@
                 <?php
                     $enabled = false;
 
-                    if ($parameters['applicationId'] !== '' && $parameters['applicationSecret'] !== '') {
+                    if (isset($parameters['applicationId']) && $parameters['applicationId'] !== '') {
                         $enabled = true;
                     }
                 ?>

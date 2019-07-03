@@ -81,6 +81,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
     /**
      * @return Token
+     * @throws InvalidRequestToken
      * @throws InvalidResponse
      */
     protected function requestAuthToken()
@@ -193,7 +194,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * @param array $parameters
      * @return AccessToken
-     * @throws \SocialConnect\OAuth1\Exception\UnknownAuthorization
+     * @throws InvalidAccessToken
+     * @throws InvalidResponse
+     * @throws UnknownAuthorization
      */
     public function getAccessTokenByRequestParameters(array $parameters)
     {
@@ -211,6 +214,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @param Token $token
      * @param $oauthVerifier
      * @return AccessToken
+     * @throws InvalidAccessToken
      * @throws InvalidResponse
      */
     public function getAccessToken(Token $token, $oauthVerifier)

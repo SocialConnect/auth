@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth1;
 
-use SocialConnect\Common\Http\Client\ClientInterface;
+use Psr\Http\Client\ClientInterface;
 use SocialConnect\OAuth1\Exception\UnknownAuthorization;
 use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\Consumer;
@@ -52,6 +52,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
     /**
      * @param ClientInterface $httpClient
+     * @param SessionInterface $session
      * @param Consumer $consumer
      * @param array $parameters
      */
@@ -104,8 +105,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
             $parameters
         );
 
-        if ($response->isSuccess()) {
-            $token = $this->parseToken($response->getBody());
+        $statusCode = $response->getStatusCode();
+        if (200 <= $statusCode && 300 > $statusCode) {
+            $token = $this->parseToken($response->getBody()->getContents());
 
 
             $this->session->set('oauth1_request_token', $token);
@@ -142,7 +144,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @param string $uri
      * @param string $method
      * @param array $parameters
-     * @return \SocialConnect\Common\Http\Response
+     * @param array $headers
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Psr\Http\Client\ClientExceptionInterface
      */
     public function oauthRequest($uri, $method = Client::GET, $parameters = [], $headers = [])
     {
@@ -177,7 +181,14 @@ abstract class AbstractProvider extends AbstractBaseProvider
             $this->consumerToken
         );
 
-        return $this->httpClient->fromRequest($request);
+        return $this->httpClient->sendRequest(
+            new \GuzzleHttp\Psr7\Request(
+                $request->getMethod(),
+                $request->getUri(),
+                $request->getHeaders(),
+                http_build_query($request->getParameters())
+            )
+        );
     }
 
     /**
@@ -234,7 +245,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         );
 
         if ($response->getStatusCode() === 200) {
-            return $this->parseAccessToken($response->getBody());
+            return $this->parseAccessToken($response->getBody()->getContents());
         }
 
         throw new InvalidResponse(
@@ -251,7 +262,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @throws InvalidAccessToken
      * @throws InvalidResponse
      */
-    public function parseAccessToken($body)
+    public function parseAccessToken(string $body)
     {
         if (empty($body)) {
             throw new InvalidResponse('Provider response with empty body');

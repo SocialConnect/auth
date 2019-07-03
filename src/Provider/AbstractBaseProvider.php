@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace SocialConnect\Provider;
 
-use SocialConnect\Common\Http\Client\ClientInterface;
+use Psr\Http\Client\ClientInterface;
 use SocialConnect\Provider\Session\SessionInterface;
 
 abstract class AbstractBaseProvider

@@ -164,45 +164,6 @@ abstract class AbstractProvider extends AbstractBaseProvider
     }
 
     /**
-     * @param RequestInterface $request
-     * @return ResponseInterface
-     * @throws InvalidResponse
-     * @throws \Psr\Http\Client\ClientExceptionInterface
-     */
-    protected function executeRequest(RequestInterface $request): ResponseInterface
-    {
-        $response = $this->httpClient->sendRequest($request);
-
-        $statusCode = $response->getStatusCode();
-        if (200 <= $statusCode && 300 > $statusCode) {
-            return $response;
-        }
-
-        throw new InvalidResponse(
-            'API response with error code',
-            $response
-        );
-    }
-
-    /**
-     * @param ResponseInterface $response
-     * @return mixed
-     * @throws InvalidResponse
-     */
-    protected function hydrateResponse(ResponseInterface $response)
-    {
-        $result = json_decode($response->getBody()->getContents(), false);
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
-
-        return $result;
-    }
-
-    /**
      * @param string $uri
      * @param array $query
      * @param AccessTokenInterface $accessToken

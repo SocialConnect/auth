@@ -6,14 +6,16 @@
 
 namespace SocialConnect\Common\Http\Client;
 
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\SimpleCache\CacheInterface;
 use SocialConnect\Common\Http\HeaderValue;
-use SocialConnect\Common\Http\Response;
 
-class Cache extends Client
+class Cache implements ClientInterface
 {
     /**
-     * @var Client
+     * @var ClientInterface
      */
     protected $client;
 
@@ -40,27 +42,27 @@ class Cache extends Client
     ];
 
     /**
-     * @param Client $client
+     * @param ClientInterface $client
      * @param CacheInterface $cache
      */
-    public function __construct(Client $client, CacheInterface $cache)
+    public function __construct(ClientInterface $client, CacheInterface $cache)
     {
         $this->client = $client;
         $this->cache = $cache;
     }
 
     /**
-     * @param string $url
-     * @param array $parameters
+     * @param RequestInterface $request
      * @return string
      */
-    protected function makeCacheKey(string $url, array $parameters = array()): string
+    protected function makeCacheKey(RequestInterface $request): string
     {
-        $cacheKey = $url;
+        $cacheKey = $request->getUri()->__toString() . $request->getMethod() . $request->getProtocolVersion();
 
-        if ($parameters) {
-            foreach ($parameters as $key => $value) {
-                $cacheKey .= $key . '-' . $value;
+        $headers = $request->getHeaders();
+        if ($headers) {
+            foreach ($headers as $key => $value) {
+                $cacheKey .= $key . '-' . implode(',', $value);
             }
         }
 
@@ -68,21 +70,22 @@ class Cache extends Client
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function request(string $url, array $options = [], array $headers = [], string $method = Client::GET): Response
+    public function sendRequest(RequestInterface $request): ResponseInterface
     {
-        if ($method != Client::GET) {
-            return $this->client->request($url, $options, $headers, $method);
+        $method = strtoupper($request->getMethod());
+        if ($method !== 'GET') {
+            return $this->client->sendRequest($request);
         }
 
-        $key = $this->makeCacheKey($url, $options);
+        $key = $this->makeCacheKey($request);
 
         if ($this->cache->has($key)) {
             return $this->cache->get($key);
         }
 
-        $response = $this->client->request($url, $options, $headers, $method);
+        $response = $this->client->sendRequest($request);
 
         if (!isset($this->statusAccepted[$response->getStatusCode()])) {
             return $response;

@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth1\Provider;
 
-use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth1\AbstractProvider;
@@ -73,7 +72,7 @@ class Tumblr extends AbstractProvider
 
         $response = $this->oauthRequest(
             $this->getBaseUri() . 'user/info',
-            Client::GET,
+            'GET',
             $parameters
         );
 

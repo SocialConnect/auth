@@ -151,7 +151,7 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
                 'app' => 'desktop', // @any app name, not working, I was using JSON and not working..
                 'authToken' => $accessToken->getToken()
             ],
-            Client::POST,
+            'POST',
             [
                 'Content-Type' => 'application/x-www-form-urlencoded'
             ]

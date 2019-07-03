@@ -87,7 +87,9 @@ class Atlassian extends AbstractProvider
         if (!isset($parameters['baseUri'])) {
             throw new \InvalidArgumentException('There is no "baseUri" given in the configuration');
         }
+
         $this->baseUri = $parameters['baseUri'];
+
         if (($lastSlash = strrpos($this->baseUri, '/')) == strlen($this->baseUri) - 1) {
             $this->baseUri = substr($this->baseUri, 0, $lastSlash);
         }

@@ -27,7 +27,7 @@ class Curl extends Client
      * @var array
      */
     protected $parameters = array(
-        CURLOPT_USERAGENT => 'SocialConnect\Curl (https://github.com/socialconnect/common) v1.0',
+        CURLOPT_USERAGENT => 'SocialConnect\Auth (https://github.com/socialconnect/auth) v3',
         CURLOPT_HEADER => false,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_CONNECTTIMEOUT => 0,

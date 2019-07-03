@@ -55,27 +55,7 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'user',
-            [
-                'access_token' => $accessToken->getToken()
-            ]
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $response = $this->request('user', $accessToken);
 
         $hydrator = new ObjectMap(
             [
@@ -88,7 +68,7 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
         );
 
         /** @var User $user */
-        $user = $hydrator->hydrate(new User(), $result);
+        $user = $hydrator->hydrate(new User(), $response);
 
         if ($this->getBoolOption('fetch_emails', false)) {
             $primaryEmail = $this->getPrimaryEmail($accessToken);
@@ -128,28 +108,6 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getEmails(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'user/emails',
-            [
-                'access_token' => $accessToken->getToken()
-            ]
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
-
-        return $result;
+        return $this->request('user/emails', $accessToken);
     }
 }

@@ -101,11 +101,11 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
         return $user;
     }
 
-
     /**
      * @param AccessTokenInterface $accessToken
      * @return object
      * @throws InvalidResponse
+     * @throws \Psr\Http\Client\ClientExceptionInterface
      */
     public function getPrimaryEmail(AccessTokenInterface $accessToken)
     {
@@ -125,9 +125,10 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
      * @param AccessTokenInterface $accessToken
      * @return array
      * @throws InvalidResponse
+     * @throws \Psr\Http\Client\ClientExceptionInterface
      */
     public function getEmails(AccessTokenInterface $accessToken)
     {
-        return $this->request('user/emails', $accessToken);
+        return $this->request('user/emails', [], $accessToken);
     }
 }

@@ -184,7 +184,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     public function makeAuthUrl(): string
     {
-        $urlParameters = $this->getArrayOption('auth', []);
+        $urlParameters = $this->getAuthUrlParameters();
         $urlParameters['oauth_token'] = $this->requestAuthToken()->getKey();
 
         return $this->getAuthorizeUri() . '?' . http_build_query($urlParameters, '', '&');

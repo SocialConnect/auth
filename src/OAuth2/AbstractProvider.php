@@ -13,6 +13,7 @@ use SocialConnect\OAuth2\Exception\Unauthorized;
 use SocialConnect\OAuth2\Exception\UnknownAuthorization;
 use SocialConnect\OAuth2\Exception\UnknownState;
 use SocialConnect\Provider\AbstractBaseProvider;
+use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Http\Client\Client;
@@ -157,6 +158,34 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
         $body = $response->getBody();
         return $this->parseToken($body);
+    }
+
+    public function request($uri, AccessTokenInterface $accessToken)
+    {
+        $response = $this->httpClient->request(
+            $this->getBaseUri() . $uri,
+            [],
+            [
+                'Authorization' => "token {$accessToken->getToken()}"
+            ]
+        );
+
+        if (!$response->isSuccess()) {
+            throw new InvalidResponse(
+                'API response with error code',
+                $response
+            );
+        }
+
+        $result = $response->json();
+        if (!$result) {
+            throw new InvalidResponse(
+                'API response is not a valid JSON object',
+                $response
+            );
+        }
+
+        return $result;
     }
 
     /**

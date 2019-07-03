@@ -92,12 +92,14 @@ $httpClient = new \SocialConnect\Common\Http\Client\Curl();
 $httpClient = new \SocialConnect\Common\Http\Client\Cache(
     $httpClient,
     /**
-     * You can use any library with PSR-6 compatibility
+     * You can use any library with PSR-16 (simple-cache) compatibility
      */
-    new \Symfony\Component\Cache\Adapter\FilesystemAdapter(
-        'socialconnect',
-        0,
-        __DIR__ . '/cache'
+    new \Symfony\Component\Cache\Psr16Cache(
+        new \Symfony\Component\Cache\Adapter\PhpFilesAdapter(
+            'socialconnect',
+            0,
+            __DIR__ . '/cache'
+        )
     )
 );
 

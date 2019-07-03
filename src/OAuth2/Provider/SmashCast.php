@@ -8,9 +8,8 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth2\Provider;
 
 use Psr\Http\Message\RequestInterface;
-use SocialConnect\Common\Exception\Unsupported;
-use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\OAuth2\Exception\InvalidState;
+use SocialConnect\OAuth2\Exception\Unauthorized;
 use SocialConnect\OAuth2\Exception\UnknownAuthorization;
 use SocialConnect\OAuth2\Exception\UnknownState;
 use SocialConnect\Provider\AccessTokenInterface;
@@ -99,15 +98,15 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
             'hash' => base64_encode($this->consumer->getKey() . $this->consumer->getSecret()),
         ];
 
-        throw new Unsupported();
-//        return new \SocialConnect\Common\Http\Request(
-//            $this->getRequestTokenUri(),
-//            $parameters,
-//            $this->requestHttpMethod,
-//            [
-//                'Content-Type' => 'application/x-www-form-urlencoded'
-//            ]
-//        );
+
+        return new \GuzzleHttp\Psr7\Request(
+            $this->requestHttpMethod,
+            $this->getRequestTokenUri(),
+            [
+                'Content-Type' => 'application/x-www-form-urlencoded'
+            ],
+            http_build_query($parameters)
+        );
     }
 
     /**
@@ -115,19 +114,23 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getAccessTokenByRequestParameters(array $parameters)
     {
+        if (isset($parameters['error']) && $parameters['error'] === 'access_denied') {
+            throw new Unauthorized();
+        }
+
         if (!$this->getBoolOption('stateless', false)) {
             $state = $this->session->get('oauth2_state');
             if (!$state) {
                 throw new UnknownAuthorization();
             }
-        }
 
-        if (!isset($parameters['state'])) {
-            throw new UnknownState();
-        }
+            if (!isset($parameters['state'])) {
+                throw new UnknownState();
+            }
 
-        if ($state !== $parameters['state']) {
-            throw new InvalidState();
+            if ($state !== $parameters['state']) {
+                throw new InvalidState();
+            }
         }
 
         if (isset($parameters['authToken'])) {
@@ -144,30 +147,13 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
      * @param AccessTokenInterface $accessToken
      * @return mixed
      * @throws InvalidResponse
+     * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    protected function getUserNameByToken(AccessTokenInterface $accessToken)
+    protected function getUserNameByToken(AccessTokenInterface $accessToken): string
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'userfromtoken/' . $accessToken->getToken()
-        );
+        $response = $this->request('userfromtoken/' . $accessToken->getToken(), [], $accessToken);
 
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
-
-        return $result->user_name;
+        return $response->user_name;
     }
 
     /**

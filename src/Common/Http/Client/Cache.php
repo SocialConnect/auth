@@ -89,11 +89,14 @@ class Cache extends Client
         $noCache = $response->hasHeader('Pragma') && $response->getHeader('Pragma') == 'no-cache';
 
         if (!$noCache && $response->hasHeader('Expires')) {
-            $expires = new \DateTime($response->getHeader('Expires'));
-            $lifeTime = $expires->getTimestamp() - time() - 60;
+            // @link https://tools.ietf.org/html/rfc7234#section-5.3
+            $expires = \DateTime::createFromFormat(\DateTime::RFC1123, $response->getHeader('Expires'));
+            if ($expires !== false) {
+                $lifeTime = $expires->getTimestamp() - time() - 60;
 
-            if ($key) {
-                $this->cache->set($key, $response, $lifeTime);
+                if ($key) {
+                    $this->cache->set($key, $response, $lifeTime);
+                }
             }
         }
 

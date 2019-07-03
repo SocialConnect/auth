@@ -3,7 +3,7 @@
     "description": "Common library",
     "type": "library",
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.1",
         "psr/cache": "^1.0"
     },
     "license": "MIT",

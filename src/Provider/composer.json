@@ -3,7 +3,7 @@
     "description": "Base interfaces for implementation of Providers (OAuth1/OAuth2/OpenID/OpenConnect)",
     "type": "library",
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.1",
         "socialconnect/common": "^1.1"
     },
     "license": "MIT",

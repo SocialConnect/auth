@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use Psr\Http\Message\RequestInterface;
+use SocialConnect\Common\Http\ResponseInterface;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
@@ -23,7 +25,7 @@ class Yandex extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getBaseUri()
     {
-        return 'https://login.yandex.ru/info';
+        return 'https://login.yandex.ru/';
     }
 
     /**
@@ -53,7 +55,7 @@ class Yandex extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function parseToken($body)
+    public function parseToken(string $body): AccessToken
     {
         if (empty($body)) {
             throw new InvalidAccessToken('Provider response with empty body');
@@ -68,32 +70,23 @@ class Yandex extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function signRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    {
+        $query['format'] = 'json';
+
+        if ($accessToken) {
+            $query['oauth_token'] = $accessToken->getToken();
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri(),
-            [
-                'oauth_token' => $accessToken->getToken(),
-                'format' => 'json'
-            ]
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $result = $this->request('info', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [

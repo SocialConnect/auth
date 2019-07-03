@@ -192,6 +192,7 @@ abstract class AbstractProviderTestCase extends TestCase
     /**
      * @expectedException \SocialConnect\Provider\Exception\InvalidResponse
      * @expectedExceptionMessage API response is not a valid JSON object
+     * @throws \SocialConnect\Provider\Exception\InvalidAccessToken
      */
     public function testGetIdentityNotValidJSON()
     {

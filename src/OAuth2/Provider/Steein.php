@@ -75,33 +75,21 @@ class Steein extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function signRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    {
+        if ($accessToken) {
+            $headers['Authorization'] = "Bearer {$accessToken->getToken()}";
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'api/v2.0/users/show',
-            [],
-            Client::GET,
-            [
-                'Authorization' => 'Bearer ' . $accessToken->getToken()
-            ]
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $response = $this->request('api/v2.0/users/show', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [
@@ -110,15 +98,15 @@ class Steein extends \SocialConnect\OAuth2\AbstractProvider
         );
 
         /** @var User $user */
-        $user = $hydrator->hydrate(new User(), $result);
+        $user = $hydrator->hydrate(new User(), $response);
 
-        if ($result->name) {
-            if ($result->name->first_name) {
-                $user->firstname = $result->name->first_name;
+        if ($response->name) {
+            if ($response->name->first_name) {
+                $user->firstname = $response->name->first_name;
             }
 
-            if ($result->name->last_name) {
-                $user->lastname = $result->name->last_name;
+            if ($response->name->last_name) {
+                $user->lastname = $response->name->last_name;
             }
         }
 

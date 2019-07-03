@@ -73,29 +73,7 @@ class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'account',
-            [],
-            Client::GET,
-            [
-                'Authorization' => 'Bearer ' . $accessToken->getToken()
-            ]
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $response = $this->request('account', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [
@@ -103,6 +81,6 @@ class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result->account);
+        return $hydrator->hydrate(new User(), $response->account);
     }
 }

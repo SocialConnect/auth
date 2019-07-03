@@ -6,7 +6,7 @@
 
 namespace Test\OAuth2\Provider;
 
-use SocialConnect\Common\Http\Client\ClientInterface;
+use Psr\Http\Client\ClientInterface;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\OAuth2\Provider\Meetup;
 use SocialConnect\Provider\Consumer;

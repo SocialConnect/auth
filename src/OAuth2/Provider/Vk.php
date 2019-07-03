@@ -54,7 +54,7 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function parseToken($body)
+    public function parseToken(string $body)
     {
         $result = json_decode($body, true);
         if (!$result) {
@@ -69,39 +69,32 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function prepareRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    {
+        $query = [
+            'v' => '5.100',
+        ];
+
+        if ($accessToken) {
+            $query['access_token'] = $accessToken->getToken();
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $parameters = [
-            'v' => '5.100',
-            'access_token' => $accessToken->getToken(),
-        ];
+        $query = [];
 
         $fields = $this->getArrayOption('identity.fields', []);
         if ($fields) {
-            $parameters['fields'] = implode(',', $fields);
+            $query['fields'] = implode(',', $fields);
         }
 
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'method/users.get',
-            $parameters
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $response = $this->request('method/users.get', $query, $accessToken);
 
         $hydrator = new ObjectMap(
             [
@@ -117,7 +110,7 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
         );
 
         /** @var User $user */
-        $user = $hydrator->hydrate(new User(), $result->response[0]);
+        $user = $hydrator->hydrate(new User(), $response->response[0]);
 
         if ($user->sex) {
             $user->sex = $user->sex === 1 ? 'female' : 'male';

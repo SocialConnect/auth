@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use Psr\Http\Message\RequestInterface;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
@@ -14,17 +15,11 @@ use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Common\Hydrator\ObjectMap;
+use function GuzzleHttp\Psr7\build_query;
 
 class Facebook extends \SocialConnect\OAuth2\AbstractProvider
 {
     const NAME = 'facebook';
-
-    /**
-     * By default AbstractProvider use POST method, FB does not accept POST and return HTML page ᕙ(⇀‸↼‶)ᕗ
-     *
-     * @var string
-     */
-    protected $requestHttpMethod = Client::GET;
 
     public function getBaseUri()
     {
@@ -49,7 +44,7 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function parseToken($body)
+    public function parseToken(string $body): AccessToken
     {
         if (empty($body)) {
             throw new InvalidAccessToken('Provider response with empty body');
@@ -68,34 +63,18 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $parameters = [
-            'access_token' => $accessToken->getToken(),
-        ];
+        $query = [];
 
         $fields = $this->getArrayOption('identity.fields', []);
         if ($fields) {
-            $parameters['fields'] = implode(',', $fields);
+            $query['fields'] = implode(',', $fields);
         }
 
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'me',
-            $parameters
+        $response = $this->request(
+            'me',
+            $query,
+            $accessToken
         );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
 
         $hydrator = new ObjectMap(
             [
@@ -114,11 +93,11 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
         );
 
         /** @var User $user */
-        $user = $hydrator->hydrate(new User(), $result);
+        $user = $hydrator->hydrate(new User(), $response);
         $user->emailVerified = true;
 
-        if (!empty($result->picture)) {
-            $user->pictureURL = $result->picture->data->url;
+        if (!empty($response->picture)) {
+            $user->pictureURL = $response->picture->data->url;
         }
 
         return $user;

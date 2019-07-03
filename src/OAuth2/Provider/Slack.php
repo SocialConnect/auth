@@ -66,36 +66,25 @@ class Slack extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function signRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    {
+        if ($accessToken) {
+            $query['token'] = $accessToken->getToken();
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'api/users.identity',
-            [
-                'token' => $accessToken->getToken()
-            ]
-        );
+        $response = $this->request('api/users.identity', [], $accessToken);
 
-        if (!$response->isSuccess()) {
+        if (!$response->ok) {
             throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
-
-        if (!$result->ok) {
-            throw new InvalidResponse(
-                'API response->ok is false',
-                $result
+                'API response->ok is false'
             );
         }
 
@@ -106,8 +95,8 @@ class Slack extends \SocialConnect\OAuth2\AbstractProvider
             ]
         );
 
-        $user = $hydrator->hydrate(new User(), $result->user);
-        $user->team = $result->team;
+        $user = $hydrator->hydrate(new User(), $response->user);
+        $user->team = $response->team;
 
         return $user;
     }

@@ -90,39 +90,30 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function prepareRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    {
+        $query['client_id'] = $this->consumer->getKey();
+        $query['format'] = 'json';
+        $query['secure'] = 1;
+
+        if ($accessToken) {
+            $query['session_key'] = $accessToken->getToken();
+            $query['sig'] = $this->makeSecureSignature($query);
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $parameters = [
-            'client_id' => $this->consumer->getKey(),
-            'format' => 'json',
+        $query = [
             'method' => 'users.getInfo',
-            'secure' => 1,
-            'session_key' => $accessToken->getToken()
         ];
 
-        $parameters['sig'] = $this->makeSecureSignature($parameters);
-
-        $response = $this->httpClient->request(
-            $this->getBaseUri(),
-            $parameters
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $response = $this->request('', $query, $accessToken);
 
         $hydrator = new ObjectMap(
             [
@@ -134,7 +125,7 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
             ]
         );
 
-        $user = $hydrator->hydrate(new User(), $result[0]);
+        $user = $hydrator->hydrate(new User(), $response[0]);
 
         if ($user->sex) {
             $user->sex = $user->sex === 1 ? 'female' : 'male';

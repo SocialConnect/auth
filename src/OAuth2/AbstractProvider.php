@@ -17,7 +17,6 @@ use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
-use SocialConnect\Common\Http\Client\Client;
 use function GuzzleHttp\Psr7\build_query;
 
 abstract class AbstractProvider extends AbstractBaseProvider
@@ -27,7 +26,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      *
      * @var string
      */
-    protected $requestHttpMethod = Client::POST;
+    protected $requestHttpMethod = 'POST';
 
     /**
      * @return string

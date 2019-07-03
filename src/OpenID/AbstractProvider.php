@@ -10,7 +10,6 @@ namespace SocialConnect\OpenID;
 use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
-use SocialConnect\Common\Http\Client\Client;
 
 abstract class AbstractProvider extends AbstractBaseProvider
 {
@@ -58,7 +57,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         $response = $this->httpClient->request(
             $url,
             [],
-            Client::GET
+            'GET'
         );
 
         if (!$response->isSuccess()) {
@@ -143,7 +142,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         $response = $this->httpClient->request(
             $this->loginEntrypoint,
             $params,
-            Client::POST
+            'POST'
         );
 
         if (preg_match('/is_valid\s*:\s*true/i', $response->getBody())) {

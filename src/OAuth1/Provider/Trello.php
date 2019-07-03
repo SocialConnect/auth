@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth1\Provider;
 
-use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth1\AbstractProvider;
@@ -74,7 +73,7 @@ class Trello extends AbstractProvider
 
         $response = $this->oauthRequest(
             $this->getBaseUri() . 'members/me?' . build_query($parameters),
-            Client::GET
+            'GET'
         );
 
         $statusCode = $response->getStatusCode();

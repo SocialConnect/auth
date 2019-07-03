@@ -13,7 +13,6 @@ use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\Consumer;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
-use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\OAuth1\Exception\InvalidRequestToken;
 use SocialConnect\OAuth1\Signature\MethodHMACSHA1;
 use SocialConnect\Provider\Session\SessionInterface;
@@ -28,7 +27,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * @var string
      */
-    protected $requestTokenMethod = Client::POST;
+    protected $requestTokenMethod = 'POST';
 
     /**
      * @var Consumer
@@ -148,13 +147,13 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public function oauthRequest($uri, $method = Client::GET, $parameters = [], $headers = [])
+    public function oauthRequest($uri, $method = 'GET', $parameters = [], $headers = [])
     {
         $headers = array_merge([
             'Accept' => 'application/json'
         ], $headers);
 
-        if ($method == Client::POST) {
+        if ($method == 'POST') {
             $headers['Content-Type'] = 'application/x-www-form-urlencoded';
         }
 

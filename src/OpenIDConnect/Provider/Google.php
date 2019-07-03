@@ -63,22 +63,7 @@ class Google extends AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'oauth2/v1/userinfo',
-            [
-                'access_token' => $accessToken->getToken()
-            ]
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $body = $response->getBody();
-        $result = json_decode($body);
+        $response = $this->request('oauth2/v1/userinfo', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [
@@ -92,7 +77,7 @@ class Google extends AbstractProvider
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result);
+        return $hydrator->hydrate(new User(), $response);
     }
 
     /**

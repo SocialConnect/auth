@@ -64,31 +64,7 @@ class PixelPin extends AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'connect/userinfo',
-            [
-            'access_token' => $accessToken->getToken()
-            ],
-            Client::GET,
-            [
-                'Authorization' => 'Bearer ' . $accessToken->getToken()
-            ]
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $response = $this->request('connect/userinfo', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [
@@ -108,6 +84,6 @@ class PixelPin extends AbstractProvider
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result);
+        return $hydrator->hydrate(new User(), $response);
     }
 }

@@ -8,6 +8,9 @@ declare(strict_types=1);
 namespace SocialConnect\Provider;
 
 use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Provider\Session\SessionInterface;
 
 abstract class AbstractBaseProvider
@@ -144,6 +147,45 @@ abstract class AbstractBaseProvider
      * @throws \SocialConnect\Provider\Exception\InvalidResponse
      */
     abstract public function getIdentity(AccessTokenInterface $accessToken);
+
+    /**
+     * @param RequestInterface $request
+     * @return ResponseInterface
+     * @throws InvalidResponse
+     * @throws \Psr\Http\Client\ClientExceptionInterface
+     */
+    protected function executeRequest(RequestInterface $request): ResponseInterface
+    {
+        $response = $this->httpClient->sendRequest($request);
+
+        $statusCode = $response->getStatusCode();
+        if (200 <= $statusCode && 300 > $statusCode) {
+            return $response;
+        }
+
+        throw new InvalidResponse(
+            'API response with error code',
+            $response
+        );
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @return mixed
+     * @throws InvalidResponse
+     */
+    protected function hydrateResponse(ResponseInterface $response)
+    {
+        $result = json_decode($response->getBody()->getContents(), false);
+        if (!$result) {
+            throw new InvalidResponse(
+                'API response is not a valid JSON object',
+                $response
+            );
+        }
+
+        return $result;
+    }
 
     /**
      * @return array

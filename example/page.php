@@ -19,10 +19,11 @@
             <legend>Auth from Social Networks</legend>
             <?php foreach ($configureProviders['provider'] as $name => $parameters) : ?>
                 <?php
-                $enabled = true;
-                if (isset($parameters['enabled'])) {
-                    $enabled = (bool) $parameters['enabled'];
-                }
+                    $enabled = false;
+
+                    if ($parameters['applicationId'] !== '' && $parameters['applicationSecret'] !== '') {
+                        $enabled = true;
+                    }
                 ?>
                 <button class="btn btn-default col-lg-2 col-md-2 col-sm-4 col-xs-6" name="provider" type="submit" value="<?php echo strtolower($name); ?>"<?php echo (!$enabled) ? ' disabled="disabled"' : ''; ?>>
                     <i class="fa fa-<?php echo strtolower($name); ?>"></i> <?php echo $name; ?>

@@ -22,7 +22,6 @@ return [
         'twitter' => [
             'applicationId' => '',
             'applicationSecret' => '',
-            'enabled' => false
         ],
         'google' => [
             'applicationId' => '',

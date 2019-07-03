@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use Psr\Http\Message\RequestInterface;
+use SocialConnect\Common\Exception\Unsupported;
 use SocialConnect\Common\Http\Client\Client;
 use SocialConnect\OAuth2\Exception\InvalidState;
 use SocialConnect\OAuth2\Exception\UnknownAuthorization;
@@ -72,7 +74,7 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function parseToken($body)
+    public function parseToken(string $body)
     {
         if (empty($body)) {
             throw new InvalidAccessToken('Provider response with empty body');
@@ -89,7 +91,7 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected function makeAccessTokenRequest($code)
+    protected function makeAccessTokenRequest(string $code): RequestInterface
     {
         $parameters = [
             'request_token' => $code,
@@ -97,14 +99,15 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
             'hash' => base64_encode($this->consumer->getKey() . $this->consumer->getSecret()),
         ];
 
-        return new \SocialConnect\Common\Http\Request(
-            $this->getRequestTokenUri(),
-            $parameters,
-            $this->requestHttpMethod,
-            [
-                'Content-Type' => 'application/x-www-form-urlencoded'
-            ]
-        );
+        throw new Unsupported();
+//        return new \SocialConnect\Common\Http\Request(
+//            $this->getRequestTokenUri(),
+//            $parameters,
+//            $this->requestHttpMethod,
+//            [
+//                'Content-Type' => 'application/x-www-form-urlencoded'
+//            ]
+//        );
     }
 
     /**

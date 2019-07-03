@@ -69,37 +69,25 @@ class Yahoo extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function prepareRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    {
+        $query['format'] = 'json';
+
+        if ($accessToken) {
+            $headers['Authorization'] = "Bearer {$accessToken->getToken()}";
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . "user/{$accessToken->getUserId()}/profile",
-            [
-                'format' => 'json',
-            ],
-            Client::GET,
-            [
-                'Authorization' => 'Bearer ' . $accessToken->getToken(),
-            ]
-        );
+        $response = $this->request("user/{$accessToken->getUserId()}/profile", [], $accessToken);
 
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
-
-        $result = $result->profile;
+        $result = $response->profile;
 
         if (isset($result->image)) {
             $result->image = $result->image->imageUrl;

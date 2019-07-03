@@ -107,25 +107,7 @@ class Odnoklassniki extends \SocialConnect\OAuth2\AbstractProvider
 
         $parameters['sig'] = $this->makeSecureSignature($parameters, $accessToken);
 
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'users/getCurrentUser',
-            $parameters
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $response = $this->request('users/getCurrentUser', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [
@@ -137,6 +119,6 @@ class Odnoklassniki extends \SocialConnect\OAuth2\AbstractProvider
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result);
+        return $hydrator->hydrate(new User(), $response);
     }
 }

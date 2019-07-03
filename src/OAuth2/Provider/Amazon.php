@@ -53,7 +53,7 @@ class Amazon extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function parseToken($body)
+    public function parseToken(string $body): AccessToken
     {
         if (empty($body)) {
             throw new InvalidAccessToken('Provider response with empty body');
@@ -72,27 +72,7 @@ class Amazon extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'user/profile',
-            [
-                'access_token' => $accessToken->getToken()
-            ]
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $response = $this->request('user/profile', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [
@@ -101,6 +81,6 @@ class Amazon extends \SocialConnect\OAuth2\AbstractProvider
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result);
+        return $hydrator->hydrate(new User(), $response);
     }
 }

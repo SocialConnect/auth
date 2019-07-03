@@ -55,7 +55,7 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->request('user', $accessToken);
+        $response = $this->request('user', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [

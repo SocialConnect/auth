@@ -62,7 +62,7 @@ class Discord extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function parseToken($body)
+    public function parseToken(string $body)
     {
         if (empty($body)) {
             throw new InvalidAccessToken('Provider response with empty body');
@@ -77,33 +77,21 @@ class Discord extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function signRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    {
+        if ($accessToken) {
+            $headers['Authorization'] = "Bearer {$accessToken->getToken()}";
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'users/@me',
-            [],
-            Client::GET,
-            [
-                'Authorization' => 'Bearer ' . $accessToken->getToken()
-            ]
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $response = $this->request('users/@me', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [
@@ -111,6 +99,6 @@ class Discord extends \SocialConnect\OAuth2\AbstractProvider
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result);
+        return $hydrator->hydrate(new User(), $response);
     }
 }

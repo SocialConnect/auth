@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth1\Provider;
 
 use SocialConnect\Provider\AccessTokenInterface;
-use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth1\AbstractProvider;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
@@ -76,21 +75,7 @@ class Trello extends AbstractProvider
             'GET'
         );
 
-        $statusCode = $response->getStatusCode();
-        if (!(200 <= $statusCode && 300 > $statusCode)) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = json_decode($response->getBody()->getContents(), false);
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $result = $this->hydrateResponse($response);
 
         $hydrator = new ObjectMap([
             'avatarUrl' => 'pictureURL',

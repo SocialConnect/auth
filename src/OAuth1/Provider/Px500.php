@@ -76,20 +76,7 @@ class Px500 extends AbstractProvider
             $parameters
         );
 
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $result = $this->hydrateResponse($response);
 
         if (!isset($result->user) || !$result->user) {
             throw new InvalidResponse(

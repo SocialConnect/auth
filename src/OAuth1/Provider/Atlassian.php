@@ -120,6 +120,7 @@ class Atlassian extends AbstractProvider
 
         $redirectMax = 30;
         $redirectCount = 0;
+
         while ($response->hasHeader('Location')) {
             if ($redirectMax < $redirectCount++) {
                 throw new \RangeException('Too many redirects');
@@ -132,20 +133,7 @@ class Atlassian extends AbstractProvider
             );
         }
 
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $result = $this->hydrateResponse($response);
 
         if (!isset($result->name) || !$result->name) {
             throw new InvalidResponse(

@@ -62,20 +62,7 @@ class Twitter extends \SocialConnect\OAuth1\AbstractProvider
             $parameters
         );
 
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $result = $this->hydrateResponse($response);
 
         $hydrator = new ObjectMap(
             [

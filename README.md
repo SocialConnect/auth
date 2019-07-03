@@ -7,11 +7,11 @@ SocialConnect Auth
 [![Build Status](http://img.shields.io/travis/SocialConnect/auth.svg?style=flat-square)](https://travis-ci.org/SocialConnect/auth)
 [![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/socialconnect/auth/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/SocialConnect/auth/?branch=master)
 
+## [Documentation](https://socialconnect.lowl.io/) :: [Demo](https://sc.lowl.io/)
+
 > Open source social sign on PHP. Connect your application(s) with social network(s).
 
 Code examples you can find in [example](./example) directory
-
-Demo [https://sc.lowl.io/](https://sc.lowl.io/)
 
 ## Supported type of providers
 
@@ -25,48 +25,9 @@ Demo [https://sc.lowl.io/](https://sc.lowl.io/)
 
 ## Supported providers
 
-### OpenId
+`SocialConnect/Auth` support 30+ providers such as Facebook, Google, Twitter, GitHub, Vk and another.
 
-* PayPal (WIP!)
-* Steam
-
-### OAuth 1
-
-* Twitter
-* 500px
-* Tumblr
-* Trello
-
-### OAuth 2
-
-* Amazon
-* Facebook
-* Vk (ВКонтакте)
-* Instagram
-* Google
-* GitHub
-* GitLab
-* Slack
-* BitBucket
-* Twitch
-* Vimeo
-* DigitalOcean
-* Yandex
-* MailRu
-* Microsoft (MSN)
-* Meetup
-* Odnoklassniki
-* Discord
-* SmashCast
-* Steein
-* LinkedIn
-* Yahoo!
-* Wordpress
-
-#### OpenIDConnect
-
-* Google (you can use Google from `OAuth2` or `OpenIDConnect`)
-* PixelPin
+[See all 30+ provider](https://socialconnect.lowl.io/providers.html)
 
 ## Installation
 
@@ -83,7 +44,7 @@ $ curl -sS https://getcomposer.org/installer | php
 ``` json
 {
   "require": {
-    "socialconnect/auth": "^2.0.0"
+    "socialconnect/auth": "^2.2.0"
   }
 }
 ```
@@ -199,8 +160,21 @@ $user = $provider->getIdentity($accessToken);
 var_dump($user);
 ```
 
-License
--------
+Contributors
+============
+
+This project exists thanks to all the people who contribute. Contributions are welcome!
+
+[![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/0)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/0)
+[![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/1)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/1)
+[![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/2)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/2)
+[![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/3)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/3)
+[![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/4)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/4)
+[![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/5)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/5)
+[![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/6)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/6)
+[![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/7)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/7)
+
+### License
 
 This project is open-sourced software licensed under the MIT License.
 

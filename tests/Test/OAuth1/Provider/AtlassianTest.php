@@ -6,7 +6,7 @@
 
 namespace Test\OAuth1\Provider;
 
-use SocialConnect\Common\Http\Client\ClientInterface;
+use Psr\Http\Client\ClientInterface;
 use SocialConnect\OAuth1\Provider\Atlassian;
 use SocialConnect\OAuth1\Signature\MethodRSASHA1;
 use SocialConnect\Provider\Consumer;

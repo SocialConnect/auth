@@ -6,7 +6,7 @@
 
 namespace Test\Provider;
 
-use SocialConnect\Common\Http\Client\ClientInterface;
+use Psr\Http\Client\ClientInterface;
 use SocialConnect\Provider\Consumer;
 use SocialConnect\Provider\Session\SessionInterface;
 use Test\TestCase;
@@ -14,13 +14,14 @@ use Test\TestCase;
 class AbstractProviderTest extends TestCase
 {
     /**
-     * @param ClientInterface|null $httpClient
+     * @param ClientInterface $httpClient
+     * @param SessionInterface|null $session
      * @return ProviderMock
      */
     protected function getAbstractProviderMock(ClientInterface $httpClient = null, SessionInterface $session = null)
     {
         if (!$httpClient) {
-            $httpClient = $this->getMockBuilder(\SocialConnect\Common\Http\Client\Curl::class)
+            $httpClient = $this->getMockBuilder(ClientInterface::class)
                 ->disableOriginalConstructor()
                 ->disableProxyingToOriginalMethods()
                 ->getMock();

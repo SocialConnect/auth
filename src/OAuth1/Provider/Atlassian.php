@@ -7,8 +7,8 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth1\Provider;
 
+use Psr\Http\Client\ClientInterface;
 use SocialConnect\Common\Http\Client\Client;
-use SocialConnect\Common\Http\Client\ClientInterface;
 use SocialConnect\OAuth1\Signature\MethodRSASHA1;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Consumer;
@@ -77,7 +77,7 @@ class Atlassian extends AbstractProvider
      * * applicationSecret The path to the private key file used for signing.
      * * applicationId The ID shared with your Atlassian instance
      *
-     * @param \SocialConnect\Common\Http\Client\ClientInterface $httpClient
+     * @param ClientInterface $httpClient
      * @param \SocialConnect\Provider\Session\SessionInterface  $session
      * @param \SocialConnect\Provider\Consumer           $consumer
      * @param array                                             $parameters

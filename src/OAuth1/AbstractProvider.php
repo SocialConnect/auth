@@ -17,6 +17,7 @@ use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth1\Exception\InvalidRequestToken;
 use SocialConnect\OAuth1\Signature\MethodHMACSHA1;
 use SocialConnect\Provider\Session\SessionInterface;
+use function GuzzleHttp\Psr7\build_query;
 
 abstract class AbstractProvider extends AbstractBaseProvider
 {
@@ -175,12 +176,18 @@ abstract class AbstractProvider extends AbstractBaseProvider
             $this->consumerToken
         );
 
+        $uri = $request->getUri();
+
+        if ($method === 'GET') {
+            $uri .= '?' . build_query($parameters);
+        }
+
         return $this->executeRequest(
             new \GuzzleHttp\Psr7\Request(
                 $request->getMethod(),
-                $request->getUri(),
+                $uri,
                 $request->getHeaders(),
-                http_build_query($request->getParameters())
+                $method === 'POST' ? http_build_query($request->getParameters()) : null
             )
         );
     }

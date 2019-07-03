@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth1;
 
 use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\ResponseInterface;
 use SocialConnect\OAuth1\Exception\UnknownAuthorization;
 use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\Consumer;
@@ -94,7 +95,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
          *
          * http://oauth.net/core/1.0a/#auth_step1
          */
-        if ('1.0a' == $this->oauth1Version) {
+        if ('1.0a' === $this->oauth1Version) {
             $parameters['oauth_callback'] = $this->getRedirectUrl();
         }
 
@@ -104,17 +105,10 @@ abstract class AbstractProvider extends AbstractBaseProvider
             $parameters
         );
 
-        $statusCode = $response->getStatusCode();
-        if (200 <= $statusCode && 300 > $statusCode) {
-            $token = $this->parseToken($response->getBody()->getContents());
+        $token = $this->parseToken($response->getBody()->getContents());
+        $this->session->set('oauth1_request_token', $token);
 
-
-            $this->session->set('oauth1_request_token', $token);
-
-            return $token;
-        }
-
-        throw new InvalidResponse('Provider response is not success');
+        return $token;
     }
 
     /**
@@ -144,10 +138,11 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @param string $method
      * @param array $parameters
      * @param array $headers
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws InvalidResponse
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public function oauthRequest($uri, $method = 'GET', $parameters = [], $headers = [])
+    public function oauthRequest($uri, $method = 'GET', $parameters = [], $headers = []): ResponseInterface
     {
         $headers = array_merge([
             'Accept' => 'application/json'
@@ -180,7 +175,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
             $this->consumerToken
         );
 
-        return $this->httpClient->sendRequest(
+        return $this->executeRequest(
             new \GuzzleHttp\Psr7\Request(
                 $request->getMethod(),
                 $request->getUri(),
@@ -243,14 +238,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
             $parameters
         );
 
-        if ($response->getStatusCode() === 200) {
-            return $this->parseAccessToken($response->getBody()->getContents());
-        }
-
-        throw new InvalidResponse(
-            'Unexpected response code',
-            $response
-        );
+        return $this->parseAccessToken($response->getBody()->getContents());
     }
 
     /**

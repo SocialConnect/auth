@@ -11,6 +11,7 @@ use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
+use function GuzzleHttp\Psr7\build_query;
 
 class Steam extends \SocialConnect\OpenID\AbstractProvider
 {
@@ -61,28 +62,21 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'ISteamUser/GetPlayerSummaries/v0002/',
-            [
-                'key' => $this->consumer->getKey(),
-                'steamids' => $accessToken->getUserId()
-            ]
+        $query = [
+            'key' => $this->consumer->getKey(),
+            'steamids' => $accessToken->getUserId()
+        ];
+
+        $response = $this->executeRequest(
+            new \GuzzleHttp\Psr7\Request(
+                'GET',
+                $this->getBaseUri() . 'ISteamUser/GetPlayerSummaries/v0002/?' . build_query($query),
+                [],
+                null
+            )
         );
 
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $result = $this->hydrateResponse($response);
 
         $hydrator = new ObjectMap(
             [

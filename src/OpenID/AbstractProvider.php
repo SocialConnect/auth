@@ -10,6 +10,7 @@ namespace SocialConnect\OpenID;
 use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
+use function GuzzleHttp\Psr7\build_query;
 
 abstract class AbstractProvider extends AbstractBaseProvider
 {
@@ -51,30 +52,20 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @param string $url
      * @return string
      * @throws InvalidResponse
+     * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    protected function discover($url)
+    protected function discover(string $url)
     {
-        $response = $this->httpClient->request(
-            $url,
-            [],
-            'GET'
+        $response = $this->executeRequest(
+            new \GuzzleHttp\Psr7\Request(
+                'GET',
+                $url,
+                [],
+                null
+            )
         );
 
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        if (!$response->hasHeader('Content-Type')) {
-            throw new InvalidResponse(
-                'Unknown Content-Type',
-                $response
-            );
-        }
-
-        $contentType = $response->getHeader('Content-Type');
+        $contentType = $response->getHeaderLine('Content-Type');
         if (strpos($contentType, 'application/xrds+xml;charset=utf-8') === false) {
             throw new InvalidResponse(
                 'Unexpected Content-Type',
@@ -82,7 +73,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
             );
         }
 
-        $xml = new \SimpleXMLElement($response->getBody());
+        $xml = new \SimpleXMLElement($response->getBody()->getContents());
 
         $this->version = 2;
         $this->loginEntrypoint = $xml->XRD->Service->URI;
@@ -112,9 +103,11 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * @link http://openid.net/specs/openid-authentication-2_0.html#verification
      *
-     * @param $requestParameters
+     * @param array $requestParameters
      * @return AccessToken
      * @throws InvalidAccessToken
+     * @throws InvalidResponse
+     * @throws \Psr\Http\Client\ClientExceptionInterface
      */
     public function getAccessTokenByRequestParameters(array $requestParameters)
     {
@@ -139,13 +132,19 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
         $this->discover($claimedId);
 
-        $response = $this->httpClient->request(
-            $this->loginEntrypoint,
-            $params,
-            'POST'
+        $response = $this->executeRequest(
+            new \GuzzleHttp\Psr7\Request(
+                'POST',
+                $this->loginEntrypoint,
+                [
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                ],
+                http_build_query($params)
+            )
         );
 
-        if (preg_match('/is_valid\s*:\s*true/i', $response->getBody())) {
+        $content = $response->getBody()->getContents();
+        if (preg_match('/is_valid\s*:\s*true/i', $content)) {
             return new AccessToken(
                 $requestParameters['openid_identity'],
                 $this->parseUserIdFromIdentity(

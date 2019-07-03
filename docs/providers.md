@@ -17,7 +17,7 @@ The table below lists the social networks currently supported by `socialconnect/
 | 500px                           | OAuth1           |              |
 | Trello                          | OAuth1           |              |
 | Tumblr                          | OAuth1           |              |
-| Twitter                         | OAuth1           |              |
+| [Twitter](#twitter)             | OAuth1           |              |
 | Amazon                          | OAuth2           |              |
 | [Facebook](#facebook)           | OAuth2           | 3.3          |
 | Vk (ВКонтакте)                  | OAuth2           | 5.100        |
@@ -84,6 +84,13 @@ Steam is a video game digital distribution platform developed by Valve Corporati
 | Site                      | ? |
 | Protocol                  | OpenID |
 | Create App                | [https://steamcommunity.com/dev](https://steamcommunity.com/dev) |
+| Documentation             | [https://steamcommunity.com/dev](https://steamcommunity.com/dev) |
+
+### Twitter
+
+| Site                      | ? |
+| Protocol                  | OAuth1 |
+| Create App                | [https://developer.twitter.com/en/apps](https://developer.twitter.com/en/apps) |
 | Documentation             | [https://steamcommunity.com/dev](https://steamcommunity.com/dev) |
 
 ### Facebook

@@ -6,13 +6,14 @@
 
 namespace Test;
 
+use Psr\Http\Client\ClientInterface;
 use SocialConnect\Auth\Service;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
     protected function getService()
     {
-        $httpClient = $this->getMockBuilder(\SocialConnect\Common\Http\Client\Curl::class)
+        $httpClient = $this->getMockBuilder(ClientInterface::class)
             ->disableOriginalConstructor()
             ->disableProxyingToOriginalMethods()
             ->getMock();

@@ -6,8 +6,8 @@
 
 namespace Test\OpenID\Provider;
 
+use Psr\Http\Client\ClientInterface;
 use ReflectionClass;
-use SocialConnect\Common\Http\Client\ClientInterface;
 use SocialConnect\Provider\Consumer;
 use SocialConnect\Provider\Session\SessionInterface;
 use Test\TestCase;
@@ -20,14 +20,13 @@ abstract class AbstractProviderTestCase extends TestCase
     abstract protected function getProviderClassName();
 
     /**
-     * @param mixed $responseData
+     * @param array|null $responseData
      * @param int $responseCode
-     * @param bool $mockFromRequest
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function mockClientResponse($responseData, $responseCode = 200, $mockFromRequest = false)
+    protected function mockClientResponse($responseData, int $responseCode = 200)
     {
-        $mockedHttpClient = $this->getMockBuilder(\SocialConnect\Common\Http\Client\Curl::class)
+        $mockedHttpClient = $this->getMockBuilder(ClientInterface::class)
             ->getMock();
 
         $response = new \SocialConnect\Common\Http\Response(
@@ -36,15 +35,9 @@ abstract class AbstractProviderTestCase extends TestCase
             []
         );
 
-        if ($mockFromRequest) {
-            $mockedHttpClient->expects($this->once())
-                ->method('fromRequest')
-                ->willReturn($response);
-        } else {
-            $mockedHttpClient->expects($this->once())
-                ->method('request')
-                ->willReturn($response);
-        }
+        $mockedHttpClient->expects($this->once())
+            ->method('sendRequest')
+            ->willReturn($response);
 
         return $mockedHttpClient;
     }
@@ -72,7 +65,7 @@ abstract class AbstractProviderTestCase extends TestCase
     protected function getProvider(ClientInterface $httpClient = null, SessionInterface $session = null)
     {
         if (!$httpClient) {
-            $httpClient = $this->getMockBuilder(\SocialConnect\Common\Http\Client\Curl::class)
+            $httpClient = $this->getMockBuilder(ClientInterface::class)
                 ->disableOriginalConstructor()
                 ->disableProxyingToOriginalMethods()
                 ->getMock();

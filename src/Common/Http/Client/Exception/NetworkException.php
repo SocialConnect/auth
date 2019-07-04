@@ -5,11 +5,11 @@
  */
 declare(strict_types=1);
 
-namespace SocialConnect\Common\Http\Client\Curl;
+namespace SocialConnect\Common\Http\Client\Exception;
 
 use Psr\Http\Message\RequestInterface;
 
-class RequestException extends \RuntimeException implements \Psr\Http\Client\NetworkExceptionInterface
+class NetworkException extends ClientException implements \Psr\Http\Client\NetworkExceptionInterface
 {
     /**
      * @var RequestInterface

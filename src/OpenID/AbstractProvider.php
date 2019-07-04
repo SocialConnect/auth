@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace SocialConnect\OpenID;
 
+use SocialConnect\Common\Http\Request;
 use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
@@ -57,7 +58,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     protected function discover(string $url)
     {
         $response = $this->executeRequest(
-            new \GuzzleHttp\Psr7\Request(
+            new Request(
                 'GET',
                 $url,
                 [],
@@ -133,7 +134,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         $this->discover($claimedId);
 
         $response = $this->executeRequest(
-            new \GuzzleHttp\Psr7\Request(
+            new Request(
                 'POST',
                 $this->loginEntrypoint,
                 [

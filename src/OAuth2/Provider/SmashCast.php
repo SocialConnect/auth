@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth2\Provider;
 
 use Psr\Http\Message\RequestInterface;
+use SocialConnect\Common\Http\Request;
 use SocialConnect\OAuth2\Exception\InvalidState;
 use SocialConnect\OAuth2\Exception\Unauthorized;
 use SocialConnect\OAuth2\Exception\UnknownAuthorization;
@@ -82,7 +83,7 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
         ];
 
 
-        return new \GuzzleHttp\Psr7\Request(
+        return new Request(
             $this->requestHttpMethod,
             $this->getRequestTokenUri(),
             [

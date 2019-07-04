@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth2\Provider;
 
 use Psr\Http\Message\RequestInterface;
+use SocialConnect\Common\Http\Request;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
@@ -49,7 +50,7 @@ class Reddit extends \SocialConnect\OAuth2\AbstractProvider
             'redirect_uri' => $this->getRedirectUrl()
         ];
 
-        return new \GuzzleHttp\Psr7\Request(
+        return new Request(
             $this->requestHttpMethod,
             $this->getRequestTokenUri(),
             [

@@ -91,7 +91,7 @@ class Cache implements ClientInterface
             return $response;
         }
 
-        $cacheControl = new HeaderValue($response->getHeader('Cache-Control'));
+        $cacheControl = new HeaderValue($response->getHeaderLine('Cache-Control'));
         if ($cacheControl->has('no-store') || $cacheControl->has('no-cache')) {
             return $response;
         }
@@ -105,11 +105,11 @@ class Cache implements ClientInterface
             return $response;
         }
 
-        $noCache = $response->hasHeader('Pragma') && $response->getHeader('Pragma') == 'no-cache';
+        $noCache = $response->hasHeader('Pragma') && $response->getHeaderLine('Pragma') === 'no-cache';
 
         if (!$noCache && $response->hasHeader('Expires')) {
             // @link https://tools.ietf.org/html/rfc7234#section-5.3
-            $expires = \DateTime::createFromFormat(\DateTime::RFC1123, $response->getHeader('Expires'));
+            $expires = \DateTime::createFromFormat(\DateTime::RFC1123, $response->getHeaderLine('Expires'));
             if ($expires !== false) {
                 $lifeTime = $expires->getTimestamp() - time();
                 if ($lifeTime > 0) {

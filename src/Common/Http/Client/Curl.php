@@ -82,6 +82,8 @@ class Curl implements ClientInterface
                 break;
         }
 
+        curl_setopt($this->curlHandler, CURLOPT_HTTP_VERSION, $this->getProtocolVersion($request));
+
         if ($request->getBody()->getSize()) {
             curl_setopt($this->curlHandler, CURLOPT_POSTFIELDS, $request->getBody()->__toString());
         }
@@ -142,6 +144,28 @@ class Curl implements ClientInterface
         curl_reset($this->curlHandler);
 
         return $response;
+    }
+
+    /**
+     * @param RequestInterface $request
+     * @return int
+     */
+    protected function getProtocolVersion(RequestInterface $request): int
+    {
+        switch ($request->getProtocolVersion()) {
+            case '1.0':
+                return CURL_HTTP_VERSION_1_0;
+            case '1.1':
+                return CURL_HTTP_VERSION_1_1;
+            case '2.0':
+                if (\defined('CURL_HTTP_VERSION_2_0')) {
+                    return CURL_HTTP_VERSION_2_0;
+                }
+
+                throw new ClientException('libcurl 7.33 is needed for HTTP 2.0 support');
+            default:
+                return CURL_HTTP_VERSION_NONE;
+        }
     }
 
     public function __destruct()

@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace SocialConnect\Auth;
 
 use LogicException;
-use SocialConnect\Provider\Consumer;
 use SocialConnect\OAuth1;
 use SocialConnect\OAuth2;
 use SocialConnect\OpenID;
@@ -85,12 +84,6 @@ class CollectionFactory implements FactoryInterface
      */
     public function factory($id, array $parameters, Service $service)
     {
-        $consumer = new Consumer($parameters['applicationId'], $parameters['applicationSecret']);
-
-        if (isset($parameters['applicationPublic'])) {
-            $consumer->setPublic($parameters['applicationPublic']);
-        }
-
         $id = strtolower($id);
 
         if (!isset($this->providers[$id])) {
@@ -105,7 +98,6 @@ class CollectionFactory implements FactoryInterface
         $provider = new $providerClassName(
             $service->getHttpClient(),
             $service->getSession(),
-            $consumer,
             array_merge(
                 $parameters,
                 $service->getConfig()

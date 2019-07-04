@@ -78,10 +78,9 @@ class Atlassian extends AbstractProvider
      *
      * @param ClientInterface $httpClient
      * @param \SocialConnect\Provider\Session\SessionInterface  $session
-     * @param \SocialConnect\Provider\Consumer           $consumer
      * @param array                                             $parameters
      */
-    public function __construct(ClientInterface $httpClient, SessionInterface $session, Consumer $consumer, array $parameters)
+    public function __construct(ClientInterface $httpClient, SessionInterface $session, array $parameters)
     {
         if (!isset($parameters['baseUri'])) {
             throw new \InvalidArgumentException('There is no "baseUri" given in the configuration');
@@ -93,11 +92,11 @@ class Atlassian extends AbstractProvider
             $this->baseUri = substr($this->baseUri, 0, $lastSlash);
         }
 
-        parent::__construct($httpClient, $session, $consumer, $parameters);
+        parent::__construct($httpClient, $session, $parameters);
 
         // needs to be set after calling the parent constructor as there the
         // signature is set as well.
-        $this->signature = new MethodRSASHA1($consumer->getSecret());
+        $this->signature = new MethodRSASHA1($this->consumer->getSecret());
     }
 
     /**

@@ -26,24 +26,13 @@ class AtlassianTest extends AbstractProviderTestCase
     /**
      * {@inheritDoc}
      */
-    public function getProviderConsumer(): Consumer
-    {
-        $consumer = self::getMockBuilder(Consumer::class)->disableOriginalConstructor()->getMock();
-        $consumer->method('getKey')->willReturn('key');
-        $consumer->method('getSecret')->willReturn(__DIR__ . '/../_assets/testkey.pem');
-
-        return $consumer;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getProviderConfiguration(): array
     {
-        return [
-            'redirectUri' => 'http://localhost:8000/',
-            'baseUri' => 'http://example.com/'
-        ];
+        $configuration = parent::getProviderConfiguration();
+        $configuration['applicationSecret'] = __DIR__ . '/../_assets/testkey.pem';
+        $configuration['baseUri'] = 'http://example.com/';
+
+        return $configuration;
     }
 
     /** @expectedException \InvalidArgumentException */
@@ -51,9 +40,11 @@ class AtlassianTest extends AbstractProviderTestCase
     {
         $client = self::getMockBuilder(ClientInterface::class)->getMock();
         $session = self::getMockBuilder(SessionInterface::class)->getMock();
-        $consumer = self::getMockBuilder(Consumer::class)->disableOriginalConstructor()->getMock();
 
-        new Atlassian($client, $session, $consumer, []);
+        $configuration = $this->getProviderConfiguration();
+        unset($configuration['baseUri']);
+
+        new Atlassian($client, $session, $configuration);
     }
 
     public function testConstructorHandlesBaseUriWithTrailingSlash()
@@ -61,7 +52,10 @@ class AtlassianTest extends AbstractProviderTestCase
         $client = self::getMockBuilder(ClientInterface::class)->getMock();
         $session = self::getMockBuilder(SessionInterface::class)->getMock();
 
-        $provider = new Atlassian($client, $session, $this->getProviderConsumer(), ['baseUri' => 'http://example.com/']);
+        $configuration = $this->getProviderConfiguration();
+        $configuration['baseUri'] = 'http://example.com/';
+
+        $provider = new Atlassian($client, $session, $this->getProviderConfiguration());
 
         $this->assertAttributeEquals('http://example.com', 'baseUri', $provider);
     }
@@ -71,7 +65,10 @@ class AtlassianTest extends AbstractProviderTestCase
         $client = self::getMockBuilder(ClientInterface::class)->getMock();
         $session = self::getMockBuilder(SessionInterface::class)->getMock();
 
-        $provider = new Atlassian($client, $session, $this->getProviderConsumer(), ['baseUri' => 'http://example.com']);
+        $configuration = $this->getProviderConfiguration();
+        $configuration['baseUri'] = 'http://example.com';
+
+        $provider = new Atlassian($client, $session, $configuration);
 
         $this->assertAttributeEquals('http://example.com', 'baseUri', $provider);
         $this->assertAttributeInstanceOf(MethodRSASHA1::class, 'signature', $provider);

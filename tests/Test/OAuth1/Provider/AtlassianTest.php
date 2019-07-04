@@ -12,8 +12,38 @@ use SocialConnect\OAuth1\Signature\MethodRSASHA1;
 use SocialConnect\Provider\Consumer;
 use SocialConnect\Provider\Session\SessionInterface;
 
-class AtlassianTest extends \PHPUnit\Framework\TestCase
+class AtlassianTest extends AbstractProviderTestCase
 {
+    /**
+     * @return string
+     */
+    protected function getProviderClassName()
+    {
+        return \SocialConnect\OAuth1\Provider\Atlassian::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getProviderConsumer(): Consumer
+    {
+        $consumer = self::getMockBuilder(Consumer::class)->disableOriginalConstructor()->getMock();
+        $consumer->method('getSecret')->willReturn(__DIR__ . '/../_assets/testkey.pem');
+
+        return $consumer;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getProviderConfiguration(): array
+    {
+        return [
+            'redirectUri' => 'http://localhost:8000/',
+            'baseUri' => 'http://example.com/'
+        ];
+    }
+
     /** @expectedException \InvalidArgumentException */
     public function testConstructorThrowsExceptionOnMissingBaseUri()
     {
@@ -28,10 +58,8 @@ class AtlassianTest extends \PHPUnit\Framework\TestCase
     {
         $client = self::getMockBuilder(ClientInterface::class)->getMock();
         $session = self::getMockBuilder(SessionInterface::class)->getMock();
-        $consumer = self::getMockBuilder(Consumer::class)->disableOriginalConstructor()->getMock();
-        $consumer->method('getSecret')->willReturn(__DIR__ . '/../_assets/testkey.pem');
 
-        $provider = new Atlassian($client, $session, $consumer, ['baseUri' => 'http://example.com/']);
+        $provider = new Atlassian($client, $session, $this->getProviderConsumer(), ['baseUri' => 'http://example.com/']);
 
         $this->assertAttributeEquals('http://example.com', 'baseUri', $provider);
     }
@@ -40,10 +68,8 @@ class AtlassianTest extends \PHPUnit\Framework\TestCase
     {
         $client = self::getMockBuilder(ClientInterface::class)->getMock();
         $session = self::getMockBuilder(SessionInterface::class)->getMock();
-        $consumer = self::getMockBuilder(Consumer::class)->disableOriginalConstructor()->getMock();
-        $consumer->method('getSecret')->willReturn(__DIR__ . '/../_assets/testkey.pem');
 
-        $provider = new Atlassian($client, $session, $consumer, ['baseUri' => 'http://example.com']);
+        $provider = new Atlassian($client, $session, $this->getProviderConsumer(), ['baseUri' => 'http://example.com']);
 
         $this->assertAttributeEquals('http://example.com', 'baseUri', $provider);
         $this->assertAttributeInstanceOf(MethodRSASHA1::class, 'signature', $provider);

@@ -141,6 +141,16 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function prepareRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    {
+        if ($accessToken) {
+            $query['authToken'] = $accessToken->getToken();
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getIdentity(AccessTokenInterface $accessToken)
@@ -159,29 +169,7 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
         );*/
 
         $username = $this->getUserNameByToken($accessToken);
-
-        $response = $this->httpClient->request(
-            $this->getBaseUri() . 'user/' . $username,
-            [
-                'authToken' => $accessToken->getToken()
-            ]
-        );
-
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json();
-
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response is not a valid JSON object',
-                $response
-            );
-        }
+        $response = $this->request('user/' . $username, [], $accessToken);
 
         $hydrator = new ObjectMap(
             [
@@ -191,6 +179,6 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result);
+        return $hydrator->hydrate(new User(), $response);
     }
 }

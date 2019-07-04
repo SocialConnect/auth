@@ -10,6 +10,7 @@ namespace SocialConnect\OAuth1;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use SocialConnect\OAuth1\Exception\UnknownAuthorization;
+use SocialConnect\OAuth1\Signature\AbstractSignatureMethod;
 use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\Consumer;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
@@ -135,59 +136,84 @@ abstract class AbstractProvider extends AbstractBaseProvider
     }
 
     /**
+     * @param string $method
+     * @param string $uri
+     * @param array $query
+     * @return string
+     */
+    public function getSignatureBaseString(string $method, string $uri, array $query): string
+    {
+        $parts = [
+            $method,
+            $uri,
+            Util::buildHttpQuery(
+                $query
+            )
+        ];
+
+        $parts = Util::urlencodeRFC3986($parts);
+
+        return implode('&', $parts);
+    }
+
+    public function authorizationHeader(array $query)
+    {
+        $parameters = http_build_query(
+            $query,
+            '',
+            ', ',
+            PHP_QUERY_RFC3986
+        );
+
+        return "OAuth $parameters";
+    }
+
+    /**
      * @param string $uri
      * @param string $method
-     * @param array $parameters
+     * @param array $query
+     * @param null $payload
      * @param array $headers
      * @return ResponseInterface
      * @throws InvalidResponse
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public function oauthRequest($uri, $method = 'GET', $parameters = [], $headers = []): ResponseInterface
+    public function oauthRequest($uri, $method = 'GET', array $query = [], $payload = null, $headers = []): ResponseInterface
     {
         $headers = array_merge([
             'Accept' => 'application/json'
         ], $headers);
 
-        if ($method == 'POST') {
+        if ($method === 'POST') {
             $headers['Content-Type'] = 'application/x-www-form-urlencoded';
         }
 
-        $parameters = array_merge(
-            [
-                'oauth_version' => '1.0',
-                'oauth_nonce' => md5(time() . mt_rand()),
-                'oauth_timestamp' => time(),
-                'oauth_consumer_key' => $this->consumer->getKey()
-            ],
-            $parameters
-        );
+        $query['oauth_version'] = '1.0';
+        $query['oauth_nonce'] = md5(time() . mt_rand());
+        $query['oauth_timestamp'] = time();
+        $query['oauth_consumer_key'] = $this->consumer->getKey();
 
-        $request = new Request(
-            $uri,
-            $parameters,
-            $method,
-            $headers
-        );
-
-        $request->signRequest(
-            $this->signature,
+        $query['oauth_signature_method'] = $this->signature->getName();
+        $query['oauth_signature'] = $this->signature->buildSignature(
+            $this->getSignatureBaseString($method, $uri, $query),
             $this->consumer,
             $this->consumerToken
         );
 
-        $uri = $request->getUri();
+        $headers['Authorization'] = $this->authorizationHeader($query);
+
+        $url = $uri;
 
         if ($method === 'GET') {
-            $uri .= '?' . build_query($parameters);
+            $url .= '?' . build_query($query);
         }
 
         return $this->executeRequest(
             new \SocialConnect\Common\Http\Request(
-                $request->getMethod(),
-                $uri,
-                $request->getHeaders(),
-                $method === 'POST' ? http_build_query($request->getParameters()) : null
+                $method,
+                $url,
+                $headers,
+                $payload
             )
         );
     }

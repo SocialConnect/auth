@@ -6,9 +6,7 @@
 
 namespace Test\OAuth2\Provider;
 
-use Psr\Http\Client\ClientInterface;
 use SocialConnect\Common\Http\Response;
-use SocialConnect\OAuth2\AccessToken;
 
 class VimeoTest extends AbstractProviderTestCase
 {

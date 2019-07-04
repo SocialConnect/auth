@@ -7,6 +7,7 @@
 namespace Test\OAuth1\Provider;
 
 use Psr\Http\Client\ClientInterface;
+use SocialConnect\Common\Http\Response;
 use SocialConnect\OAuth1\Provider\Atlassian;
 use SocialConnect\OAuth1\Signature\MethodRSASHA1;
 use SocialConnect\Provider\Consumer;
@@ -28,6 +29,7 @@ class AtlassianTest extends AbstractProviderTestCase
     public function getProviderConsumer(): Consumer
     {
         $consumer = self::getMockBuilder(Consumer::class)->disableOriginalConstructor()->getMock();
+        $consumer->method('getKey')->willReturn('key');
         $consumer->method('getSecret')->willReturn(__DIR__ . '/../_assets/testkey.pem');
 
         return $consumer;
@@ -73,5 +75,19 @@ class AtlassianTest extends AbstractProviderTestCase
 
         $this->assertAttributeEquals('http://example.com', 'baseUri', $provider);
         $this->assertAttributeInstanceOf(MethodRSASHA1::class, 'signature', $provider);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getTestResponseForGetIdentity(): Response
+    {
+        return new Response(
+            200,
+            [],
+            json_encode([
+                'name' => 'Dmitry',
+            ])
+        );
     }
 }

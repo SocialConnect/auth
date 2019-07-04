@@ -12,6 +12,6 @@ class PixelPinTest extends AbstractProviderTestCase
      */
     protected function getProviderClassName()
     {
-        return \SocialConnect\OpenIDConnect\Provider\Google::class;
+        return \SocialConnect\OpenIDConnect\Provider\PixelPin::class;
     }
 }

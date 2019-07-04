@@ -55,6 +55,10 @@ class Yahoo extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function parseToken(string $body)
     {
+        if (empty($body)) {
+            throw new InvalidAccessToken('Provider response with empty body');
+        }
+
         $result = json_decode($body, true);
         if ($result) {
             $token = new AccessToken($result);

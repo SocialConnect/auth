@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace SocialConnect\OpenIDConnect;
 
+use SocialConnect\Common\Http\Request;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 
@@ -15,21 +16,18 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * @return array
      * @throws InvalidResponse
+     * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public function discover()
+    public function discover(): array
     {
-        $response = $this->httpClient->request(
-            $this->getOpenIdUrl()
+        $response = $this->executeRequest(
+            new Request(
+                'GET',
+                $this->getOpenIdUrl()
+            )
         );
 
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json(true);
+        $result = json_decode($response->getBody()->getContents(), true);
         if (!$result) {
             throw new InvalidResponse(
                 'API response without valid JSON',
@@ -43,8 +41,9 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * @return array
      * @throws InvalidResponse
+     * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public function getJWKSet()
+    public function getJWKSet(): array
     {
         $spec = $this->discover();
 
@@ -52,18 +51,14 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
             throw new \RuntimeException('Unknown jwks_uri inside OpenIDConnect specification');
         }
 
-        $response = $this->httpClient->request(
-            $spec['jwks_uri']
+        $response = $this->executeRequest(
+            new Request(
+                'GET',
+                $spec['jwks_uri']
+            )
         );
 
-        if (!$response->isSuccess()) {
-            throw new InvalidResponse(
-                'API response with error code',
-                $response
-            );
-        }
-
-        $result = $response->json(true);
+        $result = json_decode($response->getBody()->getContents(), true);
         if (!$result) {
             throw new InvalidResponse(
                 'API response without valid JSON',

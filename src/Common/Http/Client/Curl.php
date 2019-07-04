@@ -11,11 +11,10 @@ use InvalidArgumentException;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use SocialConnect\Common\Http\Client\Exception\ClientException;
 use SocialConnect\Common\Http\Client\Exception\RequestException;
 use SocialConnect\Common\Http\Client\Response\HeadersParser;
 use SocialConnect\Common\Http\Response;
-use SocialConnect\Common\Exception;
-use RuntimeException;
 
 class Curl implements ClientInterface
 {
@@ -45,7 +44,7 @@ class Curl implements ClientInterface
     public function __construct(array $parameters = null)
     {
         if (!extension_loaded('curl')) {
-            throw new RuntimeException('You need to install curl-ext to use SocialConnect-Http\Client\Curl.');
+            throw new ClientException('You need to install curl-ext to use SocialConnect-Http\Client\Curl.');
         }
 
         if ($parameters) {
@@ -53,6 +52,9 @@ class Curl implements ClientInterface
         }
 
         $this->curlHandler = curl_init();
+        if ($this->curlHandler === false) {
+            throw new ClientException('Unable to init curl');
+        }
     }
 
     /**

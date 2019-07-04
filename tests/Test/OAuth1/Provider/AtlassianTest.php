@@ -7,6 +7,7 @@
 namespace Test\OAuth1\Provider;
 
 use Psr\Http\Client\ClientInterface;
+use SocialConnect\Common\Http\RequestFactory;
 use SocialConnect\Common\Http\Response;
 use SocialConnect\OAuth1\Provider\Atlassian;
 use SocialConnect\OAuth1\Signature\MethodRSASHA1;
@@ -44,7 +45,7 @@ class AtlassianTest extends AbstractProviderTestCase
         $configuration = $this->getProviderConfiguration();
         unset($configuration['baseUri']);
 
-        new Atlassian($client, $session, $configuration);
+        new Atlassian($client, $session, $configuration, new RequestFactory());
     }
 
     public function testConstructorHandlesBaseUriWithTrailingSlash()
@@ -55,7 +56,7 @@ class AtlassianTest extends AbstractProviderTestCase
         $configuration = $this->getProviderConfiguration();
         $configuration['baseUri'] = 'http://example.com/';
 
-        $provider = new Atlassian($client, $session, $this->getProviderConfiguration());
+        $provider = new Atlassian($client, $session, $this->getProviderConfiguration(), new RequestFactory());
 
         $this->assertAttributeEquals('http://example.com', 'baseUri', $provider);
     }
@@ -68,7 +69,7 @@ class AtlassianTest extends AbstractProviderTestCase
         $configuration = $this->getProviderConfiguration();
         $configuration['baseUri'] = 'http://example.com';
 
-        $provider = new Atlassian($client, $session, $configuration);
+        $provider = new Atlassian($client, $session, $configuration, new RequestFactory());
 
         $this->assertAttributeEquals('http://example.com', 'baseUri', $provider);
         $this->assertAttributeInstanceOf(MethodRSASHA1::class, 'signature', $provider);

@@ -101,7 +101,8 @@ class CollectionFactory implements FactoryInterface
             array_merge(
                 $parameters,
                 $service->getConfig()
-            )
+            ),
+            $service->getRequestFactory()
         );
 
         return $provider;

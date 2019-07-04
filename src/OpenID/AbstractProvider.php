@@ -11,6 +11,7 @@ use SocialConnect\Common\Http\Request;
 use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
+use function GuzzleHttp\Psr7\stream_for;
 
 abstract class AbstractProvider extends AbstractBaseProvider
 {
@@ -57,12 +58,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     protected function discover(string $url)
     {
         $response = $this->executeRequest(
-            new Request(
-                'GET',
-                $url,
-                [],
-                null
-            )
+            $this->requestFactory->createRequest('GET', $url)
         );
 
         $contentType = $response->getHeaderLine('Content-Type');
@@ -133,14 +129,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
         $this->discover($claimedId);
 
         $response = $this->executeRequest(
-            new Request(
-                'POST',
-                $this->loginEntrypoint,
-                [
-                    'Content-Type' => 'application/x-www-form-urlencoded',
-                ],
-                http_build_query($params)
-            )
+            $this->requestFactory->createRequest('POST', $this->loginEntrypoint)
+                ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+                ->withBody(stream_for(http_build_query($params, '', '&')))
         );
 
         $content = $response->getBody()->getContents();

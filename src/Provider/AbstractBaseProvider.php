@@ -49,7 +49,7 @@ abstract class AbstractBaseProvider
     /**
      * @var RequestFactoryInterface
      */
-    private $requestFactory;
+    protected $requestFactory;
 
     /**
      * @param ClientInterface $httpClient

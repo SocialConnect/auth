@@ -13,6 +13,7 @@ use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 use function GuzzleHttp\Psr7\build_query;
+use function GuzzleHttp\Psr7\stream_for;
 
 class Steam extends \SocialConnect\OpenID\AbstractProvider
 {
@@ -69,11 +70,9 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
         ];
 
         $response = $this->executeRequest(
-            new Request(
+            $this->requestFactory->createRequest(
                 'GET',
-                $this->getBaseUri() . 'ISteamUser/GetPlayerSummaries/v0002/?' . build_query($query),
-                [],
-                null
+                $this->getBaseUri() . 'ISteamUser/GetPlayerSummaries/v0002/?' . build_query($query)
             )
         );
 

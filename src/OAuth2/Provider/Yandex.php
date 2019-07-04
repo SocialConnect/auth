@@ -7,12 +7,7 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
-use Psr\Http\Message\RequestInterface;
-use SocialConnect\Common\Http\ResponseInterface;
 use SocialConnect\Provider\AccessTokenInterface;
-use SocialConnect\Provider\Exception\InvalidAccessToken;
-use SocialConnect\Provider\Exception\InvalidResponse;
-use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 

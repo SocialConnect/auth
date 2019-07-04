@@ -6,11 +6,20 @@
 
 namespace Test\OAuth1\Provider;
 
+use Psr\Http\Client\ClientInterface;
+use SocialConnect\Common\Http\Response;
+use SocialConnect\OAuth1\AccessToken;
+
 abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderTestCase
 {
     public function testGetBaseUriReturnString()
     {
         parent::assertInternalType('string', $this->getProvider()->getBaseUri());
+    }
+
+    public function testGetRequestTokenAccessUriReturnString()
+    {
+        parent::assertInternalType('string', $this->getProvider()->getRequestTokenAccessUri());
     }
 
     public function testGetAuthorizeUriReturnString()
@@ -26,5 +35,24 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
     public function testGetNameReturnString()
     {
         parent::assertInternalType('string', $this->getProvider()->getName());
+    }
+
+    /**
+     * @return Response
+     */
+    abstract protected function getTestResponseForGetIdentity(): Response;
+
+    public function testGetIdentitySuccess()
+    {
+        $mockedHttpClient = $this->getMockBuilder(ClientInterface::class)
+            ->getMock();
+
+        $mockedHttpClient->expects($this->once())
+            ->method('sendRequest')
+            ->willReturn($this->getTestResponseForGetIdentity());
+
+        $this->getProvider($mockedHttpClient)->getIdentity(
+            new AccessToken('key', 'secret')
+        );
     }
 }

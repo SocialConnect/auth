@@ -37,7 +37,11 @@ abstract class AbstractProviderTestCase extends TestCase
     public function getProviderConfiguration(): array
     {
         return [
-            'redirectUri' => 'http://localhost:8000/'
+            'redirectUri' => 'http://localhost:8000/',
+            'scope' => [
+                'user',
+                'email'
+            ]
         ];
     }
 

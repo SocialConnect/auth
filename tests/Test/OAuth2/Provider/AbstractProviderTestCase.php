@@ -148,6 +148,17 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
     }
 
     /**
+     * @expectedExceptionMessage Provider response with empty body
+     * @expectedException \SocialConnect\Provider\Exception\InvalidAccessToken
+     */
+    public function testParseTokenEmptyBody()
+    {
+        $this->getProvider()->parseToken(
+            ''
+        );
+    }
+
+    /**
      * @expectedException \SocialConnect\Provider\Exception\InvalidAccessToken
      */
     public function testParseTokenNotToken()

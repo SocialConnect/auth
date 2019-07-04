@@ -11,7 +11,7 @@ use InvalidArgumentException;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use SocialConnect\Common\Http\Client\Curl\RequestException;
+use SocialConnect\Common\Http\Client\Exception\RequestException;
 use SocialConnect\Common\Http\Client\Response\HeadersParser;
 use SocialConnect\Common\Http\Response;
 use SocialConnect\Common\Exception;
@@ -103,13 +103,10 @@ class Curl implements ClientInterface
 
         $result = curl_exec($this->curlHandler);
         if ($result === false) {
-            throw new Curl\RequestException(
+            throw new RequestException(
+                $request,
                 curl_error($this->curlHandler),
-                curl_errno($this->curlHandler),
-                [
-                    'url' => $request->getUri()->__toString(),
-                    'method' => $method,
-                ]
+                curl_errno($this->curlHandler)
             );
         }
 

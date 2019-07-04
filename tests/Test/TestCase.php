@@ -10,6 +10,7 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionClass;
 use SocialConnect\Auth\Service;
+use SocialConnect\Common\Http\Response;
 use function GuzzleHttp\Psr7\stream_for;
 
 class TestCase extends \PHPUnit\Framework\TestCase
@@ -25,7 +26,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $mockedHttpClient = $this->getMockBuilder(ClientInterface::class)
             ->getMock();
 
-        $response = new \GuzzleHttp\Psr7\Response(
+        $response = new Response(
             $responseCode,
             [],
             stream_for($responseData)

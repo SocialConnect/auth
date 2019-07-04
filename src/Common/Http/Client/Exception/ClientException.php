@@ -7,6 +7,6 @@ declare(strict_types=1);
 
 namespace SocialConnect\Common\Http\Client\Exception;
 
-abstract class ClientException extends \RuntimeException
+class ClientException extends \RuntimeException
 {
 }

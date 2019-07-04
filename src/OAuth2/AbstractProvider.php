@@ -9,6 +9,7 @@ namespace SocialConnect\OAuth2;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use SocialConnect\Common\Http\Request;
 use SocialConnect\OAuth2\Exception\InvalidState;
 use SocialConnect\OAuth2\Exception\Unauthorized;
 use SocialConnect\OAuth2\Exception\UnknownAuthorization;
@@ -123,7 +124,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
             'redirect_uri' => $this->getRedirectUrl()
         ];
 
-        return new \GuzzleHttp\Psr7\Request(
+        return new Request(
             $this->requestHttpMethod,
             $this->getRequestTokenUri(),
             [
@@ -188,7 +189,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         }
 
         $response = $this->executeRequest(
-            new \GuzzleHttp\Psr7\Request(
+            new Request(
                 'GET',
                 $url,
                 $headers,
@@ -208,6 +209,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @throws Unauthorized
      * @throws UnknownAuthorization
      * @throws UnknownState
+     * @throws \Psr\Http\Client\ClientExceptionInterface
      */
     public function getAccessTokenByRequestParameters(array $parameters)
     {

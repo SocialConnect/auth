@@ -183,7 +183,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         }
 
         return $this->executeRequest(
-            new \GuzzleHttp\Psr7\Request(
+            new \SocialConnect\Common\Http\Request(
                 $request->getMethod(),
                 $uri,
                 $request->getHeaders(),

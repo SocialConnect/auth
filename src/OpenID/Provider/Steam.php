@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace SocialConnect\OpenID\Provider;
 
+use SocialConnect\Common\Http\Request;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Entity\User;
@@ -68,7 +69,7 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
         ];
 
         $response = $this->executeRequest(
-            new \GuzzleHttp\Psr7\Request(
+            new Request(
                 'GET',
                 $this->getBaseUri() . 'ISteamUser/GetPlayerSummaries/v0002/?' . build_query($query),
                 [],

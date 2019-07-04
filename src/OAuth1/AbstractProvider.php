@@ -48,7 +48,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     protected $scope = [];
 
     /**
-     * @var  \SocialConnect\OAuth1\Signature\AbstractSignatureMethod
+     * @var AbstractSignatureMethod
      */
     protected $signature;
 
@@ -86,6 +86,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @return Token
      * @throws InvalidRequestToken
      * @throws InvalidResponse
+     * @throws \Psr\Http\Client\ClientExceptionInterface
      */
     protected function requestAuthToken()
     {
@@ -204,7 +205,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
         $url = $uri;
 
-        if ($method === 'GET') {
+        if (count($query) > 0) {
             $url .= '?' . build_query($query);
         }
 

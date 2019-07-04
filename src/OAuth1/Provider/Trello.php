@@ -71,8 +71,9 @@ class Trello extends AbstractProvider
         ];
 
         $response = $this->oauthRequest(
-            $this->getBaseUri() . 'members/me?' . build_query($parameters),
-            'GET'
+            $this->getBaseUri() . 'members/me',
+            'GET',
+            $parameters
         );
 
         $result = $this->hydrateResponse($response);

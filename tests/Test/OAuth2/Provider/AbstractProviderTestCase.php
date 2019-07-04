@@ -6,7 +6,10 @@
 
 namespace Test\OAuth2\Provider;
 
+use Psr\Http\Client\ClientInterface;
+use SocialConnect\Common\Http\Response;
 use SocialConnect\OAuth2\AccessToken;
+use function GuzzleHttp\Psr7\stream_for;
 
 abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderTestCase
 {
@@ -78,6 +81,29 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
             true
         );
         $this->getProvider($client)->getAccessToken('XXXXXXXXXXXX');
+    }
+
+    /**
+     * @return Response
+     */
+    abstract protected function getTestResponseForGetIdentity(): Response;
+
+    public function testGetIdentitySuccess()
+    {
+        $mockedHttpClient = $this->getMockBuilder(ClientInterface::class)
+            ->getMock();
+
+        $mockedHttpClient->expects($this->once())
+            ->method('sendRequest')
+            ->willReturn($this->getTestResponseForGetIdentity());
+
+        $this->getProvider($mockedHttpClient)->getIdentity(
+            new AccessToken(
+                [
+                    'access_token' => '123456789'
+                ]
+            )
+        );
     }
 
     /**

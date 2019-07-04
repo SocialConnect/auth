@@ -14,6 +14,7 @@ use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
+use function GuzzleHttp\Psr7\stream_for;
 
 class Reddit extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -50,15 +51,11 @@ class Reddit extends \SocialConnect\OAuth2\AbstractProvider
             'redirect_uri' => $this->getRedirectUrl()
         ];
 
-        return new Request(
-            $this->requestHttpMethod,
-            $this->getRequestTokenUri(),
-            [
-                'Content-Type' => 'application/x-www-form-urlencoded',
-                'Authorization' => 'Basic ' . base64_encode($this->consumer->getKey() . ':' . $this->consumer->getSecret())
-            ],
-            http_build_query($parameters)
-        );
+        return $this->requestFactory->createRequest($this->requestHttpMethod, $this->getRequestTokenUri())
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withHeader('Authorization', 'Basic ' . base64_encode($this->consumer->getKey() . ':' . $this->consumer->getSecret()))
+            ->withBody(stream_for(http_build_query($parameters)))
+        ;
     }
 
     /**

@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2;
 
+use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\RequestInterface;
 use SocialConnect\Common\Http\Request;
 use SocialConnect\OAuth2\Exception\InvalidState;
@@ -18,6 +19,7 @@ use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use function GuzzleHttp\Psr7\build_query;
+use function GuzzleHttp\Psr7\stream_for;
 
 abstract class AbstractProvider extends AbstractBaseProvider
 {
@@ -123,14 +125,10 @@ abstract class AbstractProvider extends AbstractBaseProvider
             'redirect_uri' => $this->getRedirectUrl()
         ];
 
-        return new Request(
-            $this->requestHttpMethod,
-            $this->getRequestTokenUri(),
-            [
-                'Content-Type' => 'application/x-www-form-urlencoded'
-            ],
-            http_build_query($parameters)
-        );
+        return $this->requestFactory->createRequest($this->requestHttpMethod, $this->getRequestTokenUri())
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withBody(stream_for(http_build_query($parameters, '', '&')))
+        ;
     }
 
     /**
@@ -164,14 +162,14 @@ abstract class AbstractProvider extends AbstractBaseProvider
     }
 
     /**
-     * @param string $uri
+     * @param string $url
      * @param array $query
      * @param AccessTokenInterface $accessToken
      * @return mixed
      * @throws InvalidResponse
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public function request(string $uri, array $query, AccessTokenInterface $accessToken)
+    public function request(string $url, array $query, AccessTokenInterface $accessToken)
     {
         $headers = [];
 
@@ -181,22 +179,21 @@ abstract class AbstractProvider extends AbstractBaseProvider
             $accessToken
         );
 
-        $url = $this->getBaseUri() . $uri;
+        $uri = $this->getBaseUri() . $url;
 
-        if ($query) {
-            $url .= '?' . build_query($query);
+        if (count($query)) {
+            $uri .= '?' . build_query($query);
         }
 
-        $response = $this->executeRequest(
-            new Request(
-                'GET',
-                $url,
-                $headers,
-                null
-            )
-        );
+        $request = $this->requestFactory->createRequest('GET', $uri);
 
-        return $this->hydrateResponse($response);
+        foreach ($headers as $k => $v) {
+            $request = $request->withHeader($k, $v);
+        }
+
+        return $this->hydrateResponse(
+            $this->executeRequest($request)
+        );
     }
 
     /**

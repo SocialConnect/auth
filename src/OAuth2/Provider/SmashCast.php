@@ -19,6 +19,7 @@ use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
+use function GuzzleHttp\Psr7\stream_for;
 
 class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -82,15 +83,10 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
             'hash' => base64_encode($this->consumer->getKey() . $this->consumer->getSecret()),
         ];
 
-
-        return new Request(
-            $this->requestHttpMethod,
-            $this->getRequestTokenUri(),
-            [
-                'Content-Type' => 'application/x-www-form-urlencoded'
-            ],
-            http_build_query($parameters)
-        );
+        return $this->requestFactory->createRequest($this->requestHttpMethod, $this->getRequestTokenUri())
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withBody(stream_for(http_build_query($parameters)))
+        ;
     }
 
     /**

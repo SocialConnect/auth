@@ -7,11 +7,11 @@ declare(strict_types=1);
 
 namespace SocialConnect\Common\Http\Client;
 
-use InvalidArgumentException;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use SocialConnect\Common\Http\Client\Exception\ClientException;
+use SocialConnect\Common\Http\Client\Exception\NetworkException;
 use SocialConnect\Common\Http\Client\Exception\RequestException;
 use SocialConnect\Common\Http\Client\Response\HeadersParser;
 use SocialConnect\Common\Http\Response;
@@ -64,21 +64,22 @@ class Curl implements ClientInterface
     {
         $method = strtoupper($request->getMethod());
         switch ($method) {
-            case 'POST':
-                curl_setopt($this->curlHandler, CURLOPT_POST, true);
+            case 'HEAD':
+                curl_setopt($this->curlHandler, CURLOPT_NOBODY, true);
                 break;
             case 'GET':
                 curl_setopt($this->curlHandler, CURLOPT_HTTPGET, true);
+                break;
+            case 'POST':
+                curl_setopt($this->curlHandler, CURLOPT_POST, true);
                 break;
             case 'DELETE':
             case 'PATCH':
             case 'OPTIONS':
             case 'PUT':
-            case 'HEAD':
+            default:
                 curl_setopt($this->curlHandler, CURLOPT_CUSTOMREQUEST, $method);
                 break;
-            default:
-                throw new InvalidArgumentException("Method {$method} is not supported");
         }
 
         if ($request->getBody()->getSize()) {
@@ -104,12 +105,29 @@ class Curl implements ClientInterface
         curl_setopt($this->curlHandler, CURLOPT_URL, $request->getUri()->__toString());
 
         $result = curl_exec($this->curlHandler);
-        if ($result === false) {
-            throw new RequestException(
-                $request,
-                curl_error($this->curlHandler),
-                curl_errno($this->curlHandler)
-            );
+
+        $errno = curl_errno($this->curlHandler);
+        switch ($errno) {
+            case CURLE_OK:
+                break;
+            case CURLE_COULDNT_RESOLVE_PROXY:
+            case CURLE_COULDNT_RESOLVE_HOST:
+            case CURLE_COULDNT_CONNECT:
+            case CURLE_OPERATION_TIMEOUTED:
+            case CURLE_SSL_CONNECT_ERROR:
+            case CURLOPT_DNS_CACHE_TIMEOUT:
+            case CURLOPT_TIMEOUT:
+                throw new NetworkException(
+                    $request,
+                    curl_error($this->curlHandler),
+                    $errno
+                );
+            default:
+                throw new RequestException(
+                    $request,
+                    curl_error($this->curlHandler),
+                    $errno
+                );
         }
 
         $response = new Response(

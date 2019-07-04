@@ -6,57 +6,10 @@
 
 namespace Test\OAuth2\Provider;
 
-use Psr\Http\Client\ClientInterface;
-use SocialConnect\OAuth2\AbstractProvider;
 use SocialConnect\OAuth2\AccessToken;
-use SocialConnect\Provider\Consumer;
-use SocialConnect\Provider\Session\SessionInterface;
-use Test\TestCase;
-use function GuzzleHttp\Psr7\stream_for;
 
-abstract class AbstractProviderTestCase extends TestCase
+abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderTestCase
 {
-    /**
-     * @return string
-     */
-    abstract protected function getProviderClassName();
-
-    /**
-     * @param ClientInterface|null $httpClient
-     * @param SessionInterface|null $session
-     * @return AbstractProvider
-     */
-    protected function getProvider(ClientInterface $httpClient = null, SessionInterface $session = null)
-    {
-        if (!$httpClient) {
-            $httpClient = $this->getMockBuilder(ClientInterface::class)
-                ->disableOriginalConstructor()
-                ->disableProxyingToOriginalMethods()
-                ->getMock();
-        }
-
-        if (!$session) {
-            $session = $this->getMockBuilder(SessionInterface::class)
-                ->disableOriginalConstructor()
-                ->disableProxyingToOriginalMethods()
-                ->getMock();
-        }
-
-        $className = $this->getProviderClassName();
-
-        return new $className(
-            $httpClient,
-            $session,
-            new Consumer(
-                'unknown',
-                'unkwown'
-            ),
-            [
-                'redirectUri' => 'http://localhost:8000/'
-            ]
-        );
-    }
-
     /**
      * @expectedException \TypeError
      * @expectedExceptionMessage Argument 1 passed to SocialConnect\OAuth2\AbstractProvider::getAccessToken() must be of the type string, null given

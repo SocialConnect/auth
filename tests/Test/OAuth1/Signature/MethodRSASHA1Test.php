@@ -39,16 +39,13 @@ class MethodRSASHA1Test extends \Test\TestCase
     {
         $signer = new MethodRSASHA1(__DIR__ . '/../_assets/testkey.pem');
 
-        $request = self::getMockBuilder(Request::class)->disableOriginalConstructor()->getMock();
-        $request->method('getSignatureBaseString')->willReturn('baseString');
-
         $consumer = self::getMockBuilder(Consumer::class)->disableOriginalConstructor()->getMock();
         $consumer->method('getSecret')->willReturn('consumerSecret');
 
         $token = self::getMockBuilder(Token::class)->disableOriginalConstructor()->getMock();
         $token->method('getSecret')->willReturn('tokenSecret');
 
-        $signature = $signer->buildSignature($request, $consumer, $token);
+        $signature = $signer->buildSignature('baseString', $consumer, $token);
 
         $this->assertEquals('HSA65Gc1jqAxgFj2uqiFBMwERymYoPswTS4ij+zc6'
         . 'SMZzw3P5FZDORkUEZ1iTfbZn1dQvLPnIaEIpf1f6sCjdrKFSnA5TIDJC8Gxhyp7YYE8TI'

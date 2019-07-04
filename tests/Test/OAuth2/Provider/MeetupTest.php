@@ -7,6 +7,7 @@
 namespace Test\OAuth2\Provider;
 
 use Psr\Http\Client\ClientInterface;
+use SocialConnect\Common\Http\RequestFactory;
 use SocialConnect\Common\Http\Response;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\OAuth2\Provider\Meetup;
@@ -37,7 +38,8 @@ class MeetupTest extends AbstractProviderTestCase
         $meetup = new Meetup(
             self::createMock(ClientInterface::class),
             self::createMock(SessionInterface::class),
-            $this->getProviderConfiguration()
+            $this->getProviderConfiguration(),
+            new RequestFactory()
         );
 
         $token = $meetup->parseToken($body);
@@ -57,7 +59,8 @@ class MeetupTest extends AbstractProviderTestCase
         $meetup = new Meetup(
             self::createMock(ClientInterface::class),
             self::createMock(SessionInterface::class),
-            $this->getProviderConfiguration()
+            $this->getProviderConfiguration(),
+            new RequestFactory()
         );
 
         $meetup->parseToken(json_encode(false));

@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace SocialConnect\Provider;
 
 use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use SocialConnect\Provider\Exception\InvalidResponse;
@@ -46,11 +47,16 @@ abstract class AbstractBaseProvider
     protected $options = [];
 
     /**
+     * @var RequestFactoryInterface
+     */
+    private $requestFactory;
+
+    /**
      * @param ClientInterface $httpClient
      * @param SessionInterface $session
      * @param array $parameters
      */
-    public function __construct(ClientInterface $httpClient, SessionInterface $session, array $parameters)
+    public function __construct(ClientInterface $httpClient, SessionInterface $session, array $parameters, RequestFactoryInterface $requestFactory)
     {
         $consumer = new Consumer($parameters['applicationId'], $parameters['applicationSecret']);
 
@@ -73,6 +79,7 @@ abstract class AbstractBaseProvider
         $this->consumer = $consumer;
         $this->httpClient = $httpClient;
         $this->session = $session;
+        $this->requestFactory = $requestFactory;
     }
 
     /**

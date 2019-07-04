@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth1;
 
 use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use SocialConnect\OAuth1\Exception\UnknownAuthorization;
 use SocialConnect\OAuth1\Signature\AbstractSignatureMethod;
@@ -55,9 +56,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * {@inheritDoc}
      */
-    public function __construct(ClientInterface $httpClient, SessionInterface $session, array $parameters)
+    public function __construct(ClientInterface $httpClient, SessionInterface $session, array $parameters, RequestFactoryInterface $requestFactory)
     {
-        parent::__construct($httpClient, $session, $parameters);
+        parent::__construct($httpClient, $session, $parameters, $requestFactory);
 
         $this->consumerToken = new Token('', '');
         $this->signature = new MethodHMACSHA1();

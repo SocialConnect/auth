@@ -10,6 +10,7 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionClass;
 use SocialConnect\Auth\Service;
+use SocialConnect\Common\Http\RequestFactory;
 use SocialConnect\Common\Http\Response;
 use function GuzzleHttp\Psr7\stream_for;
 
@@ -71,6 +72,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $service = new Service(
             $httpClient,
             $session,
+            new RequestFactory(),
             array(
                 'provider' => array(
                     'Vk' => array(

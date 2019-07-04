@@ -39,22 +39,6 @@ class JWTTest extends \Test\TestCase
         ];
     }
 
-    /**
-     * @param object $object
-     * @param string $name
-     * @param array $params
-     * @return mixed
-     */
-    protected static function callProtectedMethod($object, $name, array $params = [])
-    {
-        $class = new ReflectionClass($object);
-
-        $method = $class->getMethod($name);
-        $method->setAccessible(true);
-
-        return $method->invokeArgs($object, $params);
-    }
-
     protected function encodeJWT($payload)
     {
         $header = $this->getTestHeader();

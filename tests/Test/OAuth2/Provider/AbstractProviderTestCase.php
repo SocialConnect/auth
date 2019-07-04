@@ -7,8 +7,6 @@
 namespace Test\OAuth2\Provider;
 
 use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\ResponseInterface;
-use ReflectionClass;
 use SocialConnect\OAuth2\AbstractProvider;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Provider\Consumer;
@@ -22,46 +20,6 @@ abstract class AbstractProviderTestCase extends TestCase
      * @return string
      */
     abstract protected function getProviderClassName();
-
-    /**
-     * @param string|null $responseData
-     * @param int $responseCode
-     * @return \PHPUnit_Framework_MockObject_MockObject|ResponseInterface
-     */
-    protected function mockClientResponse($responseData, $responseCode = 200)
-    {
-        $mockedHttpClient = $this->getMockBuilder(ClientInterface::class)
-            ->getMock();
-
-        $response = new \GuzzleHttp\Psr7\Response(
-            $responseCode,
-            [],
-            stream_for($responseData)
-        );
-
-        $mockedHttpClient->expects($this->once())
-            ->method('sendRequest')
-            ->willReturn($response);
-
-        return $mockedHttpClient;
-    }
-
-    /**
-     * @param object $object
-     * @param string $name
-     * @param array $params
-     * @return mixed
-     * @throws \ReflectionException
-     */
-    protected static function callProtectedMethod($object, $name, array $params = [])
-    {
-        $class = new ReflectionClass($object);
-
-        $method = $class->getMethod($name);
-        $method->setAccessible(true);
-
-        return $method->invokeArgs($object, $params);
-    }
 
     /**
      * @param ClientInterface|null $httpClient

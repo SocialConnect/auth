@@ -20,45 +20,6 @@ abstract class AbstractProviderTestCase extends TestCase
     abstract protected function getProviderClassName();
 
     /**
-     * @param array|null $responseData
-     * @param int $responseCode
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function mockClientResponse($responseData, int $responseCode = 200)
-    {
-        $mockedHttpClient = $this->getMockBuilder(ClientInterface::class)
-            ->getMock();
-
-        $response = new \SocialConnect\Common\Http\Response(
-            $responseCode,
-            $responseData,
-            []
-        );
-
-        $mockedHttpClient->expects($this->once())
-            ->method('sendRequest')
-            ->willReturn($response);
-
-        return $mockedHttpClient;
-    }
-
-    /**
-     * @param object $object
-     * @param string $name
-     * @param array $params
-     * @return mixed
-     */
-    protected static function callProtectedMethod($object, $name, array $params = [])
-    {
-        $class = new ReflectionClass($object);
-
-        $method = $class->getMethod($name);
-        $method->setAccessible(true);
-
-        return $method->invokeArgs($object, $params);
-    }
-
-    /**
      * @param ClientInterface|null $httpClient
      * @return \SocialConnect\OpenID\AbstractProvider
      */

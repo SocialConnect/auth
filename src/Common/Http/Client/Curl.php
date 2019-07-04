@@ -113,7 +113,7 @@ class Curl implements ClientInterface
             );
         }
 
-        $response = new \GuzzleHttp\Psr7\Response(
+        $response = new Response(
             curl_getinfo($this->curlHandler, CURLINFO_HTTP_CODE),
             $headersParser->getHeaders(),
             $result

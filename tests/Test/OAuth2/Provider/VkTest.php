@@ -6,6 +6,7 @@
 
 namespace Test\OAuth2\Provider;
 
+use SocialConnect\Common\Http\Response;
 use SocialConnect\OAuth2\AccessToken;
 
 class VkTest extends AbstractProviderTestCase
@@ -48,5 +49,19 @@ class VkTest extends AbstractProviderTestCase
         parent::assertSame($expectedFirstname, $result->firstname);
         parent::assertSame($expectedLastname, $result->lastname);
         parent::assertSame('female', $result->sex);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getTestResponseForGetIdentity(): Response
+    {
+        return new Response(
+            200,
+            [],
+            json_encode([
+                'id' => 12345,
+            ])
+        );
     }
 }

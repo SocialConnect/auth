@@ -7,6 +7,7 @@
 namespace Test\OAuth2\Provider;
 
 use Psr\Http\Client\ClientInterface;
+use SocialConnect\Common\Http\Response;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\OAuth2\Provider\Meetup;
 use SocialConnect\Provider\Consumer;
@@ -61,5 +62,24 @@ class MeetupTest extends AbstractProviderTestCase
         );
 
         $meetup->parseToken(json_encode(false));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getTestResponseForGetIdentity(): Response
+    {
+        return new Response(
+            200,
+            [],
+            json_encode([
+                'id' => 12345,
+                'name' => 'Dmitry',
+                'gender' => 'sex',
+                'photo' => [
+                    'photo_link' => 'http://test.com/1.jpg'
+                ],
+            ])
+        );
     }
 }

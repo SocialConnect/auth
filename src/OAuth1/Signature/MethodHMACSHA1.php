@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth1\Signature;
 
 use SocialConnect\Provider\Consumer;
-use SocialConnect\OAuth1\Request;
 use SocialConnect\OAuth1\Token;
 use SocialConnect\OAuth1\Util;
 
@@ -23,14 +22,10 @@ class MethodHMACSHA1 extends AbstractSignatureMethod
     }
 
     /**
-     * @param Request $request
-     * @param Consumer $consumer
-     * @param Token $token
-     * @return string
+     * {@inheritDoc}
      */
-    public function buildSignature(Request $request, Consumer $consumer, Token $token)
+    public function buildSignature(string $signatureBase, Consumer $consumer, Token $token)
     {
-        $signatureBase = $request->getSignatureBaseString();
         $parts = [$consumer->getSecret(), null !== $token ? $token->getSecret() : ''];
 
         $parts = Util::urlencodeRFC3986($parts);

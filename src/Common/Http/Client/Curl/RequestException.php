@@ -7,23 +7,24 @@ declare(strict_types=1);
 
 namespace SocialConnect\Common\Http\Client\Curl;
 
-class RequestException extends \RuntimeException
+use Psr\Http\Message\RequestInterface;
+
+class RequestException extends \RuntimeException implements \Psr\Http\Client\NetworkExceptionInterface
 {
     /**
-     * @var array
+     * @var RequestInterface
      */
-    protected $requestParameters;
+    private $request;
 
-    /**
-     * RequestException constructor.
-     * @param string $message
-     * @param int $code
-     * @param array $parameters Request parameters
-     */
-    public function __construct($message, $code, array $parameters)
+    public function __construct(RequestInterface $request, string $message = '', int $code = 0, \Throwable $previous = null)
     {
-        parent::__construct($message, $code);
+        $this->request = $request;
 
-        $this->requestParameters = $parameters;
+        parent::__construct($message, $code, $previous);
+    }
+
+    public function getRequest(): RequestInterface
+    {
+        return $this->request;
     }
 }

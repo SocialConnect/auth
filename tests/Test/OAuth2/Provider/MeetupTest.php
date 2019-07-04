@@ -36,8 +36,7 @@ class MeetupTest extends AbstractProviderTestCase
         $meetup = new Meetup(
             self::createMock(ClientInterface::class),
             self::createMock(SessionInterface::class),
-            self::createMock(Consumer::class),
-            []
+            $this->getProviderConfiguration()
         );
 
         $token = $meetup->parseToken($body);
@@ -57,8 +56,7 @@ class MeetupTest extends AbstractProviderTestCase
         $meetup = new Meetup(
             self::createMock(ClientInterface::class),
             self::createMock(SessionInterface::class),
-            self::createMock(Consumer::class),
-            []
+            $this->getProviderConfiguration()
         );
 
         $meetup->parseToken(json_encode(false));

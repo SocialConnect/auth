@@ -20,24 +20,15 @@ abstract class AbstractProviderTestCase extends TestCase
 
     /**
      * This data is used inside getProvider
-     * @return Consumer
-     */
-    public function getProviderConsumer(): Consumer
-    {
-        return new Consumer(
-            'unknown',
-            'unkwown'
-        );
-    }
-
-    /**
-     * This data is used inside getProvider
      * @return array
      */
     public function getProviderConfiguration(): array
     {
         return [
-            'redirectUri' => 'http://localhost:8000/',
+            'redirectUri' => 'http://localhost:8000/${provider}/',
+            'applicationId' => 'applicationId',
+            'applicationSecret' => 'applicationSecret',
+            'applicationPublic' => 'applicationPublic',
             'scope' => [
                 'user',
                 'email'
@@ -70,7 +61,6 @@ abstract class AbstractProviderTestCase extends TestCase
         return new $className(
             $httpClient,
             $session,
-            $this->getProviderConsumer(),
             $this->getProviderConfiguration()
         );
     }
@@ -99,13 +89,7 @@ abstract class AbstractProviderTestCase extends TestCase
         return new ProviderMock(
             $httpClient,
             $session,
-            new Consumer(
-                'unknown',
-                'unkwown'
-            ),
-            [
-                'redirectUri' => 'http://localhost:8000/${provider}/'
-            ]
+            $this->getProviderConfiguration()
         );
     }
 

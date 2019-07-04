@@ -53,17 +53,13 @@ abstract class AbstractProvider extends AbstractBaseProvider
     protected $signature;
 
     /**
-     * @param ClientInterface $httpClient
-     * @param SessionInterface $session
-     * @param Consumer $consumer
-     * @param array $parameters
+     * {@inheritDoc}
      */
-    public function __construct(ClientInterface $httpClient, SessionInterface $session, Consumer $consumer, array $parameters)
+    public function __construct(ClientInterface $httpClient, SessionInterface $session, array $parameters)
     {
-        parent::__construct($httpClient, $session, $consumer, $parameters);
+        parent::__construct($httpClient, $session, $parameters);
 
         $this->consumerToken = new Token('', '');
-
         $this->signature = new MethodHMACSHA1();
     }
 

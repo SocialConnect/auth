@@ -50,11 +50,13 @@ abstract class AbstractBaseProvider
      * @param SessionInterface $session
      * @param array $parameters
      */
-    public function __construct(ClientInterface $httpClient, SessionInterface $session, Consumer $consumer, array $parameters)
+    public function __construct(ClientInterface $httpClient, SessionInterface $session, array $parameters)
     {
-        $this->httpClient = $httpClient;
-        $this->session = $session;
-        $this->consumer = $consumer;
+        $consumer = new Consumer($parameters['applicationId'], $parameters['applicationSecret']);
+
+        if (isset($parameters['applicationPublic'])) {
+            $consumer->setPublic($parameters['applicationPublic']);
+        }
 
         if (isset($parameters['scope'])) {
             $this->setScope($parameters['scope']);
@@ -67,6 +69,10 @@ abstract class AbstractBaseProvider
         if (isset($parameters['options'])) {
             $this->options = $parameters['options'];
         }
+
+        $this->consumer = $consumer;
+        $this->httpClient = $httpClient;
+        $this->session = $session;
     }
 
     /**

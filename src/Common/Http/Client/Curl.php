@@ -97,13 +97,9 @@ class Curl implements ClientInterface
 
         $headers = [];
 
-        foreach ($request->getHeaders() as $key => $values) {
-            $headers[$key] = implode(',', $values);
-        }
-
         $headersParser = new HeadersParser();
         curl_setopt($this->curlHandler, CURLOPT_HEADERFUNCTION, array($headersParser, 'parseHeaders'));
-        curl_setopt($this->curlHandler, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($this->curlHandler, CURLOPT_HTTPHEADER, $this->toHttpHeaders($request->getHeaders()));
         curl_setopt($this->curlHandler, CURLOPT_URL, $request->getUri()->__toString());
 
         $result = curl_exec($this->curlHandler);
@@ -144,6 +140,29 @@ class Curl implements ClientInterface
         curl_reset($this->curlHandler);
 
         return $response;
+    }
+
+    /**
+     * Convert PSR-18 headers to HTTP headers
+     *
+     * @param array $headers
+     * @return array
+     */
+    protected static function toHttpHeaders(array $headers): array
+    {
+        $result = [];
+
+        foreach ($headers as $key => $values) {
+            if (!\is_array($values)) {
+                $result[] = sprintf('%s: %s', $key, $values);
+            } else {
+                foreach ($values as $value) {
+                    $result[] = sprintf('%s: %s', $key, $value);
+                }
+            }
+        }
+
+        return $result;
     }
 
     /**

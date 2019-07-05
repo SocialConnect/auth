@@ -7,9 +7,8 @@
 namespace Test\OAuth2\Provider;
 
 use Psr\Http\Client\ClientInterface;
-use SocialConnect\Common\Http\Response;
+use Psr\Http\Message\ResponseInterface;
 use SocialConnect\OAuth2\AccessToken;
-use function GuzzleHttp\Psr7\stream_for;
 
 abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderTestCase
 {
@@ -84,9 +83,9 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
     }
 
     /**
-     * @return Response
+     * @return ResponseInterface
      */
-    abstract protected function getTestResponseForGetIdentity(): Response;
+    abstract protected function getTestResponseForGetIdentity(): ResponseInterface;
 
     public function testGetIdentitySuccess()
     {

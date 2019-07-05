@@ -7,7 +7,7 @@
 namespace Test\OAuth1\Provider;
 
 use Psr\Http\Client\ClientInterface;
-use SocialConnect\Common\Http\Response;
+use Psr\Http\Message\ResponseInterface;
 use SocialConnect\OAuth1\AccessToken;
 
 abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderTestCase
@@ -38,9 +38,9 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
     }
 
     /**
-     * @return Response
+     * @return ResponseInterface
      */
-    abstract protected function getTestResponseForGetIdentity(): Response;
+    abstract protected function getTestResponseForGetIdentity(): ResponseInterface;
 
     public function testGetIdentitySuccess()
     {

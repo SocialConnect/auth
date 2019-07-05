@@ -7,7 +7,7 @@
 namespace Test\OAuth2\Provider;
 
 use Psr\Http\Client\ClientInterface;
-use SocialConnect\Common\Http\Response;
+use Psr\Http\Message\ResponseInterface;
 use SocialConnect\OAuth2\AccessToken;
 
 class SmashCastTest extends AbstractProviderTestCase
@@ -56,11 +56,9 @@ class SmashCastTest extends AbstractProviderTestCase
     /**
      * {@inheritDoc}
      */
-    protected function getTestResponseForGetIdentity(): Response
+    protected function getTestResponseForGetIdentity(): ResponseInterface
     {
-        return new Response(
-            200,
-            [],
+        return $this->createResponse(
             json_encode([
                 'id' => 12345,
             ])

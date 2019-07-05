@@ -6,7 +6,7 @@
 
 namespace Test\OAuth2\Provider;
 
-use SocialConnect\Common\Http\Response;
+use Psr\Http\Message\ResponseInterface;
 
 class VimeoTest extends AbstractProviderTestCase
 {
@@ -38,11 +38,9 @@ class VimeoTest extends AbstractProviderTestCase
     /**
      * {@inheritDoc}
      */
-    protected function getTestResponseForGetIdentity(): Response
+    protected function getTestResponseForGetIdentity(): ResponseInterface
     {
-        return new Response(
-            200,
-            [],
+        return $this->createResponse(
             json_encode([
                 'id' => 12345,
             ])

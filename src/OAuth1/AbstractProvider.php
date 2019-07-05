@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth1;
 
 use Psr\Http\Message\ResponseInterface;
-use SocialConnect\Common\Http\HttpStack;
+use SocialConnect\Provider\HttpStack;
 use SocialConnect\OAuth1\Exception\UnknownAuthorization;
 use SocialConnect\OAuth1\Signature\AbstractSignatureMethod;
 use SocialConnect\Provider\AbstractBaseProvider;
@@ -204,14 +204,17 @@ abstract class AbstractProvider extends AbstractBaseProvider
             $url .= '?' . http_build_query($query);
         }
 
-        return $this->executeRequest(
-            new \SocialConnect\Common\Http\Request(
-                $method,
-                $url,
-                $headers,
-                $payload
-            )
-        );
+        $request = $this->httpStack->createRequest($method, $url);
+
+        foreach ($headers as $k => $v) {
+            $request = $request->withHeader($k, $v);
+        }
+
+        if ($payload) {
+            $request = $request->withBody($this->httpStack->createStream(http_build_query($payload)));
+        }
+
+        return $this->executeRequest($request);
     }
 
     /**

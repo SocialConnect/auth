@@ -8,16 +8,15 @@ declare(strict_types=1);
 namespace SocialConnect\Auth;
 
 use Exception;
-use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\RequestFactoryInterface;
+use SocialConnect\Common\Http\HttpStack;
 use SocialConnect\Provider\Session\SessionInterface;
 
 class Service
 {
     /**
-     * @var ClientInterface
+     * @var HttpStack
      */
-    protected $httpClient;
+    protected $httpStack;
 
     /**
      * @var FactoryInterface
@@ -35,24 +34,17 @@ class Service
     protected $session;
 
     /**
-     * @var RequestFactoryInterface
-     */
-    private $requestFactory;
-
-    /**
-     * @param ClientInterface $httpClient
+     * @param HttpStack $httpStack
      * @param SessionInterface $session
-     * @param RequestFactoryInterface $requestFactory
      * @param array $config
      * @param FactoryInterface|null $factory
      * @internal param $storage
      */
-    public function __construct(ClientInterface $httpClient, SessionInterface $session, RequestFactoryInterface $requestFactory, array $config, FactoryInterface $factory = null)
+    public function __construct(HttpStack $httpStack, SessionInterface $session, array $config, FactoryInterface $factory = null)
     {
-        $this->httpClient = $httpClient;
+        $this->httpStack = $httpStack;
         $this->session = $session;
         $this->config = $config;
-        $this->requestFactory = $requestFactory;
 
         $this->factory = is_null($factory) ? new CollectionFactory() : $factory;
     }
@@ -69,6 +61,17 @@ class Service
         }
 
         throw new Exception('Please setup configuration for ' . ucfirst($name) . ' provider');
+    }
+
+    /**
+     * Check that provider exists by $name
+     *
+     * @param $name
+     * @return bool
+     */
+    public function has($name)
+    {
+        return $this->factory->has($name);
     }
 
     /**
@@ -92,22 +95,6 @@ class Service
     }
 
     /**
-     * @return FactoryInterface
-     */
-    public function getFactory()
-    {
-        return $this->factory;
-    }
-
-    /**
-     * @return ClientInterface
-     */
-    public function getHttpClient()
-    {
-        return $this->httpClient;
-    }
-
-    /**
      * @return SessionInterface
      */
     public function getSession()
@@ -116,10 +103,10 @@ class Service
     }
 
     /**
-     * @return RequestFactoryInterface
+     * @return HttpStack
      */
-    public function getRequestFactory(): RequestFactoryInterface
+    public function getHttpStack(): HttpStack
     {
-        return $this->requestFactory;
+        return $this->httpStack;
     }
 }

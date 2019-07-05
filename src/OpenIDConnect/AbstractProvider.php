@@ -21,7 +21,7 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
     public function discover(): array
     {
         $response = $this->executeRequest(
-            $this->requestFactory->createRequest('GET', $this->getOpenIdUrl())
+            $this->httpStack->createRequest('GET', $this->getOpenIdUrl())
         );
 
         $result = json_decode($response->getBody()->getContents(), true);
@@ -49,7 +49,7 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
         }
 
         $response = $this->executeRequest(
-            $this->requestFactory->createRequest('GET', $spec['jwks_uri'])
+            $this->httpStack->createRequest('GET', $spec['jwks_uri'])
         );
 
         $result = json_decode($response->getBody()->getContents(), true);

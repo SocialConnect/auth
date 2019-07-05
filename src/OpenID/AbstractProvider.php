@@ -58,7 +58,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     protected function discover(string $url)
     {
         $response = $this->executeRequest(
-            $this->requestFactory->createRequest('GET', $url)
+            $this->httpStack->createRequest('GET', $url)
         );
 
         $contentType = $response->getHeaderLine('Content-Type');
@@ -129,7 +129,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         $this->discover($claimedId);
 
         $response = $this->executeRequest(
-            $this->requestFactory->createRequest('POST', $this->loginEntrypoint)
+            $this->httpStack->createRequest('POST', $this->loginEntrypoint)
                 ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
                 ->withBody(stream_for(http_build_query($params, '', '&')))
         );

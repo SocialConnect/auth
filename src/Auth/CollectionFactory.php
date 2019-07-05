@@ -96,13 +96,12 @@ class CollectionFactory implements FactoryInterface
          * @var $provider \SocialConnect\Provider\AbstractBaseProvider
          */
         $provider = new $providerClassName(
-            $service->getHttpClient(),
+            $service->getHttpStack(),
             $service->getSession(),
             array_merge(
                 $parameters,
                 $service->getConfig()
             ),
-            $service->getRequestFactory()
         );
 
         return $provider;

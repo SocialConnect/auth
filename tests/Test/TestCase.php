@@ -7,37 +7,53 @@
 namespace Test;
 
 use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use ReflectionClass;
 use SocialConnect\Auth\Service;
-use SocialConnect\Common\Http\HttpStack;
-use SocialConnect\Common\Http\RequestFactory;
-use SocialConnect\Common\Http\Response;
-use SocialConnect\Common\Http\StreamFactory;
-use function GuzzleHttp\Psr7\stream_for;
+use SocialConnect\HttpClient\RequestFactory;
+use SocialConnect\HttpClient\Response;
+use SocialConnect\HttpClient\StreamFactory;
+use SocialConnect\Provider\HttpStack;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @param string|null $responseData
+     * @param int $responseCode
+     * @return ResponseInterface
+     */
+    protected function createResponse($responseData, int $responseCode = 200): ResponseInterface
+    {
+        $body = null;
+
+        if ($responseData) {
+            $body = $this->getStreamFactoryMock()->createStream(
+                $responseData
+            );
+        }
+
+        return new Response(
+            $responseCode,
+            [],
+            $body
+        );
+    }
 
     /**
      * @param string|null $responseData
      * @param int $responseCode
      * @return \PHPUnit_Framework_MockObject_MockObject|ResponseInterface
      */
-    protected function mockClientResponse($responseData, $responseCode = 200)
+    protected function mockClientResponse($responseData, int $responseCode = 200)
     {
         $mockedHttpClient = $this->getMockBuilder(ClientInterface::class)
             ->getMock();
 
-        $response = new Response(
-            $responseCode,
-            [],
-            stream_for($responseData)
-        );
-
         $mockedHttpClient->expects($this->once())
             ->method('sendRequest')
-            ->willReturn($response);
+            ->willReturn($this->createResponse($responseData, $responseCode));
 
         return $mockedHttpClient;
     }
@@ -59,17 +75,29 @@ class TestCase extends \PHPUnit\Framework\TestCase
         return $method->invokeArgs($object, $params);
     }
 
-    protected function getHttpStackMock()
+    protected function getRequestFactoryMock(): RequestFactoryInterface
     {
-        $httpClient = $this->getMockBuilder(ClientInterface::class)
-            ->disableOriginalConstructor()
-            ->disableProxyingToOriginalMethods()
-            ->getMock();
+        return new RequestFactory();
+    }
+
+    protected function getStreamFactoryMock(): StreamFactoryInterface
+    {
+        return new StreamFactory();
+    }
+
+    protected function getHttpStackMock(ClientInterface $httpClient = null)
+    {
+        if (!$httpClient) {
+            $httpClient = $this->getMockBuilder(ClientInterface::class)
+                ->disableOriginalConstructor()
+                ->disableProxyingToOriginalMethods()
+                ->getMock();
+        }
 
         return new HttpStack(
             $httpClient,
-            new RequestFactory(),
-            new StreamFactory()
+            $this->getRequestFactoryMock(),
+            $this->getStreamFactoryMock()
         );
     }
 

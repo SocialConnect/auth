@@ -6,7 +6,7 @@
 
 namespace Test\OAuth1\Provider;
 
-use SocialConnect\Common\Http\Response;
+use Psr\Http\Message\ResponseInterface;
 
 class Px500Test extends AbstractProviderTestCase
 {
@@ -21,11 +21,9 @@ class Px500Test extends AbstractProviderTestCase
     /**
      * {@inheritDoc}
      */
-    protected function getTestResponseForGetIdentity(): Response
+    protected function getTestResponseForGetIdentity(): ResponseInterface
     {
-        return new Response(
-            200,
-            [],
+        return $this->createResponse(
             json_encode([
                 'user' => [
                     'id' => 12345,

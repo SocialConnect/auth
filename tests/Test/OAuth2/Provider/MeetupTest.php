@@ -6,7 +6,7 @@
 
 namespace Test\OAuth2\Provider;
 
-use SocialConnect\Common\Http\Response;
+use Psr\Http\Message\ResponseInterface;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\OAuth2\Provider\Meetup;
 use SocialConnect\Provider\Session\SessionInterface;
@@ -64,11 +64,9 @@ class MeetupTest extends AbstractProviderTestCase
     /**
      * {@inheritDoc}
      */
-    protected function getTestResponseForGetIdentity(): Response
+    protected function getTestResponseForGetIdentity(): ResponseInterface
     {
-        return new Response(
-            200,
-            [],
+        return $this->createResponse(
             json_encode([
                 'id' => 12345,
                 'name' => 'Dmitry',

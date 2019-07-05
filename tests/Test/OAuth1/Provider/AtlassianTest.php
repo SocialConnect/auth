@@ -6,8 +6,7 @@
 
 namespace Test\OAuth1\Provider;
 
-use SocialConnect\Common\Http\RequestFactory;
-use SocialConnect\Common\Http\Response;
+use Psr\Http\Message\ResponseInterface;
 use SocialConnect\OAuth1\Provider\Atlassian;
 use SocialConnect\OAuth1\Signature\MethodRSASHA1;
 use SocialConnect\Provider\Session\SessionInterface;
@@ -42,7 +41,7 @@ class AtlassianTest extends AbstractProviderTestCase
         $configuration = $this->getProviderConfiguration();
         unset($configuration['baseUri']);
 
-        new Atlassian($this->getHttpStackMock(), $session, $configuration, new RequestFactory());
+        new Atlassian($this->getHttpStackMock(), $session, $configuration);
     }
 
     public function testConstructorHandlesBaseUriWithTrailingSlash()
@@ -52,7 +51,7 @@ class AtlassianTest extends AbstractProviderTestCase
         $configuration = $this->getProviderConfiguration();
         $configuration['baseUri'] = 'http://example.com/';
 
-        $provider = new Atlassian($this->getHttpStackMock(), $session, $this->getProviderConfiguration(), new RequestFactory());
+        $provider = new Atlassian($this->getHttpStackMock(), $session, $this->getProviderConfiguration());
 
         $this->assertAttributeEquals('http://example.com', 'baseUri', $provider);
     }
@@ -73,11 +72,9 @@ class AtlassianTest extends AbstractProviderTestCase
     /**
      * {@inheritDoc}
      */
-    protected function getTestResponseForGetIdentity(): Response
+    protected function getTestResponseForGetIdentity(): ResponseInterface
     {
-        return new Response(
-            200,
-            [],
+        return $this->createResponse(
             json_encode([
                 'name' => 'Dmitry',
             ])

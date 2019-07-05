@@ -7,9 +7,6 @@
 namespace Test\Provider;
 
 use Psr\Http\Client\ClientInterface;
-use SocialConnect\Common\Http\HttpStack;
-use SocialConnect\Common\Http\RequestFactory;
-use SocialConnect\Common\Http\StreamFactory;
 use SocialConnect\Provider\Session\SessionInterface;
 use Test\TestCase;
 
@@ -61,14 +58,9 @@ abstract class AbstractProviderTestCase extends TestCase
         $className = $this->getProviderClassName();
 
         return new $className(
-            new HttpStack(
-                $httpClient,
-                new RequestFactory(),
-                new StreamFactory()
-            ),
+            $this->getHttpStackMock($httpClient),
             $session,
             $this->getProviderConfiguration(),
-            new RequestFactory()
         );
     }
 
@@ -94,14 +86,9 @@ abstract class AbstractProviderTestCase extends TestCase
         }
 
         return new ProviderMock(
-            new HttpStack(
-                $httpClient,
-                new RequestFactory(),
-                new StreamFactory()
-            ),
+            $this->getHttpStackMock($httpClient),
             $session,
-            $this->getProviderConfiguration(),
-            new RequestFactory()
+            $this->getProviderConfiguration()
         );
     }
 

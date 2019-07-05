@@ -11,7 +11,6 @@ use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\OAuth1\AbstractProvider;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
-use function GuzzleHttp\Psr7\build_query;
 
 class Trello extends AbstractProvider
 {

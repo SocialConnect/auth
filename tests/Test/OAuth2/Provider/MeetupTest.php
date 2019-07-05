@@ -6,12 +6,9 @@
 
 namespace Test\OAuth2\Provider;
 
-use Psr\Http\Client\ClientInterface;
-use SocialConnect\Common\Http\RequestFactory;
 use SocialConnect\Common\Http\Response;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\OAuth2\Provider\Meetup;
-use SocialConnect\Provider\Consumer;
 use SocialConnect\Provider\Session\SessionInterface;
 
 class MeetupTest extends AbstractProviderTestCase

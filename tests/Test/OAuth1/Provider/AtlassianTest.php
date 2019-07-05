@@ -6,12 +6,10 @@
 
 namespace Test\OAuth1\Provider;
 
-use Psr\Http\Client\ClientInterface;
 use SocialConnect\Common\Http\RequestFactory;
 use SocialConnect\Common\Http\Response;
 use SocialConnect\OAuth1\Provider\Atlassian;
 use SocialConnect\OAuth1\Signature\MethodRSASHA1;
-use SocialConnect\Provider\Consumer;
 use SocialConnect\Provider\Session\SessionInterface;
 
 class AtlassianTest extends AbstractProviderTestCase

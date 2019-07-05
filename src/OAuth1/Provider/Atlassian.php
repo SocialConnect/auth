@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth1\Provider;
 
-use SocialConnect\Common\Http\HttpStack;
+use SocialConnect\Provider\HttpStack;
 use SocialConnect\OAuth1\Signature\MethodRSASHA1;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidResponse;

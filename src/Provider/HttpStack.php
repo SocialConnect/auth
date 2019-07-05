@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace SocialConnect\Common\Http;
+namespace SocialConnect\Provider;
 
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -22,7 +22,7 @@ class HttpStack implements RequestFactoryInterface, ClientInterface, StreamFacto
     protected $client;
 
     /**
-     * @var RequestFactory
+     * @var RequestFactoryInterface
      */
     protected $requestFactory;
 

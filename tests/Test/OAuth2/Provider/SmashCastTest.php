@@ -33,9 +33,7 @@ class SmashCastTest extends AbstractProviderTestCase
         $mockedHttpClient->expects($this->exactly(2))
             ->method('sendRequest')
             ->willReturn(
-                new Response(
-                    200,
-                    [],
+                $this->createResponse(
                     json_encode([
                         'user_name' => 'ovr',
                     ])

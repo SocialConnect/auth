@@ -5,6 +5,8 @@
 
 namespace Test\OpenID\Provider;
 
+use Psr\Http\Message\ResponseInterface;
+
 class SteamTest extends AbstractProviderTestCase
 {
     /**
@@ -31,6 +33,24 @@ class SteamTest extends AbstractProviderTestCase
         parent::assertEquals(
             $expectedUserId,
             $result
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getTestResponseForGetIdentity(): ResponseInterface
+    {
+        return $this->createResponse(
+            json_encode([
+                'response' => [
+                    'players' => [
+                        [
+                            'steamid' => 1,
+                        ]
+                    ]
+                ]
+            ])
         );
     }
 }

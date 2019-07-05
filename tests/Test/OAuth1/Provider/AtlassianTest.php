@@ -39,37 +39,34 @@ class AtlassianTest extends AbstractProviderTestCase
     /** @expectedException \InvalidArgumentException */
     public function testConstructorThrowsExceptionOnMissingBaseUri()
     {
-        $client = self::getMockBuilder(ClientInterface::class)->getMock();
         $session = self::getMockBuilder(SessionInterface::class)->getMock();
 
         $configuration = $this->getProviderConfiguration();
         unset($configuration['baseUri']);
 
-        new Atlassian($client, $session, $configuration, new RequestFactory());
+        new Atlassian($this->getHttpStackMock(), $session, $configuration, new RequestFactory());
     }
 
     public function testConstructorHandlesBaseUriWithTrailingSlash()
     {
-        $client = self::getMockBuilder(ClientInterface::class)->getMock();
         $session = self::getMockBuilder(SessionInterface::class)->getMock();
 
         $configuration = $this->getProviderConfiguration();
         $configuration['baseUri'] = 'http://example.com/';
 
-        $provider = new Atlassian($client, $session, $this->getProviderConfiguration(), new RequestFactory());
+        $provider = new Atlassian($this->getHttpStackMock(), $session, $this->getProviderConfiguration(), new RequestFactory());
 
         $this->assertAttributeEquals('http://example.com', 'baseUri', $provider);
     }
 
     public function testConstructorHandlesBaseUriWithOutTrailingSlash()
     {
-        $client = self::getMockBuilder(ClientInterface::class)->getMock();
         $session = self::getMockBuilder(SessionInterface::class)->getMock();
 
         $configuration = $this->getProviderConfiguration();
         $configuration['baseUri'] = 'http://example.com';
 
-        $provider = new Atlassian($client, $session, $configuration, new RequestFactory());
+        $provider = new Atlassian($this->getHttpStackMock(), $session, $configuration);
 
         $this->assertAttributeEquals('http://example.com', 'baseUri', $provider);
         $this->assertAttributeInstanceOf(MethodRSASHA1::class, 'signature', $provider);

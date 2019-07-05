@@ -164,7 +164,7 @@ abstract class AbstractBaseProvider
      */
     protected function executeRequest(RequestInterface $request): ResponseInterface
     {
-        $response = $this->httpStack->getClient()->sendRequest($request);
+        $response = $this->httpStack->sendRequest($request);
 
         $statusCode = $response->getStatusCode();
         if (200 <= $statusCode && 300 > $statusCode) {

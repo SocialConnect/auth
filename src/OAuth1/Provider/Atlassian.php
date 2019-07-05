@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth1\Provider;
 
 use Psr\Http\Client\ClientInterface;
+use SocialConnect\Common\Http\HttpStack;
 use SocialConnect\Common\Http\RequestFactory;
 use SocialConnect\OAuth1\Signature\MethodRSASHA1;
 use SocialConnect\Provider\AccessTokenInterface;
@@ -77,12 +78,12 @@ class Atlassian extends AbstractProvider
      * * applicationSecret The path to the private key file used for signing.
      * * applicationId The ID shared with your Atlassian instance
      *
-     * @param ClientInterface $httpClient
+     * @param HttpStack $httpStack
      * @param \SocialConnect\Provider\Session\SessionInterface $session
      * @param array $parameters
      * @param RequestFactory $requestFactory
      */
-    public function __construct(ClientInterface $httpClient, SessionInterface $session, array $parameters, RequestFactory $requestFactory)
+    public function __construct(HttpStack $httpStack, SessionInterface $session, array $parameters)
     {
         if (!isset($parameters['baseUri'])) {
             throw new \InvalidArgumentException('There is no "baseUri" given in the configuration');
@@ -94,7 +95,7 @@ class Atlassian extends AbstractProvider
             $this->baseUri = substr($this->baseUri, 0, $lastSlash);
         }
 
-        parent::__construct($httpClient, $session, $parameters, $requestFactory);
+        parent::__construct($httpStack, $session, $parameters);
 
         // needs to be set after calling the parent constructor as there the
         // signature is set as well.

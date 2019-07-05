@@ -124,7 +124,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
         return $this->httpStack->createRequest($this->requestHttpMethod, $this->getRequestTokenUri())
             ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
-            ->withBody($this->httpStack->getStreamFactory()->createStream(http_build_query($parameters, '', '&')))
+            ->withBody($this->httpStack->createStream(http_build_query($parameters, '', '&')))
         ;
     }
 

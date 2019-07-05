@@ -35,10 +35,9 @@ class MeetupTest extends AbstractProviderTestCase
         ]);
 
         $meetup = new Meetup(
-            self::createMock(ClientInterface::class),
+            $this->getHttpStackMock(),
             self::createMock(SessionInterface::class),
-            $this->getProviderConfiguration(),
-            new RequestFactory()
+            $this->getProviderConfiguration()
         );
 
         $token = $meetup->parseToken($body);
@@ -56,10 +55,9 @@ class MeetupTest extends AbstractProviderTestCase
     public function testParsingTokenFailsWithInvalidBody()
     {
         $meetup = new Meetup(
-            self::createMock(ClientInterface::class),
+            $this->getHttpStackMock(),
             self::createMock(SessionInterface::class),
-            $this->getProviderConfiguration(),
-            new RequestFactory()
+            $this->getProviderConfiguration()
         );
 
         $meetup->parseToken(json_encode(false));

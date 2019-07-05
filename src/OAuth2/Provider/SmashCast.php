@@ -8,18 +8,15 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth2\Provider;
 
 use Psr\Http\Message\RequestInterface;
-use SocialConnect\Common\Http\Request;
 use SocialConnect\OAuth2\Exception\InvalidState;
 use SocialConnect\OAuth2\Exception\Unauthorized;
 use SocialConnect\OAuth2\Exception\UnknownAuthorization;
 use SocialConnect\OAuth2\Exception\UnknownState;
 use SocialConnect\Provider\AccessTokenInterface;
-use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
-use function GuzzleHttp\Psr7\stream_for;
 
 class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -85,7 +82,7 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
 
         return $this->httpStack->createRequest($this->requestHttpMethod, $this->getRequestTokenUri())
             ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
-            ->withBody(stream_for(http_build_query($parameters)))
+            ->withBody($this->httpStack->createStream(http_build_query($parameters)))
         ;
     }
 

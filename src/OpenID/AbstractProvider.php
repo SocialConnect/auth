@@ -7,11 +7,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OpenID;
 
-use SocialConnect\Common\Http\Request;
 use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
-use function GuzzleHttp\Psr7\stream_for;
 
 abstract class AbstractProvider extends AbstractBaseProvider
 {
@@ -131,7 +129,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         $response = $this->executeRequest(
             $this->httpStack->createRequest('POST', $this->loginEntrypoint)
                 ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
-                ->withBody(stream_for(http_build_query($params, '', '&')))
+                ->withBody($this->httpStack->createStream(http_build_query($params, '', '&')))
         );
 
         $content = $response->getBody()->getContents();

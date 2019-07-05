@@ -10,8 +10,10 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionClass;
 use SocialConnect\Auth\Service;
+use SocialConnect\Common\Http\HttpStack;
 use SocialConnect\Common\Http\RequestFactory;
 use SocialConnect\Common\Http\Response;
+use SocialConnect\Common\Http\StreamFactory;
 use function GuzzleHttp\Psr7\stream_for;
 
 class TestCase extends \PHPUnit\Framework\TestCase
@@ -57,22 +59,30 @@ class TestCase extends \PHPUnit\Framework\TestCase
         return $method->invokeArgs($object, $params);
     }
 
-    protected function getService()
+    protected function getHttpStackMock()
     {
         $httpClient = $this->getMockBuilder(ClientInterface::class)
             ->disableOriginalConstructor()
             ->disableProxyingToOriginalMethods()
             ->getMock();
 
+        return new HttpStack(
+            $httpClient,
+            new RequestFactory(),
+            new StreamFactory()
+        );
+    }
+
+    protected function getService()
+    {
         $session = $this->getMockBuilder(\SocialConnect\Provider\Session\Session::class)
             ->disableOriginalConstructor()
             ->disableProxyingToOriginalMethods()
             ->getMock();
 
         $service = new Service(
-            $httpClient,
+            $this->getHttpStackMock(),
             $session,
-            new RequestFactory(),
             array(
                 'provider' => array(
                     'Vk' => array(

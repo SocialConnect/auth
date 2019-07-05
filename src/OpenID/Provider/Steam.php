@@ -7,13 +7,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OpenID\Provider;
 
-use SocialConnect\Common\Http\Request;
 use SocialConnect\Provider\AccessTokenInterface;
-use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
-use function GuzzleHttp\Psr7\build_query;
-use function GuzzleHttp\Psr7\stream_for;
 
 class Steam extends \SocialConnect\OpenID\AbstractProvider
 {

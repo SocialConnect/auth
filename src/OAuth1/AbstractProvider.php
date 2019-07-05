@@ -7,8 +7,6 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth1;
 
-use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use SocialConnect\Common\Http\HttpStack;
 use SocialConnect\OAuth1\Exception\UnknownAuthorization;
@@ -20,7 +18,6 @@ use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth1\Exception\InvalidRequestToken;
 use SocialConnect\OAuth1\Signature\MethodHMACSHA1;
 use SocialConnect\Provider\Session\SessionInterface;
-use function GuzzleHttp\Psr7\build_query;
 
 abstract class AbstractProvider extends AbstractBaseProvider
 {
@@ -204,7 +201,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         $url = $uri;
 
         if (count($query) > 0) {
-            $url .= '?' . build_query($query);
+            $url .= '?' . http_build_query($query);
         }
 
         return $this->executeRequest(

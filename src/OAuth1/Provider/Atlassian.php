@@ -7,12 +7,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth1\Provider;
 
-use Psr\Http\Client\ClientInterface;
 use SocialConnect\Common\Http\HttpStack;
-use SocialConnect\Common\Http\RequestFactory;
 use SocialConnect\OAuth1\Signature\MethodRSASHA1;
 use SocialConnect\Provider\AccessTokenInterface;
-use SocialConnect\Provider\Consumer;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth1\AbstractProvider;
 use SocialConnect\Common\Entity\User;
@@ -81,7 +78,6 @@ class Atlassian extends AbstractProvider
      * @param HttpStack $httpStack
      * @param \SocialConnect\Provider\Session\SessionInterface $session
      * @param array $parameters
-     * @param RequestFactory $requestFactory
      */
     public function __construct(HttpStack $httpStack, SessionInterface $session, array $parameters)
     {

@@ -5,6 +5,8 @@
 
 namespace Test\OpenIDConnect\Provider;
 
+use Psr\Http\Message\ResponseInterface;
+
 class PixelPinTest extends AbstractProviderTestCase
 {
     /**
@@ -13,5 +15,14 @@ class PixelPinTest extends AbstractProviderTestCase
     protected function getProviderClassName()
     {
         return \SocialConnect\OpenIDConnect\Provider\PixelPin::class;
+    }
+
+    protected function getTestResponseForGetIdentity(): ResponseInterface
+    {
+        return $this->createResponse(
+            json_encode([
+                'id' => 1,
+            ])
+        );
     }
 }

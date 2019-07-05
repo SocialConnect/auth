@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth2;
 
 use Psr\Http\Message\RequestInterface;
-use SocialConnect\Common\Http\Request;
 use SocialConnect\OAuth2\Exception\InvalidState;
 use SocialConnect\OAuth2\Exception\Unauthorized;
 use SocialConnect\OAuth2\Exception\UnknownAuthorization;

@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace SocialConnect\OpenIDConnect;
 
-use SocialConnect\Common\Http\Request;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 

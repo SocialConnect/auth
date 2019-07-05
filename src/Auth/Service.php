@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace SocialConnect\Auth;
 
 use Exception;
-use SocialConnect\Common\Http\HttpStack;
+use SocialConnect\Provider\HttpStack;
 use SocialConnect\Provider\Session\SessionInterface;
 
 class Service

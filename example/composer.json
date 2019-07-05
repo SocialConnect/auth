@@ -7,7 +7,10 @@
         "symfony/var-dumper": "^4.3",
         "guzzlehttp/guzzle": "^6.3",
         "symfony/cache": "^4.3",
-        "php-http/guzzle6-adapter": "^2.0"
+        "php-http/guzzle6-adapter": "^2.0",
+        "guzzlehttp/psr7": "^1.6",
+        "zendframework/zend-diactoros": "^2.1",
+        "socialconnect/http-client": "dev-master"
     },
     "license": "MIT",
     "authors": [

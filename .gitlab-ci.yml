@@ -1,0 +1,12 @@
+
+stages:
+  - build
+
+phpstan:
+  stage: build
+  image: registry.gitlab.com/socialconnect-php/auth:7.3
+  script:
+    - composer install -o
+    - ./vendor/bin/phpstan analyse src/ --level 1
+  tags:
+    - docker

@@ -11,6 +11,7 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use SocialConnect\Common\Http\HttpStack;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Provider\Session\SessionInterface;
 
@@ -27,9 +28,9 @@ abstract class AbstractBaseProvider
     protected $scope = [];
 
     /**
-     * @var ClientInterface
+     * @var HttpStack
      */
-    protected $httpClient;
+    protected $httpStack;
 
     /**
      * @var string
@@ -47,16 +48,11 @@ abstract class AbstractBaseProvider
     protected $options = [];
 
     /**
-     * @var RequestFactoryInterface
-     */
-    protected $requestFactory;
-
-    /**
-     * @param ClientInterface $httpClient
+     * @param HttpStack $httpStack
      * @param SessionInterface $session
      * @param array $parameters
      */
-    public function __construct(ClientInterface $httpClient, SessionInterface $session, array $parameters, RequestFactoryInterface $requestFactory)
+    public function __construct(HttpStack $httpStack, SessionInterface $session, array $parameters)
     {
         $consumer = new Consumer($parameters['applicationId'], $parameters['applicationSecret']);
 
@@ -77,9 +73,8 @@ abstract class AbstractBaseProvider
         }
 
         $this->consumer = $consumer;
-        $this->httpClient = $httpClient;
+        $this->httpStack = $httpStack;
         $this->session = $session;
-        $this->requestFactory = $requestFactory;
     }
 
     /**
@@ -169,7 +164,7 @@ abstract class AbstractBaseProvider
      */
     protected function executeRequest(RequestInterface $request): ResponseInterface
     {
-        $response = $this->httpClient->sendRequest($request);
+        $response = $this->httpStack->getClient()->sendRequest($request);
 
         $statusCode = $response->getStatusCode();
         if (200 <= $statusCode && 300 > $statusCode) {

@@ -83,7 +83,7 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
             'hash' => base64_encode($this->consumer->getKey() . $this->consumer->getSecret()),
         ];
 
-        return $this->requestFactory->createRequest($this->requestHttpMethod, $this->getRequestTokenUri())
+        return $this->httpStack->createRequest($this->requestHttpMethod, $this->getRequestTokenUri())
             ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
             ->withBody(stream_for(http_build_query($parameters)))
         ;

@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2;
 
-use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\RequestInterface;
 use SocialConnect\Common\Http\Request;
 use SocialConnect\OAuth2\Exception\InvalidState;
@@ -18,8 +17,6 @@ use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
-use function GuzzleHttp\Psr7\build_query;
-use function GuzzleHttp\Psr7\stream_for;
 
 abstract class AbstractProvider extends AbstractBaseProvider
 {
@@ -125,9 +122,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
             'redirect_uri' => $this->getRedirectUrl()
         ];
 
-        return $this->requestFactory->createRequest($this->requestHttpMethod, $this->getRequestTokenUri())
+        return $this->httpStack->createRequest($this->requestHttpMethod, $this->getRequestTokenUri())
             ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
-            ->withBody(stream_for(http_build_query($parameters, '', '&')))
+            ->withBody($this->httpStack->getStreamFactory()->createStream(http_build_query($parameters, '', '&')))
         ;
     }
 
@@ -182,10 +179,10 @@ abstract class AbstractProvider extends AbstractBaseProvider
         $uri = $this->getBaseUri() . $url;
 
         if (count($query)) {
-            $uri .= '?' . build_query($query);
+            $uri .= '?' . http_build_query($query);
         }
 
-        $request = $this->requestFactory->createRequest('GET', $uri);
+        $request = $this->httpStack->createRequest('GET', $uri);
 
         foreach ($headers as $k => $v) {
             $request = $request->withHeader($k, $v);

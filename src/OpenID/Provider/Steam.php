@@ -70,7 +70,7 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
         ];
 
         $response = $this->executeRequest(
-            $this->requestFactory->createRequest(
+            $this->httpStack->createRequest(
                 'GET',
                 $this->getBaseUri() . 'ISteamUser/GetPlayerSummaries/v0002/?' . build_query($query)
             )

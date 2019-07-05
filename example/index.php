@@ -11,15 +11,15 @@ include_once __DIR__ . '/../vendor/autoload.php';
 include_once __DIR__ . '/vendor/autoload.php';
 $configureProviders = include_once 'config.php';
 
-$httpClient = new \SocialConnect\Common\Http\Client\Curl();
+$httpClient = new \SocialConnect\HttpClient\Curl();
 
 /**
  * By default We are using Curl class from SocialConnect/Common
  * but you can use Guzzle wrapper ^5.3|^6.0
  */
-$httpClient = new \Http\Adapter\Guzzle6\Client(
-    new \GuzzleHttp\Client()
-);
+//$httpClient = new \Http\Adapter\Guzzle6\Client(
+//    new \GuzzleHttp\Client()
+//);
 
 /**
  * Why We need Cache decorator for HTTP Client?
@@ -32,7 +32,7 @@ $httpClient = new \Http\Adapter\Guzzle6\Client(
  * If you don`t use providers like (Steam) from OpenID or OpenIDConnect
  * you may skip this because it's not needed
  */
-//$httpClient = new \SocialConnect\Common\Http\Client\Cache(
+//$httpClient = new \SocialConnect\HttpClient\Cache(
 //    $httpClient,
 //    /**
 //     * You can use any library with PSR-16 (simple-cache) compatibility
@@ -54,7 +54,11 @@ $httpClient = new \Http\Adapter\Guzzle6\Client(
 $collectionFactory = null;
 
 $service = new \SocialConnect\Auth\Service(
-    $httpClient,
+    new \SocialConnect\Provider\HttpStack(
+        $httpClient,
+        new \SocialConnect\HttpClient\RequestFactory(),
+        new \SocialConnect\HttpClient\StreamFactory()
+    ),
     new \SocialConnect\Provider\Session\Session(),
     $configureProviders,
     $collectionFactory
@@ -77,7 +81,7 @@ $app->any('/dump', function() {
 $app->get('/auth/cb/{provider}/', function (\Slim\Http\Request $request) use (&$configureProviders, $service) {
     $provider = strtolower($request->getAttribute('provider'));
 
-    if (!$service->getFactory()->has($provider)) {
+    if (!$service->has($provider)) {
         throw new \Exception('Wrong $provider passed in url : ' . $provider);
     }
 

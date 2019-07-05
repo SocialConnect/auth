@@ -52,7 +52,7 @@ $ curl -sS https://getcomposer.org/installer | php
 ``` json
 {
   "require": {
-    "socialconnect/auth": "^2.2.0"
+    "socialconnect/auth": "^3.0.0"
   }
 }
 ```
@@ -76,15 +76,8 @@ composer install
 First you need to setup `SocialConnect\Auth\Service`:
 
 ```php
-$httpClient = new \SocialConnect\Common\Http\Client\Curl();
-
-/**
- * By default we are using Curl class from SocialConnect/Common
- * but you can use Guzzle wrapper ^5.3|^6.0
- */
-//$httpClient = new \SocialConnect\Common\Http\Client\Guzzle(
-//    new \GuzzleHttp\Client()
-//);
+// You can use any HTTP client with PSR-18 compatibility
+$httpClient = new \SocialConnect\HttpClient\Curl();
 
 /**
  * Why do we need cache decorator for HTTP Client?
@@ -129,9 +122,14 @@ $configureProviders = [
 ];
 
 $service = new \SocialConnect\Auth\Service(
-    $httpClient,
+    new \SocialConnect\Provider\HttpStack(
+        $httpClient,
+        new \SocialConnect\HttpClient\RequestFactory(),
+        new \SocialConnect\HttpClient\StreamFactory()
+    ),
     new \SocialConnect\Provider\Session\Session(),
-    $configureProviders
+    $configureProviders,
+    $collectionFactory
 );
 
 /**

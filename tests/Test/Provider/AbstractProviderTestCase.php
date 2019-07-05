@@ -60,7 +60,7 @@ abstract class AbstractProviderTestCase extends TestCase
         return new $className(
             $this->getHttpStackMock($httpClient),
             $session,
-            $this->getProviderConfiguration(),
+            $this->getProviderConfiguration()
         );
     }
 

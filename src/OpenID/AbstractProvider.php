@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace SocialConnect\OpenID;
 
 use SocialConnect\Provider\AbstractBaseProvider;
+use SocialConnect\Provider\Consumer;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 
@@ -143,5 +144,16 @@ abstract class AbstractProvider extends AbstractBaseProvider
         }
 
         throw new InvalidAccessToken;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function createConsumer(array $parameters): Consumer
+    {
+        return new Consumer(
+            $this->getRequiredStringParameter('applicationId', $parameters),
+            ''
+        );
     }
 }

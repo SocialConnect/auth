@@ -113,8 +113,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
             $session,
             array(
                 'provider' => array(
-                    'Vk' => array(
-                        'applicationId' => 123456,
+                    'vk' => array(
+                        'applicationId' => '123456',
                         'applicationSecret' => 'Secret'
                     )
                 )

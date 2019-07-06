@@ -8,7 +8,9 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth2\Provider;
 
 use SocialConnect\Provider\AccessTokenInterface;
+use SocialConnect\Provider\Consumer;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
+use SocialConnect\Provider\Exception\InvalidProviderConfiguration;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
@@ -103,5 +105,18 @@ class Odnoklassniki extends \SocialConnect\OAuth2\AbstractProvider
         );
 
         return $hydrator->hydrate(new User(), $response);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function createConsumer(array $parameters): Consumer
+    {
+        $consumer = parent::createConsumer($parameters);
+        $consumer->setPublic(
+            $this->getRequiredStringParameter('applicationPublic', $parameters)
+        );
+
+        return $consumer;
     }
 }

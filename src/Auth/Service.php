@@ -50,11 +50,11 @@ class Service
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return array
      * @throws Exception
      */
-    public function getProviderConfiguration($name)
+    public function getProviderConfiguration(string $name)
     {
         if (isset($this->config['provider'][$name])) {
             return $this->config['provider'][$name];
@@ -77,11 +77,11 @@ class Service
     /**
      * Get provider class by $name
      *
-     * @param $name
+     * @param string $name
      * @return \SocialConnect\Provider\AbstractBaseProvider
      * @throws Exception
      */
-    public function getProvider($name)
+    public function getProvider(string $name)
     {
         return $this->factory->factory($name, $this->getProviderConfiguration($name), $this);
     }

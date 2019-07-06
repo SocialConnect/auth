@@ -17,7 +17,7 @@ class ServiceTest extends TestCase
     public function testGetProvider()
     {
         $service = $this->getService();
-        $vkProvider = $service->getProvider('Vk');
+        $vkProvider = $service->getProvider('vk');
 
         $this->assertInstanceOf(\SocialConnect\OAuth2\Provider\Vk::class, $vkProvider);
     }

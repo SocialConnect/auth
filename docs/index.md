@@ -17,7 +17,7 @@ Open-source social sign library for PHP.
 
 Before We start, you should known related requirements for your environment:
 
-- PHP 7.0 or above.
+- PHP 7.1 or above.
 - PHP Sessions (or use stateless mode for OAuth2 and OpenID Connect)
 - Curl extension (or you can use stream adapter)
 - JSON extension

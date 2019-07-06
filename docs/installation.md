@@ -8,9 +8,9 @@ sidebar_label: Installation
 
 Before We start, you should known related requirements for your environment:
 
-- PHP 7.0 or above.
-- PHP Sessions (or use stateless mode for oauth2)
-- Curl extension
+- PHP 7.1 or above.
+- PHP Sessions (or use stateless mode for OAuth2 and OpenID Connect)
+- Curl extension (or you can use stream adapter)
 - JSON extension
 
 ## Installation
@@ -19,13 +19,13 @@ The recommended way to install `socialconnect/auth` is via Composer.
 
 1. If you do not have composer installed, download the [`composer.phar`](https://getcomposer.org/composer.phar) executable or use the installer.
 
-``` sh
+```sh
 $ curl -sS https://getcomposer.org/installer | php
 ```
 
 2. Run `php composer.phar require socialconnect/auth` or add a new requirement in your composer.json.
 
-``` json
+```json
 {
   "require": {
     "socialconnect/auth": "^3.0"
@@ -46,24 +46,21 @@ We had `socialconnect/http-client` package, it's our implementation of PSR-18 (H
 
 Run `composer require socialconnect/http-client`
 
-```sh
+```php
 // You can use any HTTP client with PSR-18 compatibility
 $httpClient = new \SocialConnect\HttpClient\Curl();
 ```
 
-#### Cache for HttpClient (useful for OpenID & OpenIDConnect)
+#### HttpClient and caching (useful for OpenID & OpenIDConnect)
 
 Why do we need cache decorator for HTTP Client?
 
-Providers like OpenID & OpenIDConnect require US to request OpenID specification (and JWK(s) for OpenIDConnect)
+Providers like OpenID & OpenIDConnect require US to request OpenID specification (and JWK(s) for OpenIDConnect).
 
-It's not a best practice to request it every time, because it's unneeded round trip to the server
-if you are using OpenID or OpenIDConnect we suggest you to use cache
-
-If you don`t use providers like (Steam) from OpenID or OpenIDConnect
-you may skip this because it's not needed
+It's not a best practice to request it every time, because it's unneeded round trip to the server, 
+if you are using OpenID or OpenIDConnect we suggest you to use cache.
  
-```
+```php
 $httpClient = new \SocialConnect\Common\Http\Client\Cache(
     $httpClient,
     /**
@@ -85,18 +82,33 @@ $httpStack = new \SocialConnect\Provider\HttpStack(
 );
 ```
 
+### Using zelenin/http-client
+
+1. `composer require zelenin/http-client:^4.0`
+
+```php
+$httpClient = (new \Zelenin\HttpClient\ClientFactory())->create();
+
+$httpStack = new \SocialConnect\Provider\HttpStack(
+    $httpClient,
+    new \Zend\Diactoros\RequestFactory(),
+    new \Zend\Diactoros\StreamFactory()
+);
+```
+
 ### Using guzzle
 
 1. `composer require guzzlehttp/guzzle`
 2. `composer require php-http/guzzle6-adapter`
 
-```sh
+```php
 $httpClient = new \Http\Adapter\Guzzle6\Client(
     new \GuzzleHttp\Client()
 );
 
 $httpStack = new \SocialConnect\Provider\HttpStack(
     $httpClient,
+    // @todo Where is factories?
     new \SocialConnect\HttpClient\RequestFactory(),
     new \SocialConnect\HttpClient\StreamFactory()
 );
@@ -104,7 +116,7 @@ $httpStack = new \SocialConnect\Provider\HttpStack(
 
 ## Configure AuthService
 
-```
+```php
 $configureProviders = [
     'redirectUri' => 'http://sconnect.local/auth/cb/${provider}/',
     'provider' => [
@@ -143,6 +155,8 @@ $service = new \SocialConnect\Auth\Service(
     $collectionFactory
 );
 ```
+
+## Write code in you Controller
 
 Next create you loginAction:
 

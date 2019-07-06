@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace SocialConnect\Auth;
 
-use Exception;
+use SocialConnect\Provider\Exception\InvalidProviderConfiguration;
 use SocialConnect\Provider\HttpStack;
 use SocialConnect\Provider\Session\SessionInterface;
 
@@ -52,7 +52,7 @@ class Service
     /**
      * @param string $name
      * @return array
-     * @throws Exception
+     * @throws InvalidProviderConfiguration
      */
     public function getProviderConfiguration(string $name)
     {
@@ -60,7 +60,9 @@ class Service
             return $this->config['provider'][$name];
         }
 
-        throw new Exception('Please setup configuration for ' . ucfirst($name) . ' provider');
+        throw new InvalidProviderConfiguration(
+            'Please setup configuration for ' . ucfirst($name) . ' provider'
+        );
     }
 
     /**
@@ -79,7 +81,7 @@ class Service
      *
      * @param string $name
      * @return \SocialConnect\Provider\AbstractBaseProvider
-     * @throws Exception
+     * @throws InvalidProviderConfiguration
      */
     public function getProvider(string $name)
     {

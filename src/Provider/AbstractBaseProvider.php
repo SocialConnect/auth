@@ -11,6 +11,7 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use SocialConnect\Provider\Exception\InvalidProviderConfiguration;
 use SocialConnect\Provider\HttpStack;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Provider\Session\SessionInterface;
@@ -51,15 +52,10 @@ abstract class AbstractBaseProvider
      * @param HttpStack $httpStack
      * @param SessionInterface $session
      * @param array $parameters
+     * @throws InvalidProviderConfiguration
      */
     public function __construct(HttpStack $httpStack, SessionInterface $session, array $parameters)
     {
-        $consumer = new Consumer($parameters['applicationId'], $parameters['applicationSecret']);
-
-        if (isset($parameters['applicationPublic'])) {
-            $consumer->setPublic($parameters['applicationPublic']);
-        }
-
         if (isset($parameters['scope'])) {
             $this->setScope($parameters['scope']);
         }
@@ -72,9 +68,45 @@ abstract class AbstractBaseProvider
             $this->options = $parameters['options'];
         }
 
-        $this->consumer = $consumer;
+        $this->consumer = $this->createConsumer($parameters);
         $this->httpStack = $httpStack;
         $this->session = $session;
+    }
+
+    /**
+     * @param array $parameters
+     * @return Consumer
+     * @throws InvalidProviderConfiguration
+     */
+    protected function createConsumer(array $parameters): Consumer
+    {
+        return new Consumer(
+            $this->getRequiredStringParameter('applicationId', $parameters),
+            $this->getRequiredStringParameter('applicationSecret', $parameters)
+        );
+    }
+
+    /**
+     * @param string $key
+     * @param array $parameters
+     * @return string
+     * @throws InvalidProviderConfiguration
+     */
+    protected function getRequiredStringParameter(string $key, array $parameters): string
+    {
+        if (!isset($parameters[$key])) {
+            throw new InvalidProviderConfiguration(
+                "Parameter '{$key}' doesn`t exists for '{$this->getName()}' provider configuration"
+            );
+        }
+
+        if (!is_string($parameters[$key])) {
+            throw new InvalidProviderConfiguration(
+                "Parameter '{$key}' must be string inside '{$this->getName()}' provider configuration"
+            );
+        }
+
+        return $parameters[$key];
     }
 
     /**

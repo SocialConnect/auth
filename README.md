@@ -29,6 +29,14 @@ Code examples you can find in [example](./example) directory
 
 [See all 30+ provider](https://socialconnect.lowl.io/providers.html)
 
+# Versions
+
+| Version                                                  | Status      | PHP Version |
+|----------------------------------------------------------|-------------|-------------|
+| [3.x](https://github.com/SocialConnect/auth/tree/3.x)    | Development | >= 7.1      |
+| [2.x](https://github.com/SocialConnect/auth/tree/master) | Current     | >= 7.0      |
+| [1.x](https://github.com/SocialConnect/auth/tree/1.x)    | Maintenance | >= 5.5      |
+
 ## Installation
 
 The recommended way to install `socialconnect/auth` is via Composer.

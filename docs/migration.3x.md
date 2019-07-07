@@ -10,7 +10,7 @@ nav_order: 2
 # Moving to PSR-16 (simple-cache) compatibility interface for Cache
 
 Generally we stop using `doctrine/cache` for `Common\Http\Client\Cache` and started to use PSR-16 (simple-cache) compatibility providers, 
-if you dont use any framework we recommend you to use `symfony/cache` vendor as PSR6 compatibility provider.
+if you dont use any framework we recommend you to use `symfony/cache` vendor as PSR-16 compatibility provider.
 
 ```sh
 $ composer require symfony/cache

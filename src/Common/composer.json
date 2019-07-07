@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "php": ">=7.1",
-        "psr/cache": "^1.0"
+        "simple-cache": "^1.0"
     },
     "license": "MIT",
     "authors": [

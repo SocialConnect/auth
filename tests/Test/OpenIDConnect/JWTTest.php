@@ -7,7 +7,6 @@
 namespace Test\OpenIDConnect;
 
 use DateTime;
-use ReflectionClass;
 use SocialConnect\OpenIDConnect\Exception\InvalidJWT;
 use SocialConnect\OpenIDConnect\JWT;
 

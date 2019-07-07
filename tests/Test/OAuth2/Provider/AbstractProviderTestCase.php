@@ -76,8 +76,7 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
     {
         $client = $this->mockClientResponse(
             null,
-            500,
-            true
+            500
         );
         $this->getProvider($client)->getAccessToken('XXXXXXXXXXXX');
     }

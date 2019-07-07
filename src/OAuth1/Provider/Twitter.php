@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth1\Provider;
 
 use SocialConnect\Provider\AccessTokenInterface;
-use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Entity\User;
 use SocialConnect\Common\Hydrator\ObjectMap;
 

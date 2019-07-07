@@ -4,10 +4,9 @@
  * @author: Patsura Dmitry https://github.com/ovr <talk@dmtry.me>
  */
 
-namespace Test\OpenIDConnect\JWT;
+namespace Test\OpenIDConnect;
 
 use DateTime;
-use ReflectionClass;
 use SocialConnect\OpenIDConnect\Exception\InvalidJWT;
 use SocialConnect\OpenIDConnect\JWT;
 
@@ -83,13 +82,11 @@ class JWTTest extends \Test\TestCase
             $this->getTestHeader()
         );
 
-        parent::expectException(
-            \SocialConnect\OpenIDConnect\Exception\InvalidJWT::class,
-            sprintf(
-                'nbf (Not Fefore) claim is not valid %s',
-                date(DateTime::RFC3339, $nbf)
-            )
-        );
+        parent::expectException(InvalidJWT::class);
+        parent::expectExceptionMessage(sprintf(
+            'nbf (Not Fefore) claim is not valid %s',
+            date(DateTime::RFC3339, $nbf)
+        ));
 
         self::callProtectedMethod(
             $token,
@@ -132,8 +129,8 @@ class JWTTest extends \Test\TestCase
             $this->getTestHeader()
         );
 
-        parent::expectException(
-            \SocialConnect\OpenIDConnect\Exception\InvalidJWT::class,
+        parent::expectException(InvalidJWT::class);
+        parent::expectExceptionMessage(
             sprintf(
                 'exp (Expiration Time) claim is not valid %s',
                 date(DateTime::RFC3339, $exp)
@@ -171,10 +168,8 @@ class JWTTest extends \Test\TestCase
             ]
         );
 
-        parent::expectException(
-            InvalidJWT::class,
-            'No alg inside header'
-        );
+        parent::expectException(InvalidJWT::class);
+        parent::expectExceptionMessage('No alg inside header');
 
         self::callProtectedMethod(
             $token,
@@ -191,10 +186,8 @@ class JWTTest extends \Test\TestCase
             ]
         );
 
-        parent::expectException(
-            InvalidJWT::class,
-            'No kid inside header'
-        );
+        parent::expectException(InvalidJWT::class);
+        parent::expectExceptionMessage('No kid inside header');
 
         self::callProtectedMethod(
             $token,
@@ -204,10 +197,8 @@ class JWTTest extends \Test\TestCase
 
     public function testDecodeWrongNumberOfSegments()
     {
-        parent::expectException(
-            InvalidJWT::class,
-            'Wrong number of segments'
-        );
+        parent::expectException(InvalidJWT::class);
+        parent::expectExceptionMessage('Wrong number of segments');
 
         JWT::decode(
             'lol',

@@ -74,6 +74,16 @@ abstract class AbstractBaseProvider
     }
 
     /**
+     * @param int $bytes Default it's 16 bytes / 128 bit / 16 symbols / 32 symbols in hex
+     * @return string
+     * @throws \Exception
+     */
+    protected function generateState(int $bytes = 16): string
+    {
+        return bin2hex(random_bytes($bytes));
+    }
+
+    /**
      * @param array $parameters
      * @return Consumer
      * @throws InvalidProviderConfiguration

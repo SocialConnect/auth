@@ -52,20 +52,6 @@ abstract class AbstractProvider extends AbstractBaseProvider
     }
 
     /**
-     * 16 bytes / 128 bit / 16 symbols / 32 symbols in hex
-     */
-    const STATE_BYTES = 16;
-
-    /**
-     * @return string
-     * @throws \Exception
-     */
-    protected function generateState(): string
-    {
-        return bin2hex(random_bytes(self::STATE_BYTES));
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function makeAuthUrl(): string

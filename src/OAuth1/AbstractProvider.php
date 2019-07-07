@@ -173,6 +173,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @return ResponseInterface
      * @throws InvalidResponse
      * @throws \Psr\Http\Client\ClientExceptionInterface
+     * @throws \Exception
      */
     public function oauthRequest($uri, $method = 'GET', array $query = [], $payload = null, $headers = []): ResponseInterface
     {
@@ -185,7 +186,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         }
 
         $query['oauth_version'] = '1.0';
-        $query['oauth_nonce'] = md5(time() . mt_rand());
+        $query['oauth_nonce'] = $this->generateState();
         $query['oauth_timestamp'] = time();
         $query['oauth_consumer_key'] = $this->consumer->getKey();
 

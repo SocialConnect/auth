@@ -1,12 +1,27 @@
 
 stages:
+  - test
   - build
 
 phpstan:
-  stage: build
+  stage: test
   image: registry.gitlab.com/socialconnect-php/auth:7.3
   script:
     - composer install -o
     - ./vendor/bin/phpstan analyse src/ tests/ --no-progress --level 1
+  tags:
+    - docker
+
+docs:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR/docs --dockerfile $CI_PROJECT_DIR/docs/Dockerfile --destination $CI_REGISTRY_IMAGE:docs
+  only:
+    - master
+    - 3.x
   tags:
     - docker

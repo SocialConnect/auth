@@ -1,8 +1,8 @@
 title: SocialConnect
 email: talk@dmtry.me
-description: ""
-baseurl: "/"
-url: ""
+description: "SocialConnect/Auth is modern open-source social sign library for PHP."
+baseurl: ""
+url: "https://socialconnect.lowl.io"
 twitter_username: ovrweb
 github_username:  socialconnect
 

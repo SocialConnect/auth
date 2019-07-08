@@ -78,6 +78,7 @@ class Atlassian extends AbstractProvider
      * @param HttpStack $httpStack
      * @param \SocialConnect\Provider\Session\SessionInterface $session
      * @param array $parameters
+     * @throws \SocialConnect\Provider\Exception\InvalidProviderConfiguration
      */
     public function __construct(HttpStack $httpStack, SessionInterface $session, array $parameters)
     {

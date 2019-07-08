@@ -30,20 +30,22 @@ Before We start, you should known related requirements for your environment:
 - Curl extension (or you can use stream adapter)
 - JSON extension
 
-Contributors
-============
+<hr>
 
-This project exists thanks to all the people who contribute. Contributions are welcome!
+<!-- Begin Mailchimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
+</style>
+<div id="mc_embed_signup">
+<form action="https://dmtry.us3.list-manage.com/subscribe/post?u=4221eb99b3019eb943e7e8690&amp;id=0b18db2bcb" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div id="mc_embed_signup_scroll">
+	<label for="mce-EMAIL">Interested in receiving news about SocialConnect project?</label>
+	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Email Address" required>
+    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_4221eb99b3019eb943e7e8690_0b18db2bcb" tabindex="-1" value=""></div>
+    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+    </div>
+</form>
+</div>
 
-[![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/0)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/0)
-[![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/1)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/1)
-[![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/2)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/2)
-[![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/3)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/3)
-[![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/4)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/4)
-[![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/5)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/5)
-[![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/6)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/6)
-[![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/7)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/7)
-
-### License
-
-SocialConnect projects are distributed by an [MIT license](https://github.com/socialconnect/auth/tree/master/LICENSE).
+<!--End mc_embed_signup-->

@@ -8,7 +8,7 @@ namespace Test\OpenID\Provider;
 
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
-use SocialConnect\OpenId\AbstractProvider;
+use SocialConnect\OpenID\AbstractProvider;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Provider\Session\SessionInterface;
 

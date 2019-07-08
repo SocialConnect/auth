@@ -53,11 +53,11 @@ class MethodRSASHA1 extends AbstractSignatureMethod
     public function buildSignature(string $signatureBase, Consumer $consumer, Token $token)
     {
         $certificate = openssl_pkey_get_private('file://' . $this->privateKey);
-        $privateKeyId = openssl_get_privatekey($certificate);
+        $privateKeyId = openssl_pkey_get_private($certificate);
 
         $signature = null;
 
-        openssl_sign($signatureBase, $signature, $privateKeyId);
+        openssl_sign($signatureBase, $signature, $privateKeyId, OPENSSL_ALGO_SHA1);
         openssl_free_key($privateKeyId);
 
         return base64_encode($signature);

@@ -17,7 +17,7 @@ use SocialConnect\HttpClient\Response;
 use SocialConnect\HttpClient\StreamFactory;
 use SocialConnect\Provider\HttpStack;
 
-class TestCase extends \PHPUnit\Framework\TestCase
+abstract class AbstractTestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * @param string|null $responseData

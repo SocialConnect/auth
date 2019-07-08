@@ -9,8 +9,9 @@ namespace Test\OAuth1\Signature;
 use SocialConnect\OAuth1\Signature\MethodHMACSHA1;
 use SocialConnect\OAuth1\Token;
 use SocialConnect\Provider\Consumer;
+use Test\AbstractTestCase;
 
-class MethodHMACSHA1Test extends \Test\TestCase
+class MethodHMACSHA1Test extends AbstractTestCase
 {
     public function testCreatingSignatureWorks()
     {

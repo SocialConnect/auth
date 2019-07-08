@@ -9,8 +9,9 @@ namespace Test\OpenIDConnect;
 use DateTime;
 use SocialConnect\OpenIDConnect\Exception\InvalidJWT;
 use SocialConnect\OpenIDConnect\JWT;
+use Test\AbstractTestCase;
 
-class JWTTest extends \Test\TestCase
+class JWTTest extends AbstractTestCase
 {
     /**
      * @return array
@@ -36,23 +37,6 @@ class JWTTest extends \Test\TestCase
             'alg' => 'RS256',
             'kid' => 'testSigKey'
         ];
-    }
-
-    /**
-     * @param object $object
-     * @param string $name
-     * @param array $params
-     * @return mixed
-     * @throws \ReflectionException
-     */
-    protected static function callProtectedMethod($object, $name, array $params = [])
-    {
-        $class = new ReflectionClass($object);
-
-        $method = $class->getMethod($name);
-        $method->setAccessible(true);
-
-        return $method->invokeArgs($object, $params);
     }
 
     protected function encodeJWT($payload)

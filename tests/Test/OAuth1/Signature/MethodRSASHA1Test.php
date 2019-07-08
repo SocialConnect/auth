@@ -10,8 +10,9 @@ use SocialConnect\OAuth1\Request;
 use SocialConnect\OAuth1\Signature\MethodRSASHA1;
 use SocialConnect\OAuth1\Token;
 use SocialConnect\Provider\Consumer;
+use Test\AbstractTestCase;
 
-class MethodRSASHA1Test extends \Test\TestCase
+class MethodRSASHA1Test extends AbstractTestCase
 {
     /** @expectedException \InvalidArgumentException */
     public function testConstructorThrowsExceptionOnNonexistnetKey()

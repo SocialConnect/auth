@@ -8,9 +8,9 @@ namespace Test\Provider;
 
 use Psr\Http\Client\ClientInterface;
 use SocialConnect\Provider\Session\SessionInterface;
-use Test\TestCase;
+use Test\AbstractTestCase;
 
-abstract class AbstractProviderTestCase extends TestCase
+abstract class AbstractProviderTestCase extends AbstractTestCase
 {
     /**
      * @return string

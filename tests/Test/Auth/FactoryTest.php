@@ -7,9 +7,9 @@
 namespace Test\Auth;
 
 use SocialConnect\Auth\CollectionFactory;
-use SocialConnect\Auth\Service;
+use Test\AbstractTestCase;
 
-class FactoryTest extends \Test\TestCase
+class FactoryTest extends AbstractTestCase
 {
     public function testSuccessFactory()
     {

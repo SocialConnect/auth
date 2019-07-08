@@ -6,7 +6,7 @@
 
 namespace Test;
 
-class ServiceTest extends TestCase
+class ServiceTest extends AbstractTestCase
 {
     public function testConstructSuccess()
     {

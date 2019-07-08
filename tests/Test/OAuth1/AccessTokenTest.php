@@ -7,8 +7,9 @@
 namespace Test\OAuth1;
 
 use SocialConnect\OAuth1\AccessToken;
+use Test\AbstractTestCase;
 
-class AccessTokenTest extends \Test\TestCase
+class AccessTokenTest extends AbstractTestCase
 {
     public function testConstructMethod()
     {

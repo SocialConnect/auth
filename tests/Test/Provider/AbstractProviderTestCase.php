@@ -38,17 +38,10 @@ abstract class AbstractProviderTestCase extends TestCase
     /**
      * @param ClientInterface|null $httpClient
      * @param SessionInterface|null $session
-     * @return \SocialConnect\OpenID\AbstractProvider
+     * @return \SocialConnect\Provider\AbstractBaseProvider
      */
     protected function getProvider(ClientInterface $httpClient = null, SessionInterface $session = null)
     {
-        if (!$httpClient) {
-            $httpClient = $this->getMockBuilder(ClientInterface::class)
-                ->disableOriginalConstructor()
-                ->disableProxyingToOriginalMethods()
-                ->getMock();
-        }
-
         if (!$session) {
             $session = $this->getMockBuilder(\SocialConnect\Provider\Session\Session::class)
                 ->disableOriginalConstructor()

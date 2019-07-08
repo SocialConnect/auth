@@ -6,20 +6,22 @@
 
 namespace SocialConnect\Common;
 
+use Psr\Http\Client\ClientInterface;
+
 trait HttpClient
 {
     /**
-     * @var Http\Client\ClientInterface
+     * @var ClientInterface
      */
     protected $httpClient;
 
-    public function setHttpClient(Http\Client\ClientInterface $httpClient)
+    public function setHttpClient(ClientInterface $httpClient)
     {
         $this->httpClient = $httpClient;
     }
 
     /**
-     * @return Http\Client\ClientInterface
+     * @return ClientInterface
      */
     public function getHttpClient()
     {

@@ -22,6 +22,12 @@ plugins:
 markdown: kramdown
 theme: just-the-docs
 
+aux_links:
+  "Online Demo":
+    - "https://sc.lowl.io/"
+  "Source Code on GitHub":
+    - "https://github.com/socialconnect/auth"
+
 jekyll_analytics:
   GoogleAnalytics:
     id: UA-20503308-12

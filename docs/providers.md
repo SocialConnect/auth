@@ -1,12 +1,10 @@
 ---
-layout: home
+layout: page
 title: Supported providers
 sidebar_label: Supported providers
 parent: Documentation
 nav_order: 1
 ---
-
-## Supported providers
 
 The table below lists the social networks currently supported by `socialconnect/auth`:
 

@@ -1,0 +1,15 @@
+---
+layout: default
+---
+
+<article>
+    <div style="margin-bottom: 10px;">
+        <h1 style="margin-bottom: 5px;">{{ page.title }}</h1>
+
+        Last Modified: {{ page.last_modified_at | date: '%Y-%m-%d' }}
+        <a href="https://github.com/SocialConnect/auth/tree/master/docs" style="float: right;">Edit on GitHub</a>
+    </div>
+
+    {{ content }}
+</article>
+

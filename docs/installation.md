@@ -1,5 +1,5 @@
 ---
-layout: home
+layout: page
 title: Installation
 sidebar_label: Installation
 ---

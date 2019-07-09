@@ -1,11 +1,9 @@
 ---
-layout: default
+layout: page
 title: Migrating from SocialConnect/Auth 2.x to 3.x
 parent: Documentation
 nav_order: 2
 ---
-
-# Migrating from SocialConnect/Auth 2.x to 3.x
 
 # Moving to PSR-18 HTTP Client with PSR-7 messaging
 

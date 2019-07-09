@@ -4,17 +4,22 @@ description: "SocialConnect/Auth is modern open-source social sign library for P
 baseurl: ""
 url: "https://socialconnect.lowl.io"
 twitter_username: ovrweb
-github_username:  socialconnect
+github_username: ovr
+
+author:
+  twitter: ovrweb
 
 search_enabled: true
 
-markdown: kramdown
-theme: just-the-docs
 
 plugins:
   - jekyll-feed
   - jekyll-analytics
   - jekyll-sitemap
+  - jekyll-seo-tag
+
+markdown: kramdown
+theme: just-the-docs
 
 jekyll_analytics:
   GoogleAnalytics:

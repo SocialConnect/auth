@@ -54,7 +54,7 @@ $httpClient = new \SocialConnect\HttpClient\Curl();
 $collectionFactory = null;
 
 $service = new \SocialConnect\Auth\Service(
-    new \SocialConnect\Provider\HttpStack(
+    new \SocialConnect\Common\HttpStack(
         $httpClient,
         new \SocialConnect\HttpClient\RequestFactory(),
         new \SocialConnect\HttpClient\StreamFactory()

@@ -15,7 +15,7 @@ use SocialConnect\Auth\Service;
 use SocialConnect\HttpClient\RequestFactory;
 use SocialConnect\HttpClient\Response;
 use SocialConnect\HttpClient\StreamFactory;
-use SocialConnect\Provider\HttpStack;
+use SocialConnect\Common\HttpStack;
 
 abstract class AbstractTestCase extends \PHPUnit\Framework\TestCase
 {

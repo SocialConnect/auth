@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth1;
 
 use Psr\Http\Message\ResponseInterface;
-use SocialConnect\Provider\HttpStack;
+use SocialConnect\Common\HttpStack;
 use SocialConnect\OAuth1\Exception\UnknownAuthorization;
 use SocialConnect\OAuth1\Signature\AbstractSignatureMethod;
 use SocialConnect\Provider\AbstractBaseProvider;

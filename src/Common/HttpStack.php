@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace SocialConnect\Provider;
+namespace SocialConnect\Common;
 
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;

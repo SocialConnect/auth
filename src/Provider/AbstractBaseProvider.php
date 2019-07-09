@@ -12,7 +12,7 @@ use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use SocialConnect\Provider\Exception\InvalidProviderConfiguration;
-use SocialConnect\Provider\HttpStack;
+use SocialConnect\Common\HttpStack;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Provider\Session\SessionInterface;
 

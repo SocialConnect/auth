@@ -14,6 +14,8 @@ phpstan:
 
 docs:
   stage: build
+  variables:
+    GIT_STRATEGY: clone
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]

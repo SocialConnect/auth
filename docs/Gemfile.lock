@@ -30,6 +30,9 @@ GEM
     jekyll-analytics (0.1.11)
     jekyll-feed (0.12.1)
       jekyll (>= 3.7, < 5.0)
+    jekyll-last-modified-at (1.1.0)
+      jekyll (>= 3.7, < 5.0)
+      posix-spawn (~> 0.3.9)
     jekyll-sass-converter (1.5.2)
       sass (~> 3.4)
     jekyll-seo-tag (2.6.1)
@@ -55,6 +58,7 @@ GEM
       jekyll-seo-tag (~> 2.1)
     pathutil (0.16.2)
       forwardable-extended (~> 2.6)
+    posix-spawn (0.3.13)
     public_suffix (3.1.1)
     rake (12.3.2)
     rb-fsevent (0.10.3)
@@ -76,6 +80,7 @@ DEPENDENCIES
   jekyll (~> 3.8.5)
   jekyll-analytics
   jekyll-feed (~> 0.6)
+  jekyll-last-modified-at
   jekyll-seo-tag
   jekyll-sitemap
   just-the-docs (~> 0.2.5)

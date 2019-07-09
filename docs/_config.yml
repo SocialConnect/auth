@@ -17,6 +17,7 @@ plugins:
   - jekyll-analytics
   - jekyll-sitemap
   - jekyll-seo-tag
+  - jekyll-last-modified-at
 
 markdown: kramdown
 theme: just-the-docs

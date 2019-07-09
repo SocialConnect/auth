@@ -16,12 +16,12 @@ There are 6 packages:
 
 - 📦 socialconnect/common - base classes for our projects
 - 📦 socialconnect/provider - base interfaces and abstract for implement social sign standards
-- 📦 socialconnect/auth1 - implementation for [OAuth1 (spec RFC 5849)](https://tools.ietf.org/html/rfc5849) 
-- 📦 socialconnect/auth2 - implementation for [OAuth2 (spec RFC 6749)](https://tools.ietf.org/html/rfc6749)
+- 📦 socialconnect/oauth1 - implementation for [OAuth1 (spec RFC 5849)](https://tools.ietf.org/html/rfc5849) 
+- 📦 socialconnect/oauth2 - implementation for [OAuth2 (spec RFC 6749)](https://tools.ietf.org/html/rfc6749)
 - 📦 socialconnect/openid - implementation for OpenID protocol
     - OpenID v1 (1.1) [spec](https://openid.net/specs/openid-authentication-1_1.html)
     - OpenID v2 [spec](http://openid.net/specs/openid-authentication-2_0.html)
-- 📦 socialconnect/openidconnect - implementation for [OpenID Connect (1.0)](http://openid.net/specs/openid-connect-core-1_0.html#OpenID.Discovery)
+- 📦 socialconnect/openid-connect - implementation for [OpenID Connect (1.0)](http://openid.net/specs/openid-connect-core-1_0.html#OpenID.Discovery)
     - JWT (JSON Web Token) [spec RFC 7519](https://tools.ietf.org/html/rfc7519)
     - JWK (JSON Web Keys) [spec RFC 7517](https://tools.ietf.org/html/rfc7517)
 - 📦 socialconnect/auth - tiny library to getting providers (registry like)

@@ -28,7 +28,6 @@ class MeetupTest extends AbstractProviderTestCase
         $expires = time() + 200;
         $body = json_encode([
             'access_token' => 'foo',
-            'expires_in'   => 200,
             'user_id'      => 'bar',
             'expires'      => $expires,
         ]);

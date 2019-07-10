@@ -5,8 +5,6 @@ sidebar_label: Architecture
 nav_order: 3
 ---
 
-# Architecture
-
 `SocialConnect/auth` project is not monolith, it's a set of independent packages.
 
 Take a look at the graph, it's simplified but it can make you a good overview as visualization:

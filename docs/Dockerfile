@@ -4,6 +4,7 @@ WORKDIR /usr/share/build
 COPY . .
 
 RUN gem install bundler -v '2.0.2'
+RUN apt update && apt install -y --no-install-recommends git;
 RUN bundle install
 RUN JEKYLL_ENV=production bundle exec jekyll build
 

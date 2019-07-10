@@ -2,6 +2,7 @@
 layout: home
 title: Architecture
 sidebar_label: Architecture
+nav_order: 3
 ---
 
 # Architecture

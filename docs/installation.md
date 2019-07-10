@@ -2,6 +2,7 @@
 layout: page
 title: Installation
 sidebar_label: Installation
+nav_order: 2
 ---
 
 ## System requirements

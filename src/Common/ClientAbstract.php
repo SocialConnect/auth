@@ -7,23 +7,14 @@ declare(strict_types=1);
 
 namespace SocialConnect\Common;
 
-use InvalidArgumentException;
+use SocialConnect\Provider\Consumer;
 
 abstract class ClientAbstract
 {
     /**
-     * Application secret
-     *
-     * @var string|integer
+     * @var Consumer
      */
-    protected $appId;
-
-    /**
-     * Application secret
-     *
-     * @var string
-     */
-    protected $appSecret;
+    protected $consumer;
 
     /**
      * @var string
@@ -31,42 +22,23 @@ abstract class ClientAbstract
     protected $accessToken;
 
     /**
-     * @param int $appId
-     * @param string $appSecret
-     * @param null $accessToken
-     * @throws InvalidArgumentException
+     * @var HttpStack
      */
-    public function __construct($appId, $appSecret, $accessToken = null)
-    {
-        if (empty($appId)) {
-            throw new InvalidArgumentException('$appId cannot be empty');
-        }
-        $this->appId = $appId;
+    protected $httpStack;
 
-        if (!is_string($appSecret)) {
-            throw new InvalidArgumentException('$appSecret must be string');
-        }
-        $this->appSecret = $appSecret;
+    /**
+     * @param HttpStack $httpStack
+     * @param Consumer $consumer
+     * @param string|null $accessToken
+     */
+    public function __construct(HttpStack $httpStack, Consumer $consumer, string $accessToken = null)
+    {
+        $this->consumer = $consumer;
+        $this->httpStack = $httpStack;
 
         if ($accessToken) {
             $this->setAccessToken($accessToken);
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getAppSecret()
-    {
-        return $this->appSecret;
-    }
-
-    /**
-     * @return int|string
-     */
-    public function getAppId()
-    {
-        return $this->appId;
     }
 
     /**

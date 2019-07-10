@@ -32,11 +32,9 @@ class ObjectMap
      */
     public function hydrate($targetObject, $inputObject)
     {
-        foreach (get_object_vars($inputObject) as $key => $value) {
-            if (isset($this->map[$key])) {
-                $targetObject->{$this->map[$key]} = $value;
-            } else {
-                $targetObject->{$key} = $value;
+        foreach ($this->map as $keyFrom => $keyTo) {
+            if (isset($inputObject->{$keyFrom})) {
+                $targetObject->{$keyTo} = $inputObject->{$keyFrom};
             }
         }
 

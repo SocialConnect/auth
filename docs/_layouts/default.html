@@ -4,9 +4,22 @@
 {% include head.html %}
 <body>
 
+<style>
+    .site-title {
+        line-height: 32px !important;
+    }
+    .site-title > img {
+        float: left;
+        margin-right: 10px;
+    }
+</style>
+
 <div class="page-wrap">
     <div class="side-bar">
-        <a href="{{ site.url }}{{ site.baseurl }}" class="site-title fs-6 lh-tight">{{ site.title }}</a>
+        <a href="{{ site.url }}{{ site.baseurl }}" class="site-title fs-6 lh-tight">
+            <img src="{{ "assets/favicon/favicon-32x32.png" | absolute_url }}" alt="{{ site.title }} Logo" />
+            {{ site.title }}
+        </a>
         <span class="fs-3"><button class="js-main-nav-trigger navigation-list-toggle btn btn-outline" type="button" data-text-toggle="Hide">Menu</button></span>
         <div class="navigation main-nav js-main-nav">
             {% include nav.html %}

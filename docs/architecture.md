@@ -1,5 +1,5 @@
 ---
-layout: home
+layout: page
 title: Architecture
 sidebar_label: Architecture
 nav_order: 3

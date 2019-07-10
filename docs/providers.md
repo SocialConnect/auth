@@ -6,7 +6,7 @@ parent: Documentation
 nav_order: 1
 ---
 
-The table below lists the social networks currently supported by `socialconnect/auth`:
+The table below lists the social networks currently supported:
 
 | Adapter Unique Name             | Protocol         | API Version  |
 |---------------------------------|------------------|--------------|

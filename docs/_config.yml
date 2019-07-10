@@ -11,6 +11,7 @@ author:
 
 search_enabled: true
 
+exclude: ["404.html"]
 
 plugins:
   - jekyll-feed

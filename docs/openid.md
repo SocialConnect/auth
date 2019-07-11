@@ -7,8 +7,10 @@ nav_order: 7
 
 `socialconnect/openid` package implement OpenID protocol.
 
-BuiltIn Providers:
+## Supported providers
 
-| Adapter Unique Name             | Protocol         | API Version  |
-|---------------------------------|------------------|--------------|
-| [Steam](#steam)                 | OpenID           |              |
+Library has built in support for the following providers:
+
+| Adapter Unique Name             | API Version  |
+|---------------------------------|--------------|
+| [Steam](#steam)                 |              |

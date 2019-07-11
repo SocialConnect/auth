@@ -7,9 +7,11 @@ nav_order: 8
 
 `socialconnect/openid-connect` package implement OpenID Connect protocol.
 
-BuiltIn Providers:
+## Supported providers
 
-| Adapter Unique Name             | Protocol         | API Version  |
-|---------------------------------|------------------|--------------|
-| Google                          | OpenIDConnect    |              |
-| PixelIn                         | OpenIDConnect    |              |
+Library has built in support for the following providers:
+
+| Adapter Unique Name             | API Version  |
+|---------------------------------|--------------|
+| Google                          |              |
+| PixelIn                         |              |

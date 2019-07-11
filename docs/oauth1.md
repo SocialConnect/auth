@@ -7,12 +7,14 @@ nav_order: 5
 
 `socialconnect/oauth1` package implement OAuth1 protocol.
 
-BuiltIn Providers:
+## Supported providers
 
-| Adapter Unique Name             | Protocol         | API Version  |
-|---------------------------------|------------------|--------------|
-| Atlassian                       | OAuth1           |              |
-| 500px                           | OAuth1           |              |
-| Trello                          | OAuth1           |              |
-| Tumblr                          | OAuth1           |              |
-| [Twitter](#twitter)             | OAuth1           |              |
+Library has built in support for the following providers:
+
+| Adapter Unique Name             | API Version  |
+|---------------------------------|--------------|
+| Atlassian                       |              |
+| 500px                           |              |
+| Trello                          |              |
+| Tumblr                          |              |
+| [Twitter](#twitter)             |              |

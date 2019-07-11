@@ -24,7 +24,7 @@ There are 6 packages:
     - JWT (JSON Web Token) [spec RFC 7519](https://tools.ietf.org/html/rfc7519)
     - JWK (JSON Web Keys) [spec RFC 7517](https://tools.ietf.org/html/rfc7517)
 - 📦 socialconnect/auth - tiny library to getting providers (registry like)
-- 📦 socialconnect/http-client - our implementation for PSR-18 (HTTP-Client), based on top of guzzle/psr-7 for messaging layer
+- 📦 [socialconnect/http-client](/http-client.html) - our implementation for PSR-18 (HTTP-Client), based on top of guzzle/psr-7 for messaging layer
 
 # Our mission
 

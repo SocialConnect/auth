@@ -5,7 +5,20 @@ sidebar_label: OpenID Connect
 nav_order: 8
 ---
 
-`socialconnect/openid-connect` package implement OpenID Connect protocol.
+`socialconnect/openid-connect` package implements OpenID Connect protocol and provide interfaces and abstract classes that 
+allow developers to easily create OpenID Connect clients.
+
+- OpenID Connect (1.0) [Specification](http://openid.net/specs/openid-connect-core-1_0.html#OpenID.Discovery)
+- JWT (JSON Web Token) [RFC 7519](https://tools.ietf.org/html/rfc7519)
+- JWK (JSON Web Keys) [RFC 7517](https://tools.ietf.org/html/rfc7517)
+
+## Installation
+
+You can install this package via composer:
+
+```sh
+$ composer require socialconnect/openid-connect:^3.0
+```
 
 ## Supported providers
 

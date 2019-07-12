@@ -5,7 +5,18 @@ sidebar_label: OAuth2
 nav_order: 6
 ---
 
-`socialconnect/oauth2` package implement OAuth2 protocol.
+`socialconnect/oauth2` package implements OAuth2 protocol and provide interfaces and abstract classes that 
+allow developers to easily create OAuth2 clients.
+
+- OAuth2 [RFC 6749](https://tools.ietf.org/html/rfc6749)
+
+## Installation
+
+You can install this package via composer:
+
+```sh
+$ composer require socialconnect/oauth2:^3.0
+```
 
 ## Supported providers
 

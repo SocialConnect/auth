@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace SocialConnect\OpenID;
 
+use SocialConnect\OpenID\Exception\Unauthorized;
 use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\Consumer;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
@@ -95,6 +96,15 @@ abstract class AbstractProvider extends AbstractBaseProvider
         return null;
     }
 
+    protected function getRequiredRequestParameter(array $requestParameters, string $key)
+    {
+        if (isset($requestParameters[$key])) {
+            return $requestParameters[$key];
+        }
+
+        throw new Unauthorized("There is no required parameter called: '${key}'");
+    }
+
     /**
      * @link http://openid.net/specs/openid-authentication-2_0.html#verification
      *
@@ -102,20 +112,21 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @return AccessToken
      * @throws InvalidAccessToken
      * @throws InvalidResponse
+     * @throws Unauthorized
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */
     public function getAccessTokenByRequestParameters(array $requestParameters)
     {
         $params = [
-            'openid.assoc_handle' => $requestParameters['openid_assoc_handle'],
-            'openid.signed' => $requestParameters['openid_signed'],
-            'openid.sig' => $requestParameters['openid_sig'],
-            'openid.ns' => $requestParameters['openid_ns'],
+            'openid.assoc_handle' => $this->getRequiredRequestParameter($requestParameters, 'openid_assoc_handle'),
+            'openid.signed' => $this->getRequiredRequestParameter($requestParameters, 'openid_signed'),
+            'openid.sig' => $this->getRequiredRequestParameter($requestParameters, 'openid_sig'),
+            'openid.ns' => $this->getRequiredRequestParameter($requestParameters, 'openid_ns'),
             'openid.op_endpoint' => $requestParameters['openid_op_endpoint'],
             'openid.claimed_id' => $requestParameters['openid_claimed_id'],
             'openid.identity' => $requestParameters['openid_identity'],
             'openid.return_to' => $this->getRedirectUrl(),
-            'openid.response_nonce' => $requestParameters['openid_response_nonce'],
+            'openid.response_nonce' => $this->getRequiredRequestParameter($requestParameters, 'openid_response_nonce'),
             'openid.mode' => 'check_authentication'
         ];
 

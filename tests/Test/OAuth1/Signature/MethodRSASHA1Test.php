@@ -6,7 +6,6 @@
 
 namespace Test\OAuth1\Signature;
 
-use SocialConnect\OAuth1\Request;
 use SocialConnect\OAuth1\Signature\MethodRSASHA1;
 use SocialConnect\OAuth1\Token;
 use SocialConnect\Provider\Consumer;
@@ -40,10 +39,10 @@ class MethodRSASHA1Test extends AbstractTestCase
     {
         $signer = new MethodRSASHA1(__DIR__ . '/../_assets/testkey.pem');
 
-        $consumer = self::getMockBuilder(Consumer::class)->disableOriginalConstructor()->getMock();
+        $consumer = $this->getMockBuilder(Consumer::class)->disableOriginalConstructor()->getMock();
         $consumer->method('getSecret')->willReturn('consumerSecret');
 
-        $token = self::getMockBuilder(Token::class)->disableOriginalConstructor()->getMock();
+        $token = $this->getMockBuilder(Token::class)->disableOriginalConstructor()->getMock();
         $token->method('getSecret')->willReturn('tokenSecret');
 
         $signature = $signer->buildSignature('baseString', $consumer, $token);

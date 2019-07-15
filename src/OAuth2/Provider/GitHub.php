@@ -91,8 +91,8 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
         if ($this->getBoolOption('fetch_emails', false)) {
             $primaryEmail = $this->getPrimaryEmail($accessToken);
             if ($primaryEmail) {
-                $user->email = $primaryEmail->email;
-                $user->emailVerified = $primaryEmail->verified;
+                $user->email = $primaryEmail['email'];
+                $user->emailVerified = $primaryEmail['verified'];
             }
         }
 
@@ -101,7 +101,7 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
 
     /**
      * @param AccessTokenInterface $accessToken
-     * @return object
+     * @return array|null
      * @throws InvalidResponse
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */
@@ -110,7 +110,7 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
         $emails = $this->getEmails($accessToken);
         if ($emails) {
             foreach ($emails as $email) {
-                if ($email->primary) {
+                if ($email['primary']) {
                     return $email;
                 }
             }

@@ -17,10 +17,10 @@ class MethodHMACSHA1Test extends AbstractTestCase
     {
         $signer = new MethodHMACSHA1();
 
-        $consumer = self::getMockBuilder(Consumer::class)->disableOriginalConstructor()->getMock();
+        $consumer = $this->getMockBuilder(Consumer::class)->disableOriginalConstructor()->getMock();
         $consumer->method('getSecret')->willReturn('consumerSecret');
 
-        $token = self::getMockBuilder(Token::class)->disableOriginalConstructor()->getMock();
+        $token = $this->getMockBuilder(Token::class)->disableOriginalConstructor()->getMock();
         $token->method('getSecret')->willReturn('tokenSecret');
 
         $signature = $signer->buildSignature('signature', $consumer, $token);

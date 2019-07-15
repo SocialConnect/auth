@@ -126,7 +126,7 @@ class Atlassian extends AbstractProvider
             }
 
             $response = $this->oauthRequest(
-                $response->getHeader('Location'),
+                $response->getHeaderLine('Location'),
                 'GET',
                 $parameters
             );

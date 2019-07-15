@@ -30,15 +30,6 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
         return $provider;
     }
 
-    /**
-     * @expectedException \TypeError
-     * @expectedExceptionMessage Argument 1 passed to SocialConnect\OAuth2\AbstractProvider::getAccessToken() must be of the type string, null given
-     */
-    public function testGetAccessTokenFail()
-    {
-        $this->getProvider()->getAccessToken(null);
-    }
-
     public function testGetBaseUriReturnString()
     {
         parent::assertInternalType('string', $this->getProvider()->getBaseUri());

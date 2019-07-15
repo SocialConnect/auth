@@ -36,7 +36,7 @@ class AtlassianTest extends AbstractProviderTestCase
     /** @expectedException \InvalidArgumentException */
     public function testConstructorThrowsExceptionOnMissingBaseUri()
     {
-        $session = self::getMockBuilder(SessionInterface::class)->getMock();
+        $session = $this->getMockBuilder(SessionInterface::class)->getMock();
 
         $configuration = $this->getProviderConfiguration();
         unset($configuration['baseUri']);
@@ -46,19 +46,19 @@ class AtlassianTest extends AbstractProviderTestCase
 
     public function testConstructorHandlesBaseUriWithTrailingSlash()
     {
-        $session = self::getMockBuilder(SessionInterface::class)->getMock();
+        $session = $this->getMockBuilder(SessionInterface::class)->getMock();
 
         $configuration = $this->getProviderConfiguration();
         $configuration['baseUri'] = 'http://example.com/';
 
-        $provider = new Atlassian($this->getHttpStackMock(), $session, $this->getProviderConfiguration());
+        $provider = new Atlassian($this->getHttpStackMock(), $session, $configuration);
 
         $this->assertAttributeEquals('http://example.com', 'baseUri', $provider);
     }
 
     public function testConstructorHandlesBaseUriWithOutTrailingSlash()
     {
-        $session = self::getMockBuilder(SessionInterface::class)->getMock();
+        $session = $this->getMockBuilder(SessionInterface::class)->getMock();
 
         $configuration = $this->getProviderConfiguration();
         $configuration['baseUri'] = 'http://example.com';

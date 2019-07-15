@@ -168,14 +168,14 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @param string $uri
      * @param string $method
      * @param array $query
-     * @param null $payload
+     * @param array|null $payload
      * @param array $headers
      * @return ResponseInterface
      * @throws InvalidResponse
      * @throws \Psr\Http\Client\ClientExceptionInterface
      * @throws \Exception
      */
-    public function oauthRequest($uri, $method = 'GET', array $query = [], $payload = null, $headers = []): ResponseInterface
+    public function oauthRequest($uri, $method = 'GET', array $query = [], array $payload = null, $headers = []): ResponseInterface
     {
         $headers = array_merge([
             'Accept' => 'application/json'

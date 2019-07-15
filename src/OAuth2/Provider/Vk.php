@@ -73,7 +73,7 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
             $query['fields'] = implode(',', $fields);
         }
 
-        $response = $this->request('method/users.get', $query, $accessToken);
+        $response = $this->request('GET', 'method/users.get', $query, $accessToken);
 
         $hydrator = new ObjectMap(
             [

@@ -55,7 +55,7 @@ class Amazon extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->request('user/profile', [], $accessToken);
+        $response = $this->request('GET', 'user/profile', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [

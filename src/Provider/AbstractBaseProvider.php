@@ -252,6 +252,7 @@ abstract class AbstractBaseProvider
     }
 
     /**
+     * @param string $method
      * @param string $url
      * @param array $query
      * @param AccessTokenInterface $accessToken
@@ -259,7 +260,7 @@ abstract class AbstractBaseProvider
      * @throws InvalidResponse
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public function request(string $url, array $query, AccessTokenInterface $accessToken)
+    public function request(string $method, string $url, array $query, AccessTokenInterface $accessToken)
     {
         $headers = [];
 
@@ -275,7 +276,7 @@ abstract class AbstractBaseProvider
             $uri .= '?' . http_build_query($query);
         }
 
-        $request = $this->httpStack->createRequest('GET', $uri);
+        $request = $this->httpStack->createRequest($method, $uri);
 
         foreach ($headers as $k => $v) {
             $request = $request->withHeader($k, $v);

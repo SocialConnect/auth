@@ -113,7 +113,7 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
             'method' => 'users.getInfo',
         ];
 
-        $response = $this->request('', $query, $accessToken);
+        $response = $this->request('GET', '', $query, $accessToken);
 
         $hydrator = new ObjectMap(
             [

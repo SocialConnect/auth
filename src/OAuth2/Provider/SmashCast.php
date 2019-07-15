@@ -128,7 +128,7 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
      */
     protected function getUserNameByToken(AccessTokenInterface $accessToken): string
     {
-        $response = $this->request('userfromtoken/' . $accessToken->getToken(), [], $accessToken);
+        $response = $this->request('GET', 'userfromtoken/' . $accessToken->getToken(), [], $accessToken);
 
         return $response->user_name;
     }
@@ -162,7 +162,7 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
         );*/
 
         $username = $this->getUserNameByToken($accessToken);
-        $response = $this->request('user/' . $username, [], $accessToken);
+        $response = $this->request('GET', 'user/' . $username, [], $accessToken);
 
         $hydrator = new ObjectMap(
             [

@@ -63,7 +63,7 @@ class Slack extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->request('api/users.identity', [], $accessToken);
+        $response = $this->request('GET', 'api/users.identity', [], $accessToken);
 
         if (!$response->ok) {
             throw new InvalidResponse(

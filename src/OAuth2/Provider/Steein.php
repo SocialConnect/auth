@@ -70,7 +70,7 @@ class Steein extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->request('api/v2.0/users/show', [], $accessToken);
+        $response = $this->request('GET', 'api/v2.0/users/show', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [

@@ -70,7 +70,7 @@ class Discord extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->request('users/@me', [], $accessToken);
+        $response = $this->request('GET', 'users/@me', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [

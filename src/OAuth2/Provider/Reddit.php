@@ -69,7 +69,7 @@ class Reddit extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->request('me.json', [], $accessToken);
+        $response = $this->request('GET', 'me.json', [], $accessToken);
 
         $hydrator = new ObjectMap([]);
 

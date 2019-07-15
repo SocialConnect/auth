@@ -55,7 +55,7 @@ class Instagram extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->request('users/self', [], $accessToken);
+        $response = $this->request('GET', 'users/self', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [

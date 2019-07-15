@@ -92,7 +92,7 @@ class Odnoklassniki extends \SocialConnect\OAuth2\AbstractProvider
 
         $parameters['sig'] = $this->makeSecureSignature($parameters, $accessToken);
 
-        $response = $this->request('users/getCurrentUser', [], $accessToken);
+        $response = $this->request('GET', 'users/getCurrentUser', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [

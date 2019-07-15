@@ -87,7 +87,7 @@ class Yahoo extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->request("user/{$accessToken->getUserId()}/profile", [], $accessToken);
+        $response = $this->request('GET', "user/{$accessToken->getUserId()}/profile", [], $accessToken);
 
         $result = $response->profile;
 

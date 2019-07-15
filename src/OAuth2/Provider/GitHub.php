@@ -75,7 +75,7 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->request('user', [], $accessToken);
+        $response = $this->request('GET', 'user', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [
@@ -129,6 +129,6 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getEmails(AccessTokenInterface $accessToken)
     {
-        return $this->request('user/emails', [], $accessToken);
+        return $this->request('GET', 'user/emails', [], $accessToken);
     }
 }

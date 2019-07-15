@@ -48,6 +48,7 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
         }
 
         $response = $this->request(
+            'GET',
             'me',
             $query,
             $accessToken

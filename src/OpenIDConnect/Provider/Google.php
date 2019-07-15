@@ -63,7 +63,7 @@ class Google extends AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->request('oauth2/v1/userinfo', [], $accessToken);
+        $response = $this->request('GET', 'oauth2/v1/userinfo', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [

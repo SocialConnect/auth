@@ -52,7 +52,7 @@ class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->request('account', [], $accessToken);
+        $response = $this->request('GET', 'account', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [

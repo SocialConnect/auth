@@ -74,7 +74,7 @@ class Google extends AbstractProvider
             $query['fields'] = implode(',', $fields);
         }
 
-        $response = $this->request('oauth2/v1/userinfo', $query, $accessToken);
+        $response = $this->request('GET', 'oauth2/v1/userinfo', $query, $accessToken);
 
         $hydrator = new ObjectMap(
             [

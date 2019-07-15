@@ -62,7 +62,7 @@ class PixelPin extends AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->request('connect/userinfo', [], $accessToken);
+        $response = $this->request('GET', 'connect/userinfo', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [

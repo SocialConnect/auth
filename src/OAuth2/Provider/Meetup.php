@@ -64,7 +64,7 @@ class Meetup extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->request('2/member/self?sign=true&photo-host=public&fields=gender', [], $accessToken);
+        $response = $this->request('GET', '2/member/self?sign=true&photo-host=public&fields=gender', [], $accessToken);
 
         $user = new User();
 

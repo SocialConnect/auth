@@ -66,6 +66,7 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         $response = $this->request(
+            'GET',
             'people/~:(id,first-name,last-name,email-address,picture-url,location:(name))',
             [],
             $accessToken

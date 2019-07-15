@@ -64,7 +64,7 @@ class Yandex extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $result = $this->request('info', [], $accessToken);
+        $result = $this->request('GET', 'info', [], $accessToken);
 
         $hydrator = new ObjectMap(
             [

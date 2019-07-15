@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace SocialConnect\OpenIDConnect;
 
 use SocialConnect\OpenIDConnect\Exception\InvalidJWK;
+use SocialConnect\OpenIDConnect\Exception\UnsupportedJWK;
 
 class JWK
 {
@@ -58,6 +59,10 @@ class JWK
         }
 
         $this->e = $parameters['e'];
+
+        if (isset($parameters['d'])) {
+            throw new UnsupportedJWK('RSA with private key is not supported.');
+        }
     }
 
     /**

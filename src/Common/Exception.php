@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace SocialConnect\Common;
 
-class Exception extends \Exception
+class Exception extends \RuntimeException
 {
 
 }

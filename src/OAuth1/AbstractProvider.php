@@ -199,23 +199,15 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
         $headers['Authorization'] = $this->authorizationHeader($query);
 
-        $url = $uri;
-
-        if (count($query) > 0) {
-            $url .= '?' . http_build_query($query);
-        }
-
-        $request = $this->httpStack->createRequest($method, $url);
-
-        foreach ($headers as $k => $v) {
-            $request = $request->withHeader($k, $v);
-        }
-
-        if ($payload) {
-            $request = $request->withBody($this->httpStack->createStream(http_build_query($payload)));
-        }
-
-        return $this->executeRequest($request);
+        return $this->executeRequest(
+            $this->createRequest(
+                $method,
+                $uri,
+                $query,
+                $headers,
+                $payload
+            )
+        );
     }
 
     /**

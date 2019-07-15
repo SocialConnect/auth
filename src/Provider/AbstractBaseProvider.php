@@ -270,20 +270,16 @@ abstract class AbstractBaseProvider
             $accessToken
         );
 
-        $uri = $this->getBaseUri() . $url;
-
-        if (count($query)) {
-            $uri .= '?' . http_build_query($query);
-        }
-
-        $request = $this->httpStack->createRequest($method, $uri);
-
-        foreach ($headers as $k => $v) {
-            $request = $request->withHeader($k, $v);
-        }
-
         return $this->hydrateResponse(
-            $this->executeRequest($request)
+            $this->executeRequest(
+                $this->createRequest(
+                    $method,
+                    $this->getBaseUri() . $url,
+                    $query,
+                    $headers,
+                    []
+                )
+            )
         );
     }
 
@@ -317,5 +313,38 @@ abstract class AbstractBaseProvider
     public function getConsumer()
     {
         return $this->consumer;
+    }
+
+    /**
+     * @param string $method
+     * @param string $uri
+     * @param array $query
+     * @param array $headers
+     * @param $payload
+     * @return RequestInterface
+     */
+    protected function createRequest(string $method, string $uri, array $query, array $headers, $payload = null): RequestInterface
+    {
+        $url = $uri;
+
+        if (count($query) > 0) {
+            $url .= '?' . http_build_query($query);
+        }
+
+        $request = $this->httpStack->createRequest($method, $url);
+
+        foreach ($headers as $k => $v) {
+            $request = $request->withHeader($k, $v);
+        }
+
+        if ($payload) {
+            return $request->withBody(
+                $this->httpStack->createStream(
+                    http_build_query($payload)
+                )
+            );
+        }
+
+        return $request;
     }
 }

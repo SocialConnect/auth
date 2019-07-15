@@ -98,4 +98,51 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
             $this->getProvider($mockedHttpClient)->makeAuthUrl()
         );
     }
+
+    public function testGetAccessTokenByRequestParametersSuccess()
+    {
+        $mockedHttpClient = $this->getMockBuilder(ClientInterface::class)
+            ->getMock();
+
+        $mockedHttpClient->expects($this->exactly(2))
+            ->method('sendRequest')
+            ->willReturn(
+                $this->createResponse(
+                    '<?xml version="1.0" encoding="UTF-8"?>
+<xrds:XRDS xmlns:xrds="xri://$xrds" xmlns="xri://$xrd*($v*2.0)">
+	<XRD>
+		<Service priority="0">
+			<Type>http://specs.openid.net/auth/2.0/signon</Type>
+			<URI>https://steamcommunity.com/openid/login</URI>
+		</Service>
+	</XRD>
+</xrds:XRDS>',
+                    200,
+                    [
+                        'Content-Type' => 'application/xrds+xml;charset=utf-8'
+                    ]
+                ),
+                $this->createResponse(
+                    "ns:http://specs.openid.net/auth/2.0\nis_valid:true",
+                    200
+                )
+            )
+        ;
+
+        $oauthToken = $this->getProvider($mockedHttpClient)->getAccessTokenByRequestParameters([
+            'openid_ns' => 'http://specs.openid.net/auth/2.0',
+            'openid_op_endpoint' => 'https://steamcommunity.com/openid/login',
+            'openid_assoc_handle' => '1234567890',
+            'openid_signed' => 'signed,op_endpoint,claimed_id,identity,return_to,response_nonce,assoc_handle',
+            'openid_claimed_id' => 'https://steamcommunity.com/openid/id/76561198066894048',
+            'openid_identity' => 'https://steamcommunity.com/openid/id/76561198066894048',
+            'openid_response_nonce' => 'nonce',
+            'openid_sig' => 'test',
+        ]);
+
+        parent::assertSame(
+            '76561198066894048',
+            $oauthToken->getUserId()
+        );
+    }
 }

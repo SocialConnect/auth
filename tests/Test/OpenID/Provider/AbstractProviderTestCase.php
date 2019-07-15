@@ -67,4 +67,35 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
             )
         );
     }
+
+    public function testMakeAuthUrlWithVersionTwoSpec()
+    {
+        $mockedHttpClient = $this->getMockBuilder(ClientInterface::class)
+            ->getMock();
+
+        $mockedHttpClient->expects($this->once())
+            ->method('sendRequest')
+            ->willReturn(
+                $this->createResponse(
+                    '<?xml version="1.0" encoding="UTF-8"?>
+<xrds:XRDS xmlns:xrds="xri://$xrds" xmlns="xri://$xrd*($v*2.0)">
+	<XRD>
+		<Service priority="0">
+			<Type>http://specs.openid.net/auth/2.0/signon</Type>
+			<URI>https://steamcommunity.com/openid/login</URI>
+		</Service>
+	</XRD>
+</xrds:XRDS>',
+                    200,
+                    [
+                        'Content-Type' => 'application/xrds+xml;charset=utf-8'
+                    ]
+                )
+            );
+
+        parent::assertSame(
+            'https://steamcommunity.com/openid/login?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=checkid_setup&openid.return_to=http%3A%2F%2Flocalhost%3A8000%2Fsteam%2F&openid.realm=http%3A%2F%2Flocalhost%3A8000%2Fsteam%2F&openid.ns.sreg=http%3A%2F%2Fopenid.net%2Fextensions%2Fsreg%2F1.1&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select',
+            $this->getProvider($mockedHttpClient)->makeAuthUrl()
+        );
+    }
 }

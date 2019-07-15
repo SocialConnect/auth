@@ -22,9 +22,10 @@ abstract class AbstractTestCase extends \PHPUnit\Framework\TestCase
     /**
      * @param string|null $responseData
      * @param int $responseCode
+     * @param array $headers
      * @return ResponseInterface
      */
-    protected function createResponse($responseData, int $responseCode = 200): ResponseInterface
+    protected function createResponse($responseData, int $responseCode = 200, array $headers = []): ResponseInterface
     {
         $body = null;
 
@@ -36,7 +37,7 @@ abstract class AbstractTestCase extends \PHPUnit\Framework\TestCase
 
         return new Response(
             $responseCode,
-            [],
+            $headers,
             $body
         );
     }

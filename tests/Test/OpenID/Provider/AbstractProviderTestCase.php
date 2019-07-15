@@ -129,6 +129,9 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
             )
         ;
 
+        $time = new \DateTime();
+        $time->setTimestamp(time() - 10);
+
         $oauthToken = $this->getProvider($mockedHttpClient)->getAccessTokenByRequestParameters([
             'openid_ns' => 'http://specs.openid.net/auth/2.0',
             'openid_op_endpoint' => 'https://steamcommunity.com/openid/login',
@@ -136,7 +139,7 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
             'openid_signed' => 'signed,op_endpoint,claimed_id,identity,return_to,response_nonce,assoc_handle',
             'openid_claimed_id' => 'https://steamcommunity.com/openid/id/76561198066894048',
             'openid_identity' => 'https://steamcommunity.com/openid/id/76561198066894048',
-            'openid_response_nonce' => 'nonce',
+            'openid_response_nonce' => $time->format('Y-m-d\TH:i:s') . 'Za/vpGHUxVMjTcAf97Kvo98WJg8w=',
             'openid_sig' => 'test',
         ]);
 

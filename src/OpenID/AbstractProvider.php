@@ -103,6 +103,52 @@ abstract class AbstractProvider extends AbstractBaseProvider
     }
 
     /**
+     * @param string $nonce
+     * @return int
+     * @throws Unauthorized
+     */
+    protected function splitNonce(string $nonce): int
+    {
+        $result = preg_match('/(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)Z(.*)/', $nonce, $matches);
+        if ($result !== 1 || count($matches) !== 8) {
+            throw new Unauthorized('Unexpected nonce format');
+        }
+
+        list(,$year, $month, $day, $hour, $min, $sec) = $matches;
+
+        try {
+            $timestamp = new \DateTime();
+            $timestamp->setDate((int) $year, (int) $month, (int) $day);
+            $timestamp->setTime((int) $hour, (int) $min, (int) $sec);
+        } catch (\Throwable $e) {
+            throw new Unauthorized('Timestamp from nonce is not valid', $e->getCode(), $e);
+        }
+
+        return $timestamp->getTimestamp();
+    }
+
+    /**
+     * @param string $nonce
+     * @return void
+     * @throws Unauthorized
+     */
+    protected function checkNonce(string $nonce): void
+    {
+        $stamp = $this->splitNonce($nonce);
+
+        $skew = 60;
+        $now = time();
+
+        if ($stamp <= $now - $skew) {
+            throw new Unauthorized("Timestamp from nonce is earlier then time() - {$skew}s");
+        }
+
+        if ($stamp >= $now + $skew) {
+            throw new Unauthorized("Timestamp from nonce is older then time() + {$skew}s");
+        }
+    }
+
+    /**
      * @link http://openid.net/specs/openid-authentication-2_0.html#verification
      *
      * @param array $requestParameters
@@ -114,6 +160,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     public function getAccessTokenByRequestParameters(array $requestParameters)
     {
+        $nonce = $this->getRequiredRequestParameter($requestParameters, 'openid_response_nonce');
+        $this->checkNonce($nonce);
+
         $params = [
             'openid.assoc_handle' => $this->getRequiredRequestParameter($requestParameters, 'openid_assoc_handle'),
             'openid.signed' => $this->getRequiredRequestParameter($requestParameters, 'openid_signed'),
@@ -123,7 +172,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
             'openid.claimed_id' => $requestParameters['openid_claimed_id'],
             'openid.identity' => $requestParameters['openid_identity'],
             'openid.return_to' => $this->getRedirectUrl(),
-            'openid.response_nonce' => $this->getRequiredRequestParameter($requestParameters, 'openid_response_nonce'),
+            'openid.response_nonce' => $nonce,
             'openid.mode' => 'check_authentication'
         ];
 

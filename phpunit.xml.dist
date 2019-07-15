@@ -6,7 +6,6 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
-         syntaxCheck="true"
          bootstrap="./vendor/autoload.php"
         >
 
@@ -25,12 +24,10 @@
                 <directory>./src/OpenID/Exception</directory>
                 <directory>./src/OpenIDConnect/Exception</directory>
                 <directory>./src/Common/Exception</directory>
+                <directory>./vendor/</directory>
+                <file>./src/Common/HttpClient.php</file>
             </exclude>
         </whitelist>
-        <blacklist>
-            <directory>./vendor/</directory>
-            <file>./vendor/autoload.php</file>
-        </blacklist>
     </filter>
 
     <logging>

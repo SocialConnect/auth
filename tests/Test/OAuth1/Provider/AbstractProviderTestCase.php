@@ -32,27 +32,27 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
 
     public function testGetBaseUriReturnString()
     {
-        parent::assertInternalType('string', $this->getProvider()->getBaseUri());
+        parent::assertIsString($this->getProvider()->getBaseUri());
     }
 
     public function testGetRequestTokenAccessUriReturnString()
     {
-        parent::assertInternalType('string', $this->getProvider()->getRequestTokenAccessUri());
+        parent::assertIsString($this->getProvider()->getRequestTokenAccessUri());
     }
 
     public function testGetAuthorizeUriReturnString()
     {
-        parent::assertInternalType('string', $this->getProvider()->getAuthorizeUri());
+        parent::assertIsString($this->getProvider()->getAuthorizeUri());
     }
 
     public function testGetRequestTokenUriReturnString()
     {
-        parent::assertInternalType('string', $this->getProvider()->getRequestTokenUri());
+        parent::assertIsString($this->getProvider()->getRequestTokenUri());
     }
 
     public function testGetNameReturnString()
     {
-        parent::assertInternalType('string', $this->getProvider()->getName());
+        parent::assertIsString($this->getProvider()->getName());
     }
 
     /**

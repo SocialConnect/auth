@@ -32,22 +32,22 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
 
     public function testGetBaseUriReturnString()
     {
-        parent::assertInternalType('string', $this->getProvider()->getBaseUri());
+        parent::assertIsString($this->getProvider()->getBaseUri());
     }
 
     public function testGetAuthorizeUriReturnString()
     {
-        parent::assertInternalType('string', $this->getProvider()->getAuthorizeUri());
+        parent::assertIsString($this->getProvider()->getAuthorizeUri());
     }
 
     public function testGetRequestTokenUriReturnString()
     {
-        parent::assertInternalType('string', $this->getProvider()->getRequestTokenUri());
+        parent::assertIsString($this->getProvider()->getRequestTokenUri());
     }
 
     public function testGetNameReturnString()
     {
-        parent::assertInternalType('string', $this->getProvider()->getName());
+        parent::assertIsString($this->getProvider()->getName());
     }
 
     public function testMakeAuthUrl()
@@ -55,7 +55,7 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
         $provider = $this->getProvider();
 
         $authUrl = $provider->makeAuthUrl();
-        parent::assertInternalType('string', $authUrl);
+        parent::assertIsString($authUrl);
 
         /**
          * Auth url must be started from getAuthorizeUri
@@ -66,10 +66,10 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
         );
 
         $query = parse_url($authUrl, PHP_URL_QUERY);
-        parent::assertInternalType('string', $query);
+        parent::assertIsString($query);
 
         parse_str($query, $queryParameters);
-        parent::assertInternalType('array', $queryParameters);
+        parent::assertIsArray($queryParameters);
 
         parent::assertArrayHasKey('client_id', $queryParameters);
         parent::assertArrayHasKey('redirect_uri', $queryParameters);
@@ -223,7 +223,7 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
     {
         $state = $this->callProtectedMethod($this->getProvider(), 'generateState', []);
 
-        parent::assertInternalType('string', $state);
+        parent::assertIsString($state);
         parent::assertEquals(32, mb_strlen($state));
     }
 }

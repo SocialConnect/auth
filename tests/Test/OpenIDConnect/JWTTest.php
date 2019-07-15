@@ -8,6 +8,7 @@ namespace Test\OpenIDConnect;
 
 use DateTime;
 use SocialConnect\OpenIDConnect\Exception\InvalidJWT;
+use SocialConnect\OpenIDConnect\JWK;
 use SocialConnect\OpenIDConnect\JWT;
 use Test\AbstractTestCase;
 
@@ -31,17 +32,17 @@ class JWTTest extends AbstractTestCase
     /**
      * @return array
      */
-    protected function getTestHeader()
+    protected function getTestHeader(string $alg = 'RS256', string $kid = 'testSigKey')
     {
         return [
-            'alg' => 'RS256',
-            'kid' => 'testSigKey'
+            'alg' => $alg,
+            'kid' => $kid
         ];
     }
 
-    protected function encodeJWT($payload)
+    protected function encodeJWT(array $payload, array $jwk)
     {
-        $header = $this->getTestHeader();
+        $header = $this->getTestHeader($jwk['kty'], $jwk['kid']);
 
         $encodedHeader = json_encode($header);
         $b64Header = base64_encode($encodedHeader);
@@ -49,7 +50,10 @@ class JWTTest extends AbstractTestCase
         $encodedPayload = json_encode($payload);
         $b64Payload = base64_encode($encodedPayload);
 
-        return $b64Header . '.' . $b64Payload . '.' . 'signatureLOL';
+        $signature = hash_hmac('SHA512', $b64Header . '.' . $b64Payload, (new JWK($jwk))->getPublicKey(), true);
+        $b64Signature = JWT::urlsafeB64Encode($signature);
+
+        return $b64Header . '.' . $b64Payload . '.' . $b64Signature;
     }
 
     public function testValidateClaimsSuccess()
@@ -205,5 +209,33 @@ class JWTTest extends AbstractTestCase
             'lol',
             []
         );
+    }
+
+    public function testDecodeSuccess()
+    {
+        $kid = [
+            'kid' => 'super-kid-' . time(),
+            'kty' => 'HS512',
+            'n' => 'test',
+            'e' => 'test'
+        ];
+
+        $payload = [
+            'uid' => '2955b34c-7a3b-4d96-9fd1-2930c18f9989'
+        ];
+
+        $jwtAsString =  $this->encodeJWT(
+            $payload,
+            $kid
+        );
+
+        $jwt = JWT::decode(
+            $jwtAsString,
+            [
+                $kid
+            ]
+        );
+
+        parent::assertSame($payload, $jwt->getPayload());
     }
 }

@@ -53,6 +53,16 @@ class JWT
     protected $signature;
 
     /**
+     * @param string $input Anything really
+     *
+     * @return string The base64 encode of what you passed in
+     */
+    public static function urlsafeB64Encode($input)
+    {
+        return str_replace('=', '', strtr(base64_encode($input), '+/', '-_'));
+    }
+
+    /**
      * @param string $input
      * @return string
      */
@@ -241,5 +251,13 @@ class JWT
         }
 
         throw new UnsupportedSignatureAlgoritm($this->header['alg']);
+    }
+
+    /**
+     * @return array
+     */
+    public function getPayload(): array
+    {
+        return $this->payload;
     }
 }

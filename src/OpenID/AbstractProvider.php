@@ -89,12 +89,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
     /**
      * @param string $identity
-     * @return int
+     * @return int|string
      */
-    protected function parseUserIdFromIdentity($identity)
-    {
-        return null;
-    }
+    abstract protected function parseUserIdFromIdentity($identity);
 
     protected function getRequiredRequestParameter(array $requestParameters, string $key)
     {

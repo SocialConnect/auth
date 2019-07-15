@@ -22,11 +22,15 @@ class JWK
     protected $kty;
 
     /**
+     * @link https://tools.ietf.org/html/rfc7517#section-9.3
+     *
      * @var string
      */
     protected $n;
 
     /**
+     * @link https://tools.ietf.org/html/rfc7517#section-9.3
+     *
      * @var string
      */
     protected $e;

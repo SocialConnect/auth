@@ -24,6 +24,7 @@
                 <directory>./src/OAuth2/Exception</directory>
                 <directory>./src/OpenID/Exception</directory>
                 <directory>./src/OpenIDConnect/Exception</directory>
+                <directory>./src/Common/Exception</directory>
             </exclude>
         </whitelist>
         <blacklist>

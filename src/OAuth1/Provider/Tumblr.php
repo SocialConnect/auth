@@ -7,11 +7,11 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth1\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth1\AbstractProvider;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Tumblr extends AbstractProvider
 {
@@ -78,19 +78,17 @@ class Tumblr extends AbstractProvider
 
         $result = $this->hydrateResponse($response);
 
-        if (!isset($result->response, $result->response->user) || !$result->response->user) {
+        if (!isset($result['response'], $result['response']['user']) || !$result['response']['user']) {
             throw new InvalidResponse(
                 'API response without user inside JSON',
                 $response
             );
         }
 
-        $hydrator = new ObjectMap(
-            [
-                'name' => 'id'
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'name' => 'id'
+        ]);
 
-        return $hydrator->hydrate(new User(), $result->response->user);
+        return $hydrator->hydrate(new User(), $result['response']['user']);
     }
 }

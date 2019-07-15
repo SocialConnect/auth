@@ -7,12 +7,11 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
-use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class MailRu extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -115,15 +114,13 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
 
         $response = $this->request('GET', '', $query, $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                'uid' => 'id',
-                'first_name' => 'firstname',
-                'last_name' => 'lastname',
-                'nick' => 'username',
-                'pic_big' => 'pictureURL'
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'uid' => 'id',
+            'first_name' => 'firstname',
+            'last_name' => 'lastname',
+            'nick' => 'username',
+            'pic_big' => 'pictureURL'
+        ]);
 
         $user = $hydrator->hydrate(new User(), $response[0]);
 

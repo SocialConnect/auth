@@ -8,11 +8,10 @@ declare(strict_types=1);
 
 namespace SocialConnect\OpenIDConnect\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
-use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OpenIDConnect\AbstractProvider;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Google extends AbstractProvider
 {
@@ -65,17 +64,15 @@ class Google extends AbstractProvider
     {
         $response = $this->request('GET', 'oauth2/v1/userinfo', [], $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                'id' => 'id',
-                'given_name' => 'firstname',
-                'family_name' => 'lastname',
-                'email' => 'email',
-                'verified_email' => 'emailVerified',
-                'name' => 'fullname',
-                'gender' => 'sex',
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'id' => 'id',
+            'given_name' => 'firstname',
+            'family_name' => 'lastname',
+            'email' => 'email',
+            'verified_email' => 'emailVerified',
+            'name' => 'fullname',
+            'gender' => 'sex',
+        ]);
 
         return $hydrator->hydrate(new User(), $response);
     }

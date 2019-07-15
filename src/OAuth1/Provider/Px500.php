@@ -7,11 +7,11 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth1\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth1\AbstractProvider;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Px500 extends AbstractProvider
 {
@@ -78,20 +78,18 @@ class Px500 extends AbstractProvider
 
         $result = $this->hydrateResponse($response);
 
-        if (!isset($result->user) || !$result->user) {
+        if (!isset($result['user']) || !$result['user']) {
             throw new InvalidResponse(
                 'API response without user inside JSON',
                 $response
             );
         }
 
-        $hydrator = new ObjectMap(
-            [
-                'id' => 'id',
-                'name' => 'name',
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'id' => 'id',
+            'name' => 'name',
+        ]);
 
-        return $hydrator->hydrate(new User(), $result->user);
+        return $hydrator->hydrate(new User(), $result['user']);
     }
 }

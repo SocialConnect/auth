@@ -221,12 +221,12 @@ abstract class AbstractBaseProvider
 
     /**
      * @param ResponseInterface $response
-     * @return mixed
+     * @return array
      * @throws InvalidResponse
      */
-    protected function hydrateResponse(ResponseInterface $response)
+    protected function hydrateResponse(ResponseInterface $response): array
     {
-        $result = json_decode($response->getBody()->getContents(), false);
+        $result = json_decode($response->getBody()->getContents(), true);
         if (!$result) {
             throw new InvalidResponse(
                 'API response is not a valid JSON object',
@@ -256,7 +256,7 @@ abstract class AbstractBaseProvider
      * @param string $url
      * @param array $query
      * @param AccessTokenInterface $accessToken
-     * @return mixed
+     * @return array
      * @throws InvalidResponse
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */

@@ -7,14 +7,10 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Consumer;
-use SocialConnect\Provider\Exception\InvalidAccessToken;
-use SocialConnect\Provider\Exception\InvalidProviderConfiguration;
-use SocialConnect\Provider\Exception\InvalidResponse;
-use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 /**
  * @link https://apiok.ru/dev
@@ -94,15 +90,13 @@ class Odnoklassniki extends \SocialConnect\OAuth2\AbstractProvider
 
         $response = $this->request('GET', 'users/getCurrentUser', [], $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                'uid' => 'id',
-                'first_name' => 'firstname',
-                'last_name' => 'lastname',
-                'name' => 'fullname',
-                'pic_3' => 'pictureURL'
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'uid' => 'id',
+            'first_name' => 'firstname',
+            'last_name' => 'lastname',
+            'name' => 'fullname',
+            'pic_3' => 'pictureURL'
+        ]);
 
         return $hydrator->hydrate(new User(), $response);
     }

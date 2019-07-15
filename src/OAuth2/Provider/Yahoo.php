@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 use SocialConnect\OAuth2\AccessToken;
 
 class Yahoo extends \SocialConnect\OAuth2\AbstractProvider
@@ -89,39 +89,37 @@ class Yahoo extends \SocialConnect\OAuth2\AbstractProvider
     {
         $response = $this->request('GET', "user/{$accessToken->getUserId()}/profile", [], $accessToken);
 
-        $result = $response->profile;
+        $result = $response['profile'];
 
-        if (isset($result->image)) {
-            $result->image = $result->image->imageUrl;
+        if (isset($result['image'])) {
+            $result->image = $result['image']['imageUrl'];
         }
 
-        if (isset($result->emails)) {
+        if (isset($result['emails'])) {
             // first one should do it, should be the default one
-            $result->email = reset($result->emails);
-            $result->email = $result->email->handle;
+            $email = reset($result['emails']);
+            $result['email'] = $email['handle'];
         }
 
-        if (isset($result->ims)) {
-            $result->username = reset($result->ims);
-            $result->username = $result->username->handle;
+        if (isset($result['ims'])) {
+            $username = reset($result['ims']);
+            $result->username = $username['handle'];
         }
 
-        if (isset($result->birthdate)) {
-            $result->birth_date = date('Y-m-d', strtotime($result->birthdate . '/' . $result->birthYear));
+        if (isset($result['birthdate'])) {
+            $result['birthdate'] = date('Y-m-d', strtotime($result['birthdate'] . '/' . $result['birthdate']));
         }
 
-        $hydrator = new ObjectMap(
-            [
-                'guid'       => 'id',
-                'image'      => 'picture',
-                'email'      => 'email',
-                'givenName'  => 'firstname',
-                'familyName' => 'lastname',
-                'username'   => 'username',
-                'gender'     => 'gender',
-                'birth_date' => 'birth_date',
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'guid'       => 'id',
+            'image'      => 'picture',
+            'email'      => 'email',
+            'givenName'  => 'firstname',
+            'familyName' => 'lastname',
+            'username'   => 'username',
+            'gender'     => 'gender',
+            'birth_date' => 'birth_date',
+        ]);
 
         return $hydrator->hydrate(new User(), $result);
     }

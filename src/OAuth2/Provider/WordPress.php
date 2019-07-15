@@ -7,9 +7,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class WordPress extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -64,12 +64,10 @@ class WordPress extends \SocialConnect\OAuth2\AbstractProvider
     {
         $response = $this->request('GET', 'me/', [], $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                'ID' => 'id',
-                'avatar_URL' => 'pictureURL',
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'ID' => 'id',
+            'avatar_URL' => 'pictureURL',
+        ]);
 
         return $hydrator->hydrate(new User(), $response);
     }

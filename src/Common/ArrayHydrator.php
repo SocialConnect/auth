@@ -4,9 +4,9 @@
  * @author: Patsura Dmitry @ovr <talk@dmtry.me>
  */
 
-namespace SocialConnect\Common\Hydrator;
+namespace SocialConnect\Common;
 
-class ObjectMap
+final class ArrayHydrator
 {
     /**
      * Hydration map
@@ -27,14 +27,14 @@ class ObjectMap
      * Hydrate $targetObject
      *
      * @param $targetObject
-     * @param $inputObject
+     * @param array $inputObject
      * @return mixed
      */
-    public function hydrate($targetObject, $inputObject)
+    public function hydrate($targetObject, array $inputObject)
     {
         foreach ($this->map as $keyFrom => $keyTo) {
-            if (isset($inputObject->{$keyFrom})) {
-                $targetObject->{$keyTo} = $inputObject->{$keyFrom};
+            if (isset($inputObject[$keyFrom])) {
+                $targetObject->{$keyTo} = $inputObject[$keyFrom];
             }
         }
 

@@ -7,9 +7,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OpenID\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Steam extends \SocialConnect\OpenID\AbstractProvider
 {
@@ -73,14 +73,12 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
 
         $response = $this->request('GET', 'ISteamUser/GetPlayerSummaries/v0002/', $query, $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                'steamid' => 'id',
-                'personaname' => 'username',
-                'realname' => 'fullname'
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'steamid' => 'id',
+            'personaname' => 'username',
+            'realname' => 'fullname'
+        ]);
 
-        return $hydrator->hydrate(new User(), $response->response->players[0]);
+        return $hydrator->hydrate(new User(), $response['response']['players'][0]);
     }
 }

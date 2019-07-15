@@ -7,9 +7,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Facebook extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -54,21 +54,19 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
             $accessToken
         );
 
-        $hydrator = new ObjectMap(
-            [
-                'id' => 'id',
-                'first_name' => 'firstname',
-                'last_name' => 'lastname',
-                'email' => 'email',
-                'gender' => 'sex',
-                'link' => 'url',
-                'locale' => 'locale',
-                'name' => 'fullname',
-                'timezone' => 'timezone',
-                'updated_time' => 'dateModified',
-                'verified' => 'verified'
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'id' => 'id',
+            'first_name' => 'firstname',
+            'last_name' => 'lastname',
+            'email' => 'email',
+            'gender' => 'sex',
+            'link' => 'url',
+            'locale' => 'locale',
+            'name' => 'fullname',
+            'timezone' => 'timezone',
+            'updated_time' => 'dateModified',
+            'verified' => 'verified'
+        ]);
 
         /** @var User $user */
         $user = $hydrator->hydrate(new User(), $response);

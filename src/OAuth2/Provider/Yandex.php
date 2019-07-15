@@ -7,9 +7,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Yandex extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -66,16 +66,14 @@ class Yandex extends \SocialConnect\OAuth2\AbstractProvider
     {
         $result = $this->request('GET', 'info', [], $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                'first_name' => 'firstname',
-                'last_name' => 'lastname',
-                'default_email' => 'email',
-                'real_name' => 'fullname',
-                'birthday' => 'birthday',
-                'login' => 'username',
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'first_name' => 'firstname',
+            'last_name' => 'lastname',
+            'default_email' => 'email',
+            'real_name' => 'fullname',
+            'birthday' => 'birthday',
+            'login' => 'username',
+        ]);
 
         return $hydrator->hydrate(new User(), $result);
     }

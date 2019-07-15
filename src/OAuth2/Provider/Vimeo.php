@@ -7,11 +7,11 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Vimeo extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -69,14 +69,12 @@ class Vimeo extends \SocialConnect\OAuth2\AbstractProvider
 
             // Vimeo return User on get Access Token Request (looks like to protect round trips)
             if (isset($response['user'])) {
-                $hydrator = new ObjectMap(
-                    [
-                        'name' => 'fullname',
-                    ]
-                );
+                $hydrator = new ArrayHydrator([
+                    'name' => 'fullname',
+                ]);
 
-                $this->user = $hydrator->hydrate(new User(), (object) $response['user']);
-                $this->user->id = str_replace('/users/', '', $this->user->uri);
+                $this->user = $hydrator->hydrate(new User(), $response['user']);
+                $this->user->id = str_replace('/users/', '', $this['user']['uri']);
 
                 $token->setUid($this->user->id);
             }

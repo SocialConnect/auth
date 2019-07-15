@@ -7,12 +7,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
-use SocialConnect\Provider\Exception\InvalidAccessToken;
-use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
-use SocialConnect\OAuth2\AccessToken;
 
 class Instagram extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -57,17 +54,15 @@ class Instagram extends \SocialConnect\OAuth2\AbstractProvider
     {
         $response = $this->request('GET', 'users/self', [], $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                'id' => 'id',
-                'username' => 'username',
-                'bio' => 'bio',
-                'website' => 'website',
-                'profile_picture' => 'pictureURL',
-                'full_name' => 'fullname'
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'id' => 'id',
+            'username' => 'username',
+            'bio' => 'bio',
+            'website' => 'website',
+            'profile_picture' => 'pictureURL',
+            'full_name' => 'fullname'
+        ]);
 
-        return $hydrator->hydrate(new User(), $response->data);
+        return $hydrator->hydrate(new User(), $response['data']);
     }
 }

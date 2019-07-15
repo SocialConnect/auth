@@ -7,10 +7,10 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth1\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\OAuth1\AbstractProvider;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Trello extends AbstractProvider
 {
@@ -77,7 +77,7 @@ class Trello extends AbstractProvider
 
         $result = $this->hydrateResponse($response);
 
-        $hydrator = new ObjectMap([
+        $hydrator = new ArrayHydrator([
             'avatarUrl' => 'pictureURL',
             'fullName' => 'fullname',
         ]);

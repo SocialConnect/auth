@@ -7,9 +7,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Twitch extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -73,13 +73,11 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
     {
         $response = $this->request('GET', 'user', [], $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                '_id' => 'id',
-                'display_name' => 'fullname', // Custom Capitalized Users name
-                'name' => 'username',
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            '_id' => 'id',
+            'display_name' => 'fullname', // Custom Capitalized Users name
+            'name' => 'username',
+        ]);
 
         return $hydrator->hydrate(new User(), $response);
     }

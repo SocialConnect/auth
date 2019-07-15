@@ -7,9 +7,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Discord extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -72,11 +72,9 @@ class Discord extends \SocialConnect\OAuth2\AbstractProvider
     {
         $response = $this->request('GET', 'users/@me', [], $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                'verified' => 'emailVerified'
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'verified' => 'emailVerified'
+        ]);
 
         return $hydrator->hydrate(new User(), $response);
     }

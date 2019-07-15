@@ -7,9 +7,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Steein extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -72,22 +72,20 @@ class Steein extends \SocialConnect\OAuth2\AbstractProvider
     {
         $response = $this->request('GET', 'api/v2.0/users/show', [], $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                'displayName' => 'fullname',
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'displayName' => 'fullname',
+        ]);
 
         /** @var User $user */
         $user = $hydrator->hydrate(new User(), $response);
 
-        if ($response->name) {
-            if ($response->name->first_name) {
-                $user->firstname = $response->name->first_name;
+        if ($response['name']) {
+            if ($response['name']['first_name']) {
+                $user->firstname = $response['name']['first_name'];
             }
 
-            if ($response->name->last_name) {
-                $user->lastname = $response->name->last_name;
+            if ($response['name']['last_name']) {
+                $user->lastname = $response['name']['last_name'];
             }
         }
 

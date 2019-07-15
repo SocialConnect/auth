@@ -8,9 +8,9 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth2\Provider;
 
 use Psr\Http\Message\RequestInterface;
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Reddit extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -71,7 +71,7 @@ class Reddit extends \SocialConnect\OAuth2\AbstractProvider
     {
         $response = $this->request('GET', 'me.json', [], $accessToken);
 
-        $hydrator = new ObjectMap([]);
+        $hydrator = new ArrayHydrator([]);
 
         return $hydrator->hydrate(new User(), $response);
     }

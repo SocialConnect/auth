@@ -7,9 +7,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth1\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Twitter extends \SocialConnect\OAuth1\AbstractProvider
 {
@@ -63,14 +63,12 @@ class Twitter extends \SocialConnect\OAuth1\AbstractProvider
 
         $result = $this->hydrateResponse($response);
 
-        $hydrator = new ObjectMap(
-            [
-                'id' => 'id',
-                'name' => 'fullname',
-                'screen_name' => 'username',
-                'profile_image_url_https' => 'pictureURL'
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'id' => 'id',
+            'name' => 'fullname',
+            'screen_name' => 'username',
+            'profile_image_url_https' => 'pictureURL'
+        ]);
 
         /** @var User $user */
         $user = $hydrator->hydrate(new User(), $result);

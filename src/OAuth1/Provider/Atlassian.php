@@ -7,13 +7,13 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth1\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Common\HttpStack;
 use SocialConnect\OAuth1\Signature\MethodRSASHA1;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth1\AbstractProvider;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 use SocialConnect\Provider\Session\SessionInterface;
 
 class Atlassian extends AbstractProvider
@@ -134,14 +134,14 @@ class Atlassian extends AbstractProvider
 
         $result = $this->hydrateResponse($response);
 
-        if (!isset($result->name) || !$result->name) {
+        if (!isset($result['name']) || !$result['name']) {
             throw new InvalidResponse(
                 'API response without user inside JSON',
                 $response
             );
         }
 
-        $hydrator = new ObjectMap([
+        $hydrator = new ArrayHydrator([
             'name' => 'username',
             'displayName' => 'fullname',
             'displayableEmail' => 'email',

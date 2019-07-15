@@ -68,11 +68,11 @@ class Meetup extends \SocialConnect\OAuth2\AbstractProvider
 
         $user = new User();
 
-        $user->id         = $response->id;
-        $user->username   = $response->name;
-        $user->fullname   = $response->name;
-        $user->sex        = $response->gender;
-        $user->pictureURL = $response->photo->photo_link;
+        $user->id         = $response['id'];
+        $user->username   = $response['name'];
+        $user->fullname   = $response['name'];
+        $user->sex        = $response['gender'];
+        $user->pictureURL = $response['photo']['photo_link'];
 
         return $user;
     }

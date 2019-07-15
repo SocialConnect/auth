@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\OAuth2\AbstractProvider;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Google extends AbstractProvider
 {
@@ -76,18 +76,16 @@ class Google extends AbstractProvider
 
         $response = $this->request('GET', 'oauth2/v1/userinfo', $query, $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                'id' => 'id',
-                'given_name' => 'firstname',
-                'family_name' => 'lastname',
-                'email' => 'email',
-                'verified_email' => 'emailVerified',
-                'name' => 'fullname',
-                'gender' => 'sex',
-                'picture' => 'pictureURL'
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'id' => 'id',
+            'given_name' => 'firstname',
+            'family_name' => 'lastname',
+            'email' => 'email',
+            'verified_email' => 'emailVerified',
+            'name' => 'fullname',
+            'gender' => 'sex',
+            'picture' => 'pictureURL'
+        ]);
 
         return $hydrator->hydrate(new User(), $response);
     }

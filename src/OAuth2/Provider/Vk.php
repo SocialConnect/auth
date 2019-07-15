@@ -7,9 +7,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Vk extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -75,21 +75,19 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
 
         $response = $this->request('GET', 'method/users.get', $query, $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                'id' => 'id',
-                'first_name' => 'firstname',
-                'last_name' => 'lastname',
-                'email' => 'email',
-                'bdate' => 'birthday',
-                'screen_name' => 'username',
-                'sex' => 'sex',
-                'photo_max_orig' => 'pictureURL',
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'id' => 'id',
+            'first_name' => 'firstname',
+            'last_name' => 'lastname',
+            'email' => 'email',
+            'bdate' => 'birthday',
+            'screen_name' => 'username',
+            'sex' => 'sex',
+            'photo_max_orig' => 'pictureURL',
+        ]);
 
         /** @var User $user */
-        $user = $hydrator->hydrate(new User(), $response->response[0]);
+        $user = $hydrator->hydrate(new User(), $response['response'][0]);
 
         if ($user->sex) {
             $user->sex = $user->sex === 1 ? 'female' : 'male';

@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -72,15 +72,13 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
             $accessToken
         );
 
-        $hydrator = new ObjectMap(
-            [
-                'id'           => 'id',
-                'emailAddress' => 'email',
-                'firstName'    => 'firstname',
-                'lastName'     => 'lastname',
-                'pictureUrl'   => 'pictureURL',
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'id'           => 'id',
+            'emailAddress' => 'email',
+            'firstName'    => 'firstname',
+            'lastName'     => 'lastname',
+            'pictureUrl'   => 'pictureURL',
+        ]);
 
         return $hydrator->hydrate(new User(), $response);
     }

@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace SocialConnect\OpenIDConnect\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\OpenIDConnect\AbstractProvider;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class PixelPin extends AbstractProvider
 {
@@ -64,23 +64,21 @@ class PixelPin extends AbstractProvider
     {
         $response = $this->request('GET', 'connect/userinfo', [], $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                'sub' => 'id',
-                'given_name' => 'firstname',
-                'family_name' => 'lastname',
-                'email' => 'email',
-                'display_name' => 'fullname',
-                'gender' => 'gender',
-                'phone_number' => 'phone',
-                'birthdate' => 'birthdate',
-                'street_address' => 'address',
-                'town_city' => 'townCity',
-                'region'   => 'region',
-                'postal_code' => 'postalCode',
-                'country' => 'country'
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'sub' => 'id',
+            'given_name' => 'firstname',
+            'family_name' => 'lastname',
+            'email' => 'email',
+            'display_name' => 'fullname',
+            'gender' => 'gender',
+            'phone_number' => 'phone',
+            'birthdate' => 'birthdate',
+            'street_address' => 'address',
+            'town_city' => 'townCity',
+            'region'   => 'region',
+            'postal_code' => 'postalCode',
+            'country' => 'country'
+        ]);
 
         return $hydrator->hydrate(new User(), $response);
     }

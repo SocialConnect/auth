@@ -7,12 +7,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
-use SocialConnect\Provider\Exception\InvalidAccessToken;
-use SocialConnect\Provider\Exception\InvalidResponse;
-use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class GitLab extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -65,13 +62,11 @@ class GitLab extends \SocialConnect\OAuth2\AbstractProvider
     {
         $response = $this->request('GET', 'user', [], $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                'user_id' => 'id',
-                'name' => 'fullname',
-                'avatar_url' => 'pictureURL'
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'user_id' => 'id',
+            'name' => 'fullname',
+            'avatar_url' => 'pictureURL'
+        ]);
 
         return $hydrator->hydrate(new User(), $response);
     }

@@ -7,9 +7,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -54,12 +54,10 @@ class DigitalOcean extends \SocialConnect\OAuth2\AbstractProvider
     {
         $response = $this->request('GET', 'account', [], $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                'uuid' => 'id',
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'uuid' => 'id',
+        ]);
 
-        return $hydrator->hydrate(new User(), $response->account);
+        return $hydrator->hydrate(new User(), $response['account']);
     }
 }

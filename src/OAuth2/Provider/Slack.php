@@ -7,10 +7,10 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Slack extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -65,21 +65,19 @@ class Slack extends \SocialConnect\OAuth2\AbstractProvider
     {
         $response = $this->request('GET', 'api/users.identity', [], $accessToken);
 
-        if (!$response->ok) {
+        if (!$response['ok']) {
             throw new InvalidResponse(
                 'API response->ok is false'
             );
         }
 
-        $hydrator = new ObjectMap(
-            [
-                'id' => 'id',
-                'name' => 'name',
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'id' => 'id',
+            'name' => 'name',
+        ]);
 
-        $user = $hydrator->hydrate(new User(), $response->user);
-        $user->team = $response->team;
+        $user = $hydrator->hydrate(new User(), $response['user']);
+        $user->team = $response['team'];
 
         return $user;
     }

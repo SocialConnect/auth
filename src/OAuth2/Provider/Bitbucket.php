@@ -7,12 +7,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
-use SocialConnect\Provider\Exception\InvalidAccessToken;
-use SocialConnect\Provider\Exception\InvalidResponse;
-use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -57,12 +54,10 @@ class Bitbucket extends \SocialConnect\OAuth2\AbstractProvider
     {
         $response = $this->request('GET', 'user', [], $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                'uuid' => 'id',
-                'display_name' => 'fullname',
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'uuid' => 'id',
+            'display_name' => 'fullname',
+        ]);
 
         /** @var User $user */
         $user = $hydrator->hydrate(new User(), $response);

@@ -8,12 +8,9 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
-use SocialConnect\Provider\Exception\InvalidAccessToken;
-use SocialConnect\Provider\Exception\InvalidResponse;
-use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class Microsoft extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -58,25 +55,23 @@ class Microsoft extends \SocialConnect\OAuth2\AbstractProvider
     {
         $response = $this->request('GET', 'me', [], $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                'id' => 'id',
-                'first_name' => 'firstname',
-                'last_name' => 'lastname',
-                'name' => 'fullname',
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'id' => 'id',
+            'first_name' => 'firstname',
+            'last_name' => 'lastname',
+            'name' => 'fullname',
+        ]);
 
         /** @var User $user */
         $user = $hydrator->hydrate(new User(), $response);
 
-        if ($response->emails) {
-            if ($response->emails->preferred) {
-                $user->email = $response->emails->preferred;
-            } elseif ($response->emails->account) {
-                $user->email = $response->emails->account;
-            } elseif ($response->emails->personal) {
-                $user->email = $response->emails->personal;
+        if ($response['emails']) {
+            if ($response['emails']['preferred']) {
+                $user->email = $response['emails']['preferred'];
+            } elseif ($response['emails']['account']) {
+                $user->email = $response['emails']['account'];
+            } elseif ($response['emails']['personal']) {
+                $user->email = $response['emails']['personal'];
             }
         }
 

@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth2\Provider;
 
 use Psr\Http\Message\RequestInterface;
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\OAuth2\Exception\InvalidState;
 use SocialConnect\OAuth2\Exception\Unauthorized;
 use SocialConnect\OAuth2\Exception\UnknownAuthorization;
@@ -16,7 +17,6 @@ use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\Common\Entity\User;
-use SocialConnect\Common\Hydrator\ObjectMap;
 
 class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
 {
@@ -130,7 +130,7 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
     {
         $response = $this->request('GET', 'userfromtoken/' . $accessToken->getToken(), [], $accessToken);
 
-        return $response->user_name;
+        return $response['user_name'];
     }
 
     /**
@@ -164,13 +164,11 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
         $username = $this->getUserNameByToken($accessToken);
         $response = $this->request('GET', 'user/' . $username, [], $accessToken);
 
-        $hydrator = new ObjectMap(
-            [
-                'user_id' => 'id',
-                'user_name' => 'username',
-                'user_email' => 'email',
-            ]
-        );
+        $hydrator = new ArrayHydrator([
+            'user_id' => 'id',
+            'user_name' => 'username',
+            'user_email' => 'email',
+        ]);
 
         return $hydrator->hydrate(new User(), $response);
     }

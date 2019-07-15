@@ -43,7 +43,7 @@ class AccessToken extends \SocialConnect\OAuth1\Token implements AccessTokenInte
     }
 
     /**
-     * @param $userId
+     * @param int $userId
      */
     public function setUserId($userId)
     {
@@ -51,7 +51,7 @@ class AccessToken extends \SocialConnect\OAuth1\Token implements AccessTokenInte
     }
 
     /**
-     * @param $screenName
+     * @param string $screenName
      */
     public function setScreenName($screenName)
     {

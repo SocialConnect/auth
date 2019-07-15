@@ -68,7 +68,7 @@ class CollectionFactory implements FactoryInterface
     }
 
     /**
-     * @param $id
+     * @param string $id
      * @return bool
      */
     public function has($id)
@@ -90,11 +90,10 @@ class CollectionFactory implements FactoryInterface
             throw new LogicException('Provider with $id = ' . $id . ' doest not exist');
         }
 
+        /** @var string $providerClassName */
         $providerClassName = $this->providers[$id];
 
-        /**
-         * @var $provider \SocialConnect\Provider\AbstractBaseProvider
-         */
+        /** @var \SocialConnect\Provider\AbstractBaseProvider $provider */
         $provider = new $providerClassName(
             $service->getHttpStack(),
             $service->getSession(),
@@ -110,10 +109,10 @@ class CollectionFactory implements FactoryInterface
     /**
      * Register new provider to Provider's collection
      *
-     * @param $providerName
-     * @param $providerClass
+     * @param string $providerName
+     * @param string $providerClass
      */
-    public function register($providerName, $providerClass)
+    public function register(string $providerName, string $providerClass)
     {
         $this->providers[$providerName] = $providerClass;
     }

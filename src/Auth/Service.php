@@ -68,10 +68,10 @@ class Service
     /**
      * Check that provider exists by $name
      *
-     * @param $name
+     * @param string $name
      * @return bool
      */
-    public function has($name)
+    public function has(string $name)
     {
         return $this->factory->has($name);
     }

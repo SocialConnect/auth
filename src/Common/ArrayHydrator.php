@@ -26,9 +26,9 @@ final class ArrayHydrator
     /**
      * Hydrate $targetObject
      *
-     * @param $targetObject
+     * @param object $targetObject
      * @param array $inputObject
-     * @return mixed
+     * @return object
      */
     public function hydrate($targetObject, array $inputObject)
     {

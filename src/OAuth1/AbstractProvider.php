@@ -242,12 +242,11 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
     /**
      * @param Token $token
-     * @param $oauthVerifier
+     * @param string $oauthVerifier
      * @return AccessToken
-     * @throws InvalidAccessToken
-     * @throws InvalidResponse
+     * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public function getAccessToken(Token $token, $oauthVerifier)
+    public function getAccessToken(Token $token, string $oauthVerifier)
     {
         $this->consumerToken = $token;
 
@@ -269,7 +268,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     /**
      * Parse AccessToken from response's $body
      *
-     * @param string|boolean $body
+     * @param string $body
      * @return AccessToken
      * @throws InvalidAccessToken
      * @throws InvalidResponse

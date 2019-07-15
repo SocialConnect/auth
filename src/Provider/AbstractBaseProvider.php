@@ -320,10 +320,10 @@ abstract class AbstractBaseProvider
      * @param string $uri
      * @param array $query
      * @param array $headers
-     * @param $payload
+     * @param array|null $payload
      * @return RequestInterface
      */
-    protected function createRequest(string $method, string $uri, array $query, array $headers, $payload = null): RequestInterface
+    protected function createRequest(string $method, string $uri, array $query, array $headers, array $payload = null): RequestInterface
     {
         $url = $uri;
 

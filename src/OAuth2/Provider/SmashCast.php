@@ -122,7 +122,7 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
      * BTW: Yes, I known that it's unneeded round trip to the server
      *
      * @param AccessTokenInterface $accessToken
-     * @return mixed
+     * @return string
      * @throws InvalidResponse
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */

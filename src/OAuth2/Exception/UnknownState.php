@@ -7,10 +7,17 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Exception;
 
+use Throwable;
+
 class UnknownState extends \SocialConnect\Provider\Exception\AuthFailed
 {
-    public function __construct($message = 'There is no state parameter inside redirect from OAuth provider')
+    /**
+     * @param string $message
+     * @param int $code
+     * @param Throwable|null $previous
+     */
+    public function __construct($message = 'There is no state parameter inside redirect from OAuth provider', $code = 0, Throwable $previous = null)
     {
-        parent::__construct($message);
+        parent::__construct($message, $code, $previous);
     }
 }

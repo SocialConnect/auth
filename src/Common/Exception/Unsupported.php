@@ -6,9 +6,16 @@
 
 namespace SocialConnect\Common\Exception;
 
+use Throwable;
+
 class Unsupported extends \SocialConnect\Common\Exception
 {
-    public function __construct($message = 'Unsupported functionality', $code = 0, \Exception $previous = null)
+    /**
+     * @param string $message
+     * @param int $code
+     * @param Throwable|null $previous
+     */
+    public function __construct($message = 'Unsupported functionality', $code = 0, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

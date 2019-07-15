@@ -54,6 +54,13 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
         return $matches[0];
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function prepareRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    {
+        $query['key'] = $this->consumer->getKey();
+    }
 
     /**
      * {@inheritdoc}
@@ -61,18 +68,10 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         $query = [
-            'key' => $this->consumer->getKey(),
             'steamids' => $accessToken->getUserId()
         ];
 
-        $response = $this->executeRequest(
-            $this->httpStack->createRequest(
-                'GET',
-                $this->getBaseUri() . 'ISteamUser/GetPlayerSummaries/v0002/?' . http_build_query($query)
-            )
-        );
-
-        $result = $this->hydrateResponse($response);
+        $response = $this->request('GET', 'ISteamUser/GetPlayerSummaries/v0002/', $query, $accessToken);
 
         $hydrator = new ObjectMap(
             [
@@ -82,6 +81,6 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
             ]
         );
 
-        return $hydrator->hydrate(new User(), $result->response->players[0]);
+        return $hydrator->hydrate(new User(), $response->response->players[0]);
     }
 }

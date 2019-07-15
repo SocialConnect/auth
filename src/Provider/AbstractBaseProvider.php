@@ -238,6 +238,55 @@ abstract class AbstractBaseProvider
     }
 
     /**
+     * This is a lifecycle method, should be redeclared inside Provider when it's needed to mutate $query or $headers
+     *
+     * @param array $headers
+     * @param array $query
+     * @param AccessTokenInterface|null $accessToken Null is needed to allow send request for not OAuth
+     */
+    public function prepareRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    {
+        if ($accessToken) {
+            $query['access_token'] = $accessToken->getToken();
+        }
+    }
+
+    /**
+     * @param string $url
+     * @param array $query
+     * @param AccessTokenInterface $accessToken
+     * @return mixed
+     * @throws InvalidResponse
+     * @throws \Psr\Http\Client\ClientExceptionInterface
+     */
+    public function request(string $url, array $query, AccessTokenInterface $accessToken)
+    {
+        $headers = [];
+
+        $this->prepareRequest(
+            $headers,
+            $query,
+            $accessToken
+        );
+
+        $uri = $this->getBaseUri() . $url;
+
+        if (count($query)) {
+            $uri .= '?' . http_build_query($query);
+        }
+
+        $request = $this->httpStack->createRequest('GET', $uri);
+
+        foreach ($headers as $k => $v) {
+            $request = $request->withHeader($k, $v);
+        }
+
+        return $this->hydrateResponse(
+            $this->executeRequest($request)
+        );
+    }
+
+    /**
      * @return array
      */
     public function getScope()

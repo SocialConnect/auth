@@ -19,7 +19,7 @@ script:
   - 'if [ {$TRAVIS_PHP_VERSION} = "7.2" ]; then
       ./vendor/bin/phpunit --process-isolation -v --debug --coverage-clover=coverage.clover;
     else
-      ./vendor/bin/phpunit -v --debug --coverage-clover=coverage.clover;
+      ./vendor/bin/phpunit -v --debug --no-coverage;
     fi'
 
 after_script:

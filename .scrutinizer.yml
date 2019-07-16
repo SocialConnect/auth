@@ -1,6 +1,3 @@
-# language: php
-before_commands:
-    - "composer install --no-dev --prefer-source"
 
 build:
     nodes:
@@ -8,6 +5,10 @@ build:
             tests:
                 override:
                     - php-scrutinizer-run
+    dependencies:
+        override:
+            - "composer install --no-dev --prefer-source"
+            - "cd example && composer install --no-dev --prefer-source"
 
 tools:
     external_code_coverage:

@@ -8,7 +8,13 @@ build:
     dependencies:
         override:
             - "composer install --no-dev --prefer-source"
-            - "cd example && composer install --no-dev --prefer-source"
+            - "cd example && composer install --no-dev --prefer-source && cd .."
+
+filter:
+    paths: ["src/*", "example/*.php"]
+    dependency_paths:
+        - vendor/
+        - example/vendor/
 
 tools:
     external_code_coverage:

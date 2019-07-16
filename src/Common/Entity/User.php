@@ -34,9 +34,9 @@ class User extends \stdClass
     public $emailVerified = false;
 
     /**
-     * @var string|null
+     * @var \DateTime|null
      */
-    public $birthday;
+    protected $birthday;
 
     /**
      * @var string|null
@@ -59,4 +59,20 @@ class User extends \stdClass
      * @var string|null
      */
     public $pictureURL;
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getBirthday(): ?\DateTime
+    {
+        return $this->birthday;
+    }
+
+    /**
+     * @param \DateTime|null $birthday
+     */
+    public function setBirthday(?\DateTime $birthday): void
+    {
+        $this->birthday = $birthday;
+    }
 }

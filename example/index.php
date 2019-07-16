@@ -71,7 +71,7 @@ $app->any('/dump', function() {
     dump($_SERVER);
 });
 
-$app->get('/auth/cb/{provider}/', function (\Slim\Http\Request $request) use (&$configureProviders, $service) {
+$app->get('/auth/cb/{provider}/', function (\Slim\Http\Request $request) use ($service) {
     $provider = strtolower($request->getAttribute('provider'));
 
     if (!$service->getFactory()->has($provider)) {
@@ -94,7 +94,7 @@ $app->get('/', function () {
     include_once 'page.php';
 });
 
-$app->post('/', function () use (&$configureProviders, $service) {
+$app->post('/', function () use ($service) {
     try {
         if (!empty($_POST['provider'])) {
             $providerName = $_POST['provider'];

@@ -55,7 +55,7 @@ class Yandex extends \SocialConnect\OAuth2\AbstractProvider
         $query['format'] = 'json';
 
         if ($accessToken) {
-            $query['oauth_token'] = $accessToken->getToken();
+            $headers['Authorization'] = "OAuth {$accessToken->getToken()}";
         }
     }
 

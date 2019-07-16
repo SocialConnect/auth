@@ -32,9 +32,13 @@ final class ArrayHydrator
      */
     public function hydrate($targetObject, array $inputObject)
     {
-        foreach ($this->map as $keyFrom => $keyTo) {
+        foreach ($this->map as $keyFrom => $keyToOrFn) {
             if (isset($inputObject[$keyFrom])) {
-                $targetObject->{$keyTo} = $inputObject[$keyFrom];
+                if (is_callable($keyToOrFn)) {
+                    $keyToOrFn($inputObject[$keyFrom], $targetObject);
+                } else {
+                    $targetObject->{$keyToOrFn} = $inputObject[$keyFrom];
+                }
             }
         }
 

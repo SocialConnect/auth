@@ -78,17 +78,20 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
             'first_name' => 'firstname',
             'last_name' => 'lastname',
             'email' => 'email',
-            'bdate' => 'birthday',
+            'bdate' => static function ($value, User $user) {
+                $user->setBirthday(
+                    new \DateTime($value)
+                );
+            },
+            'sex' => static function ($value, User $user) {
+                $user->sex = $value === 1 ? 'female' : 'male';
+            },
             'screen_name' => 'username',
             'photo_max_orig' => 'pictureURL',
         ]);
 
         /** @var User $user */
         $user = $hydrator->hydrate(new User(), $response['response'][0]);
-
-        if (isset($response['response'][0]['sex'])) {
-            $user->sex = $response['response'][0]['sex'] === 1 ? 'female' : 'male';
-        }
 
         $user->email = $this->email;
         $user->emailVerified = true;

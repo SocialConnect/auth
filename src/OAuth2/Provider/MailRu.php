@@ -124,8 +124,8 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
 
         $user = $hydrator->hydrate(new User(), $response[0]);
 
-        if ($user->sex) {
-            $user->sex = $user->sex === 1 ? 'female' : 'male';
+        if (isset($response[0]['sex'])) {
+            $user->sex = $response[0]['sex'] === 1 ? 'female' : 'male';
         }
 
         return $user;

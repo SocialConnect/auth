@@ -47,7 +47,8 @@ class MailRuTest extends AbstractProviderTestCase
         return $this->createResponse(
             json_encode([
                 [
-                    'id' => 12345
+                    'id' => 12345,
+                    'sex' => 1
                 ],
             ])
         );

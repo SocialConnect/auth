@@ -58,7 +58,7 @@ class Steein extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritDoc}
      */
-    public function signRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    public function prepareRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
     {
         if ($accessToken) {
             $headers['Authorization'] = "Bearer {$accessToken->getToken()}";

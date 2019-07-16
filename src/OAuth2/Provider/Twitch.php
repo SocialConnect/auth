@@ -59,7 +59,7 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritDoc}
      */
-    public function signRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    public function prepareRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
     {
         if ($accessToken) {
             $query['oauth_token'] = $accessToken->getToken();

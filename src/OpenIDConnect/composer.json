@@ -5,7 +5,8 @@
     "require": {
         "php": ">=7.1",
         "socialconnect/provider": "^2.0.0",
-        "socialconnect/oauth2": "^2.0.0"
+        "socialconnect/oauth2": "^2.0.0",
+        "socialconnect/jwx": "dev-master"
     },
     "license": "MIT",
     "authors": [

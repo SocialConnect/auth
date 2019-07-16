@@ -105,7 +105,7 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
      * @throws InvalidResponse
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public function getPrimaryEmail(AccessTokenInterface $accessToken)
+    protected function getPrimaryEmail(AccessTokenInterface $accessToken)
     {
         $emails = $this->getEmails($accessToken);
         if ($emails) {
@@ -125,7 +125,7 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
      * @throws InvalidResponse
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public function getEmails(AccessTokenInterface $accessToken)
+    protected function getEmails(AccessTokenInterface $accessToken)
     {
         return $this->request('GET', 'user/emails', [], $accessToken);
     }

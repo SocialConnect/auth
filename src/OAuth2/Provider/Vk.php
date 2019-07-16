@@ -52,10 +52,6 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function prepareRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
     {
-        $query = [
-            'v' => '5.100',
-        ];
-
         if ($accessToken) {
             $query['access_token'] = $accessToken->getToken();
         }
@@ -66,7 +62,9 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $query = [];
+        $query = [
+            'v' => '5.100'
+        ];
 
         $fields = $this->getArrayOption('identity.fields', []);
         if ($fields) {

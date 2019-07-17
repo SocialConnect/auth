@@ -27,7 +27,7 @@ class CollectionFactory implements FactoryInterface
         OAuth1\Provider\Trello::NAME        => OAuth1\Provider\Trello::class,
         // OAuth2
         OAuth2\Provider\Facebook::NAME      => OAuth2\Provider\Facebook::class,
-        OAuth2\Provider\Google::NAME        => OAuth2\Provider\Google::class,
+        //OAuth2\Provider\Google::NAME        => OAuth2\Provider\Google::class,
         OAuth2\Provider\GitHub::NAME        => OAuth2\Provider\GitHub::class,
         OAuth2\Provider\Instagram::NAME     => OAuth2\Provider\Instagram::class,
         OAuth2\Provider\Vk::NAME            => OAuth2\Provider\Vk::class,
@@ -53,7 +53,7 @@ class CollectionFactory implements FactoryInterface
         // OpenID
         OpenID\Provider\Steam::NAME         => OpenID\Provider\Steam::class,
         // OpenIDConnect
-        //OpenIDConnect\Provider\Google::NAME        => OpenIDConnect\Provider\Google::class,
+        OpenIDConnect\Provider\Google::NAME        => OpenIDConnect\Provider\Google::class,
         OpenIDConnect\Provider\PixelPin::NAME      => OpenIDConnect\Provider\PixelPin::class,
     ];
 

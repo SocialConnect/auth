@@ -19,6 +19,8 @@ use SocialConnect\Common\Hydrator\ObjectMap;
  */
 class Google extends AbstractProvider
 {
+    const NAME = 'google';
+
     /**
      * {@inheritdoc}
      */
@@ -56,7 +58,7 @@ class Google extends AbstractProvider
      */
     public function getName()
     {
-        return 'google';
+        return self::NAME;
     }
 
     /**

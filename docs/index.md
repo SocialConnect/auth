@@ -1,6 +1,7 @@
 ---
 layout: home
-title: Home
+title: Social Sign PHP Library
+sidebar_label: Home
 nav_order: 1
 ---
 

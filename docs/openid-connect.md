@@ -9,8 +9,14 @@ nav_order: 8
 allow developers to easily create OpenID Connect clients.
 
 - OpenID Connect (1.0) [Specification](http://openid.net/specs/openid-connect-core-1_0.html#OpenID.Discovery)
-- JWT (JSON Web Token) [RFC 7519](https://tools.ietf.org/html/rfc7519)
-- JWK (JSON Web Keys) [RFC 7517](https://tools.ietf.org/html/rfc7517)
+
+Dependencies:
+
+```
+socialconnect/provider
+socialconnect/oauth2
+socialconnect/jwx
+```
 
 ## Installation
 

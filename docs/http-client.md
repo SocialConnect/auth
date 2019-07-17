@@ -2,7 +2,7 @@
 layout: page
 title: HTTP Client
 sidebar_label: HTTP-Client
-nav_order: 6
+nav_order: 9
 ---
 
 `socialconnect/http-client` is a package that provide PHP HTTP client with PSR-18 compatibility, that makes it easy 

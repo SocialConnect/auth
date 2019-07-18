@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace SocialConnect\OpenIDConnect;
 
 use SocialConnect\JWX\DecodeOptions;
+use SocialConnect\JWX\JWKSet;
 use SocialConnect\JWX\JWT;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
@@ -37,11 +38,11 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
     }
 
     /**
-     * @return array
+     * @return JWKSet
      * @throws InvalidResponse
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public function getJWKSet(): array
+    public function getJWKSet(): JWKSet
     {
         $spec = $this->discover();
 
@@ -68,7 +69,7 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
             );
         }
 
-        return $result['keys'];
+        return new JWKSet($result);
     }
 
     /**
@@ -106,12 +107,8 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
         $result = json_decode($body, true);
         if ($result) {
             $token = new AccessToken($result);
-
-            $decodeOptions = new DecodeOptions(['HS256', 'HS384', 'HS512', 'RS256', 'RS384', 'RS512']);
-            $decodeOptions->setJwkSet($this->getJWKSet());
-
             $token->setJwt(
-                JWT::decode($result['id_token'], $decodeOptions)
+                JWT::decode($result['id_token'], $this->getJWKSet(), new DecodeOptions())
             );
 
             return $token;

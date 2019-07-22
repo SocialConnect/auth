@@ -6,6 +6,7 @@ SocialConnect Auth
 [![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/socialconnect/auth/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/SocialConnect/auth/?branch=master)
 [![Build Status](http://img.shields.io/travis/SocialConnect/auth.svg?style=flat-square)](https://travis-ci.org/SocialConnect/auth)
 [![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/socialconnect/auth/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/SocialConnect/auth/?branch=master)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSocialConnect%2Fauth.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FSocialConnect%2Fauth?ref=badge_shield)
 
 ## [Documentation](https://socialconnect.lowl.io/) :: [Demo](https://sc.lowl.io/)
 
@@ -187,3 +188,6 @@ This project exists thanks to all the people who contribute. Contributions are w
 This project is open-sourced software licensed under the MIT License.
 
 See the [LICENSE](LICENSE) file for more information.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSocialConnect%2Fauth.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FSocialConnect%2Fauth?ref=badge_large)

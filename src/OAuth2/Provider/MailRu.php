@@ -61,7 +61,7 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
         $result = json_decode($body, true);
         if ($result) {
             $token = new AccessToken($result);
-            $token->setUid((string) $result['x_mailru_vid']);
+            $token->setUserId((string) $result['x_mailru_vid']);
 
             return $token;
         }

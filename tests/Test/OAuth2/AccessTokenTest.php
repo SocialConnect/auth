@@ -69,7 +69,7 @@ class AccessTokenTest extends AbstractTestCase
 
         $expectedUserId = 123456;
 
-        $token->setUid((string) $expectedUserId);
+        $token->setUserId((string) $expectedUserId);
 
         $this->assertSame($expectedUserId, $token->getUserId());
 

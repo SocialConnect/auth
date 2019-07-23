@@ -90,7 +90,7 @@ class AccessToken implements AccessTokenInterface
     /**
      * @param string $uid
      */
-    public function setUid(string $uid)
+    public function setUserId(string $uid)
     {
         $this->uid = $uid;
     }

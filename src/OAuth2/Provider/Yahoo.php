@@ -62,7 +62,7 @@ class Yahoo extends \SocialConnect\OAuth2\AbstractProvider
         $result = json_decode($body, true);
         if ($result) {
             $token = new AccessToken($result);
-            $token->setUid((string) $result['xoauth_yahoo_guid']);
+            $token->setUserId((string) $result['xoauth_yahoo_guid']);
 
             return $token;
         }

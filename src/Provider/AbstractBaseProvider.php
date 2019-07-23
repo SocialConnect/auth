@@ -338,6 +338,8 @@ abstract class AbstractBaseProvider
         }
 
         if ($payload) {
+            $request = $request->withHeader('Content-Type', 'application/x-www-form-urlencoded');
+
             return $request->withBody(
                 $this->httpStack->createStream(
                     http_build_query($payload)

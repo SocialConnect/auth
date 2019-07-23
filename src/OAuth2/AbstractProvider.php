@@ -85,9 +85,13 @@ abstract class AbstractProvider extends AbstractBaseProvider
             throw new InvalidAccessToken('Provider response with empty body');
         }
 
-        $result = json_decode($body, true);
-        if ($result) {
-            return new AccessToken($result);
+        $token = json_decode($body, true);
+        if ($token) {
+            if (!is_array($token)) {
+                throw new InvalidAccessToken('Response must be array');
+            }
+
+            return new AccessToken($token);
         }
 
         throw new InvalidAccessToken('Server response with not valid/empty JSON');

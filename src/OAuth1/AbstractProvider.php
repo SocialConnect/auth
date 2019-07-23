@@ -281,11 +281,15 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
         parse_str($body, $token);
 
-        if (!is_array($token)) {
-            throw new InvalidAccessToken;
+        if ($token) {
+            if (!is_array($token)) {
+                throw new InvalidAccessToken('Response must be array');
+            }
+
+            return new AccessToken($token);
         }
 
-        return new AccessToken($token);
+        throw new InvalidAccessToken('Server response with not valid/empty JSON');
     }
 
     /**

@@ -22,7 +22,7 @@ class MailRuTest extends AbstractProviderTestCase
     public function testParseTokenSuccess()
     {
         $expectedToken = 'XXXXXXXX';
-        $expectedUserId = 123456;
+        $expectedUserId = '123456';
 
         $accessToken = $this->getProvider()->parseToken(
             json_encode(

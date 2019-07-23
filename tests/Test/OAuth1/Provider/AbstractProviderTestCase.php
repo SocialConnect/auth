@@ -70,7 +70,10 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
             ->willReturn($this->getTestResponseForGetIdentity());
 
         $this->getProvider($mockedHttpClient)->getIdentity(
-            new AccessToken('key', 'secret')
+            new AccessToken([
+                'oauth_token' => 'key',
+                'oauth_token_secret' => 'secret',
+            ])
         );
     }
 }

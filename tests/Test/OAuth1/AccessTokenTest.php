@@ -13,7 +13,10 @@ class AccessTokenTest extends AbstractTestCase
 {
     public function testConstructMethod()
     {
-        $token = new AccessToken('key', 'secret');
+        $token = new AccessToken([
+            'oauth_token' => 'key',
+            'oauth_token_secret' => 'secret'
+        ]);
         $this->assertEquals('key', $token->getKey());
         $this->assertEquals('secret', $token->getSecret());
 
@@ -25,8 +28,9 @@ class AccessTokenTest extends AbstractTestCase
         $token = $this->testConstructMethod();
         $this->assertNull($token->getUserId());
 
-        $userId = 12345;
+        $userId = '12345';
         $token->setUserId($userId);
+
         $this->assertSame($userId, $token->getUserId());
     }
 }

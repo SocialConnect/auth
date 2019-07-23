@@ -188,7 +188,7 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
     public function testParseTokenSuccess()
     {
         $expectedToken = 'XXXXXXXX';
-        $expectedUserId = 123456;
+        $expectedUserId = '123456';
 
         $accessToken = $this->getProvider()->parseToken(
             json_encode(

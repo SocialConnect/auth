@@ -26,7 +26,7 @@ class AccessTokenTest extends AbstractTestCase
         );
 
         $this->assertSame($expectedToken, $token->getToken());
-        $this->assertSame($expectedUserId, $token->getUserId());
+        $this->assertSame((string) $expectedUserId, $token->getUserId());
         $this->assertSame($expectedExpires, $token->getExpires());
 
         return $token;
@@ -47,7 +47,7 @@ class AccessTokenTest extends AbstractTestCase
         );
 
         $this->assertSame($expectedToken, $token->getToken());
-        $this->assertSame($expectedUserId, $token->getUserId());
+        $this->assertSame((string) $expectedUserId, $token->getUserId());
         $this->assertTrue($expectedExpires < $token->getExpires());
 
         return $token;
@@ -67,10 +67,9 @@ class AccessTokenTest extends AbstractTestCase
         $this->assertNull($token->getUserId());
         $this->assertNull($token->getExpires());
 
-        $expectedUserId = 123456;
+        $expectedUserId = '123456';
 
-        $token->setUserId((string) $expectedUserId);
-
+        $token->setUserId($expectedUserId);
         $this->assertSame($expectedUserId, $token->getUserId());
 
         return $token;

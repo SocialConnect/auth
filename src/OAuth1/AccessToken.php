@@ -13,7 +13,7 @@ use SocialConnect\Provider\Exception\InvalidAccessToken;
 class AccessToken extends \SocialConnect\OAuth1\Token implements AccessTokenInterface
 {
     /**
-     * @var string
+     * @var string|null
      */
     protected $userId;
 
@@ -48,7 +48,15 @@ class AccessToken extends \SocialConnect\OAuth1\Token implements AccessTokenInte
     }
 
     /**
-     * @return int
+     * @param string $userId
+     */
+    public function setUserId(string $userId)
+    {
+        $this->userId = $userId;
+    }
+
+    /**
+     * @return string|null
      */
     public function getUserId()
     {

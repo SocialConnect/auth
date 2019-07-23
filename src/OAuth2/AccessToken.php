@@ -96,7 +96,7 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * @return integer
+     * @return string|null
      */
     public function getUserId()
     {

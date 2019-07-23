@@ -40,10 +40,9 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
     }
 
     /**
-     * @param string $identity
-     * @return string
+     * {@inheritDoc}
      */
-    protected function parseUserIdFromIdentity($identity)
+    protected function parseUserIdFromIdentity($identity): string
     {
         preg_match(
             '/7[0-9]{15,25}/',
@@ -51,7 +50,7 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
             $matches
         );
 
-        return $matches[0];
+        return (string) $matches[0];
     }
 
     /**

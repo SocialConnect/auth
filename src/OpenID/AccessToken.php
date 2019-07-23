@@ -19,15 +19,15 @@ class AccessToken implements AccessTokenInterface
     protected $identity;
 
     /**
-     * @var integer|null
+     * @var string|null
      */
     protected $uid;
 
     /**
      * @param string $identity
-     * @param int|null $uid
+     * @param string|null $uid
      */
-    public function __construct($identity, $uid = null)
+    public function __construct($identity, string $uid = null)
     {
         $this->identity = $identity;
         $this->uid = $uid;

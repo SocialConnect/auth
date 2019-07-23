@@ -15,7 +15,7 @@ interface AccessTokenInterface
     public function getToken();
 
     /**
-     * @return integer|null
+     * @return string|null
      */
     public function getUserId();
 

@@ -8,11 +8,12 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth1;
 
 use SocialConnect\Provider\AccessTokenInterface;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
 
 class AccessToken extends \SocialConnect\OAuth1\Token implements AccessTokenInterface
 {
     /**
-     * @var integer
+     * @var string
      */
     protected $userId;
 
@@ -21,10 +22,30 @@ class AccessToken extends \SocialConnect\OAuth1\Token implements AccessTokenInte
      */
     protected $screenName;
 
-    /**
-     * @var int
-     */
-    protected $x_auth_expires = 0;
+    public function __construct(array $token)
+    {
+        if (!isset($token['oauth_token'])) {
+            throw new InvalidAccessToken(
+                'API returned data without oauth_token field'
+            );
+        }
+
+        if (!isset($token['oauth_token_secret'])) {
+            throw new InvalidAccessToken(
+                'API returned data without oauth_token_secret field'
+            );
+        }
+
+        parent::__construct($token['oauth_token'], $token['oauth_token_secret']);
+
+        if (isset($token['user_id'])) {
+            $this->userId = (string) $token['user_id'];
+        }
+
+        if (isset($token['screen_name'])) {
+            $this->screenName = $token['screen_name'];
+        }
+    }
 
     /**
      * @return int
@@ -40,22 +61,6 @@ class AccessToken extends \SocialConnect\OAuth1\Token implements AccessTokenInte
     public function getScreenName()
     {
         return $this->screenName;
-    }
-
-    /**
-     * @param int $userId
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-    }
-
-    /**
-     * @param string $screenName
-     */
-    public function setScreenName($screenName)
-    {
-        $this->screenName = $screenName;
     }
 
     /**

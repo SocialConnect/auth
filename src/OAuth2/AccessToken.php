@@ -23,7 +23,7 @@ class AccessToken implements AccessTokenInterface
     protected $expires;
 
     /**
-     * @var integer|null
+     * @var string|null
      */
     protected $uid;
 
@@ -61,7 +61,7 @@ class AccessToken implements AccessTokenInterface
         }
 
         if (isset($token['user_id'])) {
-            $this->uid = $token['user_id'];
+            $this->uid = (string) $token['user_id'];
         }
     }
 
@@ -88,9 +88,9 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * @param int|null $uid
+     * @param string $uid
      */
-    public function setUid($uid)
+    public function setUid(string $uid)
     {
         $this->uid = $uid;
     }

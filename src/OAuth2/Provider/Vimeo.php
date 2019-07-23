@@ -76,7 +76,7 @@ class Vimeo extends \SocialConnect\OAuth2\AbstractProvider
                 $this->user = $hydrator->hydrate(new User(), $response['user']);
                 $this->user->id = str_replace('/users/', '', $this['user']['uri']);
 
-                $token->setUid($this->user->id);
+                $token->setUid((string) $this->user->id);
             }
 
             return $token;

@@ -43,6 +43,12 @@ class AccessToken extends \SocialConnect\OAuth2\AccessToken
      */
     public function setJwt(JWT $jwt)
     {
+        $payload = $jwt->getPayload();
+
+        if (isset($payload['sub'])) {
+            $this->uid = (string) $payload['sub'];
+        }
+
         $this->jwt = $jwt;
     }
 }

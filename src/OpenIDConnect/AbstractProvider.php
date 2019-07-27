@@ -22,19 +22,11 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function discover(): array
     {
-        $response = $this->executeRequest(
-            $this->httpStack->createRequest('GET', $this->getOpenIdUrl())
+        return $this->hydrateResponse(
+            $this->executeRequest(
+                $this->httpStack->createRequest('GET', $this->getOpenIdUrl())
+            )
         );
-
-        $result = json_decode($response->getBody()->getContents(), true);
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response without valid JSON',
-                $response
-            );
-        }
-
-        return $result;
     }
 
     /**
@@ -54,13 +46,7 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
             $this->httpStack->createRequest('GET', $spec['jwks_uri'])
         );
 
-        $result = json_decode($response->getBody()->getContents(), true);
-        if (!$result) {
-            throw new InvalidResponse(
-                'API response without valid JSON',
-                $response
-            );
-        }
+        $result = $this->hydrateResponse($response);
 
         if (!isset($result['keys'])) {
             throw new InvalidResponse(

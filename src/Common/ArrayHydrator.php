@@ -24,21 +24,58 @@ final class ArrayHydrator
     }
 
     /**
+     * @param array $path
+     * @param string|callable $keyToOrFn
+     * @param array $input
+     * @param object $targetObject
+     * @return void
+     */
+    protected function referenceRecursiveHydration(array $path, $keyToOrFn, array $input, $targetObject): void
+    {
+        $keyFrom = array_shift($path);
+
+        if (isset($input[$keyFrom])) {
+            if (count($path) === 0) {
+                self::hydrationValue($keyToOrFn, $input[$keyFrom], $targetObject);
+            } else {
+                $this->referenceRecursiveHydration($path, $keyToOrFn, $input[$keyFrom], $targetObject);
+            }
+        }
+    }
+
+    /**
+     * @param string|callable $keyToOrFn
+     * @param mixed $value
+     * @param object $targetObject
+     */
+    protected static function hydrationValue($keyToOrFn, $value, $targetObject): void
+    {
+        if (is_callable($keyToOrFn)) {
+            $keyToOrFn($value, $targetObject);
+        } else {
+            $targetObject->{$keyToOrFn} = $value;
+        }
+    }
+
+    /**
      * Hydrate $targetObject
      *
      * @param object $targetObject
-     * @param array $inputObject
+     * @param array $input
      * @return object
      */
-    public function hydrate($targetObject, array $inputObject)
+    public function hydrate($targetObject, array $input)
     {
         foreach ($this->map as $keyFrom => $keyToOrFn) {
-            if (isset($inputObject[$keyFrom])) {
-                if (is_callable($keyToOrFn)) {
-                    $keyToOrFn($inputObject[$keyFrom], $targetObject);
-                } else {
-                    $targetObject->{$keyToOrFn} = $inputObject[$keyFrom];
-                }
+            if (strpos($keyFrom, '.')) {
+                $this->referenceRecursiveHydration(
+                    explode('.', $keyFrom),
+                    $keyToOrFn,
+                    $input,
+                    $targetObject
+                );
+            } else if (isset($input[$keyFrom])) {
+                self::hydrationValue($keyToOrFn, $input[$keyFrom], $targetObject);
             }
         }
 

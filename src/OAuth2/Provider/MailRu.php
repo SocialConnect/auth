@@ -119,15 +119,12 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
             'first_name' => 'firstname',
             'last_name' => 'lastname',
             'nick' => 'username',
-            'pic_big' => 'pictureURL'
+            'pic_big' => 'pictureURL',
+            'sex' => static function ($value, User $user) {
+                $user->setSex($value === 1 ? User::SEX_FEMALE : User::SEX_MALE);
+            }
         ]);
 
-        $user = $hydrator->hydrate(new User(), $response[0]);
-
-        if (isset($response[0]['sex'])) {
-            $user->sex = $response[0]['sex'] === 1 ? 'female' : 'male';
-        }
-
-        return $user;
+        return $hydrator->hydrate(new User(), $response[0]);
     }
 }

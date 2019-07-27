@@ -8,6 +8,9 @@ namespace SocialConnect\Common\Entity;
 
 class User extends \stdClass
 {
+    const SEX_MALE = 'male';
+    const SEX_FEMALE = 'female';
+
     /**
      * @var string
      */
@@ -48,7 +51,7 @@ class User extends \stdClass
      *
      * @var string|null
      */
-    public $sex;
+    protected $sex;
 
     /**
      * @var string|null
@@ -74,5 +77,25 @@ class User extends \stdClass
     public function setBirthday(?\DateTime $birthday): void
     {
         $this->birthday = $birthday;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSex(): ?string
+    {
+        return $this->sex;
+    }
+
+    /**
+     * @param string $sex
+     */
+    public function setSex(string $sex): void
+    {
+        if ($sex !== self::SEX_MALE && $sex !== self::SEX_FEMALE) {
+            throw new \InvalidArgumentException('Argument $sex is not valid');
+        }
+
+        $this->sex = $sex;
     }
 }

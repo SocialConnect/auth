@@ -83,7 +83,9 @@ class Google extends AbstractProvider
             'email' => 'email',
             'verified_email' => 'emailVerified',
             'name' => 'fullname',
-            'gender' => 'sex',
+            'gender' => static function ($value, User $user) {
+                $user->setSex($value);
+            },
             'picture' => 'pictureURL'
         ]);
 

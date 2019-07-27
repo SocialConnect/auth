@@ -59,22 +59,21 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
             'first_name' => 'firstname',
             'last_name' => 'lastname',
             'email' => 'email',
-            'gender' => 'sex',
+            'gender' => static function ($value, User $user) {
+                $user->setSex($value === 1 ? User::SEX_FEMALE : User::SEX_MALE);
+            },
             'link' => 'url',
             'locale' => 'locale',
             'name' => 'fullname',
             'timezone' => 'timezone',
             'updated_time' => 'dateModified',
-            'verified' => 'verified'
+            'verified' => 'verified',
+            'picture.data.url' => 'pictureURL'
         ]);
 
         /** @var User $user */
         $user = $hydrator->hydrate(new User(), $response);
         $user->emailVerified = true;
-
-        if (!empty($response->picture)) {
-            $user->pictureURL = $response->picture->data->url;
-        }
 
         return $user;
     }

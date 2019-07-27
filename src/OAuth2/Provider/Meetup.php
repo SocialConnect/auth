@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace SocialConnect\OAuth2\Provider;
 
+use SocialConnect\Common\ArrayHydrator;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Common\Entity\User;
 
@@ -66,14 +67,16 @@ class Meetup extends \SocialConnect\OAuth2\AbstractProvider
     {
         $response = $this->request('GET', '2/member/self?sign=true&photo-host=public&fields=gender', [], $accessToken);
 
-        $user = new User();
+        $hydrator = new ArrayHydrator([
+            'id' => 'id',
+            'username' => 'name',
+            'fullname' => 'name',
+            'sex' => static function ($value, User $user) {
+                $user->setSex($value);
+            },
+            'photo.photo_link' => 'pictureURL'
+        ]);
 
-        $user->id         = $response['id'];
-        $user->username   = $response['name'];
-        $user->fullname   = $response['name'];
-        $user->sex        = $response['gender'];
-        $user->pictureURL = $response['photo']['photo_link'];
-
-        return $user;
+        return $hydrator->hydrate(new User(), $response);
     }
 }

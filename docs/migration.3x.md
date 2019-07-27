@@ -70,3 +70,24 @@ $httpClient = new \SocialConnect\Common\Http\Client\Cache(
     )
 );
 ```
+
+# User fields
+
+We hide fields `sex` & `birthday` by protected modifier and changed types:
+
+- `sex` is `female` or `male`, see contacts called: `User::SEX_MALE`/`USER::SEX_FEMALE` (was not strict before)
+- `birthday` is `\DateTime` (was string before)
+
+Replace:
+
+```
+$user->sex;
+$user->birthday;
+```
+
+With:
+
+```
+$user->getSex();
+$user->getBirthday();
+```

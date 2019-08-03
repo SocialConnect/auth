@@ -1,6 +1,9 @@
-
 dist: trusty
 sudo: false
+
+env:
+  global:
+    - DEFAULT=1
 
 language: php
 
@@ -9,18 +12,31 @@ php:
   - 7.2
   - 7.3
 
+matrix:
+  fast_finish: true
+
+  include:
+    - php: 7.3
+      env: DEFAULT=0 STATIC_ANALYSIS=1
+
+    - php: 7.3
+      env: DEFAULT=0 PHPCS=1
+
 install:
-  - composer self-update
   - composer --prefer-dist install
 
 script:
-  - ./vendor/bin/phpcs --standard=PSR2 --report=emacs --extensions=php --warning-severity=0 src/ tests/Test
-  - 'if [ {$TRAVIS_PHP_VERSION} = "7.3" ]; then
-      ./vendor/bin/phpunit --process-isolation -v --debug --coverage-clover=coverage.clover;
-    else
-      ./vendor/bin/phpunit -v --debug --no-coverage;
-    fi'
+  - if [[ $DEFAULT == 1 && $TRAVIS_PHP_VERSION == "7.3" ]]; then vendor/bin/phpunit --process-isolation -v --debug --coverage-clover=coverage.clover; fi
+  - if [[ $DEFAULT == 1 && $TRAVIS_PHP_VERSION != "7.3" ]]; then vendor/bin/phpunit -v --debug --no-coverage; fi
+  - if [[ $PHPCS == 1 ]]; then vendor/bin/phpcs --standard=PSR2 --report=emacs --extensions=php --warning-severity=0 src/ tests/Test; fi
+  - if [[ $STATIC_ANALYSIS == 1 ]]; then vendor/bin/phpstan.phar analyse src/ tests/; fi
 
 after_script:
-  - if [ "$TRAVIS_PHP_VERSION" == "7.3" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-  - if [ "$TRAVIS_PHP_VERSION" == "7.3" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+  - |
+      if [[ $DEFAULT == 1 && $TRAVIS_PHP_VERSION == "7.3" ]]; then
+        wget https://scrutinizer-ci.com/ocular.phar
+        php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+      fi
+
+notifications:
+  email: false

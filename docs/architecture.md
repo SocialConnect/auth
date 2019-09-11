@@ -13,7 +13,7 @@ Take a look at the graph, it's simplified but it can make you a good overview as
 
 There are 6 packages:
 
-- 📦 socialconnect/common - base classes for our projects
+- 📦 [socialconnect/common](/common.html) - base classes for our projects
 - 📦 socialconnect/provider - base interfaces and abstract for implement social sign standards
 - 📦 [socialconnect/oauth1](/oauth1.html) - implementation for [OAuth1 (spec RFC 5849)](https://tools.ietf.org/html/rfc5849) 
 - 📦 [socialconnect/oauth2](/oauth2.html) - implementation for [OAuth2 (spec RFC 6749)](https://tools.ietf.org/html/rfc6749)

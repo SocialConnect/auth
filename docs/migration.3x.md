@@ -80,14 +80,14 @@ We hide fields `sex` & `birthday` by protected modifier and changed types:
 
 Replace:
 
-```
+```php
 $user->sex;
 $user->birthday;
 ```
 
 With:
 
-```
+```php
 $user->getSex();
 $user->getBirthday();
 ```

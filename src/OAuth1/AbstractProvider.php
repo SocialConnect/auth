@@ -12,6 +12,7 @@ use SocialConnect\Common\HttpStack;
 use SocialConnect\OAuth1\Exception\UnknownAuthorization;
 use SocialConnect\OAuth1\Signature\AbstractSignatureMethod;
 use SocialConnect\Provider\AbstractBaseProvider;
+use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Consumer;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
@@ -154,6 +155,8 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
     public function authorizationHeader(array $query)
     {
+        ksort($query);
+
         $parameters = http_build_query(
             $query,
             '',
@@ -162,6 +165,29 @@ abstract class AbstractProvider extends AbstractBaseProvider
         );
 
         return "OAuth $parameters";
+    }
+
+    public function prepareRequest(string $method, string $uri, array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    {
+        $headers['Accept'] = 'application/json';
+
+        $query['oauth_version'] = '1.0';
+        $query['oauth_nonce'] = $this->generateState();
+        $query['oauth_timestamp'] = time();
+        $query['oauth_consumer_key'] = $this->consumer->getKey();
+
+        if ($accessToken) {
+            $query['oauth_token'] = $accessToken->getToken();
+        }
+
+        $query['oauth_signature_method'] = $this->signature->getName();
+        $query['oauth_signature'] = $this->signature->buildSignature(
+            $this->getSignatureBaseString($method, $uri, $query),
+            $this->consumer,
+            $this->consumerToken
+        );
+
+        $headers['Authorization'] = $this->authorizationHeader($query);
     }
 
     /**
@@ -175,7 +201,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @throws \Psr\Http\Client\ClientExceptionInterface
      * @throws \Exception
      */
-    public function oauthRequest($uri, $method = 'GET', array $query = [], array $payload = null, $headers = []): ResponseInterface
+    protected function oauthRequest($uri, $method = 'GET', array $query = [], array $payload = null, $headers = []): ResponseInterface
     {
         $headers = array_merge([
             'Accept' => 'application/json'

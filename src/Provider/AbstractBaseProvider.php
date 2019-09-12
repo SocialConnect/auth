@@ -337,14 +337,25 @@ abstract class AbstractBaseProvider
             $request = $request->withHeader($k, $v);
         }
 
+        $contentLength = 0;
+
         if ($payload) {
-            $request = $request->withHeader('Content-Type', 'application/x-www-form-urlencoded');
+            $payloadAsString = http_build_query($payload);
+            $contentLength = mb_strlen($payloadAsString);
+
+            $request = $request
+                ->withHeader('Content-Type', 'application/x-www-form-urlencoded');
 
             return $request->withBody(
                 $this->httpStack->createStream(
-                    http_build_query($payload)
+                    $payloadAsString
                 )
             );
+        }
+
+        if ($request->getMethod() === 'POST') {
+            $request = $request
+                ->withHeader('Content-Length', $contentLength);
         }
 
         return $request;

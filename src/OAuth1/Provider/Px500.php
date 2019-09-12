@@ -65,23 +65,16 @@ class Px500 extends AbstractProvider
     {
         $this->consumerToken = $accessToken;
 
-        $parameters = [
-            'oauth_consumer_key' => $this->consumer->getKey(),
-            'oauth_token' => $accessToken->getToken()
-        ];
-
-        $response = $this->oauthRequest(
-            $this->getBaseUri() . 'users',
+        $result = $this->request(
             'GET',
-            $parameters
+            'users',
+            [],
+            $accessToken
         );
-
-        $result = $this->hydrateResponse($response);
 
         if (!isset($result['user']) || !$result['user']) {
             throw new InvalidResponse(
-                'API response without user inside JSON',
-                $response
+                'API response without user inside JSON'
             );
         }
 

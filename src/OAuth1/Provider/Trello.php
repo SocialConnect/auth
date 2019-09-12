@@ -69,13 +69,11 @@ class Trello extends AbstractProvider
             'token' => $accessToken->getToken()
         ];
 
-        $response = $this->oauthRequest(
-            $this->getBaseUri() . 'members/me',
+        $result = $this->request(
             'GET',
+            'members/me',
             $parameters
         );
-
-        $result = $this->hydrateResponse($response);
 
         $hydrator = new ArrayHydrator([
             'avatarUrl' => 'pictureURL',

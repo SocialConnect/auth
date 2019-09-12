@@ -194,6 +194,7 @@ abstract class AbstractBaseProvider
      * @param AccessTokenInterface $accessToken
      * @return \SocialConnect\Common\Entity\User
      *
+     * @throws \Psr\Http\Client\ClientExceptionInterface
      * @throws \SocialConnect\Provider\Exception\InvalidResponse
      */
     abstract public function getIdentity(AccessTokenInterface $accessToken);
@@ -240,11 +241,13 @@ abstract class AbstractBaseProvider
     /**
      * This is a lifecycle method, should be redeclared inside Provider when it's needed to mutate $query or $headers
      *
+     * @param string $method
+     * @param string $uri
      * @param array $headers
      * @param array $query
      * @param AccessTokenInterface|null $accessToken Null is needed to allow send request for not OAuth
      */
-    public function prepareRequest(array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    public function prepareRequest(string $method, string $uri, array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
     {
         if ($accessToken) {
             $query['access_token'] = $accessToken->getToken();
@@ -265,6 +268,8 @@ abstract class AbstractBaseProvider
         $headers = [];
 
         $this->prepareRequest(
+            $method,
+            $this->getBaseUri() . $url,
             $headers,
             $query,
             $accessToken

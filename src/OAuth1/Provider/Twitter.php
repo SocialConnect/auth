@@ -47,21 +47,15 @@ class Twitter extends \SocialConnect\OAuth1\AbstractProvider
     {
         $this->consumerToken = $accessToken;
 
-        $parameters = [
-            'oauth_consumer_key' => $this->consumer->getKey(),
-            'oauth_token' => $accessToken->getToken(),
-            // String is expected because Twitter is awful
-            'include_email' => 'true'
-        ];
-
-        // @link https://dev.twitter.com/rest/reference/get/account/verify_credentials
-        $response = $this->oauthRequest(
-            $this->getBaseUri() . 'account/verify_credentials.json',
+        $result = $this->request(
             'GET',
-            $parameters
+            'account/verify_credentials.json',
+            [
+                // String is expected because Twitter is awful
+                'include_email' => 'true'
+            ],
+            $accessToken
         );
-
-        $result = $this->hydrateResponse($response);
 
         $hydrator = new ArrayHydrator([
             'id' => 'id',

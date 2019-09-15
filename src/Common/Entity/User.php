@@ -121,6 +121,7 @@ class User extends \stdClass
      */
     public function getSex() : string
     {
+        trigger_error('getSex is deprecated. Use getGender instead', E_USER_DEPRECATED);
         return $this->getGender();
     }
     
@@ -129,6 +130,7 @@ class User extends \stdClass
      */
     public function setSex(string $sex) : void
     {
+        trigger_error('setSex is deprecated. Use setGender instead', E_USER_DEPRECATED);
         $this->setGender($sex);
     }
 }

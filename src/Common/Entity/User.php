@@ -8,8 +8,10 @@ namespace SocialConnect\Common\Entity;
 
 class User extends \stdClass
 {
-    const SEX_MALE = 'male';
-    const SEX_FEMALE = 'female';
+    const GENDER_MALE = 'male';
+    const GENDER_FEMALE = 'female';
+    const GENDER_OTHER = 'other';
+    const GENDER_UNKNOWN = 'unknown';
 
     /**
      * @var string
@@ -47,11 +49,11 @@ class User extends \stdClass
     public $username;
 
     /**
-     * Should be female or male
+     * One of the GENDER_-constants
      *
-     * @var string|null
+     * @var string
      */
-    protected $sex;
+    protected $gender = GENDER_UNKNOWN;
 
     /**
      * @var string|null
@@ -80,22 +82,43 @@ class User extends \stdClass
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getSex(): ?string
+    public function getGender(): string
     {
-        return $this->sex;
+        return $this->gender;
     }
 
     /**
      * @param string $sex
      */
-    public function setSex(string $sex): void
+    public function setGender(string $gender): void
     {
-        if ($sex !== self::SEX_MALE && $sex !== self::SEX_FEMALE) {
-            throw new \InvalidArgumentException('Argument $sex is not valid');
+        $genders = [
+            GENDER_OTHER,
+            GENDER_MALE,
+            GENDER_FEMALE,
+        ];
+        if (! $gender in_array($genders)) {
+            throw new \InvalidArgumentException('Argument $gender is not valid');
         }
 
-        $this->sex = $sex;
+        $this->gender = $gender;
+    }
+    
+    /**
+     * @deprecated use `getGender` instead
+     */
+    public function getSex() : string
+    {
+        return $this->getGender();
+    }
+    
+    /**
+     * @deprecated Use setGender instead
+     */
+    public function setSex(string $sex) : void
+    {
+        $this->setGender($sex);
     }
 }

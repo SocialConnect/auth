@@ -53,7 +53,7 @@ class User extends \stdClass
      *
      * @var string
      */
-    protected $gender = GENDER_UNKNOWN;
+    protected $gender = self::GENDER_UNKNOWN;
 
     /**
      * @var string|null
@@ -95,11 +95,11 @@ class User extends \stdClass
     public function setGender(string $gender): void
     {
         $genders = [
-            GENDER_OTHER,
-            GENDER_MALE,
-            GENDER_FEMALE,
+            self::GENDER_OTHER,
+            self::GENDER_MALE,
+            self::GENDER_FEMALE,
         ];
-        if (! $gender in_array($genders)) {
+        if (! in_array($gender, $genders)) {
             throw new \InvalidArgumentException('Argument $gender is not valid');
         }
 

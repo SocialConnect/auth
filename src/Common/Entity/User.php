@@ -11,12 +11,12 @@ class User extends \stdClass
     /**
      * @deprecated Use GENDER_MALE instead!
      */
-    const SEX_MALE = 'male';
+    const SEX_MALE = 'male_deprecated';
     
     /**
      * @deprecated Use GENDER_FEMALE instead!
      */
-    const SEX_FEMALE = 'female';
+    const SEX_FEMALE = 'female_deprecated';
     
     const GENDER_MALE = 'male';
     const GENDER_FEMALE = 'female';
@@ -104,6 +104,16 @@ class User extends \stdClass
      */
     public function setGender(string $gender): void
     {
+        if ($gender === self::SEX_MALE) {
+            trigger_error ('the constant SEX_MALE is deprecated. use GENDER_MALE instead', E_USER_DEPRECATED);
+            $gender = self::GENDER_MALE;
+        }
+        
+        if ($gender === self::SEX_FEMALE) {
+            trigger_error ('the constant SEX_FEMALE is deprecated. use GENDER_FEMALE instead', E_USER_DEPRECATED);
+            $gender = self::GENDER_FEMALE;
+        }
+            
         $genders = [
             self::GENDER_OTHER,
             self::GENDER_MALE,

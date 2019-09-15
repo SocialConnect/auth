@@ -99,9 +99,6 @@ class User extends \stdClass
         return $this->gender;
     }
 
-    /**
-     * @param string $sex
-     */
     public function setGender(string $gender): void
     {
         if ($gender === self::SEX_MALE) {

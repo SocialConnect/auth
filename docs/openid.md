@@ -1,6 +1,7 @@
 ---
 layout: page
 title: OpenID
+parent: Architecture
 sidebar_label: OpenID
 nav_order: 7
 ---

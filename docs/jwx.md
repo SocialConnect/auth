@@ -1,6 +1,7 @@
 ---
 layout: page
 title: JWX Component
+parent: Architecture
 sidebar_label: JWX Component
 nav_order: 10
 ---

@@ -1,6 +1,7 @@
 ---
 layout: page
 title: OpenID Connect
+parent: Architecture
 sidebar_label: OpenID Connect
 nav_order: 8
 ---

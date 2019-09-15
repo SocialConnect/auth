@@ -1,6 +1,7 @@
 ---
 layout: page
 title: HTTP Client
+parent: Architecture
 sidebar_label: HTTP-Client
 nav_order: 9
 ---

@@ -1,6 +1,7 @@
 ---
 layout: page
 title: OAuth2
+parent: Architecture
 sidebar_label: OAuth2
 nav_order: 6
 ---

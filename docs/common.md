@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Common
+parent: Architecture
 sidebar_label: Common
 nav_order: 9
 ---

@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Architecture
+has_children: true
 sidebar_label: Architecture
 nav_order: 3
 ---

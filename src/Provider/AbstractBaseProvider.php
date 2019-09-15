@@ -13,6 +13,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use SocialConnect\Provider\Exception\InvalidProviderConfiguration;
 use SocialConnect\Common\HttpStack;
+use SocialConnect\Provider\Exception\InvalidRequest;
 use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Provider\Session\SessionInterface;
 
@@ -342,25 +343,27 @@ abstract class AbstractBaseProvider
             $request = $request->withHeader($k, $v);
         }
 
-        $contentLength = 0;
+        $method = strtoupper($request->getMethod());
+        $withPayload = $method === 'POST' || $method === 'PUT';
 
         if ($payload) {
-            $payloadAsString = http_build_query($payload);
-            $contentLength = mb_strlen($payloadAsString);
+            if ($withPayload) {
+                $payloadAsString = http_build_query($payload);
+                $contentLength = mb_strlen($payloadAsString);
 
-            $request = $request
-                ->withHeader('Content-Type', 'application/x-www-form-urlencoded');
+                $request = $request
+                    ->withHeader('Content-Length', $contentLength)
+                    ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+                ;
 
-            return $request->withBody(
-                $this->httpStack->createStream(
-                    $payloadAsString
-                )
-            );
-        }
+                return $request->withBody(
+                    $this->httpStack->createStream(
+                        $payloadAsString
+                    )
+                );
+            }
 
-        if ($request->getMethod() === 'POST') {
-            $request = $request
-                ->withHeader('Content-Length', $contentLength);
+            throw new InvalidRequest('You are not able to send payload on HTTP method without body');
         }
 
         return $request;

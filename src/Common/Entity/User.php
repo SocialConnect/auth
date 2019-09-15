@@ -8,6 +8,16 @@ namespace SocialConnect\Common\Entity;
 
 class User extends \stdClass
 {
+    /**
+     * @deprecated Use GENDER_MALE instead!
+     */
+    const SEX_MALE = 'male';
+    
+    /**
+     * @deprecated Use GENDER_FEMALE instead!
+     */
+    const SEX_FEMALE = 'female';
+    
     const GENDER_MALE = 'male';
     const GENDER_FEMALE = 'female';
     const GENDER_OTHER = 'other';

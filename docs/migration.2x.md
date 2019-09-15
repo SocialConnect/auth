@@ -2,6 +2,7 @@
 layout: page
 title: Migrating from SocialConnect/Auth 1.x to 2.x
 parent: Documentation
+sidebar_label: Migrating from 1.x to 2.x
 nav_order: 3
 ---
 

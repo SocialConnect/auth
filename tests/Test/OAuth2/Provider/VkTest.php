@@ -48,7 +48,7 @@ class VkTest extends AbstractProviderTestCase
         parent::assertSame($expectedId, $result->id);
         parent::assertSame($expectedFirstname, $result->firstname);
         parent::assertSame($expectedLastname, $result->lastname);
-        parent::assertSame('female', $result->getSex());
+        parent::assertSame('female', $result->getGender());
     }
 
     /**

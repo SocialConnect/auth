@@ -72,7 +72,7 @@ class Meetup extends \SocialConnect\OAuth2\AbstractProvider
             'username' => 'name',
             'fullname' => 'name',
             'sex' => static function ($value, User $user) {
-                $user->setSex($value);
+                $user->setGender($value);
             },
             'photo.photo_link' => 'pictureURL'
         ]);

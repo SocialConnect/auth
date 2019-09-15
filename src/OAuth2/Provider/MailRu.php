@@ -121,7 +121,7 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
             'nick' => 'username',
             'pic_big' => 'pictureURL',
             'sex' => static function ($value, User $user) {
-                $user->setSex($value === 1 ? User::SEX_FEMALE : User::SEX_MALE);
+                $user->setGender($value === 1 ? User::GENDER_FEMALE : User::GENDER_MALE);
             }
         ]);
 

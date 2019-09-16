@@ -1,7 +1,7 @@
 SocialConnect Auth
 ==================
 
-[![Packagist](https://img.shields.io/packagist/v/socialconnect/auth.svg?style=flat-square)](https://packagist.org/packages/socialconnect/auth)
+[![Financial Contributors on Open Collective](https://opencollective.com/socialconnect/all/badge.svg?label=financial+contributors)](https://opencollective.com/socialconnect) [![Packagist](https://img.shields.io/packagist/v/socialconnect/auth.svg?style=flat-square)](https://packagist.org/packages/socialconnect/auth)
 [![License](http://img.shields.io/packagist/l/SocialConnect/auth.svg?style=flat-square)](https://github.com/SocialConnect/auth/blob/master/LICENSE)
 [![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/socialconnect/auth/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/SocialConnect/auth/?branch=master)
 [![Build Status](http://img.shields.io/travis/SocialConnect/auth.svg?style=flat-square)](https://travis-ci.org/SocialConnect/auth)
@@ -69,6 +69,36 @@ This project exists thanks to all the people who contribute. Contributions are w
 [![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/5)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/5)
 [![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/6)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/6)
 [![](https://sourcerer.io/fame/ovr/SocialConnect/auth/images/7)](https://sourcerer.io/fame/ovr/SocialConnect/auth/links/7)
+
+## Contributors
+
+### Code Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/SocialConnect/auth/graphs/contributors"><img src="https://opencollective.com/socialconnect/contributors.svg?width=890&button=false" /></a>
+
+### Financial Contributors
+
+Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/socialconnect/contribute)]
+
+#### Individuals
+
+<a href="https://opencollective.com/socialconnect"><img src="https://opencollective.com/socialconnect/individuals.svg?width=890"></a>
+
+#### Organizations
+
+Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/socialconnect/contribute)]
+
+<a href="https://opencollective.com/socialconnect/organization/0/website"><img src="https://opencollective.com/socialconnect/organization/0/avatar.svg"></a>
+<a href="https://opencollective.com/socialconnect/organization/1/website"><img src="https://opencollective.com/socialconnect/organization/1/avatar.svg"></a>
+<a href="https://opencollective.com/socialconnect/organization/2/website"><img src="https://opencollective.com/socialconnect/organization/2/avatar.svg"></a>
+<a href="https://opencollective.com/socialconnect/organization/3/website"><img src="https://opencollective.com/socialconnect/organization/3/avatar.svg"></a>
+<a href="https://opencollective.com/socialconnect/organization/4/website"><img src="https://opencollective.com/socialconnect/organization/4/avatar.svg"></a>
+<a href="https://opencollective.com/socialconnect/organization/5/website"><img src="https://opencollective.com/socialconnect/organization/5/avatar.svg"></a>
+<a href="https://opencollective.com/socialconnect/organization/6/website"><img src="https://opencollective.com/socialconnect/organization/6/avatar.svg"></a>
+<a href="https://opencollective.com/socialconnect/organization/7/website"><img src="https://opencollective.com/socialconnect/organization/7/avatar.svg"></a>
+<a href="https://opencollective.com/socialconnect/organization/8/website"><img src="https://opencollective.com/socialconnect/organization/8/avatar.svg"></a>
+<a href="https://opencollective.com/socialconnect/organization/9/website"><img src="https://opencollective.com/socialconnect/organization/9/avatar.svg"></a>
 
 ### License
 

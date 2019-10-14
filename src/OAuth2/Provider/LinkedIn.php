@@ -86,6 +86,8 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
             $element = array_shift($response['elements']);
             if ($element && isset($element['handle~']) && isset($element['handle~']['emailAddress'])) {
                 $user->email = $element['handle~']['emailAddress'];
+                // Tested on my user, I've got two emails and linkedin return only primary and it's verified
+                $user->emailVerified = true;
             }
         }
     }

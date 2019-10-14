@@ -21,7 +21,7 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getBaseUri()
     {
-        return 'https://api.linkedin.com/v1/';
+        return 'https://api.linkedin.com/v2/';
     }
 
     /**
@@ -53,7 +53,7 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function prepareRequest(string $method, string $uri, array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
     {
-        $query['format'] = 'json';
+        $headers['Content-Type'] = 'application/json';
 
         if ($accessToken) {
             $headers['Authorization'] = "Bearer {$accessToken->getToken()}";
@@ -65,19 +65,54 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
+        $query = [];
+
+        $fields = $this->getArrayOption(
+            'identity.fields',
+            [
+                'id',
+                'firstName',
+                'lastName',
+                'emailAddress',
+                'profilePicture(displayImage~:playableStreams)',
+                'location'
+            ]
+        );
+        if ($fields) {
+            $query['projection'] = '(' . implode(',', $fields) . ')';
+        }
+
         $response = $this->request(
             'GET',
-            'people/~:(id,first-name,last-name,email-address,picture-url,location:(name))',
-            [],
+            'me',
+            $query,
             $accessToken
         );
 
         $hydrator = new ArrayHydrator([
             'id'           => 'id',
             'emailAddress' => 'email',
-            'firstName'    => 'firstname',
-            'lastName'     => 'lastname',
-            'pictureUrl'   => 'pictureURL',
+            'firstName'    => static function ($value, User $user) {
+                if ($value['localized']) {
+                    $user->firstname = array_pop($value['localized']);
+                }
+            },
+            'lastName'     => static function ($value, User $user) {
+                if ($value['localized']) {
+                    $user->lastname = array_pop($value['localized']);
+                }
+            },
+            'profilePicture'     => static function ($value, User $user) {
+                if (isset($value['displayImage~']) && isset($value['displayImage~']['elements'])) {
+                    $biggestElement = array_shift($value['displayImage~']['elements']);
+                    if (isset($biggestElement['identifiers'])) {
+                        $biggestElementIdentifier = array_pop($biggestElement['identifiers']);
+                        if (isset($biggestElementIdentifier['identifier'])) {
+                            $user->pictureURL = $biggestElementIdentifier['identifier'];
+                        }
+                    }
+                }
+            },
         ]);
 
         return $hydrator->hydrate(new User(), $response);

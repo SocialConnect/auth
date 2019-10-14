@@ -17,6 +17,16 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
     const NAME = 'linkedin';
 
     /**
+     * @var array
+     */
+    protected $options = [
+        /**
+         * It's needed additional API call to fetch email, by default it's disabled
+         */
+        'fetch_emails' => false
+    ];
+
+    /**
      * {@inheritdoc}
      */
     public function getBaseUri()
@@ -60,6 +70,26 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
         }
     }
 
+    protected function fetchPrimaryEmail(AccessTokenInterface $accessToken, User $user)
+    {
+        $response = $this->request(
+            'GET',
+            'emailAddress',
+            [
+                'q' => 'members',
+                'projection' => '(elements*(primary,type,handle~))'
+            ],
+            $accessToken
+        );
+
+        if (isset($response['elements'])) {
+            $element = array_shift($response['elements']);
+            if ($element && isset($element['handle~']) && isset($element['handle~']['emailAddress'])) {
+                $user->email = $element['handle~']['emailAddress'];
+            }
+        }
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -67,15 +97,14 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
     {
         $query = [];
 
+        // @link https://docs.microsoft.com/en-us/linkedin/shared/integrations/people/profile-api?context=linkedin/consumer/context
         $fields = $this->getArrayOption(
             'identity.fields',
             [
                 'id',
                 'firstName',
                 'lastName',
-                'emailAddress',
                 'profilePicture(displayImage~:playableStreams)',
-                'location'
             ]
         );
         if ($fields) {
@@ -115,6 +144,13 @@ class LinkedIn extends \SocialConnect\OAuth2\AbstractProvider
             },
         ]);
 
-        return $hydrator->hydrate(new User(), $response);
+        /** @var User $identity */
+        $identity = $hydrator->hydrate(new User(), $response);
+
+        if ($this->getBoolOption('fetch_emails', false)) {
+            $this->fetchPrimaryEmail($accessToken, $identity);
+        }
+
+        return $identity;
     }
 }

@@ -201,6 +201,16 @@ return [
         'linkedin'  => [
             'applicationId'     => '',
             'applicationSecret' => '',
+            'scope' => [
+                'r_liteprofile',
+                'r_emailaddress',
+            ],
+            'options' => [
+                /**
+                 * It's needed additional API call to fetch email, by default it's disabled
+                 */
+                'fetch_emails' => true,
+            ]
         ],
         // https://developer.yahoo.com/apps/create/
         'yahoo'  => [

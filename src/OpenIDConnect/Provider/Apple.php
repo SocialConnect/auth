@@ -89,6 +89,7 @@ class Apple extends AbstractProvider
         $jwt = $accessToken->getJwt();
 
         $hydrator = new ArrayHydrator([
+            'sub' => 'id',
             'email' => 'email',
             'email_verified' => 'emailVerified '
         ]);

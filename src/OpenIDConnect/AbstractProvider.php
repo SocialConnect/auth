@@ -102,4 +102,17 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
 
         throw new InvalidAccessToken('Provider response with not valid JSON');
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function createAccessToken(array $information)
+    {
+        $token = new AccessToken($information);
+        $token->setJwt(
+            JWT::decode($information['id_token'], $this->getJWKSet(), new DecodeOptions())
+        );
+
+        return $token;
+    }
 }

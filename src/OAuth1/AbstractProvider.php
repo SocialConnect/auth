@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace SocialConnect\OAuth1;
 
 use Psr\Http\Message\ResponseInterface;
+use SocialConnect\Common\Exception\Unsupported;
 use SocialConnect\Common\HttpStack;
 use SocialConnect\OAuth1\Exception\UnknownAuthorization;
 use SocialConnect\OAuth1\Signature\AbstractSignatureMethod;
@@ -316,6 +317,14 @@ abstract class AbstractProvider extends AbstractBaseProvider
         }
 
         throw new InvalidAccessToken('Server response with not valid/empty JSON');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function createAccessToken(array $information)
+    {
+        throw new Unsupported('It\'s usefull to use this method for OAuth1, are you sure?');
     }
 
     /**

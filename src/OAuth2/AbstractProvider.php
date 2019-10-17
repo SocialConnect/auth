@@ -13,7 +13,6 @@ use SocialConnect\OAuth2\Exception\Unauthorized;
 use SocialConnect\OAuth2\Exception\UnknownAuthorization;
 use SocialConnect\OAuth2\Exception\UnknownState;
 use SocialConnect\Provider\AbstractBaseProvider;
-use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 
@@ -170,5 +169,13 @@ abstract class AbstractProvider extends AbstractBaseProvider
         }
 
         return $this->getAccessToken($parameters['code']);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function createAccessToken(array $information)
+    {
+        return new AccessToken($information);
     }
 }

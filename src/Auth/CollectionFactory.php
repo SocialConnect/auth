@@ -53,8 +53,9 @@ class CollectionFactory implements FactoryInterface
         // OpenID
         OpenID\Provider\Steam::NAME         => OpenID\Provider\Steam::class,
         // OpenIDConnect
-        OpenIDConnect\Provider\Google::NAME        => OpenIDConnect\Provider\Google::class,
-        OpenIDConnect\Provider\PixelPin::NAME      => OpenIDConnect\Provider\PixelPin::class,
+        OpenIDConnect\Provider\Apple::NAME        => OpenIDConnect\Provider\Apple::class,
+        OpenIDConnect\Provider\Google::NAME       => OpenIDConnect\Provider\Google::class,
+        OpenIDConnect\Provider\PixelPin::NAME     => OpenIDConnect\Provider\PixelPin::class,
     ];
 
     /**

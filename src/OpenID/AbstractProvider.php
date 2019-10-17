@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace SocialConnect\OpenID;
 
+use SocialConnect\Common\Exception\Unsupported;
 use SocialConnect\OpenID\Exception\Unauthorized;
 use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\Consumer;
@@ -212,5 +213,13 @@ abstract class AbstractProvider extends AbstractBaseProvider
             $this->getRequiredStringParameter('applicationId', $parameters),
             ''
         );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function createAccessToken(array $information)
+    {
+        throw new Unsupported('It\'s usefull to use this method for OpenID, are you sure?');
     }
 }

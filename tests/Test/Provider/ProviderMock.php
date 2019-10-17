@@ -59,4 +59,12 @@ class ProviderMock extends AbstractBaseProvider
     {
         // TODO: Implement getIdentity() method.
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function createAccessToken(array $information)
+    {
+        // TODO: Implement createAccessToken() method.
+    }
 }

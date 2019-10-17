@@ -190,6 +190,16 @@ abstract class AbstractBaseProvider
     abstract public function makeAuthUrl(): string;
 
     /**
+     * Sometimes it's needed to login user by access token on the server
+     * You can pass all information related auth in json_encoded to the server
+     * and use this method to instance new token
+     *
+     * @param array $information
+     * @return mixed
+     */
+    abstract public function createAccessToken(array $information);
+
+    /**
      * Get current user identity from social network by $accessToken
      *
      * @param AccessTokenInterface $accessToken

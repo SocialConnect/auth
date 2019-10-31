@@ -7,9 +7,11 @@ declare(strict_types=1);
 
 namespace SocialConnect\OpenIDConnect;
 
+use SocialConnect\Common\Entity\User;
 use SocialConnect\JWX\DecodeOptions;
 use SocialConnect\JWX\JWKSet;
 use SocialConnect\JWX\JWT;
+use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Exception\InvalidResponse;
 
@@ -102,6 +104,14 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
 
         throw new InvalidAccessToken('Provider response with not valid JSON');
     }
+
+    /**
+     * Extract data from JWT->payload and create User
+     *
+     * @param AccessTokenInterface $accessToken
+     * @return User
+     */
+    abstract function extractIdentity(AccessTokenInterface $accessToken);
 
     /**
      * {@inheritDoc}

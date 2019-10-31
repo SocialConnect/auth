@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace SocialConnect\OpenIDConnect\Provider;
 
 use SocialConnect\Common\ArrayHydrator;
+use SocialConnect\Common\Exception\InvalidArgumentException;
+use SocialConnect\OpenIDConnect\AccessToken;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\OpenIDConnect\AbstractProvider;
 use SocialConnect\Common\Entity\User;
@@ -55,6 +57,35 @@ class Google extends AbstractProvider
     public function getName()
     {
         return self::NAME;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function extractIdentity(AccessTokenInterface $accessToken)
+    {
+        if (!$accessToken instanceof AccessToken) {
+            throw new InvalidArgumentException(
+                '$accessToken must be instance AccessToken'
+            );
+        }
+
+        $jwt = $accessToken->getJwt();
+
+        $hydrator = new ArrayHydrator([
+            'sub' => 'id',
+            'email' => 'email',
+            'email_verified' => 'emailVerified',
+            'name' => 'fullname',
+            'picture' => 'pictureURL',
+            'given_name' => 'firstname',
+            'family_name' => 'lastname',
+        ]);
+
+        /** @var User $user */
+        $user = $hydrator->hydrate(new User(), $jwt->getPayload());
+
+        return $user;
     }
 
     /**

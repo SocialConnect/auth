@@ -74,11 +74,9 @@ class Apple extends AbstractProvider
     }
 
     /**
-     * I didnt find
-     *
      * {@inheritdoc}
      */
-    public function getIdentity(AccessTokenInterface $accessToken)
+    public function extractIdentity(AccessTokenInterface $accessToken)
     {
         if (!$accessToken instanceof AccessToken) {
             throw new InvalidArgumentException(
@@ -98,5 +96,15 @@ class Apple extends AbstractProvider
         $user = $hydrator->hydrate(new User(), $jwt->getPayload());
 
         return $user;
+    }
+
+    /**
+     * I didnt find any API
+     *
+     * {@inheritdoc}
+     */
+    public function getIdentity(AccessTokenInterface $accessToken)
+    {
+        return $this->extractIdentity($accessToken);
     }
 }

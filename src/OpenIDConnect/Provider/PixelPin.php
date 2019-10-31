@@ -9,9 +9,13 @@ declare(strict_types=1);
 namespace SocialConnect\OpenIDConnect\Provider;
 
 use SocialConnect\Common\ArrayHydrator;
+use SocialConnect\JWX\DecodeOptions;
+use SocialConnect\JWX\JWT;
+use SocialConnect\OpenIDConnect\AccessToken;
 use SocialConnect\Provider\AccessTokenInterface;
 use SocialConnect\OpenIDConnect\AbstractProvider;
 use SocialConnect\Common\Entity\User;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
 
 class PixelPin extends AbstractProvider
 {
@@ -55,6 +59,42 @@ class PixelPin extends AbstractProvider
     public function getName()
     {
         return self::NAME;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function prepareRequest(string $method, string $uri, array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    {
+        if ($accessToken) {
+            $headers['Authorization'] = "Bearer {$accessToken->getToken()}";
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function parseToken(string $body)
+    {
+        if (empty($body)) {
+            throw new InvalidAccessToken('Provider response with empty body');
+        }
+
+        $result = json_decode($body, true);
+        if ($result) {
+            $token = new AccessToken([
+                'access_token' => $result['access_token'],
+                'id_token' => $result['access_token'],
+                'token_type' => $result['token_type']
+            ]);
+            $token->setJwt(
+                JWT::decode($result['access_token'], $this->getJWKSet(), new DecodeOptions())
+            );
+
+            return $token;
+        }
+
+        throw new InvalidAccessToken('Provider response with not valid JSON');
     }
 
     /**

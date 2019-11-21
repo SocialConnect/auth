@@ -16,10 +16,10 @@ SocialConnect/Auth is modern open-source social sign library for PHP.
 
 # Features
 
-* <b>Functional</b>: support [30+ providers]((https://socialconnect.lowl.io/providers.html)) such as Facebook, Google, Twitter, GitHub, Vk and another.
+* <b>Functional</b>: support [30+ providers](/providers.html) such as Facebook, Google, Twitter, GitHub, Vk and another.
 * <b>Completely</b>: We supports all social sign standarts: OAuth1/OAuth2/OpenID/OpenIDConnect.
 * <b>Follow standards</b>: We follow PSR-7/PSR-17/PSR-18 standards.
-* <b>Modular</b>: Use only what, that you need, see [architecture overview](http://localhost:4000/architecture.html).
+* <b>Modular</b>: Use only what, that you need, see [architecture overview](/architecture.html).
 * <b>Quality</b>: CodeCoverage with 80%+ and We are using static analyzers.
 
 ## System requirements

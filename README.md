@@ -50,11 +50,11 @@ There is a documentation for [Installation & Getting Started](https://socialconn
 
 ## Versions
 
-| Version                                                  | Status      | PHP Version |
-|----------------------------------------------------------|-------------|-------------|
-| [3.x](https://github.com/SocialConnect/auth/tree/3.x)    | Current     | >= 7.1      |
-| [2.x](https://github.com/SocialConnect/auth/tree/2.x)    | Maintenance | >= 7.0      |
-| [1.x](https://github.com/SocialConnect/auth/tree/1.x)    | Maintenance | >= 5.5      |
+| Version                                                  | Status      | EOL        | PHP Version |
+|----------------------------------------------------------|-------------|------------|-------------|
+| [3.x](https://github.com/SocialConnect/auth/tree/3.x)    | Current     |     --     | >= 7.1      |
+| [2.x](https://github.com/SocialConnect/auth/tree/2.x)    | Maintenance | 2020-06-01 | >= 7.0      |
+| [1.x](https://github.com/SocialConnect/auth/tree/1.x)    | EOL         | 2020-01-24 | >= 5.5      |
 
 Contributors
 ============

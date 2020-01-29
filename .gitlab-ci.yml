@@ -30,6 +30,15 @@ unit_7_3:
   tags:
     - docker
 
+unit_7_4:
+  stage: test
+  image: registry.gitlab.com/socialconnect-php/auth:7.4
+  script:
+    - composer install -o
+    - ./vendor/bin/phpunit -v --debug --no-coverage;
+  tags:
+    - docker
+
 phpstan:
   stage: test
   image: registry.gitlab.com/socialconnect-php/auth:7.3

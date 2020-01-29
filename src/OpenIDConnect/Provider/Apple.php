@@ -89,7 +89,7 @@ class Apple extends AbstractProvider
         $hydrator = new ArrayHydrator([
             'sub' => 'id',
             'email' => 'email',
-            'email_verified' => 'emailVerified '
+            'email_verified' => 'emailVerified'
         ]);
 
         /** @var User $user */

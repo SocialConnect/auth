@@ -107,11 +107,13 @@ abstract class AbstractProvider extends \SocialConnect\OAuth2\AbstractProvider
 
     /**
      * Extract data from JWT->payload and create User
+     * In some providers it's possible to get email/emailVerified or another data from JWT
+     * And due this fact it's not needed to do server request to get identity
      *
      * @param AccessTokenInterface $accessToken
      * @return User
      */
-    abstract function extractIdentity(AccessTokenInterface $accessToken);
+    abstract public function extractIdentity(AccessTokenInterface $accessToken);
 
     /**
      * {@inheritDoc}

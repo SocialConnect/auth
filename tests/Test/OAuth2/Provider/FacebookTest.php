@@ -26,6 +26,7 @@ class FacebookTest extends AbstractProviderTestCase
         return $this->createResponse(
             json_encode([
                 'id' => 12345,
+                'birthday' => '11/26/1994',
             ])
         );
     }

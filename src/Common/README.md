@@ -1,18 +1,6 @@
 Common Component
 ================
 
-You can use `Curl` client
-
-```php
-$httpClient = new SocialConnect\Common\Http\Client\Curl();
-```
-
-or `Guzzle` wrapper for GuzzleHttp library
-
-```php
-$httpClient = new SocialConnect\Common\Http\Client\Guzzle();
-```
-
 ## Build `Client` for your REST application
 
 ```php
@@ -45,7 +33,8 @@ Next you can use it
 
 ```php
 $client = new MySocialNetworkClient($appId, $appSecret);
-$client->setHttpClient(new SocialConnect\Common\Http\Client\Curl());
+// You can use any client that implements Psr\Http\Client\ClientInterface
+$client->setHttpClient(new \SocialConnect\HttpClient\Curl());
 
 $user = $client->getUser(1);
 

@@ -62,7 +62,7 @@ It's not a best practice to request it every time, because it's unneeded round t
 if you are using OpenID or OpenIDConnect we suggest you to use cache.
  
 ```php
-$httpClient = new \SocialConnect\Common\Http\Client\Cache(
+$httpClient = new \SocialConnect\HttpClient\Cache(
     $httpClient,
     /**
      * You can use any library with PSR-16 (simple-cache) compatibility

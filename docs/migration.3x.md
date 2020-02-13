@@ -57,7 +57,7 @@ $ composer require symfony/cache
 Next, You replace you `Http\Client\Cache` creation to:
 
 ```php
-$httpClient = new \SocialConnect\Common\Http\Client\Cache(
+$httpClient = new \SocialConnect\HttpClient\Cache(
     $httpClient,
     /**
      * You can use any library with PSR-16 (simple-cache) compatibility

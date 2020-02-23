@@ -286,15 +286,17 @@ abstract class AbstractBaseProvider
             $accessToken
         );
 
+        $request = $this->createRequest(
+            $method,
+            $this->getBaseUri() . $url,
+            $query,
+            $headers,
+            $payload
+        );
+
         return $this->hydrateResponse(
             $this->executeRequest(
-                $this->createRequest(
-                    $method,
-                    $this->getBaseUri() . $url,
-                    $query,
-                    $headers,
-                    $payload
-                )
+                $request
             )
         );
     }
@@ -355,6 +357,14 @@ abstract class AbstractBaseProvider
 
         $method = strtoupper($request->getMethod());
         $withPayload = $method === 'POST' || $method === 'PUT';
+
+        // Case-insensitive
+        if (!$request->hasHeader('User-Agent')) {
+            $request = $request->withHeader(
+                'User-Agent',
+                'SocialConnect\Auth (https://github.com/SocialConnect/auth) v3'
+            );
+        }
 
         if ($payload) {
             if ($withPayload) {

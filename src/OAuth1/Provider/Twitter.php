@@ -60,6 +60,7 @@ class Twitter extends \SocialConnect\OAuth1\AbstractProvider
         $hydrator = new ArrayHydrator([
             'id' => 'id',
             'name' => 'fullname',
+            'email' => 'email',
             'screen_name' => 'username',
             'profile_image_url_https' => 'pictureURL'
         ]);

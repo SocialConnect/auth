@@ -264,7 +264,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
         $this->session->delete('oauth1_request_token');
 
-        return $this->getAccessToken($token, $parameters['oauth_verifier']);
+        return $this->getAccessToken($token, $parameters['oauth_verifier'] ?? '');
     }
 
     /**

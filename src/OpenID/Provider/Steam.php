@@ -75,7 +75,8 @@ class Steam extends \SocialConnect\OpenID\AbstractProvider
         $hydrator = new ArrayHydrator([
             'steamid' => 'id',
             'personaname' => 'username',
-            'realname' => 'fullname'
+            'realname' => 'fullname',
+            'avatarfull' => 'pictureURL',
         ]);
 
         return $hydrator->hydrate(new User(), $response['response']['players'][0]);

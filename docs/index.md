@@ -11,7 +11,7 @@ nav_order: 1
 SocialConnect/Auth is modern open-source social sign library for PHP.
 {: .fs-6 .fw-300 }
 
-[Get started now](#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Demo](https://sc.lowl.io/){: .btn .fs-5 .mb-4 .mb-md-0 } 
+[Get started now](/installation.html#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Demo](https://sc.lowl.io/){: .btn .fs-5 .mb-4 .mb-md-0 } 
 <iframe src="https://ghbtns.com/github-btn.html?user=socialconnect&repo=auth&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
 
 # Features

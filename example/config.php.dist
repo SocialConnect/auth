@@ -234,5 +234,16 @@ return [
                 'read'
             ]
         ],
+        // keycloak
+        'keycloak' => [
+            // 'name' => 'abc', // override for multiple providers based on keycloak
+            'baseUrl' => 'https://keycloak_server/auth',
+            'realm' => 'your_master',
+            'applicationId' => 'your_client',
+            'applicationSecret' => 'your_client_uuid4_secret',
+            'scope' => [
+                'email', 'profile' // openid will be always added
+            ],
+        ],
     ]
 ];

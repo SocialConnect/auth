@@ -1,7 +1,8 @@
 {
-    "name": "socialconnect/auth",
+    "name": "specinweb/auth",
     "description": "Social Connect Auth Component",
     "keywords": [
+        "specinweb",
         "socialconnect",
         "login",
         "auth",
@@ -23,6 +24,16 @@
         {
             "name": "Dmitry Patsura",
             "email": "talk@dmtry.me"
+        },
+        {
+            "name": "Ivan Pralnikov",
+            "email": "specinweb@gmail.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git@github.com:specinweb/auth.git"
         }
     ],
     "require": {

@@ -53,13 +53,5 @@
         "psr-4" : {
             "Test\\" : "tests/Test/"
         }
-    },
-    "replace": {
-        "specinweb/common": "self.version",
-        "specinweb/oauth1": "self.version",
-        "specinweb/oauth2": "self.version",
-        "specinweb/openid": "self.version",
-        "specinweb/openid-connect": "self.version",
-        "specinweb/provider": "self.version"
     }
 }

@@ -55,11 +55,11 @@
         }
     },
     "replace": {
-        "socialconnect/common": "self.version",
-        "socialconnect/oauth1": "self.version",
-        "socialconnect/oauth2": "self.version",
-        "socialconnect/openid": "self.version",
-        "socialconnect/openid-connect": "self.version",
-        "socialconnect/provider": "self.version"
+        "specinweb/common": "self.version",
+        "specinweb/oauth1": "self.version",
+        "specinweb/oauth2": "self.version",
+        "specinweb/openid": "self.version",
+        "specinweb/openid-connect": "self.version",
+        "specinweb/provider": "self.version"
     }
 }

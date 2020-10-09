@@ -30,12 +30,6 @@
             "email": "specinweb@gmail.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "git",
-            "url": "git@github.com:specinweb/auth.git"
-        }
-    ],
     "require": {
         "php": ">=7.1",
         "ext-json": "*",

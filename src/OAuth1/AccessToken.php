@@ -88,4 +88,12 @@ class AccessToken extends \SocialConnect\OAuth1\Token implements AccessTokenInte
         // @todo support
         return null;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEmail()
+    {
+        return null;
+    }
 }

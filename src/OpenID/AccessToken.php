@@ -56,4 +56,12 @@ class AccessToken implements AccessTokenInterface
     {
         return null;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEmail()
+    {
+        return null;
+    }
 }

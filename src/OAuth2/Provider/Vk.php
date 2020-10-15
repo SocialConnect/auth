@@ -93,7 +93,7 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
         /** @var User $user */
         $user = $hydrator->hydrate(new User(), $response['response'][0]);
 
-        $user->email = $this->email;
+        $user->email = $this->email ?? $accessToken->getEmail();
         $user->emailVerified = true;
 
         return $user;

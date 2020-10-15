@@ -33,6 +33,11 @@ class AccessToken implements AccessTokenInterface
     protected $uid;
 
     /**
+     * @var string|null
+     */
+    protected $email;
+
+    /**
      * @param array $token
      * @throws InvalidAccessToken
      */
@@ -72,6 +77,10 @@ class AccessToken implements AccessTokenInterface
         if (isset($token['refresh_token'])) {
             $this->refreshToken = $token['refresh_token'];
         }
+
+        if (isset($token['email'])) {
+            $this->email = $token['email'];
+        }
     }
 
     /**
@@ -105,6 +114,14 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
+     * @param string $email
+     */
+    public function setEmail(string $email)
+    {
+        $this->email = $email;
+    }
+
+    /**
      * @return string|null
      */
     public function getUserId()
@@ -126,5 +143,13 @@ class AccessToken implements AccessTokenInterface
     public function getRefreshToken(): ?string
     {
         return $this->refreshToken;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEmail(): ?string
+    {
+        return $this->email;
     }
 }

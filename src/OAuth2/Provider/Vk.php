@@ -20,13 +20,6 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
      */
     protected $requestHttpMethod = 'GET';
 
-    /**
-     * Vk returns email inside AccessToken
-     *
-     * @var string|null
-     */
-    protected $email;
-
     public function getBaseUri()
     {
         return 'https://api.vk.com/';
@@ -34,12 +27,12 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
 
     public function getAuthorizeUri()
     {
-        return 'https://oauth.vk.com/authorize';
+        return 'https://api.vk.com/oauth/authorize';
     }
 
     public function getRequestTokenUri()
     {
-        return 'https://oauth.vk.com/access_token';
+        return 'https://api.vk.com/oauth/token';
     }
 
     public function getName()
@@ -77,7 +70,6 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
             'id' => 'id',
             'first_name' => 'firstname',
             'last_name' => 'lastname',
-            'email' => 'email',
             'bdate' => static function ($value, User $user) {
                 $user->setBirthday(
                     new \DateTime($value)
@@ -93,7 +85,7 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
         /** @var User $user */
         $user = $hydrator->hydrate(new User(), $response['response'][0]);
 
-        $user->email = $this->email ?? $accessToken->getEmail();
+        $user->email = $accessToken->getEmail();
         $user->emailVerified = true;
 
         return $user;

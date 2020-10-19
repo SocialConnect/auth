@@ -116,6 +116,7 @@ class MailRu extends \SocialConnect\OAuth2\AbstractProvider
 
         $hydrator = new ArrayHydrator([
             'uid' => 'id',
+            'email' => 'email',
             'first_name' => 'firstname',
             'last_name' => 'lastname',
             'nick' => 'username',

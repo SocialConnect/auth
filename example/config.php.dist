@@ -176,6 +176,16 @@ return [
                 'wl.emails'
             ]
         ],
+        'azure-ad' => [
+            'applicationId' => '',
+            'directoryId' => '',
+            'applicationSecret' => '',
+            'scope' => [
+                'openid',
+                'profile',
+                'email'
+            ]
+        ],
         'smashcast' => [
             'applicationId' => '',
             'applicationSecret' => '',

@@ -36,3 +36,4 @@ Library has built in support for the following providers:
 | Google                          |              |
 | PixelIn                         |              |
 | Apple                           |              |
+| AzureAD                         |              |

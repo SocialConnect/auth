@@ -4,7 +4,7 @@ SocialConnect Auth
 [![Packagist](https://img.shields.io/packagist/v/socialconnect/auth.svg?style=flat-square)](https://packagist.org/packages/socialconnect/auth)
 [![License](http://img.shields.io/packagist/l/SocialConnect/auth.svg?style=flat-square)](https://github.com/SocialConnect/auth/blob/master/LICENSE)
 [![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/socialconnect/auth/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/SocialConnect/auth/?branch=master)
-[![Build Status](http://img.shields.io/travis/SocialConnect/auth.svg?style=flat-square)](https://travis-ci.org/SocialConnect/auth)
+[![Build Status](https://img.shields.io/github/workflow/status/SocialConnect/auth/CI/master?style=flat-square)](https://github.com/SocialConnect/auth/actions?query=workflow%3ACI+branch%3Amaster)
 [![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/socialconnect/auth/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/SocialConnect/auth/?branch=master)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSocialConnect%2Fauth.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FSocialConnect%2Fauth?ref=badge_shield)
 

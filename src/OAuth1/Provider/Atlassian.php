@@ -104,11 +104,9 @@ class Atlassian extends AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $this->consumerToken = $accessToken;
-
         $parameters = [
             'oauth_consumer_key' => $this->consumer->getKey(),
-            'oauth_token' => $this->consumerToken->getToken(),
+            'oauth_token' => $accessToken->getToken(),
         ];
 
         $response = $this->oauthRequest(

@@ -45,8 +45,6 @@ class Twitter extends \SocialConnect\OAuth1\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $this->consumerToken = $accessToken;
-
         $result = $this->request(
             'GET',
             'account/verify_credentials.json',

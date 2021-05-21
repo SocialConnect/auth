@@ -10,3 +10,4 @@ tests export-ignore
 .scrutinizer.yml export-ignore
 phpunit.xml.dist export-ignore
 phpmd.xml.dist export-ignore
+phpstan.neon export-ignore

@@ -58,7 +58,7 @@ jobs:
         with:
           php-version: '7.4'
           coverage: none
-          tools: cs2pr
+          tools: cs2pr, phpstan:1.6
 
       - name: Composer Install
         run: composer install
@@ -68,4 +68,4 @@ jobs:
 
       - name: Run phpstan
         if: success() || failure()
-        run: vendor/bin/phpstan.phar analyse src/ tests/ --no-progress --level 2
+        run: phpstan

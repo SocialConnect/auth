@@ -63,8 +63,6 @@ class Tumblr extends AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $this->consumerToken = $accessToken;
-
         $result = $this->request(
             'GET',
             'user/info',

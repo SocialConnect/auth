@@ -372,7 +372,7 @@ abstract class AbstractBaseProvider
                 $contentLength = mb_strlen($payloadAsString);
 
                 $request = $request
-                    ->withHeader('Content-Length', $contentLength)
+                    ->withHeader('Content-Length', (string)$contentLength)
                     ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
                 ;
 

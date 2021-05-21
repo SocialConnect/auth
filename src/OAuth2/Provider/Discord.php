@@ -73,9 +73,18 @@ class Discord extends \SocialConnect\OAuth2\AbstractProvider
         $response = $this->request('GET', 'users/@me', [], $accessToken);
 
         $hydrator = new ArrayHydrator([
+            'id' => 'id',
+            'username' => 'username',
+            'avatar' => 'pictureURL',
+            'mail' => 'email',
             'verified' => 'emailVerified'
         ]);
 
-        return $hydrator->hydrate(new User(), $response);
+        $user = $hydrator->hydrate(new User(), $response);
+        if ($user->pictureURL) {
+            $user->pictureURL = "https://cdn.discordapp.com/avatars/{$user->id}/{$user->pictureURL}.png";
+        }
+
+        return $user;
     }
 }

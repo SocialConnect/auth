@@ -25,7 +25,12 @@ jobs:
 
     - name: Composer install
       run: |
-        composer update ${{ matrix.composer-opts }}
+        if [[ ${{ matrix.php-version }} == '8.0' ]]; then
+          composer remove --dev squizlabs/php_codesniffer phpstan/phpstan-shim phpunit/phpunit
+          composer require --dev phpunit/phpunit:^8.5
+        else
+          composer update ${{ matrix.composer-opts }}
+        fi
 
     - name: Run PHPUnit
       run: |

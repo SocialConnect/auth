@@ -63,8 +63,9 @@ class GitLab extends \SocialConnect\OAuth2\AbstractProvider
         $response = $this->request('GET', 'user', [], $accessToken);
 
         $hydrator = new ArrayHydrator([
-            'user_id' => 'id',
+            'id' => 'id',
             'name' => 'fullname',
+            'username' => 'username',
             'avatar_url' => 'pictureURL'
         ]);
 

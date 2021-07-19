@@ -20,7 +20,7 @@ class GitLab extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getBaseUri()
     {
-        return 'https://gitlab.com/api/v3/';
+        return 'https://gitlab.com/api/v4/';
     }
 
     /**

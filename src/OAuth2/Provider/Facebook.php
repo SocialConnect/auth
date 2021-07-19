@@ -60,7 +60,18 @@ class Facebook extends \SocialConnect\OAuth2\AbstractProvider
             'last_name' => 'lastname',
             'email' => 'email',
             'gender' => static function ($value, User $user) {
-                $user->setSex($value === 1 ? User::SEX_FEMALE : User::SEX_MALE);
+                switch ($value) {
+                    case 'male':
+                        $gender = User::GENDER_MALE;
+                        break;
+                    case 'female':
+                        $gender = User::GENDER_FEMALE;
+                        break;
+                    default:
+                        $gender = User::GENDER_OTHER;
+                        break;
+                }
+                $user->setGender($gender);
             },
             'birthday' => static function ($value, User $user) {
                 $user->setBirthday(

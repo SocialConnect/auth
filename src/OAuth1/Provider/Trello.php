@@ -62,8 +62,6 @@ class Trello extends AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $this->consumerToken = $accessToken;
-
         $parameters = [
             'key' => $this->consumer->getKey(),
             'token' => $accessToken->getToken()

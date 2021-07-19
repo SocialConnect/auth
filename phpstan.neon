@@ -1,0 +1,10 @@
+parameters:
+	level: 4
+	paths:
+		- src/
+		- tests/
+	ignoreErrors:
+		-
+			message: "#^Method Test\\\\Provider\\\\ProviderMock\\:\\:getAccessTokenByRequestParameters\\(\\) should return SocialConnect\\\\Provider\\\\AccessTokenInterface but return statement is missing\\.$#"
+			count: 1
+			path: tests/Test/Provider/ProviderMock.php

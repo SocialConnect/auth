@@ -68,4 +68,4 @@ jobs:
 
       - name: Run phpstan
         if: success() || failure()
-        run: vendor/bin/phpstan.phar analyse src/ tests/ --no-progress --level 2
+        run: vendor/bin/phpstan

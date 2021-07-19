@@ -38,6 +38,7 @@ class Service
      * @param SessionInterface $session
      * @param array $config
      * @param FactoryInterface|null $factory
+     * @internal param $storage
      */
     public function __construct(HttpStack $httpStack, SessionInterface $session, array $config, FactoryInterface $factory = null)
     {

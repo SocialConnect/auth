@@ -117,6 +117,25 @@ abstract class AbstractProvider extends AbstractBaseProvider
     }
 
     /**
+     * @param string $refreshToken
+     * @return RequestInterface
+     */
+    protected function makeRefreshAccessTokenRequest(string $refreshToken): RequestInterface
+    {
+        $parameters = [
+            'refresh_token' => $refreshToken,
+            'client_id' => $this->consumer->getKey(),
+            'client_secret' => $this->consumer->getSecret(),
+            'grant_type' => 'refresh_token',
+        ];
+
+        return $this->httpStack->createRequest($this->requestHttpMethod, $this->getRequestTokenUri())
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withBody($this->httpStack->createStream(http_build_query($parameters, '', '&')))
+        ;
+    }
+
+    /**
      * @param string $code
      * @return AccessToken
      * @throws InvalidAccessToken
@@ -127,6 +146,24 @@ abstract class AbstractProvider extends AbstractBaseProvider
     {
         $response = $this->executeRequest(
             $this->makeAccessTokenRequest($code)
+        );
+
+        return $this->parseToken($response->getBody()->getContents());
+    }
+
+
+    /**
+     * @param string $refreshToken
+     *
+     * @return AccessToken
+     * @throws InvalidAccessToken
+     * @throws InvalidResponse
+     * @throws \Psr\Http\Client\ClientExceptionInterface
+     */
+    public function refreshAccessToken(string $refreshToken): AccessToken
+    {
+        $response = $this->executeRequest(
+            $this->makeRefreshAccessTokenRequest($refreshToken)
         );
 
         return $this->parseToken($response->getBody()->getContents());

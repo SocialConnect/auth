@@ -81,6 +81,6 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
             'email' => 'email'
         ]);
 
-        return $hydrator->hydrate(new User(), $response["data"][0]);
+        return $hydrator->hydrate(new User(), $response['data'][0]);
     }
 }

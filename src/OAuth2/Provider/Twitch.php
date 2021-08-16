@@ -78,6 +78,8 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
         $hydrator = new ArrayHydrator([
             'id' => 'id',
             'display_name' => 'fullname', // Custom Capitalized Users name
+            'login' => 'username',
+            'profile_image_url' => 'pictureURL',
             'email' => 'email'
         ]);
 

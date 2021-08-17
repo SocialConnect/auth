@@ -64,7 +64,6 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
         if ($accessToken) {
             $headers['Authorization'] = "Bearer {$accessToken->getToken()}";
             $headers['Client-Id'] = $this->consumer->getKey();
-            
         }
     }
 

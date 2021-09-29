@@ -37,3 +37,4 @@ Library has built in support for the following providers:
 | PixelIn                         |              |
 | Apple                           |              |
 | AzureAD                         |              |
+| Keycloak                        |              |

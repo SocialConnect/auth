@@ -132,6 +132,9 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
         $time = new \DateTime();
         $time->setTimestamp(time() - 10);
 
+        $timezone = date_default_timezone_get();
+        date_default_timezone_set('Asia/Tokyo');
+
         $oauthToken = $this->getProvider($mockedHttpClient)->getAccessTokenByRequestParameters([
             'openid_ns' => 'http://specs.openid.net/auth/2.0',
             'openid_op_endpoint' => 'https://steamcommunity.com/openid/login',
@@ -142,6 +145,8 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
             'openid_response_nonce' => $time->format('Y-m-d\TH:i:s') . 'Za/vpGHUxVMjTcAf97Kvo98WJg8w=',
             'openid_sig' => 'test',
         ]);
+
+        date_default_timezone_set($timezone);
 
         parent::assertSame(
             '76561198066894048',

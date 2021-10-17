@@ -118,7 +118,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         list(,$year, $month, $day, $hour, $min, $sec) = $matches;
 
         try {
-            $timestamp = new \DateTime();
+            $timestamp = new \DateTime('now', new \DateTimeZone('UTC'));
             $timestamp->setDate((int) $year, (int) $month, (int) $day);
             $timestamp->setTime((int) $hour, (int) $min, (int) $sec);
         } catch (\Throwable $e) {

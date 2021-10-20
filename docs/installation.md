@@ -157,7 +157,7 @@ $service = new \SocialConnect\Auth\Service(
 );
 ```
 
-## Write code in you Controller
+## Write code in your Controller
 
 Next create you loginAction:
 

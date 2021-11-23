@@ -76,7 +76,7 @@ class Discord extends \SocialConnect\OAuth2\AbstractProvider
             'id' => 'id',
             'username' => 'username',
             'avatar' => 'pictureURL',
-            'mail' => 'email',
+            'email' => 'email',
             'verified' => 'emailVerified'
         ]);
 

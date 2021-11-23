@@ -87,4 +87,16 @@ class Discord extends \SocialConnect\OAuth2\AbstractProvider
 
         return $user;
     }
+
+    /**
+     * @param AccessTokenInterface $accessToken
+     * @return array|null
+     * @throws \Psr\Http\Client\ClientExceptionInterface
+     */
+    public function getGuilds(AccessTokenInterface $accessToken)
+    {
+        $response = $this->request('GET', 'users/@me/guilds', [], $accessToken);
+
+        return $response;
+    }
 }

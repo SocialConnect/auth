@@ -19,7 +19,7 @@ Code examples you can find in [example](./example) directory
 * <b>Functional</b>: support [30+ providers]((https://socialconnect.lowl.io/providers.html)) such as Facebook, Google, Twitter, GitHub, Vk and another.
 * <b>Completely</b>: We supports all social sign standarts: OAuth1/OAuth2/OpenID/OpenIDConnect.
 * <b>Follow standards</b>: We follow PSR-7/PSR-17/PSR-18 standards.
-* <b>Modular</b>: Use only what, that you need, see [architecture overview](http://localhost:4000/architecture.html).
+* <b>Modular</b>: Use only what, that you need, see [architecture overview](https://socialconnect.lowl.io/architecture.html).
 * <b>Quality</b>: CodeCoverage with 80%+ and We are using static analyzers.
 
 ## Supported type of providers

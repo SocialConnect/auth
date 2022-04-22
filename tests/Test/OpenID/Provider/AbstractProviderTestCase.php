@@ -129,8 +129,7 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
             )
         ;
 
-        $time = new \DateTime();
-        $time->setTimestamp(time() - 10);
+        $time = new \DateTime('-10 seconds', new \DateTimeZone('UTC'));
 
         $timezone = date_default_timezone_get();
         date_default_timezone_set('Asia/Tokyo');

@@ -31,7 +31,10 @@ class AppleTest extends AbstractProviderTestCase
 
     public function testGetOpenIDUrl()
     {
-        // nothing to test, because Apple->testGetOpenIDUrl will throw an exception on call
+        $this->markTestSkipped(
+            'Nothing to test, '
+            . 'because Apple->testGetOpenIDUrl will throw an exception on call'
+        );
     }
 
     public function testGetIdentitySuccess()

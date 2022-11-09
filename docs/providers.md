@@ -6,7 +6,8 @@ parent: Documentation
 nav_order: 1
 ---
 
-The table below lists the social networks currently supported:
+The table below lists the social networks currently supported. Check the
+`example/config.php.dist` file for example configuration for each provider.
 
 | Adapter Unique Name             | Protocol         | API Version  |
 |---------------------------------|------------------|--------------|
@@ -32,7 +33,7 @@ The table below lists the social networks currently supported:
 | MailRu                          | OAuth2           |              |
 | Microsoft (MSN)                 | OAuth2           |              |
 | Meetup                          | OAuth2           |              |
-| [Odnoklassniki](#odnoklassniki) | OAuth2           |          |
+| [Odnoklassniki](#odnoklassniki) | OAuth2           |              |
 | Discord                         | OAuth2           |              |
 | SmashCast                       | OAuth2           |              |
 | Steein                          | OAuth2           |              |
@@ -41,6 +42,7 @@ The table below lists the social networks currently supported:
 | Wordpress                       | OAuth2           |              |
 | Google                          | OpenIDConnect    |              |
 | PixelIn                         | OpenIDConnect    |              |
+| Keycloak                        | OpenIDConnect    |              |
 
 ## User fields compatibility matrix
 
@@ -74,10 +76,11 @@ The table below lists the social networks currently supported:
 | LinkedIn              | ?         | ?        | ?        | ?     | ?      | ?      | ?        | ?        | ?          |
 | Yahoo!                | ?         | ?        | ?        | ?     | ?      | ?      | ?        | ?        | ?          |
 | Wordpress             | ?         | ?        | ?        | ?     | ?      | ?      | ?        | ?        | ?          |
+| Keycloak              | ?         | ?        | ?        | ?     | ?      | ?      | ?        | ?        | ?          |
 
 ### Steam
 
-Steam is a video game digital distribution platform developed by Valve Corporation. 
+Steam is a video game digital distribution platform developed by Valve Corporation.
 
 | Site                      | ? |
 | Protocol                  | OpenID |
@@ -93,7 +96,7 @@ Steam is a video game digital distribution platform developed by Valve Corporati
 
 ### Facebook
 
-Facebook, Inc. is an American online social media and social networking service.  
+Facebook, Inc. is an American online social media and social networking service.
 
 | Site                      | [https://www.facebook.com/](https://www.facebook.com/) |
 | Protocol                  | OAuth2                    |

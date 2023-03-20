@@ -76,7 +76,7 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
                 );
             },
             'sex' => static function ($value, User $user) {
-                $user->setSex($value === 1 ? User::SEX_FEMALE : User::SEX_MALE);
+                $user->setGender($value === 1 ? User::GENDER_FEMALE : User::GENDER_MALE);
             },
             'screen_name' => 'username',
             'photo_max_orig' => 'pictureURL',

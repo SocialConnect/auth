@@ -100,7 +100,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
             return $requestParameters[$key];
         }
 
-        throw new Unauthorized("There is no required parameter called: '${key}'");
+        throw new Unauthorized("There is no required parameter called: ".$key);
     }
 
     /**

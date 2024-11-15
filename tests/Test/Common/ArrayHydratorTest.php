@@ -16,7 +16,7 @@ class ArrayHydratorTest extends AbstractProviderTestCase
         $hydrator = new ArrayHydrator([
             'firstname' => 'firstname',
             'sex' => static function ($value, User $user) {
-                $user->setSex($value);
+                $user->setGender($value);
             },
             'image.picture' => 'pictureURL',
         ]);
@@ -32,6 +32,6 @@ class ArrayHydratorTest extends AbstractProviderTestCase
 
         parent::assertEquals($expectedFirstName, $user->firstname);
         parent::assertEquals($expectedPictureUrl, $user->pictureURL);
-        parent::assertEquals($expectedSex, $user->getSex());
+        parent::assertEquals($expectedSex, $user->getGender());
     }
 }

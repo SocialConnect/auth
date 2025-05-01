@@ -258,7 +258,7 @@ abstract class AbstractBaseProvider
      * @param array $query
      * @param AccessTokenInterface|null $accessToken Null is needed to allow send request for not OAuth
      */
-    public function prepareRequest(string $method, string $uri, array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    public function prepareRequest(string $method, string $uri, array &$headers, array &$query, ?AccessTokenInterface $accessToken = null): void
     {
         if ($accessToken) {
             $query['access_token'] = $accessToken->getToken();
@@ -274,7 +274,7 @@ abstract class AbstractBaseProvider
      * @return array
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public function request(string $method, string $url, array $query, AccessTokenInterface $accessToken = null, array $payload = null)
+    public function request(string $method, string $url, array $query, ?AccessTokenInterface $accessToken = null, array $payload = null)
     {
         $headers = [];
 

@@ -73,7 +73,7 @@ class Yahoo extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritDoc}
      */
-    public function prepareRequest(string $method, string $uri, array &$headers, array &$query, AccessTokenInterface $accessToken = null): void
+    public function prepareRequest(string $method, string $uri, array &$headers, array &$query, ?AccessTokenInterface $accessToken = null): void
     {
         $query['format'] = 'json';
 

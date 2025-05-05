@@ -39,7 +39,7 @@ class Service
      * @param array $config
      * @param FactoryInterface|null $factory
      */
-    public function __construct(HttpStack $httpStack, SessionInterface $session, array $config, FactoryInterface $factory = null)
+    public function __construct(HttpStack $httpStack, SessionInterface $session, array $config, ?FactoryInterface $factory = null)
     {
         $this->httpStack = $httpStack;
         $this->session = $session;

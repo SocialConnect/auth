@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace SocialConnect\OpenIDConnect\Exception;
 
-use Exception;
+use Throwable;
 
 class InvalidJWT extends \SocialConnect\Common\Exception
 {
-    public function __construct($message = 'Not Valid JWT', $code = 0, Exception $previous = null)
+    public function __construct($message = 'Not Valid JWT', $code = 0, ?Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

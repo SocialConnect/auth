@@ -27,7 +27,7 @@ class AccessToken implements AccessTokenInterface
      * @param string $identity
      * @param string|null $uid
      */
-    public function __construct($identity, string $uid = null)
+    public function __construct($identity, ?string $uid = null)
     {
         $this->identity = $identity;
         $this->uid = $uid;

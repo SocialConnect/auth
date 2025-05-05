@@ -63,7 +63,7 @@ class GitHub extends \SocialConnect\OAuth2\AbstractProvider
 
         parse_str($body, $token);
 
-        if (!is_array($token) || !isset($token['access_token'])) {
+        if (!isset($token['access_token'])) {
             throw new InvalidAccessToken('Provider API returned an unexpected response');
         }
 

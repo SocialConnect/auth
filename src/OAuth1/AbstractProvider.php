@@ -127,7 +127,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         }
 
         parse_str($body, $token);
-        if (!is_array($token) || !isset($token['oauth_token']) || !isset($token['oauth_token_secret'])) {
+        if (!isset($token['oauth_token']) || !isset($token['oauth_token_secret'])) {
             throw new InvalidRequestToken;
         }
 
@@ -203,7 +203,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @throws \Psr\Http\Client\ClientExceptionInterface
      * @throws \Exception
      */
-    protected function oauthRequest($uri, $method = 'GET', array $query = [], array $payload = null, $headers = []): ResponseInterface
+    protected function oauthRequest($uri, $method = 'GET', array $query = [], ?array $payload = null, array $headers = []): ResponseInterface
     {
         $headers = array_merge([
             'Accept' => 'application/json'
@@ -315,10 +315,6 @@ abstract class AbstractProvider extends AbstractBaseProvider
         parse_str($body, $token);
 
         if ($token) {
-            if (!is_array($token)) {
-                throw new InvalidAccessToken('Response must be array');
-            }
-
             return new AccessToken($token);
         }
 

@@ -19,7 +19,7 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
      * @param SessionInterface|null $session
      * @return AbstractProvider
      */
-    protected function getProvider(ClientInterface $httpClient = null, SessionInterface $session = null)
+    protected function getProvider(?ClientInterface $httpClient = null, ?SessionInterface $session = null)
     {
         $provider = parent::getProvider($httpClient, $session);
 

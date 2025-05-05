@@ -7,6 +7,7 @@
 namespace Test\OpenIDConnect;
 
 use SocialConnect\OpenIDConnect\AccessToken;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
 use Test\AbstractTestCase;
 
 class AccessTokenTest extends AbstractTestCase
@@ -33,12 +34,11 @@ class AccessTokenTest extends AbstractTestCase
         return $token;
     }
 
-    /**
-     * @expectedException \SocialConnect\Provider\Exception\InvalidAccessToken
-     * @expectedExceptionMessage id_token doesnot exists inside AccessToken
-     */
     public function testConstructFailedWithNoIdKey()
     {
+        $this->expectException(InvalidAccessToken::class);
+        $this->expectExceptionMessage('id_token doesnot exists inside AccessToken');
+
         $expectedToken = "XSFJSKLFJDLKFJDLSJFLDSJFDSLFSD";
         $expectedExpires = time();
         $expectedUserId = 123456789;

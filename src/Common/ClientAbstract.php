@@ -31,7 +31,7 @@ abstract class ClientAbstract
      * @param Consumer $consumer
      * @param string|null $accessToken
      */
-    public function __construct(HttpStack $httpStack, Consumer $consumer, string $accessToken = null)
+    public function __construct(HttpStack $httpStack, Consumer $consumer, ?string $accessToken = null)
     {
         $this->consumer = $consumer;
         $this->httpStack = $httpStack;

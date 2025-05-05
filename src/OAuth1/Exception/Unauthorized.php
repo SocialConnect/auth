@@ -16,7 +16,7 @@ class Unauthorized extends \SocialConnect\Provider\Exception\AuthFailed
      * @param int $code
      * @param Throwable|null $previous
      */
-    public function __construct($message = 'Unauthorized', $code = 0, Throwable $previous = null)
+    public function __construct($message = 'Unauthorized', $code = 0, ?Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

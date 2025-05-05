@@ -1,0 +1,37 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Trait SocialConnect\\Common\\HttpClient is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: src/Common/HttpClient.php
+
+		-
+			message: '#^Property SocialConnect\\OAuth1\\AbstractProvider\:\:\$consumerToken \(SocialConnect\\OAuth1\\Token\) does not accept SocialConnect\\Provider\\AccessTokenInterface\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/OAuth1/Provider/Atlassian.php
+
+		-
+			message: '#^Property SocialConnect\\OAuth1\\AbstractProvider\:\:\$consumerToken \(SocialConnect\\OAuth1\\Token\) does not accept SocialConnect\\Provider\\AccessTokenInterface\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/OAuth1/Provider/Px500.php
+
+		-
+			message: '#^Property SocialConnect\\OAuth1\\AbstractProvider\:\:\$consumerToken \(SocialConnect\\OAuth1\\Token\) does not accept SocialConnect\\Provider\\AccessTokenInterface\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/OAuth1/Provider/Trello.php
+
+		-
+			message: '#^Property SocialConnect\\OAuth1\\AbstractProvider\:\:\$consumerToken \(SocialConnect\\OAuth1\\Token\) does not accept SocialConnect\\Provider\\AccessTokenInterface\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/OAuth1/Provider/Tumblr.php
+
+		-
+			message: '#^Property SocialConnect\\OAuth1\\AbstractProvider\:\:\$consumerToken \(SocialConnect\\OAuth1\\Token\) does not accept SocialConnect\\Provider\\AccessTokenInterface\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/OAuth1/Provider/Twitter.php

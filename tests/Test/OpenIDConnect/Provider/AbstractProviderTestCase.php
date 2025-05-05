@@ -10,6 +10,7 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\OpenIDConnect\AbstractProvider;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Session\SessionInterface;
 
 abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderTestCase
@@ -19,7 +20,7 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
      * @param SessionInterface|null $session
      * @return AbstractProvider
      */
-    protected function getProvider(ClientInterface $httpClient = null, SessionInterface $session = null)
+    protected function getProvider(?ClientInterface $httpClient = null, ?SessionInterface $session = null)
     {
         $provider = parent::getProvider($httpClient, $session);
 
@@ -78,22 +79,20 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
         );
     }
 
-    /**
-     * @expectedExceptionMessage Provider response with empty body
-     * @expectedException \SocialConnect\Provider\Exception\InvalidAccessToken
-     */
     public function testParseTokenEmptyBody()
     {
+        $this->expectException(InvalidAccessToken::class);
+        $this->expectExceptionMessage('Provider response with empty body');
+
         $this->getProvider()->parseToken(
             ''
         );
     }
 
-    /**
-     * @expectedException \SocialConnect\Provider\Exception\InvalidAccessToken
-     */
     public function testParseTokenNotToken()
     {
+        $this->expectException(InvalidAccessToken::class);
+
         $this->getProvider()->parseToken(
             json_encode([])
         );

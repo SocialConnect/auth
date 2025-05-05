@@ -14,7 +14,7 @@ use Throwable;
  */
 abstract class AuthFailed extends \SocialConnect\Common\Exception
 {
-    public function __construct($message = 'Auth failed', $code = 0, Throwable $previous = null)
+    public function __construct($message = 'Auth failed', $code = 0, ?Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

@@ -274,7 +274,7 @@ abstract class AbstractBaseProvider
      * @return array
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public function request(string $method, string $url, array $query, ?AccessTokenInterface $accessToken = null, array $payload = null)
+    public function request(string $method, string $url, array $query, ?AccessTokenInterface $accessToken = null, ?array $payload = null)
     {
         $headers = [];
 
@@ -341,7 +341,7 @@ abstract class AbstractBaseProvider
      * @param array|null $payload
      * @return RequestInterface
      */
-    protected function createRequest(string $method, string $uri, array $query, array $headers, array $payload = null): RequestInterface
+    protected function createRequest(string $method, string $uri, array $query, array $headers, ?array $payload = null): RequestInterface
     {
         $url = $uri;
 

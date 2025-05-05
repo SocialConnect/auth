@@ -9,7 +9,6 @@
         "symfony/cache": "^4.3",
         "php-http/guzzle6-adapter": "^2.0",
         "guzzlehttp/psr7": "^1.6",
-        "zendframework/zend-diactoros": "^2.1",
         "socialconnect/http-client": "^1.0"
     },
     "license": "MIT",

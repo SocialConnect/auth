@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace Test\Provider;
 
+use SocialConnect\Common\Entity\User;
 use SocialConnect\Provider\AbstractBaseProvider;
 use SocialConnect\Provider\AccessTokenInterface;
 
@@ -17,6 +18,7 @@ class ProviderMock extends AbstractBaseProvider
     public function getBaseUri()
     {
         // TODO: Implement getBaseUri() method.
+        return '';
     }
 
     /**
@@ -36,6 +38,27 @@ class ProviderMock extends AbstractBaseProvider
     public function getAccessTokenByRequestParameters(array $requestParameters)
     {
         // TODO: Implement getAccessTokenByRequestParameters() method.
+        return new class implements AccessTokenInterface {
+            public function getToken()
+            {
+                return null;
+            }
+
+            public function getUserId()
+            {
+                return null;
+            }
+
+            public function getExpires()
+            {
+                return null;
+            }
+
+            public function getEmail()
+            {
+                return null;
+            }
+        };
     }
 
     /**
@@ -58,6 +81,7 @@ class ProviderMock extends AbstractBaseProvider
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         // TODO: Implement getIdentity() method.
+        return new User();
     }
 
     /**

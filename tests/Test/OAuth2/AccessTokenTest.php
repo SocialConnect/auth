@@ -7,6 +7,7 @@
 namespace Test\OAuth2;
 
 use SocialConnect\OAuth2\AccessToken;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
 use Test\AbstractTestCase;
 
 class AccessTokenTest extends AbstractTestCase
@@ -75,12 +76,11 @@ class AccessTokenTest extends AbstractTestCase
         return $token;
     }
 
-    /**
-     * @expectedException \SocialConnect\Provider\Exception\InvalidAccessToken
-     * @expectedExceptionMessage API returned data without access_token field
-     */
     public function testExceptionNotString()
     {
+        $this->expectException(InvalidAccessToken::class);
+        $this->expectExceptionMessage('API returned data without access_token field');
+
         new AccessToken([]);
     }
 }

@@ -40,7 +40,7 @@ abstract class AbstractProviderTestCase extends AbstractTestCase
      * @param SessionInterface|null $session
      * @return \SocialConnect\Provider\AbstractBaseProvider
      */
-    protected function getProvider(ClientInterface $httpClient = null, SessionInterface $session = null)
+    protected function getProvider(?ClientInterface $httpClient = null, ?SessionInterface $session = null)
     {
         if (!$session) {
             $session = $this->getMockBuilder(\SocialConnect\Provider\Session\Session::class)
@@ -64,7 +64,7 @@ abstract class AbstractProviderTestCase extends AbstractTestCase
      * @return ProviderMock
      * @throws \SocialConnect\Provider\Exception\InvalidProviderConfiguration
      */
-    protected function getAbstractProviderMock(ClientInterface $httpClient = null, SessionInterface $session = null)
+    protected function getAbstractProviderMock(?ClientInterface $httpClient = null, ?SessionInterface $session = null)
     {
         if (!$httpClient) {
             $httpClient = $this->getMockBuilder(ClientInterface::class)

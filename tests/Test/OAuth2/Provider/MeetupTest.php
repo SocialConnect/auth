@@ -9,6 +9,7 @@ namespace Test\OAuth2\Provider;
 use Psr\Http\Message\ResponseInterface;
 use SocialConnect\OAuth2\AccessToken;
 use SocialConnect\OAuth2\Provider\Meetup;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
 use SocialConnect\Provider\Session\SessionInterface;
 
 class MeetupTest extends AbstractProviderTestCase
@@ -40,17 +41,18 @@ class MeetupTest extends AbstractProviderTestCase
         $token = $meetup->parseToken($body);
 
         self::assertInstanceOf(AccessToken::class, $token);
-        self::assertAttributeEquals('foo', 'token', $token);
-        self::assertAttributeEquals($expires, 'expires', $token);
-        self::assertAttributeEquals('bar', 'uid', $token);
+        $this->assertSame('foo', $this->getClassProperty('token', $token));
+        $this->assertSame($expires, $this->getClassProperty('expires', $token));
+        $this->assertSame('bar', $this->getClassProperty('uid', $token));
     }
 
     /**
-     * @expectedException \SocialConnect\Provider\Exception\InvalidAccessToken
      * @covers \SocialConnect\OAuth2\Provider\Meetup::parseToken
      */
     public function testParsingTokenFailsWithInvalidBody()
     {
+        $this->expectException(InvalidAccessToken::class);
+
         $meetup = new Meetup(
             $this->getHttpStackMock(),
             self::createMock(SessionInterface::class),

@@ -13,19 +13,19 @@ use Test\AbstractTestCase;
 
 class MethodRSASHA1Test extends AbstractTestCase
 {
-    /** @expectedException \InvalidArgumentException */
     public function testConstructorThrowsExceptionOnNonexistnetKey()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         new MethodRSASHA1(__DIR__ . '/nonexistent.pem');
     }
 
     public function testConstructorWorks()
     {
         $signer = new MethodRSASHA1(__DIR__ . '/../_assets/testkey.pem');
-        $this->assertAttributeEquals(
+        $this->assertSame(
             __DIR__ . '/../_assets/testkey.pem',
-            'privateKey',
-            $signer
+            $this->getClassProperty('privateKey', $signer)
         );
     }
 

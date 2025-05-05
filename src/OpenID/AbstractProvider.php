@@ -73,7 +73,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
         $xml = new \SimpleXMLElement($response->getBody()->getContents());
 
         $this->version = 2;
-        $this->loginEntrypoint = $xml->XRD->Service->URI;
+        $this->loginEntrypoint = (string)$xml->XRD->Service->URI;
 
         return $this->getOpenIdUrl();
     }
@@ -111,7 +111,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     protected function splitNonce(string $nonce): int
     {
         $result = preg_match('/(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)Z(.*)/', $nonce, $matches);
-        if ($result !== 1 || count($matches) !== 8) {
+        if ($result !== 1) {
             throw new Unauthorized('Unexpected nonce format');
         }
 

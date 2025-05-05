@@ -63,7 +63,7 @@ class CollectionFactory implements FactoryInterface
     /**
      * @param array $providers
      */
-    public function __construct(array $providers = null)
+    public function __construct(?array $providers = null)
     {
         if ($providers) {
             $this->providers = $providers;

@@ -19,6 +19,15 @@ use SocialConnect\Common\HttpStack;
 
 abstract class AbstractTestCase extends \PHPUnit\Framework\TestCase
 {
+    protected function getClassProperty($property, $object)
+    {
+        $reflection = new ReflectionClass($object);
+        $reflectionProperty = $reflection->getProperty($property);
+        $reflectionProperty->setAccessible(true);
+
+        return $reflectionProperty->getValue($object);
+    }
+
     /**
      * @param string|null $responseData
      * @param int $responseCode
@@ -45,7 +54,7 @@ abstract class AbstractTestCase extends \PHPUnit\Framework\TestCase
     /**
      * @param string|null $responseData
      * @param int $responseCode
-     * @return \PHPUnit_Framework_MockObject_MockObject|ResponseInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|ResponseInterface
      */
     protected function mockClientResponse($responseData, int $responseCode = 200)
     {
@@ -86,7 +95,7 @@ abstract class AbstractTestCase extends \PHPUnit\Framework\TestCase
         return new StreamFactory();
     }
 
-    protected function getHttpStackMock(ClientInterface $httpClient = null)
+    protected function getHttpStackMock(?ClientInterface $httpClient = null)
     {
         if (!$httpClient) {
             $httpClient = $this->getMockBuilder(ClientInterface::class)

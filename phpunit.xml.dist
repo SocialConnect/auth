@@ -1,38 +1,27 @@
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false"
-         bootstrap="./vendor/autoload.php"
-        >
-
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="false" bootstrap="./vendor/autoload.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+    <coverage>
+        <include>
+            <directory>./src</directory>
+        </include>
+        <exclude>
+            <directory>./src/OAuth1/Exception</directory>
+            <directory>./src/OAuth2/Exception</directory>
+            <directory>./src/OpenID/Exception</directory>
+            <directory>./src/OpenIDConnect/Exception</directory>
+            <directory>./src/Common/Exception</directory>
+            <directory>./vendor/</directory>
+            <file>./src/Common/HttpClient.php</file>
+        </exclude>
+        <report>
+            <clover outputFile="build/logs/clover.xml"/>
+            <html outputDirectory="build/html"/>
+            <text outputFile="php://stdout" showUncoveredFiles="false"/>
+        </report>
+    </coverage>
     <testsuites>
         <testsuite name="Tests">
             <directory>./tests/Test/</directory>
         </testsuite>
     </testsuites>
-
-    <filter>
-        <whitelist>
-            <directory>./src</directory>
-            <exclude>
-                <directory>./src/OAuth1/Exception</directory>
-                <directory>./src/OAuth2/Exception</directory>
-                <directory>./src/OpenID/Exception</directory>
-                <directory>./src/OpenIDConnect/Exception</directory>
-                <directory>./src/Common/Exception</directory>
-                <directory>./vendor/</directory>
-                <file>./src/Common/HttpClient.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
-
-    <logging>
-        <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
-        <log type="coverage-clover" target="build/logs/clover.xml" showUncoveredFiles="true"/>
-        <log type="coverage-html" target="build/html" showUncoveredFiles="true"/>
-    </logging>
 </phpunit>

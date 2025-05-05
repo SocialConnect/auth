@@ -16,7 +16,7 @@ class InvalidState extends \SocialConnect\Provider\Exception\AuthFailed
      * @param int $code
      * @param Throwable|null $previous
      */
-    public function __construct($message = 'State parameter inside Request is not similar to value from Session, possible CSRF attack', $code = 0, Throwable $previous = null)
+    public function __construct($message = 'State parameter inside Request is not similar to value from Session, possible CSRF attack', $code = 0, ?Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

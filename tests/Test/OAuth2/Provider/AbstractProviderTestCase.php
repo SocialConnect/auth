@@ -10,6 +10,9 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use SocialConnect\OAuth2\AbstractProvider;
 use SocialConnect\OAuth2\AccessToken;
+use SocialConnect\OAuth2\Exception\Unauthorized;
+use SocialConnect\Provider\Exception\InvalidAccessToken;
+use SocialConnect\Provider\Exception\InvalidResponse;
 use SocialConnect\Provider\Session\SessionInterface;
 
 abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderTestCase
@@ -19,7 +22,7 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
      * @param SessionInterface|null $session
      * @return AbstractProvider
      */
-    protected function getProvider(ClientInterface $httpClient = null, SessionInterface $session = null)
+    protected function getProvider(?ClientInterface $httpClient = null, ?SessionInterface $session = null)
     {
         $provider = parent::getProvider($httpClient, $session);
 
@@ -77,12 +80,11 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
         parent::assertArrayHasKey('state', $queryParameters);
     }
 
-    /**
-     * @expectedException \SocialConnect\Provider\Exception\InvalidResponse
-     * @expectedExceptionMessage API response with error code
-     */
     public function testGetAccessTokenResponseInternalServerErrorFail()
     {
+        $this->expectException(InvalidResponse::class);
+        $this->expectExceptionMessage('API response with error code');
+
         $client = $this->mockClientResponse(
             null,
             500
@@ -113,12 +115,11 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
         );
     }
 
-    /**
-     * @expectedException \SocialConnect\Provider\Exception\InvalidResponse
-     * @expectedExceptionMessage API response with error code
-     */
     public function testGetIdentityInternalServerError()
     {
+        $this->expectException(InvalidResponse::class);
+        $this->expectExceptionMessage('API response with error code');
+
         $mockedHttpClient = $this->mockClientResponse(
             null,
             500
@@ -133,13 +134,11 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
         );
     }
 
-    /**
-     * @expectedException \SocialConnect\Provider\Exception\InvalidResponse
-     * @expectedExceptionMessage API response is not a valid JSON object
-     * @throws \SocialConnect\Provider\Exception\InvalidAccessToken
-     */
     public function testGetIdentityNotValidJSON()
     {
+        $this->expectException(InvalidResponse::class);
+        $this->expectExceptionMessage('API response is not a valid JSON object');
+
         $mockedHttpClient = $this->mockClientResponse(
             'NOT VALID JSON',
             200
@@ -154,32 +153,29 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
         );
     }
 
-    /**
-     * @expectedExceptionMessage Provider response with empty body
-     * @expectedException \SocialConnect\Provider\Exception\InvalidAccessToken
-     */
     public function testParseTokenEmptyBody()
     {
+        $this->expectException(InvalidAccessToken::class);
+        $this->expectExceptionMessage('Provider response with empty body');
+
         $this->getProvider()->parseToken(
             ''
         );
     }
 
-    /**
-     * @expectedException \SocialConnect\Provider\Exception\InvalidAccessToken
-     */
     public function testParseTokenNotToken()
     {
+        $this->expectException(InvalidAccessToken::class);
+
         $this->getProvider()->parseToken(
             json_encode([])
         );
     }
 
-    /**
-     * @expectedException \SocialConnect\Provider\Exception\InvalidAccessToken
-     */
     public function testParseTokenNotValidJSON()
     {
+        $this->expectException(InvalidAccessToken::class);
+
         $this->getProvider()->parseToken(
             'lelelelel'
         );
@@ -204,11 +200,10 @@ abstract class AbstractProviderTestCase extends \Test\Provider\AbstractProviderT
         parent::assertSame($expectedUserId, $accessToken->getUserId());
     }
 
-    /**
-     * @expectedException \SocialConnect\OAuth2\Exception\Unauthorized
-     */
     public function testAccessDenied()
     {
+        $this->expectException(Unauthorized::class);
+
         $sessionMock = $this->getMockBuilder(\SocialConnect\Provider\Session\Session::class)
             ->disableOriginalConstructor()
             ->disableProxyingToOriginalMethods()

@@ -74,7 +74,7 @@ final class ArrayHydrator
                     $input,
                     $targetObject
                 );
-            } else if (isset($input[$keyFrom])) {
+            } elseif (isset($input[$keyFrom])) {
                 self::hydrationValue($keyToOrFn, $input[$keyFrom], $targetObject);
             }
         }

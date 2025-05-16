@@ -37,7 +37,7 @@ class AccessTokenTest extends AbstractTestCase
     public function testConstructFailedWithNoIdKey()
     {
         $this->expectException(InvalidAccessToken::class);
-        $this->expectExceptionMessage('id_token doesnot exists inside AccessToken');
+        $this->expectExceptionMessage('id_token does not exist inside AccessToken');
 
         $expectedToken = "XSFJSKLFJDLKFJDLSJFLDSJFDSLFSD";
         $expectedExpires = time();

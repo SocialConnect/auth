@@ -26,7 +26,7 @@ class AccessToken extends \SocialConnect\OAuth2\AccessToken
         parent::__construct($token);
 
         if (!isset($token['id_token'])) {
-            throw new InvalidAccessToken('id_token doesnot exists inside AccessToken');
+            throw new InvalidAccessToken('id_token does not exist inside AccessToken');
         }
     }
 

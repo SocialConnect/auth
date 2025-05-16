@@ -18,6 +18,11 @@ class AccessToken extends \SocialConnect\OAuth2\AccessToken
     protected $jwt;
 
     /**
+     * @var string
+     */
+    protected $idToken;
+
+    /**
      * @param array $token
      * @throws InvalidAccessToken
      */
@@ -28,6 +33,8 @@ class AccessToken extends \SocialConnect\OAuth2\AccessToken
         if (!isset($token['id_token'])) {
             throw new InvalidAccessToken('id_token doesnot exists inside AccessToken');
         }
+
+        $this->idToken = $token['id_token'];
     }
 
     /**
@@ -50,5 +57,13 @@ class AccessToken extends \SocialConnect\OAuth2\AccessToken
         }
 
         $this->jwt = $jwt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdToken()
+    {
+        return $this->idToken;
     }
 }

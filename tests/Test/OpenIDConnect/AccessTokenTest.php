@@ -17,19 +17,21 @@ class AccessTokenTest extends AbstractTestCase
         $expectedToken = "XSFJSKLFJDLKFJDLSJFLDSJFDSLFSD";
         $expectedExpires = time();
         $expectedUserId = 123456789;
+        $expectedIdToken = 'test';
 
         $token = new AccessToken(
             [
                 'access_token' => $expectedToken,
                 'expires' => $expectedExpires,
                 'user_id' => $expectedUserId,
-                'id_token' => 'test'
+                'id_token' => $expectedIdToken,
             ]
         );
 
         $this->assertSame($expectedToken, $token->getToken());
         $this->assertSame((string) $expectedUserId, $token->getUserId());
         $this->assertSame($expectedExpires, $token->getExpires());
+        $this->assertSame($expectedIdToken, $token->getIdToken());
 
         return $token;
     }

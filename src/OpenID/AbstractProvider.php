@@ -220,6 +220,6 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     public function createAccessToken(array $information)
     {
-        throw new Unsupported('It\'s usefull to use this method for OpenID, are you sure?');
+        throw new Unsupported('It\'s useful to use this method for OpenID, are you sure?');
     }
 }

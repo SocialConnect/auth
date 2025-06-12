@@ -20,7 +20,7 @@ class CollectionFactory implements FactoryInterface
      */
     protected $providers = [
         // OAuth1
-        OAuth1\Provider\Twitter::NAME       => OAuth1\Provider\Twitter::class,
+        OAuth2\Provider\Twitter::NAME       => OAuth2\Provider\Twitter::class,
         OAuth1\Provider\Px500::NAME         => OAuth1\Provider\Px500::class,
         OAuth1\Provider\Tumblr::NAME        => OAuth1\Provider\Tumblr::class,
         OAuth1\Provider\Atlassian::NAME     => OAuth1\Provider\Atlassian::class,

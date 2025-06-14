@@ -104,7 +104,7 @@ class Google extends AbstractProvider
             'name' => 'fullname',
             'picture' => 'pictureURL',
             'gender' => static function ($value, User $user) {
-                $user->setSex($value);
+                $user->setGender($value);
             },
         ]);
 

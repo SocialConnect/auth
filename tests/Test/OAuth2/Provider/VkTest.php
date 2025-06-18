@@ -31,6 +31,7 @@ class VkTest extends AbstractProviderTestCase
                         'first_name' => $expectedFirstname = 'Dmitry',
                         'last_name' => $expectedLastname = 'Patsura',
                         'sex' => 1,
+                        'birthday' => $birthday = '01.03.1993',
                     ]
                 ]
             )
@@ -49,6 +50,7 @@ class VkTest extends AbstractProviderTestCase
         parent::assertSame($expectedFirstname, $result->firstname);
         parent::assertSame($expectedLastname, $result->lastname);
         parent::assertSame('female', $result->getSex());
+        parent::assertSame($birthday, $result->getBirthday()->format('d.m.Y'));
     }
 
     /**

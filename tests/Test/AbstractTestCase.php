@@ -73,7 +73,8 @@ abstract class AbstractTestCase extends \PHPUnit\Framework\TestCase
      * @param array $values
      * @return SessionInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function mockSession(array $values) {
+    protected function mockSession(array $values)
+    {
         $mockedSession = $this->getMockBuilder(SessionInterface::class)
             ->getMock();
 

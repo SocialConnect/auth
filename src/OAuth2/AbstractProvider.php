@@ -60,7 +60,8 @@ abstract class AbstractProvider extends AbstractBaseProvider
         return $parameters;
     }
 
-    private function generatePKCECodeVerifier($length = 128) {
+    private function generatePKCECodeVerifier(int $length = 128)
+    {
         if ($length < 43 || $length > 128) {
             throw new \Exception("Length must be between 43 and 128");
         }
@@ -69,7 +70,8 @@ abstract class AbstractProvider extends AbstractBaseProvider
         return rtrim(strtr(base64_encode($randomBytes), '+/', '-_'), '=');
     }
 
-    private function generatePKCECodeChallenge($codeVerifier) {
+    private function generatePKCECodeChallenge(string $codeVerifier)
+    {
         $hash = hash('sha256', $codeVerifier, true);
         return rtrim(strtr(base64_encode($hash), '+/', '-_'), '=');
     }
@@ -137,10 +139,13 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
         if ($this->pkce) {
             $codeVerifier = $this->session->get('code_verifier');
-            if (!$codeVerifier)
+            if (!$codeVerifier) {
                 throw new \RuntimeException('PKCE code verifier not found in session');
+            }
+
             $parameters['code_verifier'] = $codeVerifier;
             $parameters['device_id'] = $this->session->get('device_id');
+
             $this->session->delete('code_verifier');
         }
 
@@ -187,8 +192,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
             throw new Unauthorized('Unknown code');
         }
 
-        if (isset($parameters['device_id']))
+        if (isset($parameters['device_id'])) {
             $this->session->set('device_id', $parameters['device_id']);
+        }
 
         if (!$this->getBoolOption('stateless', false)) {
             $state = $this->session->get('oauth2_state');

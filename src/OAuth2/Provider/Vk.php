@@ -74,7 +74,7 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
             'last_name' => 'lastname',
             'birthday' => static function ($value, User $user) {
                 list($day, $month, $year) = array_map(
-                    intval(...),
+                    fn (string $value) => (int) $value,
                     explode('.', $value),
                 );
                 $user->setBirthday(

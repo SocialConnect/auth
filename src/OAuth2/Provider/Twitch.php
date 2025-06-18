@@ -20,7 +20,7 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getBaseUri()
     {
-        return 'https://api.twitch.tv/kraken/';
+        return 'https://api.twitch.tv/helix/';
     }
 
     /**
@@ -28,7 +28,7 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getAuthorizeUri()
     {
-        return 'https://api.twitch.tv/kraken/oauth2/authorize';
+        return 'https://id.twitch.tv/oauth2/authorize';
     }
 
     /**
@@ -36,7 +36,7 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getRequestTokenUri()
     {
-        return 'https://api.twitch.tv/kraken/oauth2/token';
+        return 'https://id.twitch.tv/oauth2/token';
     }
 
     /**
@@ -62,7 +62,8 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
     public function prepareRequest(string $method, string $uri, array &$headers, array &$query, ?AccessTokenInterface $accessToken = null): void
     {
         if ($accessToken) {
-            $query['oauth_token'] = $accessToken->getToken();
+            $headers['Authorization'] = "Bearer {$accessToken->getToken()}";
+            $headers['Client-Id'] = $this->consumer->getKey();
         }
     }
 
@@ -71,14 +72,16 @@ class Twitch extends \SocialConnect\OAuth2\AbstractProvider
      */
     public function getIdentity(AccessTokenInterface $accessToken)
     {
-        $response = $this->request('GET', 'user', [], $accessToken);
+        $response = $this->request('GET', 'users', [], $accessToken);
 
         $hydrator = new ArrayHydrator([
-            '_id' => 'id',
+            'id' => 'id',
             'display_name' => 'fullname', // Custom Capitalized Users name
-            'name' => 'username',
+            'login' => 'username',
+            'profile_image_url' => 'pictureURL',
+            'email' => 'email'
         ]);
 
-        return $hydrator->hydrate(new User(), $response);
+        return $hydrator->hydrate(new User(), $response['data'][0]);
     }
 }

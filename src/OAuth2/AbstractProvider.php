@@ -25,6 +25,8 @@ abstract class AbstractProvider extends AbstractBaseProvider
      */
     protected $requestHttpMethod = 'POST';
 
+    protected bool $pkce = false;
+
     /**
      * @return string
      */
@@ -47,7 +49,29 @@ abstract class AbstractProvider extends AbstractBaseProvider
         $parameters['redirect_uri'] = $this->getRedirectUrl();
         $parameters['response_type'] = 'code';
 
+        if ($this->pkce) {
+            $codeVerifier = $this->generatePKCECodeVerifier();
+            $this->session->set('code_verifier', $codeVerifier);
+
+            $parameters['code_challenge'] = $this->generatePKCECodeChallenge($codeVerifier);
+            $parameters['code_challenge_method'] = 'S256';
+        }
+
         return $parameters;
+    }
+
+    private function generatePKCECodeVerifier($length = 128) {
+        if ($length < 43 || $length > 128) {
+            throw new \Exception("Length must be between 43 and 128");
+        }
+
+        $randomBytes = random_bytes($length);
+        return rtrim(strtr(base64_encode($randomBytes), '+/', '-_'), '=');
+    }
+
+    private function generatePKCECodeChallenge($codeVerifier) {
+        $hash = hash('sha256', $codeVerifier, true);
+        return rtrim(strtr(base64_encode($hash), '+/', '-_'), '=');
     }
 
     /**
@@ -58,9 +82,10 @@ abstract class AbstractProvider extends AbstractBaseProvider
         $urlParameters = $this->getAuthUrlParameters();
 
         if (!$this->getBoolOption('stateless', false)) {
+            $state = $this->generateState();
             $this->session->set(
                 'oauth2_state',
-                $urlParameters['state'] = $this->generateState()
+                $urlParameters['state'] = $state,
             );
         }
 
@@ -110,6 +135,15 @@ abstract class AbstractProvider extends AbstractBaseProvider
             'redirect_uri' => $this->getRedirectUrl()
         ];
 
+        if ($this->pkce) {
+            $codeVerifier = $this->session->get('code_verifier');
+            if (!$codeVerifier)
+                throw new \RuntimeException('PKCE code verifier not found in session');
+            $parameters['code_verifier'] = $codeVerifier;
+            $parameters['device_id'] = $this->session->get('device_id');
+            $this->session->delete('code_verifier');
+        }
+
         return $this->httpStack->createRequest($this->requestHttpMethod, $this->getRequestTokenUri())
             ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
             ->withBody($this->httpStack->createStream(http_build_query($parameters, '', '&')))
@@ -152,6 +186,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
         if (!isset($parameters['code'])) {
             throw new Unauthorized('Unknown code');
         }
+
+        if (isset($parameters['device_id']))
+            $this->session->set('device_id', $parameters['device_id']);
 
         if (!$this->getBoolOption('stateless', false)) {
             $state = $this->session->get('oauth2_state');

@@ -16,6 +16,7 @@ use SocialConnect\HttpClient\RequestFactory;
 use SocialConnect\HttpClient\Response;
 use SocialConnect\HttpClient\StreamFactory;
 use SocialConnect\Common\HttpStack;
+use SocialConnect\Provider\Session\SessionInterface;
 
 abstract class AbstractTestCase extends \PHPUnit\Framework\TestCase
 {
@@ -66,6 +67,21 @@ abstract class AbstractTestCase extends \PHPUnit\Framework\TestCase
             ->willReturn($this->createResponse($responseData, $responseCode));
 
         return $mockedHttpClient;
+    }
+
+    /**
+     * @param array $values
+     * @return SessionInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected function mockSession(array $values) {
+        $mockedSession = $this->getMockBuilder(SessionInterface::class)
+            ->getMock();
+
+        $mockedSession->expects($this->exactly(count($values)))
+            ->method('get')
+            ->willReturnOnConsecutiveCalls($values);
+
+        return $mockedSession;
     }
 
     /**

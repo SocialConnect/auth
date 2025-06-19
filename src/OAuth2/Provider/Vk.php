@@ -18,21 +18,26 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $requestHttpMethod = 'GET';
+    protected $requestHttpMethod = 'POST';
+
+    /**
+     * {@inheritdoc}
+     */
+    protected bool $pkce = true;
 
     public function getBaseUri()
     {
-        return 'https://api.vk.com/';
+        return 'https://id.vk.com/';
     }
 
     public function getAuthorizeUri()
     {
-        return 'https://api.vk.com/oauth/authorize';
+        return 'https://id.vk.com/authorize';
     }
 
     public function getRequestTokenUri()
     {
-        return 'https://api.vk.com/oauth/token';
+        return 'https://id.vk.com/oauth2/auth';
     }
 
     public function getName()
@@ -56,38 +61,36 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
     public function getIdentity(AccessTokenInterface $accessToken)
     {
         $query = [
-            'v' => '5.100'
+            'client_id' => $this->consumer->getKey(),
         ];
 
-        $fields = $this->getArrayOption('identity.fields', []);
-        if ($fields) {
-            $query['fields'] = implode(',', $fields);
-        }
-
-        $response = $this->request('GET', 'method/users.get', $query, $accessToken);
+        $response = $this->request('POST', 'oauth2/user_info', $query, null, [
+            'access_token' => $accessToken->getToken(),
+        ]);
 
         $hydrator = new ArrayHydrator([
-            'id' => 'id',
+            'user_id' => 'id',
             'first_name' => 'firstname',
             'last_name' => 'lastname',
-            'bdate' => static function ($value, User $user) {
+            'birthday' => static function ($value, User $user) {
+                list($day, $month, $year) = array_map(
+                    fn (string $value) => (int) $value,
+                    explode('.', $value),
+                );
                 $user->setBirthday(
-                    new \DateTime($value)
+                    (new \DateTime())->setDate($year, $month, $day)->setTime(12, 0)
                 );
             },
             'sex' => static function ($value, User $user) {
                 $user->setSex($value === 1 ? User::SEX_FEMALE : User::SEX_MALE);
             },
+            'email' => 'email',
             'screen_name' => 'username',
-            'photo_max_orig' => 'pictureURL',
+            'avatar' => 'pictureURL',
         ]);
 
         /** @var User $user */
-        $user = $hydrator->hydrate(new User(), $response['response'][0]);
-
-        // Vk returns email inside AccessToken
-        $user->email = $accessToken->getEmail();
-        $user->emailVerified = true;
+        $user = $hydrator->hydrate(new User(), $response['user']);
 
         return $user;
     }

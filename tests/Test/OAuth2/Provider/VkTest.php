@@ -8,6 +8,8 @@ namespace Test\OAuth2\Provider;
 
 use Psr\Http\Message\ResponseInterface;
 use SocialConnect\OAuth2\AccessToken;
+use SocialConnect\Provider\Exception\InvalidResponse;
+use SocialConnect\Provider\Session\SessionInterface;
 
 class VkTest extends AbstractProviderTestCase
 {
@@ -24,13 +26,12 @@ class VkTest extends AbstractProviderTestCase
         $mockedHttpClient = $this->mockClientResponse(
             json_encode(
                 [
-                    'response' => [
-                        [
-                            'id' => $expectedId = 12321312312312,
-                            'first_name' => $expectedFirstname = 'Dmitry',
-                            'last_name' => $expectedLastname = 'Patsura',
-                            'sex' => 1,
-                        ]
+                    'user' => [
+                        'user_id' => $expectedId = 12321312312312,
+                        'first_name' => $expectedFirstname = 'Dmitry',
+                        'last_name' => $expectedLastname = 'Patsura',
+                        'sex' => 1,
+                        'birthday' => $birthday = '01.03.1993',
                     ]
                 ]
             )
@@ -49,6 +50,7 @@ class VkTest extends AbstractProviderTestCase
         parent::assertSame($expectedFirstname, $result->firstname);
         parent::assertSame($expectedLastname, $result->lastname);
         parent::assertSame('female', $result->getSex());
+        parent::assertSame($birthday, $result->getBirthday()->format('d.m.Y'));
     }
 
     /**
@@ -61,5 +63,20 @@ class VkTest extends AbstractProviderTestCase
                 'id' => 12345,
             ])
         );
+    }
+
+    public function testGetAccessTokenResponseInternalServerErrorFail()
+    {
+        $this->expectException(InvalidResponse::class);
+        $this->expectExceptionMessage('API response with error code');
+
+        $client = $this->mockClientResponse(
+            null,
+            500
+        );
+
+        $session = $this->mockSession(['abc', 'device_id']);
+
+        $this->getProvider($client, $session)->getAccessToken('XXXXXXXXXXXX');
     }
 }

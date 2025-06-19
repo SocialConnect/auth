@@ -67,16 +67,23 @@ class Yandex extends \SocialConnect\OAuth2\AbstractProvider
         $result = $this->request('GET', 'info', [], $accessToken);
 
         $hydrator = new ArrayHydrator([
+            'id' => 'id',
             'first_name' => 'firstname',
             'last_name' => 'lastname',
             'default_email' => 'email',
             'real_name' => 'fullname',
+            'sex' => static function ($value, User $user) {
+                $user->setSex($value === 'male' ?  User::SEX_MALE : User::SEX_FEMALE);
+            },
             'birthday' => static function ($value, User $user) {
                 $user->setBirthday(
                     new \DateTime($value)
                 );
             },
             'login' => 'username',
+            'default_avatar_id' => static function ($value, User $user) {
+                $user->pictureURL = 'https://avatars.yandex.net/get-yapic/'.$value.'/islands-200';
+            }
         ]);
 
         return $hydrator->hydrate(new User(), $result);

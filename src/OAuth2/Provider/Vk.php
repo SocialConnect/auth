@@ -78,7 +78,7 @@ class Vk extends \SocialConnect\OAuth2\AbstractProvider
                     explode('.', $value),
                 );
                 $user->setBirthday(
-                    new \DateTime()->setDate($year, $month, $day)->setTime(12, 0)
+                    (new \DateTime())->setDate($year, $month, $day)->setTime(12, 0)
                 );
             },
             'sex' => static function ($value, User $user) {

@@ -80,7 +80,7 @@ abstract class AbstractTestCase extends \PHPUnit\Framework\TestCase
 
         $mockedSession->expects($this->exactly(count($values)))
             ->method('get')
-            ->willReturnOnConsecutiveCalls($values);
+            ->willReturn(...$values);
 
         return $mockedSession;
     }

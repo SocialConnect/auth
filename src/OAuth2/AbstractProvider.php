@@ -84,10 +84,9 @@ abstract class AbstractProvider extends AbstractBaseProvider
         $urlParameters = $this->getAuthUrlParameters();
 
         if (!$this->getBoolOption('stateless', false)) {
-            $state = $this->generateState();
             $this->session->set(
                 'oauth2_state',
-                $urlParameters['state'] = $state,
+                $urlParameters['state'] = $this->generateState(),
             );
         }
 

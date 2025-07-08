@@ -89,9 +89,9 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
     /**
      * {@inheritdoc}
      */
-    public function getAccessTokenByRequestParameters(array $parameters)
+    public function getAccessTokenByRequestParameters(array $requestParameters)
     {
-        if (isset($parameters['error']) && $parameters['error'] === 'access_denied') {
+        if (isset($requestParameters['error']) && $requestParameters['error'] === 'access_denied') {
             throw new Unauthorized();
         }
 
@@ -101,20 +101,20 @@ class SmashCast extends \SocialConnect\OAuth2\AbstractProvider
                 throw new UnknownAuthorization();
             }
 
-            if (!isset($parameters['state'])) {
+            if (!isset($requestParameters['state'])) {
                 throw new UnknownState();
             }
 
-            if ($state !== $parameters['state']) {
+            if ($state !== $requestParameters['state']) {
                 throw new InvalidState();
             }
         }
 
-        if (isset($parameters['authToken'])) {
-            return new AccessToken(['access_token' => $parameters['authToken']]);
+        if (isset($requestParameters['authToken'])) {
+            return new AccessToken(['access_token' => $requestParameters['authToken']]);
         }
 
-        return $this->getAccessToken($parameters['request_token']);
+        return $this->getAccessToken($requestParameters['request_token']);
     }
 
     /**

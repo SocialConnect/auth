@@ -250,14 +250,14 @@ abstract class AbstractProvider extends AbstractBaseProvider
     }
 
     /**
-     * @param array $parameters
+     * @param array $requestParameters
      * @return AccessToken
      * @throws InvalidAccessToken
      * @throws InvalidResponse
      * @throws UnknownAuthorization
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public function getAccessTokenByRequestParameters(array $parameters)
+    public function getAccessTokenByRequestParameters(array $requestParameters)
     {
         $token = $this->session->get('oauth1_request_token');
         if (!$token) {
@@ -266,11 +266,11 @@ abstract class AbstractProvider extends AbstractBaseProvider
 
         $this->session->delete('oauth1_request_token');
 
-        if (!isset($parameters['oauth_verifier'])) {
+        if (!isset($requestParameters['oauth_verifier'])) {
             throw new Unauthorized('Unknown oauth_verifier');
         }
 
-        return $this->getAccessToken($token, $parameters['oauth_verifier']);
+        return $this->getAccessToken($token, $requestParameters['oauth_verifier']);
     }
 
     /**

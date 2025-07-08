@@ -171,7 +171,7 @@ abstract class AbstractProvider extends AbstractBaseProvider
     }
 
     /**
-     * @param array $parameters
+     * @param array $requestParameters
      * @return AccessToken
      * @throws InvalidAccessToken
      * @throws InvalidResponse
@@ -181,18 +181,18 @@ abstract class AbstractProvider extends AbstractBaseProvider
      * @throws UnknownState
      * @throws \Psr\Http\Client\ClientExceptionInterface
      */
-    public function getAccessTokenByRequestParameters(array $parameters)
+    public function getAccessTokenByRequestParameters(array $requestParameters)
     {
-        if (isset($parameters['error']) && $parameters['error'] === 'access_denied') {
+        if (isset($requestParameters['error']) && $requestParameters['error'] === 'access_denied') {
             throw new Unauthorized();
         }
 
-        if (!isset($parameters['code'])) {
+        if (!isset($requestParameters['code'])) {
             throw new Unauthorized('Unknown code');
         }
 
-        if (isset($parameters['device_id'])) {
-            $this->session->set('device_id', $parameters['device_id']);
+        if (isset($requestParameters['device_id'])) {
+            $this->session->set('device_id', $requestParameters['device_id']);
         }
 
         if (!$this->getBoolOption('stateless', false)) {
@@ -201,16 +201,16 @@ abstract class AbstractProvider extends AbstractBaseProvider
                 throw new UnknownAuthorization();
             }
 
-            if (!isset($parameters['state'])) {
+            if (!isset($requestParameters['state'])) {
                 throw new UnknownState();
             }
 
-            if ($state !== $parameters['state']) {
+            if ($state !== $requestParameters['state']) {
                 throw new InvalidState();
             }
         }
 
-        return $this->getAccessToken($parameters['code']);
+        return $this->getAccessToken($requestParameters['code']);
     }
 
     /**
